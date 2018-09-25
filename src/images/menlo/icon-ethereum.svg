@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="33px" viewBox="0 0 21 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>ethereum</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="menlo-home-copy-40" transform="translate(-130.000000, -5241.000000)" fill="#FFFFFF">
+            <g id="Group-15" transform="translate(-9.000000, 4746.000000)">
+                <g id="token-sale-evolved">
+                    <g id="points" transform="translate(139.000000, 489.000000)">
+                        <g id="browse-companies" transform="translate(0.000000, 6.000000)">
+                            <g id="ethereum">
+                                <polygon id="Fill-1" points="0 17.2783051 10 23 10 13"></polygon>
+                                <polygon id="Fill-2" points="0 17 10 12.5682686 10 0"></polygon>
+                                <polygon id="Fill-3" points="11 0 11 12.5233507 21 17"></polygon>
+                                <path d="M11.1763433,23 L21,17.4291714 C16.0193533,13.7605065 12.744801,12.3708969 11.1763433,13.2603426 C9.60788557,14.1497883 9.60788557,17.3963408 11.1763433,23 Z" id="Fill-4"></path>
+                                <polygon id="Fill-5" points="10 33 10 24.7940673 0 19"></polygon>
+                                <polygon id="Fill-6" points="11 24.7940673 11 33 21 19"></polygon>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

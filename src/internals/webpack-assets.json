@@ -1,0 +1,10 @@
+{
+  "javascript": {
+    "app": "//10.1.5.151:3001/assets/app-943bd17f09e5f96435ed.js"
+  },
+  "styles": {},
+  "assets": {},
+  "webpack": {
+    "version": "2.4.1"
+  }
+}

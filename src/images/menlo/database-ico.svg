@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 97 97" style="enable-background:new 0 0 97 97;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#database-ico_1_);}
+</style>
+<g id="v2">
+	<g id="organize-copy" transform="translate(-779.000000, -4565.000000)">
+		<g id="use-cases" transform="translate(103.000000, 4044.000000)">
+			
+				<linearGradient id="database-ico_1_" gradientUnits="userSpaceOnUse" x1="422.1495" y1="962.4227" x2="422.1495" y2="961.4665" gradientTransform="matrix(97 0 0 -97 -40224 93876)">
+				<stop  offset="0" style="stop-color:#ED9090"/>
+				<stop  offset="1" style="stop-color:#5F81D1"/>
+			</linearGradient>
+			<path id="database-ico" class="st0" d="M724.5,521c30.1,0,48.5,8.5,48.5,13.1S754.6,547,724.5,547s-48.5-8.3-48.5-12.9
+				S694.4,521,724.5,521z M773,547v22.2c0,4.5-18.4,12.8-48.5,12.8s-48.5-8.3-48.5-12.8V547c10.9,6.3,29.7,9.4,48.5,9.4
+				S762.1,553.3,773,547z M724.5,618c-30.1,0-48.5-8.3-48.5-12.8V583c10.9,6.3,29.7,9.6,48.5,9.6s37.6-3.3,48.5-9.6v22.2
+				C773,609.7,754.6,618,724.5,618z"/>
+		</g>
+	</g>
+</g>
+</svg>

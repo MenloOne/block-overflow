@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1440 480.58" style="enable-background:new 0 0 1440 480.58;" xml:space="preserve">
+<g id="v2">
+	<g id="menlo-landing-v3" transform="translate(0.000000, -1545.000000)">
+		<g id="Group-29" transform="translate(-1449.000000, 0.000000)">
+			<g id="token-sale-evolved" transform="translate(1441.000000, 1545.000000)">
+				<g id="Rectangle-6-Copy-2-_x2B_-Rectangle-6-Copy-3-Mask">
+					<g id="Mask">
+						<path id="path-1_1_" style="fill:#30334A;" d="M9-1032.24c258.99,12.39,511.87-22.64,758.62-105.09
+							s473.88-47.42,681.38,105.09V723.57H0L9-1032.24z"/>
+					</g>
+					<defs>
+						<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="-262" y="-94.26" width="2656.81" height="1043.84">
+							<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+						</filter>
+					</defs>
+					<mask maskUnits="userSpaceOnUse" x="-262" y="-94.26" width="2656.81" height="1043.84" id="mask-2_1_">
+						<g style="filter:url(#Adobe_OpacityMaskFilter);">
+							<path id="path-1_2_" style="fill:#FFFFFF;" d="M9-1032.24c258.99,12.39,511.87-22.64,758.62-105.09
+								s473.88-47.42,681.38,105.09V723.57H0L9-1032.24z"/>
+						</g>
+					</mask>
+					<path id="Rectangle-6-Copy-2" style="opacity:0.0329;mask:url(#mask-2_1_);fill:#D1D7FF;enable-background:new    ;" d="
+						M-180.74-94.26C-55.57,92.34,272.51,141.18,803.49,52.26c530.98-88.92,1061.42-47.52,1591.32,124.18l-81.26,773.14L-262,678.88
+						L-180.74-94.26z"/>
+					<defs>
+						<filter id="Adobe_OpacityMaskFilter_1_" filterUnits="userSpaceOnUse" x="-800" y="40.74" width="2656.81" height="1043.84">
+							<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+						</filter>
+					</defs>
+					<mask maskUnits="userSpaceOnUse" x="-800" y="40.74" width="2656.81" height="1043.84" id="mask-2_2_">
+						<g style="filter:url(#Adobe_OpacityMaskFilter_1_);">
+							<path id="path-1_3_" style="fill:#FFFFFF;" d="M9-1032.24c258.99,12.39,511.87-22.64,758.62-105.09
+								s473.88-47.42,681.38,105.09V723.57H0L9-1032.24z"/>
+						</g>
+					</mask>
+					<path id="Rectangle-6-Copy-3" style="opacity:0.1157;mask:url(#mask-2_2_);fill:#D1D7FF;enable-background:new    ;" d="
+						M-718.74,40.74c125.17,186.6,453.25,235.44,984.23,146.52c530.98-88.92,1061.42-47.52,1591.32,124.18l-81.26,773.14
+						L-800,813.88L-718.74,40.74z"/>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>

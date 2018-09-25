@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1440 1429" style="enable-background:new 0 0 1440 1429;" xml:space="preserve">
+<style type="text/css">
+	.st0{filter:url(#Adobe_OpacityMaskFilter);}
+	.st1{fill:#FFFFFF;}
+	.st2{opacity:0.1637;mask:url(#mask-3_1_);fill:#291FA8;enable-background:new    ;}
+	.st3{filter:url(#Adobe_OpacityMaskFilter_1_);}
+	.st4{opacity:0.2544;mask:url(#mask-3_2_);fill:#693CBB;enable-background:new    ;}
+</style>
+<title>met-section</title>
+<desc>Created with Sketch.</desc>
+<g id="v2">
+	<g id="organize" transform="translate(0.000000, -8759.000000)">
+		<g id="met-section" transform="translate(0.000000, 8759.000000)">
+			<defs>
+				<filter id="Adobe_OpacityMaskFilter" filterUnits="userSpaceOnUse" x="-544.7" y="-49" width="2698.4" height="1749">
+					<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+				</filter>
+			</defs>
+			<mask maskUnits="userSpaceOnUse" x="-544.7" y="-49" width="2698.4" height="1749" id="mask-3_1_">
+				<g class="st0">
+					<polygon id="path-2_2_" class="st1" points="0,-1284 1440,-1284 1440,1429 0,1429 					"/>
+				</g>
+			</mask>
+			<path id="Rectangle-6-Copy-3" class="st2" d="M-544.7,533.6c179.1,135.6,505.2,75,978.4-181.9S1422-38.7,1978.9-49l174.8,757.1
+				l-2408,991.8L-544.7,533.6z"/>
+			<defs>
+				<filter id="Adobe_OpacityMaskFilter_1_" filterUnits="userSpaceOnUse" x="-327.7" y="295" width="2698.4" height="1749">
+					<feColorMatrix  type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0"/>
+				</filter>
+			</defs>
+			<mask maskUnits="userSpaceOnUse" x="-327.7" y="295" width="2698.4" height="1749" id="mask-3_2_">
+				<g class="st3">
+					<polygon id="path-2_3_" class="st1" points="0,-1284 1440,-1284 1440,1429 0,1429 					"/>
+				</g>
+			</mask>
+			<path id="Rectangle-6-Copy-4" class="st4" d="M-327.7,877.6c179.1,135.6,505.2,75,978.4-181.9S1639,305.3,2195.9,295l174.8,757.1
+				L-37.3,2044L-327.7,877.6z"/>
+		</g>
+	</g>
+</g>
+</svg>

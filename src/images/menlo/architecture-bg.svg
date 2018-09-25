@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="1968px" viewBox="0 0 1440 1968" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Oval 4 Copy 4</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#B0EFFF" offset="0%"></stop>
+            <stop stop-color="#E0E9FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.235280797">
+        <g id="menlo-home-copy-40" transform="translate(0.000000, -5279.000000)" fill="url(#linearGradient-1)">
+            <path d="M1726.82493,7181.16067 C2508.84253,6903.24395 2130.50618,6363.61082 2130.50618,5825.38364 C2130.50618,5287.15646 2388.64536,5122 1850.36305,5122 C1312.08074,5122 373.748608,6371.40661 -569.550622,6575.70399 C-1512.84985,6780.00138 944.807329,7459.0774 1726.82493,7181.16067 Z" id="Oval-4-Copy-4"></path>
+        </g>
+    </g>
+</svg>

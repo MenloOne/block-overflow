@@ -1,0 +1,536 @@
+.content-wrapper, .content-wrapper .row /*, .content-wrapper .²idebar*/, .content-wrapper .container, .content-wrapper .discover-maincontent {
+    margin: 0px;
+    padding: 0px;
+}
+
+.discover-sidebar {
+    background: #F5F6FB;
+    padding-top: 50px;
+    padding-left: 75px;
+    border-right: 1px solid #979797;
+}
+
+.discover-sidebar h3 {
+    color: #2E4168;
+    font-size: 14px;
+    margin: 0px;
+    margin-bottom: 05px;
+    font-weight: bold;
+}
+
+.side-bar-nav {
+    margin: 0px;
+    padding: 0px;
+    margin-bottom: 50px;
+}
+
+.side-bar-nav li {
+    list-style: none;
+}
+
+.side-bar-nav li a {
+    text-decoration: none;
+    font-size: 12.81px;
+    color: #6B768E;
+    font-weight: bold;
+
+}
+
+.side-bar-nav li a span {
+    color: #0942AA;
+}
+
+.header {
+    background: #E8F5FB;
+    padding: 50px 0px;
+}
+
+.main-card-header {
+    background: url('../images/discover/card.png');
+    width: 473px;
+    height: 281px;
+    overflow: hidden;
+    background-repeat: no-repeat !important;
+    margin: 0px auto;
+}
+
+.main-card-header h2 {
+    font-size: 33px;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    margin-top: 66px;
+    margin-left: 33px;
+}
+
+.main-card-header p {
+    font-size: 16px;
+    color: #E9E5E5;
+    letter-spacing: 1px;
+    line-height: 20px;
+    margin-left: 33px;
+}
+
+.card-cto {
+    display: inline-block;
+    background: #FFFFFF !important;
+    border-radius: 3px !important;
+    font-size: 14px;
+    color: #2E4168;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-left: 33px;
+    margin-top: 45px;
+    width: 105px;
+    height: 43px;
+    line-height: 43px;
+    text-align: center;
+}
+
+.guid-top-title h2 {
+    font-size: 29px;
+    color: #2E4168;
+    letter-spacing: 1px;
+    float: left;
+}
+
+.top-title-more {
+    border: 1px solid #979797;
+    border-radius: 77.63px;
+    font-size: 11px;
+    color: #2E4168;
+    letter-spacing: 0.8px;
+    text-align: right;
+    display: inline-block;
+    float: right;
+    width: 105px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    text-transform: uppercase;
+
+}
+
+.guid-top-title {
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(147, 176, 223, 0.3);
+}
+
+.guild-list li {
+    list-style: none;
+    position: relative;
+    padding-left: 75px;
+    min-height: 70px;
+}
+
+.guild-list li h4 {
+    /* Blockchain Architect: */
+    font-size: 17px;
+    color: #2E4168;
+    letter-spacing: 1px;
+    margin: 0px;
+}
+
+.guild-list {
+    margin: 0px;
+    padding: 0px;
+}
+
+.guild-list li p {
+    /* The top blockchain a: */
+    font-size: 12px;
+    color: #6B768E;
+    letter-spacing: 1px;
+    line-height: 15px;
+}
+
+.item-im {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 0px;
+}
+
+.item-im-red {
+    /* Mask: */
+    background-image: linear-gradient(-180deg, #FA7F7F 0%, #F34949 100%);
+    border-radius: 100px;
+}
+
+.item-im-green {
+    /* Mask: */
+    background-image: linear-gradient(-180deg, #B9DD69 0%, #AAF349 100%);
+    border-radius: 100px;
+}
+
+.item-im-yellow {
+    /* Mask: */
+    background: #F3F049;
+    border-radius: 100px;
+}
+
+.main-content-networks {
+    padding: 0px 50px;
+}
+
+.main-content-networks-title {
+    padding: 35px 0px;
+}
+
+.main-content-networks-title h2 {
+    font-weight: 600;
+    font-size: 29px;
+    color: #2E4168;
+    letter-spacing: 1px;
+    float: left;
+}
+
+.featured-guilds-wrapper h2 {
+    font-weight: 600;
+    font-size: 29px;
+    color: #2E4168;
+    letter-spacing: 1px;
+    padding: 35px 0px;
+}
+
+.main-content-networks-title .nav-arrows {
+    float: right;
+}
+
+.main-content-networks-title .nav-arrows li {
+    list-style: none;
+    display: inline-block;
+}
+
+.main-content-networks-title .nav-arrows li a {
+    text-decoration: none;
+}
+
+.main-content-networks-title .nav-arrows li a.prev {
+    margin-right: 25px
+}
+
+.ex-networks {
+    padding: 0px;
+    margin: 0px;
+}
+
+.ex-networks li {
+    list-style: none;
+    display: inline-block;
+    width: 31%;
+    position: relative;
+    max-height: 200px;
+    margin: 1%;
+}
+
+.ex-networks li:nth-child(1) {
+    border-radius: 19px;
+    background: url('../images/transbgitem1.png'), linear-gradient(-48deg, #76C8FD 0%, #0942AA 100%);;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ex-networks li:nth-child(2) {
+    border-radius: 19px;
+    background: url('../images/image_trans.png'), -webkit-linear-gradient(12deg, rgb(227, 135, 239) 0%, rgb(233, 89, 59) 100%) rgb(37, 79, 192);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ex-networks li:nth-child(3) {
+    border-radius: 19px;
+    background: url('../images/transbgitem3.png'), -webkit-linear-gradient(-71deg, #D9E96A 0%, #E99A3B 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ex-networks li img.shadow {
+    width: 100%;
+    opacity: 0;
+}
+
+.ex-networks li img.bg {
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.ex-networks li img.iconToright {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+.ex-networks .main-content-list {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    padding-left: 30px;
+    padding-top: 15px;
+}
+
+.ex-networks .main-content-list h4 {
+    font-size: 25px;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    margin-bottom: 35px;
+    font-weight: 400;
+}
+
+.ex-networks .main-content-list h5 {
+    font-size: 25px;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    font-weight: 400;
+}
+
+.ex-networks .main-content-list p {
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.ex-networks .main-content-list span {
+    /* TRENDING: */
+    opacity: 0.65;
+    font-size: 9px;
+    color: #2D2C38;
+    letter-spacing: 0.98px;
+    line-height: 18px;
+}
+
+.featured-guilds-wrapper {
+    padding: 0px 50px;
+}
+
+.featured-guilds-wrapper-list {
+    padding: 0px;
+}
+
+.featured-guilds-wrapper-list li {
+    position: relative;
+    min-height: 70px;
+    display: inline-block;
+    list-style: none;
+    width: 31%;
+    background: #FFFFFF;
+    border: 1px solid #EDEDED;
+    box-shadow: 0 4px 12px 0 rgba(217, 217, 217, 0.50);
+    border-radius: 12px;
+    margin-right: 2%;
+}
+
+.featured-guilds-wrapper-list li:nth-child(3) {
+    margin-right: 0px !important;
+}
+
+.featured-guilds-wrapper-list li h4 {
+    font-size: 16px;
+    color: #2E4168;
+    letter-spacing: 1px;
+}
+
+.featured-guilds-wrapper-list li p {
+    font-size: 12px;
+    color: #2E4168;
+    letter-spacing: 1px;
+    line-height: 15px;
+}
+
+.featured-guilds-wrapper-list li .main-item-guild {
+    padding-top: 15px;
+    padding-left: 75px;
+    padding-bottom: 15px;
+}
+
+.featured-guilds-wrapper-list li .main-item-guild .item-im {
+    left: 15px;
+}
+
+.featured-guilds-wrapper-list li .follow-foot {
+    height: 35px;
+    padding: 0px 15px;
+    border-top: 1px solid #f2f2f2;
+    padding-top: 5px;
+    width: 90%;
+    margin: 0px auto;
+}
+
+.featured-guilds-wrapper-list li .follow-foot span {
+    font-size: 14px;
+    color: #2E4168;
+    letter-spacing: 1px;
+    float: left;
+    display: inline-block;
+}
+
+.featured-guilds-wrapper-list li .follow-foot .follow-cto {
+    font-size: 14px;
+    color: #1B6DFF;
+    letter-spacing: 1px;
+    text-align: right;
+    float: right;
+    display: inline-block;
+}
+
+.top-panels-menu li {
+    list-style: none;
+    display: inline-block;
+}
+
+.top-panels-menu li a {
+    text-decoration: none;
+    display: inline-block;
+    font-size: 22px;
+    color: #2E4168;
+    letter-spacing: 1px;
+    padding-bottom: 15px;
+    margin-right: 25px;
+}
+
+.top-panels-menu {
+    border-bottom: 1px solid rgba(46, 65, 104, 0.13)
+}
+
+.top-panels-menu li a.active {
+    border-bottom: 2px solid #2E4168;
+}
+
+.main-list-wrapper {
+    padding-top: 50px;
+}
+
+.main-list-items .game-token {
+    padding: 0px 50px;
+}
+
+.main-input-items {
+    padding: 0px 50px;
+}
+
+.main-input-items select {
+    font-size: 10px;
+    color: #2E4168;
+    letter-spacing: 0.8px;
+    background: none;
+    border: none;
+    border-right: 1px solid #E3E5EB;
+    border-radius: 3px;
+    height: 25px;
+    line-height: 25px;
+    display: inline-block;
+    padding: 0px 25px;
+    -webkit-appearance: none;
+    background: url('../images/dropdown-triag.png');
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: calc(100% - 15px);
+    padding-right: 55px;
+
+}
+
+.sort-menu {
+    border: 1px solid #E3E5EB !important;
+}
+
+.radio-sel {
+    padding: 0px 15px;
+    height: 25px;
+    line-height: 25px;
+    border: none;
+}
+
+.radio-sel label {
+    font-size: 12px;
+    color: #2E4168;
+    letter-spacing: 0.8px;
+}
+
+.radio-sel input {
+    margin-right: 10px;
+}
+
+.main-input-items .sort-menu {
+    float: left;
+}
+
+.main-input-items .right-params {
+    float: right;
+    border: 1px solid #E3E5EB;
+    padding: 0px;
+}
+
+.main-input-items .right-params li {
+    display: inline-block;
+    list-style: none;
+}
+
+.total-comments {
+    padding-top: 0px;
+    padding-top: 0px;
+    line-height: 2.3em;
+    padding-left: 1em;
+}
+
+.main-list-items {
+    padding: 0px 50px;
+}
+
+.main-list-items .game-token {
+    background-color: #ffffff;
+    border: solid 1px #ececed;
+    padding: 25px 25px;
+    margin-bottom: 25px;
+}
+
+.blue-color-btn, .blue-color-btn:hover {
+    background-color: #1b6dff;
+    color: #fff;
+    font-weight: 400;
+}
+
+.btn-top-right {
+    text-align: right;
+}
+
+.btn-top-right p {
+    font-size: 13px;
+    color: #6b768e;
+    letter-spacing: 0;
+    margin-bottom: 0px;
+}
+
+.btn-top-right p span {
+    color: #50BB00;
+    margin-right: 15px;
+}
+
+.btn-top-right .prog-bar-wrap {
+    display: inline-block;
+    height: 5px;
+    background: #b0de8d;
+    width: 100%;
+    position: relative;
+    border-radius: 99px;
+}
+
+.btn-top-right .prog-bar {
+    display: inline-block;
+    height: 5px;
+    background: #50BB00;
+    width: 80%;
+    position: absolute;
+    left: 0px;
+    border-radius: 99px;
+}
+
+.btn-top-right .disc-wrap {
+    margin-bottom: 45px;
+}
+

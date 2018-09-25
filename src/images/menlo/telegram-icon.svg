@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="94px" height="94px" viewBox="0 0 94 94" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>telegramicon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="v2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="organize" transform="translate(-1033.000000, -8503.000000)">
+            <g id="telegramicon" transform="translate(1035.000000, 8505.000000)">
+                <g id="Group-8">
+                    <g id="telegram-copy" transform="translate(22.207792, 25.714286)"></g>
+                    <path d="M37.6396565,56.7559809 C36.4200887,56.7559809 36.6267662,56.3131202 36.206579,55.2051514 L32.6144908,43.8966791 L60.2460697,28.2118934" id="Shape" fill="#D852F0" fill-rule="nonzero" opacity="0.300613839"></path>
+                    <path d="M37.2795625,57.112782 C38.2097742,57.112782 38.6192695,56.6971061 39.141671,56.2006045 L44.0977444,51.4879624 L37.9114998,47.8359535" id="Shape" fill="#D852F0" fill-rule="nonzero" opacity="0.300613839"></path>
+                    <path d="M38.2330587,48.084096 L53.3917164,59.1481543 C55.1224293,60.0914966 56.3722938,59.6046646 56.8019881,57.5613177 L62.9745798,28.8348582 C63.6088904,26.3299473 62.0128832,25.1979365 60.3589014,25.9374495 L24.1179442,39.7456233 C21.6454972,40.7260256 21.6574332,42.0905029 23.6677883,42.6986218 L32.9693044,45.5623397 L54.4949393,32.1483482 C55.5094951,31.5419138 56.4439095,31.8670301 55.6783036,32.5391615" id="Shape" fill="#D852F0" fill-rule="nonzero"></path>
+                    <circle id="Oval-2" stroke="#D852F0" stroke-width="2.77193163" cx="45" cy="45" r="45"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

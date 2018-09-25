@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="66px" height="46px" viewBox="0 0 66 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>blockchain</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="v2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="organize" transform="translate(-825.000000, -7938.000000)" fill="#8689A1">
+            <g id="menlo-expo" transform="translate(141.000000, 6230.000000)">
+                <g id="presales" transform="translate(678.000000, 1704.000000)">
+                    <g id="blockchain" transform="translate(6.000000, 4.000000)">
+                        <g id="Group" transform="translate(0.651405, 0.162866)">
+                            <g transform="translate(2.081165, 0.000000)" fill-rule="nonzero" id="Shape">
+                                <polygon points="42.9597957 39.2153121 49.8276417 32.0794651 49.8276417 0.252408469 42.4489641 0.252408469 42.4489641 38.6857261"></polygon>
+                                <g transform="translate(27.244348, 9.435831)">
+                                    <polygon points="5.41231672 30.5886039 5.21502223 30.7804427 5.6096112 30.7804427"></polygon>
+                                    <polygon points="5.39438085 19.0556599 8.45482925 22.2367143 8.45482925 0.438766124 1.07728692 0.438766124 1.07728692 23.5412179"></polygon>
+                                </g>
+                                <polygon points="21.5718475 39.1740303 21.5718475 5.47160228 14.1943052 5.47160228 14.1943052 31.5085974"></polygon>
+                                <polygon points="7.44451802 31.5085974 7.44451802 14.9310225 0.0669756882 14.9310225 0.0669756882 39.1740303"></polygon>
+                            </g>
+                            <polygon id="Shape" fill-rule="nonzero" points="58.1496935 22.8957655 59.9257575 24.668904 44.7400075 39.819821 34.2746971 29.3785159 23.4514115 40.1769752 12.1504417 28.9019276 0 41.0256471 2.81315646 43.8323507 12.1504417 34.5164833 23.4514115 45.7915309 34.2746971 34.9930717 44.7400075 45.4343768 62.740065 27.4756076 64.516129 29.2487461 64.516129 22.8957655"></polygon>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

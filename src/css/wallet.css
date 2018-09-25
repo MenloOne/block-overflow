@@ -1,0 +1,270 @@
+.loading-chart {
+  height: 200px;
+  text-align: center;
+  vertical-align: middle;
+  flex: 1;
+  display: flex;
+}
+
+.chart-title {
+  padding-top: 1em;
+  text-transform: uppercase;
+}
+
+.wallet-sub-nav-wrapper {
+  background-color: #102d61;
+  clear: both;
+  display: block;
+  margin-top: 12px;
+  padding: 15px 0;
+  font-family: Open Sans;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #585656;
+}
+
+.wallet-sub-nav li {
+  display: inline-block;
+  list-style: none;
+  margin-right: 15px;
+}
+
+.wallet-sub-nav li a {
+  text-decoration: none;
+  font-size: 12px;
+  color: #fff;
+  letter-spacing: 0;
+}
+
+.wallet-panels-menu {
+  margin: 0px;
+  padding: 35px;
+}
+
+.wallet-panels-menu li {
+  display: inline-block;
+  margin-right: 25px;
+}
+
+.wallet-panels-menu li a {
+  /* Live Upcoming: */
+  font-family: . SFNSDisplay;
+  font-size: 27px;
+  color: #919BB0;
+  letter-spacing: 0;
+}
+
+.wallet-panels-menu li a.active {
+  text-decoration: none;
+}
+
+.wallet-main-panels {
+  background: #f6f8fd;
+}
+
+.item-wrapper {
+  text-align: center;
+  background: #fff;
+  margin-top: 75px;
+  padding: 0px;
+  max-width: 30%;
+  margin: 1%;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  /* Mask: */
+  background: #F9FBFF;
+  box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.11);
+  border-radius: 13px;
+}
+
+.item-wrapper .item-thumbnail {
+  border-radius: 99px;
+  margin-top: -50px;
+  border: 20px solid #F9FBFF;
+}
+
+.item-wrapper h3 {
+  text-align: center;
+}
+
+.details-list {
+  padding: 0px;
+  margin: 0px auto;
+}
+
+.details-list li {
+  display: inline-block;
+  list-style: none;
+  text-align: center;
+  padding: 15px 25px;
+}
+
+.charohlc {
+  background: #d9dee9;
+  max-height: 200px;
+}
+
+.charohlc > div:nth-child(1) > label {
+  display: none;
+}
+
+.charohlc > div:nth-child(1) > select {
+  display: none;
+}
+
+.subChart {
+  height: 90px;
+  background: #d9dee9;
+  padding: 0px 50px;
+}
+
+.subChart h2 {
+  float: left;
+  line-height: 45px;
+  margin: 0px;
+  color: #fff;
+  font-weight: 300;
+}
+
+.subChartmenu {
+  float: right;
+  margin: 0px;
+}
+
+.subChartmenu li {
+  list-style: none;
+  display: inline-block;
+  margin: 0px 20px;
+}
+
+.subChartmenu li a {
+  text-decoration: none;
+  color: blue;
+  line-height: 70px;
+}
+
+.item-wrapper h3 {
+  font-size: 31px;
+  color: #2E4168;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.details-list li:nth-child(1), .details-list li:nth-child(2) {
+  border-right: 1px solid #DFE3E6;
+}
+
+.details-list li p {
+  font-size: 23px;
+  color: #40609A;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 19px;
+}
+
+.details-list li span {
+  font-size: 10px;
+  color: #6B768E;
+  letter-spacing: 0.83px;
+  text-align: center;
+  line-height: 17px;
+}
+
+.wrapper-foot-title {
+  font-size: 10px;
+  color: #6B768E;
+  letter-spacing: 0.83px;
+  text-align: center;
+  line-height: 17px;
+}
+
+.timestep {
+  font-size: 54.55px;
+  color: #2E4168;
+  letter-spacing: 0;
+  text-align: center;
+  display: inline-block;
+}
+
+.item-wrapper-foot {
+  background: #eaf0f7;
+  padding-top: 15px;
+  text-align: left;
+}
+
+.time {
+  text-align: center;
+}
+
+.timetag {
+  display: block;
+  font-size: 10px;
+  color: #757677;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 50.91px;
+}
+
+.title-to-left {
+  text-align: left;
+  padding-left: 15px;
+}
+
+.btn-sec {
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.btn-sec li {
+  display: inline-block;
+  width: 50%;
+}
+
+.btn-sec li .blue-btn {
+  /* Rectangle 6: */
+  background: #6B768E;
+  border-radius: 3.16px;
+  /* AIRSWAP: */
+  font-size: 12.63px;
+  color: #D9E2F2;
+  letter-spacing: 0.47px;
+  text-align: center;
+  padding-top: 0px;
+  height: 35px;
+  line-height: 35px;
+  margin: 0px;
+}
+
+.foot-sub-title {
+  font-size: 23px;
+  color: #40609A;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 19px;
+}
+
+.trade-r-now-items {
+  margin: 0px;
+  padding: 0px;
+  padding-bottom: 25px;
+}
+
+.trade-r-now-items li {
+  list-style: none;
+  display: inline-block;
+  text-align: left;
+}
+
+.trade-r-now-items li:nth-child(1) {
+  width: 80%;
+}
+
+.trade-r-now-items li:nth-child(1) .foot-sub-title {
+  padding-left: 15px;
+}

@@ -1,0 +1,168 @@
+.left-side {
+  border-radius: 6px 6px 0px 0px;
+}
+
+.members-main-wrapper {
+  margin-top: 50px;
+}
+
+.members-top-title h2 {
+  /* Members (12): */
+  font-family: .SFNSDisplay;
+  font-size: 29px;
+  color: #2E4168;
+  letter-spacing: 0.45px;
+  text-align: justify;
+  float: left;
+}
+
+.more-members-cto {
+  float: right;
+  line-height: 68px;
+  display: inline-block;
+  font-size: 16px;
+  color: #154DCA;
+  letter-spacing: 0.25px;
+  text-align: right;
+}
+
+.top-panels-menu li {
+  list-style: none;
+  display: inline-block;
+}
+
+.top-panels-menu li a {
+  text-decoration: none;
+  display: inline-block;
+  font-size: 22px;
+  color: #2E4168;
+  letter-spacing: 1px;
+  padding-bottom: 15px;
+  margin-right: 25px;
+}
+
+.top-panels-menu {
+  border-bottom: 1px solid rgba(46, 65, 104, 0.13)
+}
+
+.top-panels-menu li a.active {
+  border-bottom: 2px solid #2E4168;
+}
+
+.members-list {
+  padding-left: 0px;
+  padding-top: 50px;
+}
+
+.members-list li {
+  display: inline-block;
+  list-style: none;
+  width: 12%;
+  text-align: center;
+  margin-right: 2%;
+}
+
+.members-list li span {
+  font-size: 14px;
+  color: #154DCA;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 20px;
+}
+
+.members-list li .im-holder {
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 999px;
+  background-position: center !important;
+  background-size: cover !important;
+}
+
+.members-bottom-sec {
+  width: 100%;
+  background: #F0F4FF;
+  padding: 50px;
+  border-radius: 0px 0px 6px 6px;
+}
+
+.guild-stats {
+  padding: 0px;
+}
+
+.guild-stats li {
+  list-style: none;
+}
+
+.guild-stats li h4 {
+  font-size: 23px;
+  color: #2E4168;
+  letter-spacing: 0;
+}
+
+.guild-stats li p {
+  font-size: 18px;
+  color: #6B768E;
+  letter-spacing: 0.05px;
+  line-height: 36px;
+}
+
+.stats-left {
+  float: left;
+}
+
+.stats-right {
+  float: left;
+  padding-top: 33px;
+  padding-left: 50px;
+}
+
+.stats-main-wrapper {
+  border-right: 2px solid #CACDD7;
+}
+
+.members-apply {
+  text-align: center;
+}
+
+.members-apply p {
+  font-size: 21px;
+  color: #2C3035;
+  letter-spacing: 0.06px;
+  text-align: center;
+  line-height: 33px;
+}
+
+.blue-btn, .blue-btn:hover {
+  border-radius: 3px;
+  background-color: #1b6dff;
+  display: inline-block;
+  height: 77px;
+  color: #fff;
+  font-family: 'Titillium web', 'Helvetica Neue';
+  font-size: 22px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  padding-top: 22px;
+  margin-top: 32px;
+  width: 80%;
+}
+
+.main-bottom-list-wrapper {
+  margin-top: 50px;
+}
+
+.main-bottom-list-wrapper .game-token {
+  background-color: #ffffff;
+  border: solid 1px #ececed;
+  padding: 25px 25px;
+  margin-bottom: 25px;
+}
+
+.container {
+  max-width: none !important;
+}

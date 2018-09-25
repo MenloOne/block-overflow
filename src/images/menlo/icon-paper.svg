@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="18px" viewBox="0 0 14 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="menlo-home-copy-40" transform="translate(-514.000000, -559.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Group-21" transform="translate(482.000000, 536.000000)">
+                <g id="contribute-bttn">
+                    <path d="M45.7827927,27.067701 C45.7827927,27.067701 45.7235543,27.0084626 41.9520451,23.2369535 C41.8335684,23.1382228 41.6361072,23 41.3596615,23 L32.7898449,23 C32.3554302,23 32,23.3751763 32,23.809591 L32,39.9816643 C32,40.416079 32.3554302,40.7715092 32.7898449,40.7715092 L45.2101551,40.7715092 C45.6643159,40.7715092 46,40.416079 46,39.9816643 L46,27.6403385 C46,27.3836389 45.9012694,27.1861777 45.7827927,27.067701 Z M33.5994358,24.6191819 L40.5698166,24.6191819 L40.5698166,27.6403385 C40.5698166,28.0747532 40.9449929,28.4301834 41.3596615,28.4301834 L44.4005642,28.4301834 L44.4005642,39.1523272 L33.5994358,39.1523272 L33.5994358,24.6191819 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

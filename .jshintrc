@@ -1,0 +1,6 @@
+{
+  "esversion": 6,
+  "node": true,
+  "browser": true,
+  "predef": ["describe", "it", "before"]
+}
