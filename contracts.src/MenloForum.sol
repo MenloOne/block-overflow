@@ -56,10 +56,10 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
 
     address[5] public payouts;
 
-    constructor(MenloToken _token, uint256 _postCost, uint256 _voteCost, uint256 _epochLength) public MenloTokenReceiver(_token) {
+    constructor(MenloToken _token, address _poster, bytes32 _topicHash, uint256 _postCost, uint256 _voteCost, uint256 _epochLength) public MenloTokenReceiver(_token) {
         // Push 0 so empty memory (0) doesn't overlap with a voter
-        posters.push(0);
-        emit Topic(0, 0);
+        posters.push(_poster);
+        emit Topic(0, _topicHash);
 
         // no author for root post 0
         voteCost = _voteCost;

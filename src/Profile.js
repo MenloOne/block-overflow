@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import TopNav from './TopNav.js'
+import TopNav from './TopNav.tsx'
 import MessageBoard from './messaging/MessageBoard'
 import CountdownTimer from './CountdownTimer'
 import ResponsiveEmbed from 'react-responsive-embed'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './css/sb-admin.css'
+import './css/app.css'
 
 import assets from 'assets'
 

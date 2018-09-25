@@ -23,7 +23,7 @@
     ],
     "max-line-length": [ true, 160 ],
     "trailing-comma": false,
-    "variable-name": [true, "allow-leading-underscore"],
+    "variable-name": false,
     "prefer-array-literal": false,
     "no-increment-decrement": false,
     "no-consecutive-blank-lines": false,

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import TopNav from './TopNav.js'
+import TopNav from './TopNav.tsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './css/sb-admin.css'
+import './css/app.css'
 import './css/discover.css'
 
 const euth_icon = require('./images/euth_icon.png')

@@ -3,36 +3,50 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Blockies from 'react-blockies'
 
 import Profile from './Profile'
-import { EthContext } from './EthContext'
+import { EthAccount, AcctContext } from './AcctContext'
 import ForumService from './services/ForumService'
 import web3 from './web3_override'
 import ReputationService from './services/ReputationService'
 
+
+interface AppState {
+    ethAccount: EthAccount,
+
+}
 
 
 class App extends React.Component {
 
     private resolveReady: () => void
 
-    state = {
-        ethContext: {
-            forumService: new ForumService(),
-            repService: new ReputationService(),
-            account: null,
-            balance: '-',
-            status: 'starting',
-            ready: new Promise((resolve) => { this.resolveReady = resolve })
-        }
+    state : AppState = {
+        forumService: new ForumService(),
+        repService: new ReputationService(),
     }
 
     constructor(props, context) {
         super(props, context)
+
         this.refreshAccount = this.refreshAccount.bind(this)
+        this.refreshBalance = this.refreshBalance.bind(this)
+
+        this.setState({
+            ethAccount: {
+                ready: new Promise((resolve) => {
+                    this.resolveReady = resolve
+                }),
+                account: null,
+                balance: '',
+                status: MetamaskStatus.Starting,
+
+                refreshBalance: this.refreshBalance
+            }
+        })
     }
 
     componentWillMount() {
         if (!web3) {
-            const ethContext = Object.assign(this.state.ethContext, { status: 'uninstalled' })
+            const ethContext = Object.assign(this.state.ethAccount, { status: MetamaskStatus.Uninstalled })
             this.setState({ ethContext })
             return
         }
@@ -50,30 +64,30 @@ class App extends React.Component {
     async checkMetamaskStatus() {
         web3.eth.getAccounts((err, accounts) => {
             if (err || !accounts || accounts.length === 0) {
-                const ethContext = Object.assign(this.state.ethContext, { status: 'logged out' })
+                const ethContext = Object.assign(this.state.ethAccount, { status: MetamaskStatus.LoggedOut })
                 this.setState({ ethContext })
                 return
             }
 
-            if (this.state.ethContext.status !== 'starting' && this.state.ethContext.status !== 'ok') {
+            if (this.state.ethContext.status !== 'starting' && this.state.ethAccount.status !== 'ok') {
                 this.refreshAccount( true, null)
             }
 
             const account0 = accounts[0].toLowerCase()
-            if (account0 !== this.state.ethContext.account) {
+            if (account0 !== this.state.ethAccount.account) {
                 // The only time we ever want to load data from the chain history
                 // is when we receive a change in accounts - this happens anytime
                 // the page is initially loaded or if there is a change in the account info
                 // via a metamask interaction.
                 web3.eth.defaultAccount = account0
 
-                this.refreshAccount( this.state.ethContext.account !== null, account0 )
+                this.refreshAccount( this.state.ethAccount.account !== null, account0 )
             }
         });
     }
 
     async refreshBalance() {
-        const eth = this.state.ethContext
+        const eth = this.state.ethAccountethAccount
 
         setTimeout(async () => {
             const balance = await eth.forumService.getBalance()
@@ -99,12 +113,12 @@ class App extends React.Component {
                 refreshBalance: this.refreshBalance.bind(this)
             }
 
-            await this.state.ethContext.forumService.setAccount(acct)
+            await this.state.ethAccount.forumService.setAccount(acct)
 
-            const alias = await this.state.ethContext.repService.alias
-            const balance = await this.state.ethContext.forumService.getBalance()
+            const alias = await this.state.ethAccount.repService.alias
+            const balance = await this.state.ethAccount.forumService.getBalance()
 
-            const ethContext = Object.assign({}, this.state.ethContext, {
+            const ethContext = Object.assign({}, this.state.ethAccount, {
                 status: 'ok',
                 balance,
                 alias,
@@ -118,7 +132,7 @@ class App extends React.Component {
             this.resolveReady()
 
         } catch ( e ) {
-            const ethContext = Object.assign(this.state.ethContext, { status: 'error', error: e.message })
+            const ethContext = Object.assign(this.state.ethAccount, { status: MetamaskStatus.Error, error: e.message })
             this.setState({ ethContext })
 
             console.error(e)
@@ -127,14 +141,14 @@ class App extends React.Component {
 
     render() {
         return (
-            <EthContext.Provider value={this.state.ethContext}>
+            <AcctContext.Provider value={this.state.ethContext}>
                 <BrowserRouter>
                     <Switch>
                         <Route path="/" exact component={Profile}/>
                         <Route path="/menlo" exact component={Profile}/>
                     </Switch>
                 </BrowserRouter>
-            </EthContext.Provider>
+            </AcctContext.Provider>
         )
     }
 }

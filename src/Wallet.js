@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import ChartComponent from './ChartComponent.js'
-import TopNav from './TopNav.js'
+import TopNav from './TopNav.tsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './css/sb-admin.css'
+import './css/app.css'
 import './css/wallet.css'
 import CountdownTimer from './CountdownTimer'
 

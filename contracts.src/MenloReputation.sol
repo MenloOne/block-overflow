@@ -31,6 +31,11 @@ contract MenloReputation is Ownable {
         }
     }
 
+    function createForum(bytes32 _topicHash, uint256 _bounty, uint256 _length) public {
+        address forum = new MenloForum( address(MenloToken), msg.sender, _topicHash, 5 * 10**18 /*postCost*/, 0 /*voteCost*/, _length);
+        token.
+    }
+
     function setAlias(string _alias) public {
         alias[msg.sender] = _alias;
     }

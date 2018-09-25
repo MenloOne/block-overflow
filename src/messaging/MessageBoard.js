@@ -3,12 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import BigNumber from 'bignumber.js'
 import Blockies from 'react-blockies'
 
-import {withEth} from '../EthContext'
+import {withEth} from '../AcctContext'
 import Message from './Message'
 import MessageForm from './MessageForm'
 import CountdownTimer from '../CountdownTimer'
 
-import '../css/sb-admin.css'
+import '../css/app.css'
 
 class MessageBoard extends Component {
 

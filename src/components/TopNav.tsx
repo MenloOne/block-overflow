@@ -2,36 +2,41 @@ import React, {Component} from 'react'
 import BigNumber from 'bignumber.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {withEth} from './EthContext'
+import {EthAccount, MetamaskStatus, withEth} from '../AcctContext'
 
-import web3 from './web3_override'
+import web3 from '../web3_override'
 import TruffleContract from 'truffle-contract'
-import MenloFaucetContract from './truffle_artifacts/contracts/MenloFaucet.json'
+import MenloFaucetContract from '../build/contracts/MenloFaucet.json'
 
-import './css/sb-admin.css'
+import '../css/app.css'
+
 
 const logo = require('./images/logo.svg')
 
-class TopNav extends Component {
+interface TopNavProps {
+    eth: EthAccount
+}
 
-    constructor() {
-        super()
+class TopNav extends Component<TopNavProps> {
+
+    constructor(props, context) {
+        super(props, context)
         this.onGetTokens = this.onGetTokens.bind(this)
     }
 
     async onGetTokens() {
-        if (this.props.eth.status !== 'ok') {
+        if (this.props.eth.status !== MetamaskStatus.Ok) {
             return
         }
 
         try {
-            let faucetContract = TruffleContract(MenloFaucetContract)
+            const faucetContract = TruffleContract(MenloFaucetContract)
             faucetContract.defaults({
                 from: this.props.eth.account
             })
             faucetContract.setProvider(web3.currentProvider)
 
-            let faucet = await faucetContract.deployed()
+            const faucet = await faucetContract.deployed()
             await faucet.drip()
 
             this.props.eth.refreshBalance()
@@ -41,7 +46,7 @@ class TopNav extends Component {
     }
 
     renderONE() {
-        let one = this.props.eth.balance
+        const one = this.props.eth.balance
 
         if (one === 0) {
             return (
@@ -62,7 +67,7 @@ class TopNav extends Component {
     renderAccountStatus() {
         console.log( 'STATUS: ', this.props.eth.status )
 
-        if (this.props.eth.status === 'logged out') {
+        if (this.props.eth.status === MetamaskStatus.LoggedOut) {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
@@ -72,7 +77,7 @@ class TopNav extends Component {
             )
         }
 
-        if (this.props.eth.status === 'uninstalled') {
+        if (this.props.eth.status === MetamaskStatus.Uninstalled) {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
@@ -82,7 +87,7 @@ class TopNav extends Component {
             )
         }
 
-        if (this.props.eth.status === 'error') {
+        if (this.props.eth.status === MetamaskStatus.Error) {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
@@ -92,7 +97,7 @@ class TopNav extends Component {
             )
         }
 
-        if (this.props.eth.status === 'starting') {
+        if (this.props.eth.status === MetamaskStatus.Starting) {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
@@ -149,7 +154,7 @@ class TopNav extends Component {
                             <li className="nav-item"><a href="/wallet/" title="Wallet">Wallet</a></li>
                         </ul>
 
-                        { this.renderAccountStatus(this.props.eth.status) }
+                        { this.renderAccountStatus() }
                     </div>
                 </div>
             </nav>
