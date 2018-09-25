@@ -8973,7 +8973,7 @@ module.exports = __webpack_require__(19);
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(125);
-(function webpackMissingModule() { throw new Error("Cannot find module \"./src/index.js\""); }());
+(function webpackMissingModule() { throw new Error("Cannot find module \"./src/index.tsx\""); }());
 
 
 /***/ })

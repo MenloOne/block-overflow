@@ -1,0 +1,47 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint-config-airbnb"
+  ],
+  "jsRules": {},
+  "rules": {
+    "semicolon": false,
+    "ter-indent": [
+      true, 4,
+      {
+        "SwitchCase": true,
+        "FunctionDeclaration": {
+          "parameters": 1,
+          "body": 1
+        },
+        "FunctionExpression": {
+          "parameters": 1,
+          "body": 1
+        },
+        "MemberExpression": 1
+      }
+    ],
+    "max-line-length": [ true, 160 ],
+    "trailing-comma": false,
+    "variable-name": [true, "allow-leading-underscore"],
+    "prefer-array-literal": false,
+    "no-increment-decrement": false,
+    "no-consecutive-blank-lines": false,
+    "no-else-after-return": false,
+    "ter-arrow-parens": false,
+    "object-shorthand-properties-first": false,
+    "no-duplicate-imports": true,
+    "import-name": false,
+    "space-in-parens": false,
+    "align": false,
+    "ordered-imports": [
+      true,
+      {
+        "grouped-imports": true,
+        "named-imports-order": "any",
+        "import-sources-order": "any"
+      }
+    ]
+  },
+  "rulesDirectory": []
+}

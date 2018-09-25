@@ -39,7 +39,7 @@ export default {
     context: path.join(__dirname, '..', '..'),
     devtool: 'cheap-module-source-map',
     entry: {
-      app: [`webpack-hot-middleware/client?path=//${HOST}:${PORT}/__webpack_hmr`, './app/index.js']
+      app: [`webpack-hot-middleware/client?path=//${HOST}:${PORT}/__webpack_hmr`, './app/index.tsx']
     },
     output: {...baseConfig.output, publicPath: PUBLIC_PATH},
     module: {

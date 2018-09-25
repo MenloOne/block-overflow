@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./lib/",        // path to output directory
+    "sourceMap": true,          // allow sourcemap support
+    "strictNullChecks": true,   // enable strict null checks as a best practice
+    "module": "commonjs",            // specify module code generation
+    "jsx": "react",             // use typescript to transpile jsx to js
+    "target": "es2015",            // specify ECMAScript target version
+    "allowJs": false,             // allow a partial TypeScript and JavaScript codebase
+    "moduleResolution": "node",
+    "lib": ["es5", "es6", "dom", "es2017.object"],
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true
+  },
+  "include": [
+    "./types/**/*.d.ts",
+    "./gen-src/**/*.ts",
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./truffle-tests/**/*.ts"
+  ]
+}

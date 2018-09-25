@@ -843,7 +843,7 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
         for (uint8 i = 0; i < 5; i++) {
             if (payouts[i] == msg.sender) {
                 uint256 rewardi = reward(i);
-                total      += rewardi;
+                total += rewardi;
                 payouts[i] = 0;
             }
         }
