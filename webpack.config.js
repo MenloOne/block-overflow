@@ -8,47 +8,15 @@ var CommonsChunkPlugin = require("./node_modules/webpack/lib/optimize/CommonsChu
 var webpack = require('webpack')
 
 module.exports = {
-    entry: {
-        main: ['babel-polyfill', './src/index.tsx']
-    },
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
-        modules: ["node_modules", path.join(__dirname, "src")]
-    },
+    entry: './src/index.tsx',
     output: {
         path: path.join(__dirname, "public/bundle/"),
         publicPath: "/bundle/",
         filename: "[name].js"
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Block Overflow'
-        }),
-        new CommonsChunkPlugin({
-            filename: "commons.js",
-            name: "commons"
-        }),
-        new CopyWebpackPlugin([
-            { from: 'public', to: './'}
-        ]),
-        /*
-        new HtmlWebpackIncludeAssetsPlugin({
-            jsExtensions: ['.js', 'js'],
-            assets: ['https://www.googletagmanager.com/gtag/js?id=UA-119302324-1', 'ga.js', 'main.css', 'config.js'],
-            append: false }),
-        */
-        new ForkTsCheckerWebpackPlugin(),
-        new FaviconsWebpackPlugin('./public/favicon.png')
-    ],
-    performance: { hints: false }
-    devtool: "sourcemap",
-    devServer: {
-        https: false,
-        host: "portal.local",
-        port: 8080,
-        disableHostCheck: true,
-        historyApiFallback: true,
-        contentBase: path.resolve('public')
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+        modules: ["node_modules", path.join(__dirname, "src")]
     },
     module: {
         rules: [
@@ -80,5 +48,35 @@ module.exports = {
                 include: path.join(__dirname, 'src')
             },
         ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Block Overflow'
+        }),
+        new CommonsChunkPlugin({
+            filename: "commons.js",
+            name: "commons"
+        }),
+        new CopyWebpackPlugin([
+            { from: 'public', to: './'}
+        ]),
+        /*
+        new HtmlWebpackIncludeAssetsPlugin({
+            jsExtensions: ['.js', 'js'],
+            assets: ['https://www.googletagmanager.com/gtag/js?id=UA-119302324-1', 'ga.js', 'main.css', 'config.js'],
+            append: false }),
+        */
+        new ForkTsCheckerWebpackPlugin(),
+        new FaviconsWebpackPlugin('./public/favicon.png')
+    ],
+    performance: { hints: false },
+    devtool: "sourcemap",
+    devServer: {
+        https: false,
+        host: "portal.local",
+        port: 8080,
+        disableHostCheck: true,
+        historyApiFallback: true,
+        contentBase: path.resolve('public')
     }
 }
