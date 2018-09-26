@@ -1,23 +1,39 @@
 {
-  "compilerOptions": {
-      "outDir": "./lib/",            // path to output directory
-      "sourceMap": true,             // allow sourcemap support
-      "strictNullChecks": true,      // enable strict null checks as a best practice
-      "module": "commonjs",          // specify module code generation
-      "jsx": "react",                // use typescript to transpile jsx to js
-      "target": "es2015",            // specify ECMAScript target version
-      "allowJs": true,               // allow a partial TypeScript and JavaScript codebase
-      "moduleResolution": "node",
-      "lib": ["es5", "es6", "dom", "es2017.object"],
-      "allowSyntheticDefaultImports": true,
-      "noUnusedLocals": true,
-      "skipLibCheck": true
-  },
-  "include": [
-      "./types/**/*.d.ts",
-      "./gen-src/**/*.ts",
-      "./src/**/*.ts",
-      "./src/**/*.tsx",
-      "./truffle-tests/**/*.ts"
-  ]
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "build/dist",
+        "module": "esnext",
+        "target": "es5",
+        "lib": ["es6", "dom"],
+        "sourceMap": true,
+        "allowJs": true,
+        "jsx": "react",
+        "moduleResolution": "node",
+        "rootDir": "src",
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noImplicitAny": false,
+        "importHelpers": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "noUnusedLocals": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "exclude": [
+        "node_modules",
+        "build",
+        "scripts",
+        "acceptance-tests",
+        "webpack",
+        "jest",
+        "src/setupTests.ts"
+    ],
+    "include": [
+        "./types/**/*.d.ts",
+        "./gen-src/**/*.ts",
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        "./truffle-tests/**/*.ts"
+    ]
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import CssBaseline from 'material-ui/CssBaseline';
 import { AccountService, AccountContext } from './services/AccountService'
+import * as History from 'history'
 import { history } from './config'
 import router from './router'
 
@@ -26,13 +27,13 @@ class App extends React.Component {
 
     state : AppState
 
-    constructor(props, context) {
+    constructor(props: any, context: any) {
         super(props, context)
         this.accountChanged = this.accountChanged.bind(this)
         this.renderLocation = this.renderLocation.bind(this)
     }
 
-    async accountChanged(account) {
+    async accountChanged(account : AccountService) {
         this.setState({ account })
     }
 
@@ -46,11 +47,11 @@ class App extends React.Component {
         history.listen(this.renderLocation)   // render subsequent URLs
 
         console.log("Rendering location " + history.location)
-        this.renderLocation(history.location)
+        this.renderLocation(history.location, 'REPLACE')
     }
 
 
-    renderComponent(component) {
+    renderComponent(component : any) {
         if (!component) {
             console.log("Error trying to set to null component")
             return
@@ -60,7 +61,7 @@ class App extends React.Component {
         this.setState({ component })
     }
 
-    async renderLocation(location) {
+    async renderLocation(location : History.Location, action: History.Action) {
         const renderComponent = this.renderComponent.bind(self)
 
         if (this.state.account.isLoggedIn()) {
