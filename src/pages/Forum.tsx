@@ -28,7 +28,13 @@ const computer = require('../images/ICO_profile_page_svg.svg')
 // const globe = require('../images/globe.png')
 const townhall = require('../images/Townhall_valued_comment_svg.svg')
 
-class Forum extends React.Component {
+
+interface ForumProps {
+    address: string
+}
+
+
+class Forum extends React.Component<ForumProps> {
 
     state = {
         eth: 1,
@@ -46,7 +52,7 @@ class Forum extends React.Component {
         this.onEditEth(null)
     }
 
-    componentWillUnmount() {
+    componentWillMount() {
     }
 
 
@@ -313,54 +319,56 @@ class Forum extends React.Component {
                                     <div className="green-bg">
                                         <div className="start-in">CONTENT NODE STATS</div>
                                         <table className="stats">
-                                            <tr>
-                                                <td>
-                                                    Node Earnings (In ONE)
-                                                </td>
-                                                <td>
-                                                    34,233  ONE
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Node Earnings (In USD)
-                                                </td>
-                                                <td>
-                                                    $220
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Content Node Cost (mo)
-                                                </td>
-                                                <td>
-                                                    $19
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Content Node Reputation
-                                                </td>
-                                                <td>
-                                                    440 (A+ Grade)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Node Uptime
-                                                </td>
-                                                <td>
-                                                    99%
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    Annual ROI
-                                                </td>
-                                                <td>
-                                                    91.4%
-                                                </td>
-                                            </tr>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Node Earnings (In ONE)
+                                                    </td>
+                                                    <td>
+                                                        34,233  ONE
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Node Earnings (In USD)
+                                                    </td>
+                                                    <td>
+                                                        $220
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Content Node Cost (mo)
+                                                    </td>
+                                                    <td>
+                                                        $19
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Content Node Reputation
+                                                    </td>
+                                                    <td>
+                                                        440 (A+ Grade)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Node Uptime
+                                                    </td>
+                                                    <td>
+                                                        99%
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Annual ROI
+                                                    </td>
+                                                    <td>
+                                                        91.4%
+                                                    </td>
+                                                </tr>
+                                            </tbody>
                                         </table>
                                     </div>
                                     <div className="white-bg content-node">

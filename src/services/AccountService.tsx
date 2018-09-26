@@ -24,7 +24,7 @@ import web3 from './web3_override'
 import { MenloToken } from '../.contracts/MenloToken'
 import QPromise from '../utils/QPromise'
 
-const TokenContract = require('../build-contracts/MenloToken.json')
+const TokenContractJSON = require('../build-contracts/MenloToken.json')
 
 
 
@@ -37,10 +37,11 @@ enum MetamaskStatus {
     Error = 'error'
 }
 
+type AccountChangeCallback = (svc : AccountService) => Promise<void>
 
 class AccountService {
 
-    public ready: QPromise<void>
+    public ready: any
     public address: string | null
     public avatar: JSX.Element
     public balance: number
@@ -50,10 +51,10 @@ class AccountService {
 
     private token : MenloToken
     private signalReady : () => void
-    private stateChangeCallback : (svc : AccountService) => void
+    private stateChangeCallback : AccountChangeCallback
 
-    constructor(stateChangeCallback : (svc : AccountService) => void) {
-        this.ready = new QPromise((res, rej) => this.signalReady = res)
+    constructor(stateChangeCallback : AccountChangeCallback) {
+        this.ready = QPromise((res, rej) => this.signalReady = res)
         this.address = null
         this.balance = 0
         this.avatar = <span></span>
@@ -76,15 +77,20 @@ class AccountService {
     }
 
     async checkMetamaskStatus() {
-        if (!this.token) {
-            this.token = new MenloToken(web3, TruffleContract(TokenContract).address)
-        }
-
-        web3.eth.getAccounts((err, accounts) => {
+        web3.eth.getAccounts(async (err, accounts) => {
             if (err || !accounts || accounts.length === 0) {
                 this.status = MetamaskStatus.LoggedOut
                 this.stateChangeCallback(this)
                 return
+            }
+
+            if (!this.token) {
+                const TokenContract = await TruffleContract(TokenContractJSON)
+
+                await TokenContract.setProvider(web3.currentProvider)
+                TokenContract.defaults({ from: this.address })
+
+                this.token = await TokenContract.deployed()
             }
 
             if (this.status !== MetamaskStatus.Starting && this.status !== MetamaskStatus.Ok) {
@@ -99,11 +105,11 @@ class AccountService {
                 // via a metamask interaction.
                 web3.eth.defaultAccount = account0
 
-                this.refreshAccount( this.address !== null, account0 )
+                await this.refreshAccount( this.address !== null, account0 )
             }
-        });
 
-        this.signalReady()
+            this.signalReady()
+        });
     }
 
 
@@ -119,17 +125,17 @@ class AccountService {
             this.getBalance()
             this.status = MetamaskStatus.Ok
 
-            this.stateChangeCallback(this)
+            await this.stateChangeCallback(this)
 
             this.signalReady()
 
         } catch ( e ) {
+            console.error(e)
 
             this.status = MetamaskStatus.Error
             this.error  = e.message
 
-            this.stateChangeCallback(this)
-            console.error(e)
+            await this.stateChangeCallback(this)
         }
     }
 

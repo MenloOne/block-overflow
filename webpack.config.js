@@ -86,7 +86,7 @@ module.exports = {
             assets: ['main.css'],
             append: false }),
         new ForkTsCheckerWebpackPlugin(),
-        new FaviconsWebpackPlugin('./public/favicon.png')
+        new FaviconsWebpackPlugin('./public/favicon.ico')
     ],
     devServer: {
         contentBase: path.resolve('dist')

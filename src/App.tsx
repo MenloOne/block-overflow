@@ -1,13 +1,17 @@
-import React from 'react'
+import * as React from 'react'
 import * as History from 'history'
 
-import CssBaseline from 'material-ui/CssBaseline';
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { AccountService, AccountContext } from './services/AccountService'
 import { history } from './config'
 import router from './router'
 
 import Topics from './pages/Topics'
 import Forum from './pages/Forum'
+
+import ForumService from './services/ForumService'
+
+
 
 class Footer extends React.Component {
     render() {
@@ -46,8 +50,6 @@ class App extends React.Component {
 
     componentDidMount() {
         history.listen(this.renderLocation)   // render subsequent URLs
-
-        console.log("Rendering location " + history.location)
         this.renderLocation(history.location, 'REPLACE')
     }
 
@@ -58,7 +60,7 @@ class App extends React.Component {
             return
         }
 
-        console.log("Setting component to " + component.type.name)
+        console.log(`Setting component to ${component.type.name}`)
         this.setState({ component })
     }
 
@@ -86,7 +88,7 @@ class App extends React.Component {
 
 
     loggedOutRoutes = [
-        { path: '/', action: () => <Topics /> },
+        { path: '/', action: () => <Forum /> },
     ];
 
     loggedInRoutes = [
@@ -100,13 +102,12 @@ class App extends React.Component {
 
 
     render() {
-        const { component } = this.state
-
         return (
             <AccountContext.Provider value={this.state.account}>
                 <CssBaseline />
-                {component}
-                {this.props.children}
+                { this.state.component }
+                <Forum address='0x4e72770760c011647d4873f60a3cf6cdea896cd8' />
+                { this.props.children }
                 <Footer />
             </AccountContext.Provider>
         )

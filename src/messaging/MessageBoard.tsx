@@ -1,26 +1,46 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import BigNumber from 'bignumber.js'
 import Blockies from 'react-blockies'
 
-import { withAcct } from '../services/AccountService'
+import { AccountService, MetamaskStatus, withAcct } from '../services/AccountService'
+import ForumService from "../services/ForumService";
+
 import Message from './Message'
 import MessageForm from './MessageForm'
 import CountdownTimer from '../components/CountdownTimer'
 
 import '../styles/app.scss'
 
-class MessageBoard extends Component {
 
-    state = {
+interface MessageBoardProps {
+    acct: AccountService,
+    forum: ForumService
+}
+
+interface MessageBoardState {
+    messages: any[],
+    topFive: boolean,
+    showCompose: boolean,
+    timeExtended: boolean,
+    endTimestamp: number,
+    priorLottery?: any,
+    currentLottery?: any
+}
+
+class MessageBoard extends React.Component<MessageBoardProps> {
+
+    private ranks: string[]
+
+    state : MessageBoardState = {
         messages: [],
         topFive: false,
         showCompose: true,
+        timeExtended: false,
         endTimestamp: 0,
     }
 
-    constructor() {
-        super()
+    constructor(props: any, context: any) {
+        super(props, context)
 
         this.ranks = ['1st', '2nd', '3rd', '4th', '5th']
 
@@ -32,41 +52,41 @@ class MessageBoard extends Component {
     }
 
     componentDidMount() {
-        this.props.eth.forumService.subscribeMessages('0x0', this.refreshMessages)
+        this.props.forum.subscribeMessages('0x0', this.refreshMessages)
         this.refreshMessages()
 
-        this.props.eth.forumService.subscribeLotteries(this.refreshLotteries)
+        this.props.forum.subscribeLotteries(this.refreshLotteries)
         this.refreshLotteries()
     }
 
     componentWillUnmount() {
-        this.props.eth.forumService.subscribeMessages('0x0', null)
-        this.props.eth.forumService.subscribeLotteries(null)
+        this.props.forum.subscribeMessages('0x0', null)
+        this.props.forum.subscribeLotteries(null)
     }
 
     componentWillReceiveProps(newProps) {
     }
 
     async refreshMessages() {
-        const messages = await this.props.eth.forumService.getChildrenMessages('0x0')
-        this.setState({messages})
+        const messages = await this.props.forum.getChildrenMessages('0x0')
+        this.setState({ messages })
     }
 
     async refreshLotteries() {
-        const svc = this.props.eth.forumService
-        let lotteries = await svc.getLotteries()
+        const svc = this.props.forum
+        const lotteries = await svc.getLotteries()
         this.setState({
             ...lotteries,
-            timeExtended: (lotteries.currentLottery.endTimeServer != lotteries.currentLottery.endTime)})
+            timeExtended: (lotteries.currentLottery.endTimeServer !== lotteries.currentLottery.endTime)})
     }
 
     claimWinnings() {
-        let lottery = this.state.priorLottery
+        const lottery = this.state.priorLottery
         lottery.claimWinnings()
     }
 
     onSubmitMessage(body) {
-        return this.props.eth.forumService.createMessage(body)
+        return this.props.forum.createMessage(body)
     }
 
     topFiveMessages() {
@@ -87,9 +107,9 @@ class MessageBoard extends Component {
 
     renderMessagesFilterButton() {
         if (this.state.topFive) {
-            return (<button onClick={() => this.setState({topFive: false})}>View All Messages</button>)
+            return (<button onClick={() => this.setState({ topFive: false })}>View All Messages</button>)
         } else {
-            return (<button onClick={() => this.setState({topFive: true})}>View Top Five Messages</button>)
+            return (<button onClick={() => this.setState({ topFive: true })}>View Top Five Messages</button>)
         }
     }
 
@@ -137,8 +157,8 @@ class MessageBoard extends Component {
                                                 </div>
                                                 <div className='rank'>{ this.ranks[i] }</div>
                                                 <div className='tokens'>
-                                                    { Number(lottery.winnings(i)) == 0 ? <span>PAID<br/>OUT</span> : Number(lottery.winnings(i)).toFixed(1) }
-                                                    { Number(lottery.winnings(i)) == 0 ? null : <span><br/>ONE</span> }
+                                                    { Number(lottery.winnings(i)) === 0 ? <span>PAID<br/>OUT</span> : Number(lottery.winnings(i)).toFixed(1) }
+                                                    { Number(lottery.winnings(i)) === 0 ? null : <span><br/>ONE</span> }
                                                 </div>
                                             </div>
                                         )
@@ -239,7 +259,7 @@ class MessageBoard extends Component {
 
     renderLotteries() {
 
-        let lotteries = [this.state.currentLottery, this.state.priorLottery]
+        const lotteries = [this.state.currentLottery, this.state.priorLottery]
 
         return lotteries.map((lottery) => {
             if (!lottery || !lottery.show()) { return null }
@@ -253,7 +273,7 @@ class MessageBoard extends Component {
     }
 
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.eth.status !== 'ok' || !this.props.eth.forumService.synced.isFulfilled())) {
+        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.props.forum.synced.isFulfilled())) {
             return (<li className='borderis'>
                 <div style={{ paddingBottom: '3em' }}>
                     Loading Discussion...
@@ -276,7 +296,7 @@ class MessageBoard extends Component {
                 <div key={index} className='row'>
                     <div className='col-12'>
                         <Message key={m.id}
-                                 forumService={this.props.eth.forumService}
+                                 forumService={this.props.forum}
                                  message={m}
                                  onChangeReplying={this.onChangeReplying}
                         />
