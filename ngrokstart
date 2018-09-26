@@ -1,1 +1,0 @@
-ngrok start --config ngrok.tls.config  --all

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Countdown from 'react-countdown-now'
-import './css/app.css'
+import './css/sb-admin.css'
 
 export default class CountdownTimer extends Component {
     static propTypes = {

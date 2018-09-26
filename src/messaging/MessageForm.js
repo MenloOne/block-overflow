@@ -16,7 +16,7 @@
  */
 
 import React from 'react'
-import {withEth} from '../AcctContext'
+import {withEth} from '../EthContext'
 
 
 class MessageForm extends React.Component {
