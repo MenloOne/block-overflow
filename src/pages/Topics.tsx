@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import ResponsiveEmbed from 'react-responsive-embed'
 
 import TopNav from '../components/TopNav'
@@ -29,7 +29,7 @@ const computer = require('../images/ICO_profile_page_svg.svg')
 // const globe = require('../images/globe.png')
 const townhall = require('../images/Townhall_valued_comment_svg.svg')
 
-class Topics extends Component {
+class Topics extends React.Component {
 
     state = {
         eth: 1,

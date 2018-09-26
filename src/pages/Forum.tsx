@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import TopNav from '../components/TopNav'
 import MessageBoard from '../messaging/MessageBoard'
 import ResponsiveEmbed from 'react-responsive-embed'
@@ -28,7 +28,7 @@ const computer = require('../images/ICO_profile_page_svg.svg')
 // const globe = require('../images/globe.png')
 const townhall = require('../images/Townhall_valued_comment_svg.svg')
 
-class Forum extends Component {
+class Forum extends React.Component {
 
     state = {
         eth: 1,

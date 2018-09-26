@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import * as React from 'react'
 
 import BigNumber from 'bignumber.js'
 import TruffleContract from 'truffle-contract'
@@ -27,7 +27,6 @@ import QPromise from '../utils/QPromise'
 const TokenContract = require('../build-contracts/MenloToken.json')
 
 
-const AccountContext = React.createContext({})
 
 
 enum MetamaskStatus {
@@ -150,6 +149,9 @@ class AccountService {
         }, 3000 )
     }
 }
+
+
+const AccountContext = React.createContext({})
 
 
 function withAcct(Component) {

@@ -1,7 +1,8 @@
 import React from 'react'
+import * as History from 'history'
+
 import CssBaseline from 'material-ui/CssBaseline';
 import { AccountService, AccountContext } from './services/AccountService'
-import * as History from 'history'
 import { history } from './config'
 import router from './router'
 

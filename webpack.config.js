@@ -18,10 +18,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: {
-                    loader: 'ts-loader',
-                    options: {
-                        transpileOnly: true //HMR doesn't work without this
-                    }
+                    loader: 'ts-loader'
                 }
             },
             {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import * as React from  'react'
 import BigNumber from 'bignumber.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -17,7 +17,7 @@ interface TopNavProps {
     acct: AccountService
 }
 
-class TopNav extends Component<TopNavProps> {
+class TopNav extends React.Component<TopNavProps> {
 
     constructor(props, context) {
         super(props, context)
