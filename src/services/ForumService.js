@@ -15,10 +15,10 @@
  */
 import web3 from '../web3_override'
 import TruffleContract from 'truffle-contract'
-import TokenContract from '../truffle_artifacts/contracts/MenloToken.json'
-import ForumContract from '../truffle_artifacts/contracts/MenloForum.json'
 
-import JavascriptIPFSStorage from '../storage/JavascriptIPFSStorage'
+import TokenContract from '../build-contracts/contracts/MenloToken.json'
+import ForumContract from '../build-contracts/contracts/MenloForum.json'
+
 import RemoteIPFSStorage from '../storage/RemoteIPFSStorage'
 import MessagesGraph from '../storage/MessageBoardGraph'
 
@@ -161,10 +161,11 @@ class Lottery {
 
             const debug = {}
 
-            const [p,c,r,v,pc] = await Promise.all([
+            const [p,c,r,n,v,pc] = await Promise.all([
                 forum.epochPrior.call(),
                 forum.epochCurrent.call(),
                 forum.rewardPool.call(),
+                forum.nextRewardPool.call(),
                 forum.votesCount.call(),
                 forum.postCount.call()])
 
@@ -172,6 +173,7 @@ class Lottery {
                 epochPrior: p.toNumber(),
                 epochCurrent: c.toNumber(),
                 rewardPool: r.toNumber(),
+                nextRewardPool: n.toNumber(),
                 votesCount: v.toNumber(),
                 postersCount: pc.toNumber(),
                 show: this.show(),
@@ -283,15 +285,6 @@ class Lottery {
         if (i === 3) { me = r / 10; }
         if (i === 4) { me = r / 20; }
 
-        /*
-        Not implemented by contract yet
-
-        if (this.totalWinners() < 2) { rest += r / 4 }
-        if (this.totalWinners() < 3) { rest += r / 5 }
-        if (this.totalWinners() < 4) { rest += r / 10 }
-        if (this.totalWinners() < 5) { rest += r / 20 }
-        */
-
         if (this.hasEnded && !this.willReconcile) {
             // Has this winner been paid out?
             if (this.payouts[i] == address0) {
@@ -299,7 +292,7 @@ class Lottery {
             }
         }
 
-        return (me + rest / this.totalWinners())
+        return me
     }
 
     totalWinnings() {
@@ -342,9 +335,7 @@ class ForumService {
         this.forumContract = TruffleContract(ForumContract)
 
         this.forum = null;
-        this.remoteStorage = new RemoteIPFSStorage('ipfs.menlo.one', '443', {protocol: 'https'}) // new RemoteIPFSStorage('/ip4/127.0.0.1/tcp/5001')
-        this.localStorage = new JavascriptIPFSStorage()
-        // this.localStorage.connectPeer(this.remoteStorage)
+        this.remoteStorage = new RemoteIPFSStorage()
 
         this.messages = new MessagesGraph()
         this.account = null;
@@ -531,7 +522,7 @@ class ForumService {
         }
 
         try {
-            await Promise.all([this.updateVotesData(message), this.localStorage.fillMessage(message)])
+            await Promise.all([this.updateVotesData(message), this.remoteStorage.fillMessage(message)])
             message.filled = true
 
             // console.log('onModified ',message)
@@ -626,13 +617,6 @@ class ForumService {
         }
 
         return Promise.all(message.children.map(cid => self.getMessage(cid)).filter(m => m && m.body))
-    }
-
-    async getBalance() {
-        await this.ready;
-        var balanceWei = await this.token.balanceOf(this.account)
-        var balance    = balanceWei.div(10**18).toNumber()
-        return balance
     }
 
     async epoch() {
@@ -789,21 +773,19 @@ class ForumService {
         await this.ready
 
         const ipfsMessage = {
-            version: '1',
+            version: 1,
+            offset: this.topicHashes.length,
             parent: parentHash || '0x0', // Do we need this since its in Topic?
             author: this.account,
             date: Date.now(),
             body,
         }
 
-        var ipfsHash
+        let ipfsHash
 
         try {
-            // Create message and save to it local in-browser IPFS
-            ipfsHash = await this.localStorage.createMessage(ipfsMessage)
-
-            // Pin it to ipfs.menlo.one
-            // await this.remoteStorage.pin(ipfsHash)
+            // Create message and pin it to remote IPFS
+            ipfsHash = await this.remoteStorage.createMessage(ipfsMessage)
 
             const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
             let parentHashSolidity = ipfsMessage.parent
@@ -823,7 +805,7 @@ class ForumService {
         } catch (e) {
             if (ipfsHash) {
                 // Failed - unpin it from ipfs.menlo.one
-                this.localStorage.rm(ipfsHash)
+                // this.localStorage.rm(ipfsHash)
                 this.remoteStorage.unpin(ipfsHash)
             }
 

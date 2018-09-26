@@ -16,7 +16,7 @@
  */
 
 import React from 'react'
-import {withEth} from '../EthContext'
+import { withAcct } from '../services/AccountService'
 
 
 class MessageForm extends React.Component {
@@ -79,4 +79,4 @@ class MessageForm extends React.Component {
     }
 }
 
-export default withEth(MessageForm)
+export default withAcct(MessageForm)

@@ -1,14 +1,14 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import BigNumber from 'bignumber.js'
 import Blockies from 'react-blockies'
 
-import {withEth} from '../EthContext'
+import { withAcct } from '../services/AccountService'
 import Message from './Message'
 import MessageForm from './MessageForm'
-import CountdownTimer from '../CountdownTimer'
+import CountdownTimer from '../components/CountdownTimer'
 
-import '../css/sb-admin.css'
+import '../styles/app.scss'
 
 class MessageBoard extends Component {
 
@@ -331,5 +331,5 @@ class MessageBoard extends Component {
     }
 }
 
-export default withEth(MessageBoard)
+export default withAcct(MessageBoard)
 
