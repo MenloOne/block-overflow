@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
+        "rootDir": "src",
         "outDir": "build/dist",
         "target": "es5",
         "lib": ["es6", "dom"],
         "sourceMap": true,
         "allowJs": true,
-        "rootDir": "src",
         "forceConsistentCasingInFileNames": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
@@ -16,6 +16,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": true,
         "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
         "esModuleInterop": true,
         "jsx": "react",
         "module": "commonjs",

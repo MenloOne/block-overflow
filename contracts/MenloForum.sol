@@ -662,9 +662,14 @@ contract MenloForumEvents {
     // a parent of 0x0 indicates root topic
     // by convention, the bytes32 is a keccak-256 content hash
     // the multihash prefix for this is 1b,20
-    event Answer(bytes32 _parentHash, bytes32 contentHash);
+    event Answer(bytes32 contentHash);
+    event Comment(bytes32 _parentHash, bytes32 contentHash);
     event Payout(address _user, uint256 _tokens);
-    event Vote(uint256 _offset);
+    event Vote(uint32 _offset, int32 _direction);
+}
+
+contract MenloForumCallback {
+    function onForumClosed(MenloForum _forum, uint256 _tokens, int32 _votes, address _winner) public;
 }
 
 contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownable, CanReclaimToken {
@@ -672,6 +677,8 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
     uint public constant ACTION_POST     = 1;
     uint public constant ACTION_UPVOTE   = 2;
     uint public constant ACTION_DOWNVOTE = 3;
+
+    MenloForumCallback callback;
 
     bytes32 public topicHash;
     address public author;
@@ -681,27 +688,35 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
     uint256 public endTimestamp;
     uint256 public epochLength;
 
-    mapping(uint256 => int256) public votes;
-    mapping(uint256 => mapping(address => int8)) public voters;
+    mapping(uint32 => int32) public votes;
+    mapping(uint32 => mapping(address => int8)) public voters;
     address[] public posters;
-    address public winner;
+    bytes32[] public messages;
 
-    constructor(MenloToken _token, address _author, bytes32 _topicHash, uint256 _postCost, uint256 _voteCost, uint256 _epochLength) public MenloTokenReceiver(_token) {
+    uint256 public pool;
+    int32   public winningVotes;
+    uint32  public winningOffset;
+    bool    private closed;
+
+
+    constructor(MenloToken _token, MenloForumCallback _callback, address _author, bytes32 _topicHash, uint256 _postCost, uint256 _voteCost, uint256 _epochLength) public MenloTokenReceiver(_token) {
 
         // Push 0 so empty memory (0) doesn't overlap with a voter
         posters.push(0);
-        emit Answer(0, 0);
+        emit Answer(0);
 
         // no author for root post 0
+        callback = _callback;
         author = _author;
         topicHash = _topicHash;
         voteCost = _voteCost;
         postCost = _postCost;
         epochLength = _epochLength;
         endTimestamp = now + epochLength;
+        pool = token.balanceOf(this);
     }
 
-    function getVoters(uint256 i, address user) public view returns (int8) {
+    function getVoters(uint32 i, address user) public view returns (int8) {
         return voters[i][user];
     }
 
@@ -713,54 +728,21 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
         return posters.length;
     }
 
-    function closeForum() public returns (bool) {
-        if (now < endTimestamp) {
-            return false;
-        }
-
-        if (winner != 0x0) {
-            return true;
-        }
-
-        uint256 winnerPoster;
-        int256  maxVotes;
-
-        for(uint256 i = 1; i < posters.length; i++) {
-            if (votes[i] == 0) {
-                continue;
-            }
-
-            int256 current = votes[i];
-            if (current > maxVotes) {
-                maxVotes = current;
-            }
-        }
-
-        if (winnerPoster != 0) {
-            endTimestamp = now + epochLength;
-            return false;
-        }
-
-        winner = posters[winnerPoster];
-        return true;
+    function claimed() external view returns (bool) {
+        return token.balanceOf(this) == 0 && pool != 0;
     }
 
-    function rewardPool() public view returns (uint256) {
-        return token.balanceOf(this);
+    function winner() public view returns (address) {
+        if (winningOffset == 0) {
+            return author;
+        }
+
+        return posters[winningOffset];
     }
 
-    function claim() external {
-        require(closeForum(), "Forum not closed");
-        require(msg.sender == winner, "Only winner can claim");
 
-        uint256 total = rewardPool();
-        require(total > 0, "No tokens left to claim");
 
-        token.transfer(msg.sender, total);
-        emit Payout(msg.sender, total);
-    }
-
-    function vote(address _voter, uint256 _offset, int8 _direction) internal {
+    function vote(address _voter, uint32 _offset, int8 _direction) internal {
         int8 priorVote = voters[_offset][_voter];
 
         require (priorVote != _direction, "Can't vote for same comment more than 1 time");
@@ -769,21 +751,34 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
         voters[_offset][_voter] = priorVote + _direction;
         endTimestamp = now + epochLength;
 
-        emit Vote(_offset);
+        emit Vote(_offset, _direction);
+
+        if (votes[_offset] > winningVotes) {
+            winningVotes = votes[_offset];
+            winningOffset = _offset;
+            return;
+        }
+
+        if (votes[_offset] == winningVotes && _offset < winningOffset) {
+            winningVotes = votes[_offset];
+            winningOffset = _offset;
+            return;
+        }
     }
 
-    function pushPoster(address _poster) internal {
+    function pushMessage(bytes32 _message, address _poster) internal {
+        messages.push(_message);
         posters.push(_poster);
     }
 
-    function upvoteAndComment(address _voter, uint256 _offset, bytes32 _parentHash, bytes32 _contentHash) internal {
+    function upvoteAndComment(address _voter, uint32 _offset, bytes32 _parentHash, bytes32 _contentHash) internal {
         vote(_voter, _offset, 1);
         if (_contentHash != 0) {
             post(_voter, _parentHash, _contentHash);
         }
     }
 
-    function downvoteAndComment(address _voter, uint256 _offset, bytes32 _parentHash, bytes32 _contentHash) internal {
+    function downvoteAndComment(address _voter, uint32 _offset, bytes32 _parentHash, bytes32 _contentHash) internal {
         vote(_voter, _offset, -1);
         if (_contentHash != 0) {
             post(_voter, _parentHash, _contentHash);
@@ -791,19 +786,57 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
     }
 
     function post(address _poster, bytes32 _parentHash, bytes32 _contentHash) internal {
-        emit Answer(_parentHash, _contentHash);
-        voters[posters.length][_poster] = 1;
-        pushPoster(_poster);
+        if (_parentHash == 0x0) {
+            emit Comment(_parentHash, _contentHash);
+            return;
+        }
+
+        emit Answer(_contentHash);
+        voters[uint32(posters.length)][_poster] = 1;
+        pushMessage(_contentHash, _poster);
         endTimestamp = now + epochLength;
     }
 
+    function closeForum() internal returns (bool) {
+        if (closed) {
+            return true;
+        }
+
+        if (now > endTimestamp) {
+            return false;
+        }
+
+        if (winner() == author) {
+            callback.onForumClosed(this, pool, 0, 0);
+        } else {
+            callback.onForumClosed(this, pool, winningVotes, winner());
+        }
+
+        closed = true;
+        return true;
+    }
+
     modifier forumOpen() {
-        require(closeForum(), "Forum is closed");
+        require(!closeForum(), "Forum is closed");
+        _;
+    }
+
+    modifier forumClosed() {
+        require(closeForum(), "Forum is open");
         _;
     }
 
     function usesONE(uint256 _value, uint256 _cost) internal pure returns (bool) {
-        return (_cost == _value);
+        return (_value >= _cost);
+    }
+
+    function claim() forumClosed external {
+        require(closeForum(), "Forum not closed");
+        require(msg.sender == winner(), "Only winner can claim");
+        require(pool > 0, "No tokens left to claim");
+
+        token.transfer(msg.sender, pool);
+        emit Payout(msg.sender, pool);
     }
 
     function onTokenReceived(
@@ -816,6 +849,8 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
         uint offset;
         uint i;
 
+        pool = token.balanceOf(this);
+
         if (_action == ACTION_UPVOTE) {
             require(usesONE(_value, voteCost), "Voting tokens sent != cost");
 
@@ -823,7 +858,7 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
             (parentHash, i)  = decodeBytes32(_data, i);
             (contentHash, i) = decodeBytes32(_data, i);
 
-            upvoteAndComment(_from, offset, parentHash, contentHash);
+            upvoteAndComment(_from, uint32(offset), parentHash, contentHash);
             return ONE_RECEIVED;
         }
 
@@ -834,7 +869,7 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
             (parentHash, i)  = decodeBytes32(_data, i);
             (contentHash, i) = decodeBytes32(_data, i);
 
-            downvoteAndComment(_from, offset, parentHash, contentHash);
+            downvoteAndComment(_from, uint32(offset), parentHash, contentHash);
             return ONE_RECEIVED;
         }
 

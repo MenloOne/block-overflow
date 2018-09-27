@@ -30,7 +30,15 @@ contract MenloTopicEvents {
 }
 
 
-contract MenloTopics is MenloTokenReceiver, MenloTopicEvents, BytesDecode, Ownable, CanReclaimToken {
+contract MenloTopics is MenloForumCallback, MenloTokenReceiver, MenloTopicEvents, BytesDecode, Ownable, CanReclaimToken {
+
+    struct ForumMetadata {
+        bytes32 message;
+        bool    closed;
+        uint256 payout;
+        int32   votes;
+        address winner;
+    }
 
     uint public constant ACTION_NEWTOPIC = 1;
 
@@ -39,7 +47,7 @@ contract MenloTopics is MenloTokenReceiver, MenloTopicEvents, BytesDecode, Ownab
 
     mapping(address => string) public alias;
     mapping(address => uint256) public reputation;
-    mapping(address => bool) public forums;
+    mapping(address => ForumMetadata) public forums;
 
     constructor(MenloToken _token, uint256 _topicCost) public {
         token = _token;
@@ -51,7 +59,7 @@ contract MenloTopics is MenloTokenReceiver, MenloTopicEvents, BytesDecode, Ownab
     }
 
     modifier isForum() {
-        require(forums[msg.sender] == true);
+        require(forums[msg.sender].message != 0, "Sender must be forum");
         _;
     }
 
@@ -64,8 +72,8 @@ contract MenloTopics is MenloTokenReceiver, MenloTopicEvents, BytesDecode, Ownab
     }
 
     function createForum(address _from, bytes32 _topicHash, uint256 _bounty, uint256 _length) private {
-        MenloForum forum = new MenloForum( token, _from, _topicHash, 5 * 10**18 /*postCost*/, 0 /*voteCost*/, _length);
-        forums[forum] = true;
+        MenloForum forum = new MenloForum( token, this, _from, _topicHash, 5 * 10**18 /*postCost*/, 0 /*voteCost*/, _length);
+        forums[forum] = ForumMetadata(_topicHash,false,0,0,0);
         token.transfer(forum, _bounty);
         emit Topic( _topicHash, forum);
     }
@@ -92,5 +100,12 @@ contract MenloTopics is MenloTokenReceiver, MenloTopicEvents, BytesDecode, Ownab
         }
 
         return 0;
+    }
+
+    function onForumClosed(MenloForum _forum, uint256 _tokens, int32 _votes, address _winner) public {
+        forums[_forum].closed = true;
+        forums[_forum].payout = _tokens;
+        forums[_forum].votes  = _votes;
+        forums[_forum].winner = _winner;
     }
 }

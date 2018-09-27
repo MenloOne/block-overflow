@@ -9,8 +9,6 @@ import router from './router'
 import Topics from './pages/Topics'
 import Forum from './pages/Forum'
 
-import ForumService from './services/ForumService'
-
 
 
 class Footer extends React.Component {
@@ -88,12 +86,12 @@ class App extends React.Component {
 
 
     loggedOutRoutes = [
-        { path: '/', action: () => <Forum /> },
+        { path: '/', action: () => <Topics /> },
     ];
 
     loggedInRoutes = [
         { path: '/', action: () => <Topics /> },
-        { path: '/topic/:id(\\d+)', action: (params) => <Forum {...params}/> },
+        { path: '/topic/:address(\\d+)', action: (params) => <Forum {...params}/> },
     ];
 
     commonRoutes = [

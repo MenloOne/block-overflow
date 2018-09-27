@@ -13,7 +13,7 @@
     "lint": "npm run lint:typescript",
     "lint:typescript": "./node_modules/.bin/tslint --force --project tsconfig.json",
     "lint:solidity": "./node_modules/.bin/solium -d ./contracts",
-    "gen": "./scripts/make_flat.sh && node_modules/.bin/truffle compile && ./node_modules/.bin/typechain --force --outDir ./src/.contracts ./build/contracts/*.json && ./node_modules/.bin/typechain --force --outDir ./src/.contracts ./node_modules/menlo-token/build/contracts/MenloToken.json",
+    "gen": "./scripts/compile_flat.sh",
     "test": "node_modules/.bin/truffle test --network ganache",
     "start:ganache": "node_modules/.bin/ganache-cli -i local_test -d",
     "deploy:truffle": "node_modules/.bin/truffle migrate --network ganache --reset"
@@ -22,6 +22,7 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@spacedust/typechain": "^0.3.1",
     "@types/chai": "^4.1.5",
+    "@types/ipfs": "github:vishalkuo/types-ipfs",
     "@types/jquery": "^3.3.10",
     "@types/js-cookie": "^2.2.0",
     "@types/node": "^8.10.30",

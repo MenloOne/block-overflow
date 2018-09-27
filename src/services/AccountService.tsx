@@ -22,11 +22,9 @@ import Blockies from 'react-blockies'
 
 import web3 from './web3_override'
 import { MenloToken } from '../.contracts/MenloToken'
-import QPromise from '../utils/QPromise'
+import { QPromise } from '../utils/QPromise'
 
-const TokenContractJSON = require('../build-contracts/MenloToken.json')
-
-
+import TokenContractJSON from '../build-contracts/MenloToken.json'
 
 
 enum MetamaskStatus {
@@ -37,9 +35,10 @@ enum MetamaskStatus {
     Error = 'error'
 }
 
+
 type AccountChangeCallback = (svc : AccountService) => Promise<void>
 
-class AccountService {
+export default class AccountService {
 
     public ready: any
     public address: string | null

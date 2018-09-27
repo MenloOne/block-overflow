@@ -16,13 +16,16 @@
  */
 
 import ipfsAPI from 'ipfs-api'
-import promiseTimeout, { Timeout } from '../promiseTimeout'
-import HashUtils from '../HashUtils'
+import PromiseTimeout, { Timeout } from '../utils/PromiseTimeout'
+
 
 class RemoteIPFSStorage {
+
+    private ipfs : ipfs
+
     constructor() {
         // this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-        this.ipfs = ipfsAPI('ipfs.menlo.one', '443', {protocol: 'https'})
+        this.ipfs = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
     }
 
     async createMessage(message) {
@@ -30,9 +33,7 @@ class RemoteIPFSStorage {
             path: `/${message.offset}.json`,
             content: Buffer.from(JSON.stringify(message))
         }
-        const result = await this.ipfs.files.add([file], {
-            pin: true
-        })
+        const result = await this.ipfs.files.add([file], { pin: true })
         const hash = result[0].hash
 
         /*
@@ -58,16 +59,20 @@ class RemoteIPFSStorage {
         return hash
     }
 
+    async get(hash) : Promise<string> {
+        const files = await PromiseTimeout(10000, this.ipfs.files.get(hash))
+        return JSON.parse(files[0].content.toString('utf8'))
+    }
+
     async fillMessage(message) {
         console.log(`IPFS Files Get ${message.id}`)
         try {
-            let files = await promiseTimeout(10000, this.ipfs.files.get(message.id))
-            let ipfsMessage = JSON.parse(files[0].content.toString('utf8'))
+            const ipfsMessage = await this.get(message.id)
 
             Object.assign(message, ipfsMessage)
 
         } catch (e) {
-            if (typeof e === 'Timeout') {
+            if (e instanceof Timeout) {
                 // TODO: Kill outstanding connection
             }
             throw (e)
@@ -75,7 +80,7 @@ class RemoteIPFSStorage {
     }
 
     async pin(hash) {
-        let result = await this.ipfs.pin.add(hash)
+        const result = (await this.ipfs as any).pin.add(hash)
         if (result && result.length > 0) {
             return hash
         }
@@ -83,7 +88,7 @@ class RemoteIPFSStorage {
 
     async unpin(hash) {
         console.log(`Unpinning ${hash}`)
-        return this.ipfs.pin.rm(hash)
+        return (this.ipfs as any).pin.rm(hash)
     }
 }
 

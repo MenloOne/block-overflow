@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Blockies from 'react-blockies'
 
 import { AccountService, MetamaskStatus, withAcct } from '../services/AccountService'
-import ForumService from "../services/ForumService";
+import ForumService from '../services/ForumService'
+import Lottery from '../services/Lottery'
 
 import Message from './Message'
 import MessageForm from './MessageForm'
@@ -21,23 +22,15 @@ interface MessageBoardState {
     messages: any[],
     topFive: boolean,
     showCompose: boolean,
-    timeExtended: boolean,
-    endTimestamp: number,
-    priorLottery?: any,
-    currentLottery?: any
+    forum: ForumService,
+    lottery?: Lottery,
 }
 
 class MessageBoard extends React.Component<MessageBoardProps> {
 
     private ranks: string[]
 
-    state : MessageBoardState = {
-        messages: [],
-        topFive: false,
-        showCompose: true,
-        timeExtended: false,
-        endTimestamp: 0,
-    }
+    state : MessageBoardState 
 
     constructor(props: any, context: any) {
         super(props, context)
@@ -49,44 +42,49 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         this.claimWinnings = this.claimWinnings.bind(this)
         this.refreshLotteries = this.refreshLotteries.bind(this)
         this.refreshMessages = this.refreshMessages.bind(this)
+        
+        this.state = {
+            messages: [],
+            topFive: false,
+            showCompose: true,
+            forum: new ForumService(props.forum)
+        }
     }
 
     componentDidMount() {
-        this.props.forum.subscribeMessages('0x0', this.refreshMessages)
+        this.state.forum.subscribeMessages('0x0', this.refreshMessages)
         this.refreshMessages()
 
-        this.props.forum.subscribeLotteries(this.refreshLotteries)
+        this.state.forum.subscribeLotteries(this.refreshLotteries)
         this.refreshLotteries()
     }
 
     componentWillUnmount() {
-        this.props.forum.subscribeMessages('0x0', null)
-        this.props.forum.subscribeLotteries(null)
+        this.state.forum.subscribeMessages('0x0', null)
+        this.state.forum.subscribeLotteries(null)
     }
 
     componentWillReceiveProps(newProps) {
     }
 
     async refreshMessages() {
-        const messages = await this.props.forum.getChildrenMessages('0x0')
+        const messages = await this.state.forum.getChildrenMessages('0x0')
         this.setState({ messages })
     }
 
     async refreshLotteries() {
-        const svc = this.props.forum
-        const lotteries = await svc.getLotteries()
-        this.setState({
-            ...lotteries,
-            timeExtended: (lotteries.currentLottery.endTimeServer !== lotteries.currentLottery.endTime)})
+        const lottery = await this.state.forum.lottery
+        this.setState({ lottery })
     }
 
     claimWinnings() {
-        const lottery = this.state.priorLottery
-        lottery.claimWinnings()
+        if (this.state.lottery) {
+            this.state.lottery.claimWinnings()
+        }
     }
 
     onSubmitMessage(body) {
-        return this.props.forum.createMessage(body)
+        return this.state.forum.createMessage(body, null)
     }
 
     topFiveMessages() {
@@ -124,27 +122,27 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     renderLottery(lottery) {
         return (
             <div className='lottery-block right-side'>
-                <h4>{ lottery.name() } Lottery</h4>
+                <h4>Answers</h4>
 
                 { !lottery.hasEnded &&
                     <div>
-                        <div className='message'>TIME { this.state.timeExtended ? 'EXTENDED' : 'LEFT' }</div>
+                        <div className='message'>TIME LEFT</div>
                         <div className='time-left'>
-                            <CountdownTimer date={ new Date(this.state.currentLottery.endTime) }/>
+                            <CountdownTimer date={ new Date(lottery.endTime) }/>
                         </div>
                     </div>
                 }
-                { !(lottery.winners && lottery.winners.length > 0) &&
+                { !(lottery.winner) &&
                     <div className='message' style={{ top: '0.3em', textAlign: 'center' }}>
-                        TOP VOTED POSTERS WIN ONE TOKENS<br/>
+                        TOP VOTED ANSWER WINS { lottery.pool.toFixed(1) } TOKENS<br/>
                         NO VOTES YET...
                     </div>
                 }
-                { lottery.winners && lottery.winners.length > 0 &&
+                { lottery.winner &&
                     <span>
                     {  lottery.iWon && !lottery.claimed && <div className='message'>YOU WON!!!</div> }
-                    {  lottery.iWon &&  lottery.claimed && <div className='message'>YOU GOT TOKENS</div> }
-                    { !lottery.iWon && <div className='winners-message'>CURRENT WINNERS</div> }
+                    {  lottery.iWon &&  lottery.claimed && <div className='message'>TOKENS CLAIMED</div> }
+                    { !lottery.iWon && <div className='winners-message'>CURRENT WINNER</div> }
 
                     <div className='winners-block'>
                             <div className='winners'>
@@ -157,7 +155,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                                                 </div>
                                                 <div className='rank'>{ this.ranks[i] }</div>
                                                 <div className='tokens'>
-                                                    { Number(lottery.winnings(i)) === 0 ? <span>PAID<br/>OUT</span> : Number(lottery.winnings(i)).toFixed(1) }
+                                                    { Number(lottery.winnings(i)) === 0 ? <span>PAID<br/>OUT</span> : Number(lottery.pool).toFixed(1) }
                                                     { Number(lottery.winnings(i)) === 0 ? null : <span><br/>ONE</span> }
                                                 </div>
                                             </div>
@@ -167,7 +165,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                             </div>
                         {   lottery.iWon && !lottery.claimed &&
                             <div className='claim'>
-                                <button className='btn claim-btn' onClick={this.claimWinnings}>CLAIM { Number(lottery.totalWinnings()).toFixed(2) } ONE TOKENS</button>
+                                <button className='btn claim-btn' onClick={this.claimWinnings}>CLAIM { Number(lottery.pool).toFixed(1) } ONE TOKENS</button>
                             </div>
                         }
                         </div>
@@ -257,23 +255,8 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         )
     }
 
-    renderLotteries() {
-
-        const lotteries = [this.state.currentLottery, this.state.priorLottery]
-
-        return lotteries.map((lottery) => {
-            if (!lottery || !lottery.show()) { return null }
-
-            return (
-                <div key={lottery.type} className="lottery right-side-box white-bg">
-                    { this.renderLottery(lottery) }
-                </div>
-            )
-        })
-    }
-
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.props.forum.synced.isFulfilled())) {
+        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.state.forum.synced.isFulfilled())) {
             return (<li className='borderis'>
                 <div style={{ paddingBottom: '3em' }}>
                     Loading Discussion...
@@ -296,7 +279,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 <div key={index} className='row'>
                     <div className='col-12'>
                         <Message key={m.id}
-                                 forumService={this.props.forum}
+                                 forumService={this.state.forum}
                                  message={m}
                                  onChangeReplying={this.onChangeReplying}
                         />
@@ -340,7 +323,11 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 <div className="col-md-4">
                     <div className='right-side'>
                         {this.renderUserStats()}
-                        {this.renderLotteries()}
+                        {this.state.lottery &&
+                            <div className="lottery right-side-box white-bg">
+                                {this.renderLottery(this.state.lottery)}
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

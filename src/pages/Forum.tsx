@@ -2,10 +2,11 @@ import * as React from 'react'
 import TopNav from '../components/TopNav'
 import MessageBoard from '../messaging/MessageBoard'
 import ResponsiveEmbed from 'react-responsive-embed'
+import ForumService from '../services/ForumService'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../styles/app.scss'
 
+import '../styles/app.scss'
 import assets from '../assets'
 
 const arrowRight = require('../images/arrow-right.svg')
@@ -33,19 +34,28 @@ interface ForumProps {
     address: string
 }
 
+interface ForumState {
+    eth: number,
+    tokens: number
+    forum?: ForumService
+}
+
 
 class Forum extends React.Component<ForumProps> {
 
-    state = {
-        eth: 1,
-        tokens: 0,
-    }
+    state : ForumState
 
     constructor(props, context) {
         super(props, context)
 
         this.onEditEth = this.onEditEth.bind(this)
         this.onEditTokens = this.onEditTokens.bind(this)
+
+        this.state = {
+            eth: 1,
+            tokens: 0,
+            forum: new ForumService(props.address)
+        }
     }
 
     componentDidMount() {
