@@ -9,6 +9,7 @@ import router from './router'
 import Topics from './pages/Topics'
 import Forum from './pages/Forum'
 
+import "./App.scss"
 
 
 class Footer extends React.Component {
@@ -71,14 +72,14 @@ class App extends React.Component {
 
             router.resolve(this.loggedInRoutes, location)
                 .then(renderComponent)
-                .catch(error => router.resolve(this.loggedInRoutes, { ...location, error })
+                .catch(error => router.resolve({ ...this.loggedInRoutes, ...this.commonRoutes }, { ...location, error })
                     .then(renderComponent));
             return
         }
 
         this.setState({ wasLoggedIn: false })
 
-        router.resolve(this.loggedOutRoutes, location)
+        router.resolve({ ...this.loggedOutRoutes, ...this.commonRoutes }, location)
             .then(renderComponent)
             .catch(error => router.resolve(this.loggedOutRoutes, { ...location, error })
                 .then(renderComponent));

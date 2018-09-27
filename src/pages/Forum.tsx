@@ -6,7 +6,7 @@ import ForumService from '../services/ForumService'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import '../styles/app.scss'
+import '../App.scss'
 import assets from '../assets'
 
 const arrowRight = require('../images/arrow-right.svg')

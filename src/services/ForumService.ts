@@ -24,7 +24,7 @@ import HashUtils from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
-import TokenContract from'../build-contracts/MenloToken.json'
+import TokenContract from '../../node_modules/menlo-token/build/contracts/MenloToken.json'
 import ForumContract from '../build-contracts/MenloForum.json'
 import { MenloForum } from '../.contracts/MenloForum'
 import { MenloToken } from '../.contracts/MenloToken'

@@ -5,7 +5,7 @@ import TopNav from '../components/TopNav'
 import MessageBoard from '../messaging/MessageBoard'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../styles/app.scss'
+import '../App.scss'
 
 import assets from '../assets'
 

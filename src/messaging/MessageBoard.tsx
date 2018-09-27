@@ -10,7 +10,7 @@ import Message from './Message'
 import MessageForm from './MessageForm'
 import CountdownTimer from '../components/CountdownTimer'
 
-import '../styles/app.scss'
+import '../App.scss'
 
 
 interface MessageBoardProps {

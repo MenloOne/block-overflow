@@ -21,7 +21,7 @@ import Moment from 'react-moment'
 
 import MessageForm from './MessageForm'
 
-import '../styles/app.scss'
+import '../App.scss'
 import './Message.css'
 
 class Message extends React.Component {
