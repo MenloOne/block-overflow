@@ -83,27 +83,19 @@ export default class AccountService {
                 return
             }
 
-            if (!this.token) {
-                const TokenContract = await TruffleContract(TokenContractJSON)
-
-                await TokenContract.setProvider(web3.currentProvider)
-                TokenContract.defaults({ from: this.address })
-
-                this.token = await TokenContract.deployed()
-            }
-
-            if (this.status !== MetamaskStatus.Starting && this.status !== MetamaskStatus.Ok) {
-                this.refreshAccount( true, null)
-            }
-
             const account0 = accounts[0].toLowerCase()
             if (account0 !== this.address) {
+
+                if (this.status !== MetamaskStatus.Starting && this.status !== MetamaskStatus.Ok) {
+                    await this.refreshAccount( true, null)
+                    return
+                }
+
                 // The only time we ever want to load data from the chain history
                 // is when we receive a change in accounts - this happens anytime
                 // the page is initially loaded or if there is a change in the account info
                 // via a metamask interaction.
                 web3.eth.defaultAccount = account0
-
                 await this.refreshAccount( this.address !== null, account0 )
             }
 
@@ -120,6 +112,16 @@ export default class AccountService {
             }
 
             this.address = address
+
+            if (!this.token) {
+                const TokenContract = await TruffleContract(TokenContractJSON)
+
+                await TokenContract.setProvider(web3.currentProvider)
+                TokenContract.defaults({ from: this.address })
+
+                this.token = await TokenContract.deployed()
+            }
+
             this.avatar  = <Blockies seed={address} size={10} />
             this.getBalance()
             this.status = MetamaskStatus.Ok

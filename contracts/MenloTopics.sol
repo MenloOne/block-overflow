@@ -20,13 +20,14 @@ import "./MenloForum.sol";
 
 
 contract MenloTopicEvents {
-    event Topic(bytes32 _topicHash, address _forum);
+    event Topic(address _forum);
 }
 
 
 contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents, BytesDecode, Ownable, CanReclaimToken {
     struct ForumMetadata {
         bytes32 message;
+        bool    closed;
         uint256 payout;
         int32   votes;
         address winner;
@@ -37,6 +38,7 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
     mapping(address => uint256) public reputation;
     mapping(address => ForumMetadata) public forums;
 
+    uint32  public topicsCount;
     uint256 public topicCost;
 
 
@@ -63,9 +65,10 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
 
     function createForum(address _from, bytes32 _topicHash, uint256 _bounty, uint256 _length) private {
         MenloForum forum = new MenloForum( token, this, _from, _topicHash, 5 * 10**18, 0, _length);
-        forums[address(forum)] = ForumMetadata(_topicHash,0,0,0);
+        forums[address(forum)] = ForumMetadata(_topicHash,false,0,0,0);
         token.transfer(address(forum), _bounty);
-        emit Topic( _topicHash, address(forum));
+        topicsCount++;
+        emit Topic( address(forum));
     }
 
     function onTokenReceived(
@@ -93,6 +96,7 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
     }
 
     function onForumClosed(address _forum, uint256 _tokens, int32 _votes, address _winner) public {
+        forums[_forum].closed = true;
         forums[_forum].payout = _tokens;
         forums[_forum].votes  = _votes;
         forums[_forum].winner = _winner;

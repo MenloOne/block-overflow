@@ -67,7 +67,7 @@
         "id": 434,
         "nodeType": "ImportDirective",
         "scope": 1282,
-        "sourceUnit": 2796,
+        "sourceUnit": 2808,
         "src": "628:46:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -89,7 +89,7 @@
         "id": 436,
         "nodeType": "ImportDirective",
         "scope": 1282,
-        "sourceUnit": 1583,
+        "sourceUnit": 1595,
         "src": "703:24:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -520,10 +520,10 @@
               "id": 472,
               "name": "MenloTokenReceiver",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2795,
+              "referencedDeclaration": 2807,
               "src": "1121:18:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_MenloTokenReceiver_$2795",
+                "typeIdentifier": "t_contract$_MenloTokenReceiver_$2807",
                 "typeString": "contract MenloTokenReceiver"
               }
             },
@@ -574,10 +574,10 @@
               "id": 478,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1760,
+              "referencedDeclaration": 1772,
               "src": "1172:7:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$1760",
+                "typeIdentifier": "t_contract$_Ownable_$1772",
                 "typeString": "contract Ownable"
               }
             },
@@ -592,10 +592,10 @@
               "id": 480,
               "name": "CanReclaimToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1845,
+              "referencedDeclaration": 1857,
               "src": "1181:15:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_CanReclaimToken_$1845",
+                "typeIdentifier": "t_contract$_CanReclaimToken_$1857",
                 "typeString": "contract CanReclaimToken"
               }
             },
@@ -607,9 +607,9 @@
         "contractDependencies": [
           431,
           459,
-          1760,
-          1845,
-          2795
+          1772,
+          1857,
+          2807
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -617,11 +617,11 @@
         "id": 1281,
         "linearizedBaseContracts": [
           1281,
-          1845,
-          1760,
+          1857,
+          1772,
           431,
           459,
-          2795
+          2807
         ],
         "name": "MenloForum",
         "nodeType": "ContractDefinition",
@@ -1680,7 +1680,7 @@
                         "name": "now",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2812,
+                        "referencedDeclaration": 2824,
                         "src": "2405:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -1750,7 +1750,7 @@
                           "name": "this",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2857,
+                          "referencedDeclaration": 2869,
                           "src": "2455:4:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -1771,10 +1771,10 @@
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2755,
+                          "referencedDeclaration": 2767,
                           "src": "2439:5:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -1785,7 +1785,7 @@
                         "lValueRequested": false,
                         "memberName": "balanceOf",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1966,
+                        "referencedDeclaration": 1978,
                         "src": "2439:15:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -1835,7 +1835,7 @@
                     "referencedDeclaration": 530,
                     "src": "2033:6:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   }
@@ -1847,10 +1847,10 @@
                   "name": "MenloTokenReceiver",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2795,
+                  "referencedDeclaration": 2807,
                   "src": "2014:18:1",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_MenloTokenReceiver_$2795_$",
+                    "typeIdentifier": "t_type$_t_contract$_MenloTokenReceiver_$2807_$",
                     "typeString": "type(contract MenloTokenReceiver)"
                   }
                 },
@@ -1874,7 +1874,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2753",
+                    "typeIdentifier": "t_contract$_MenloToken_$2765",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
@@ -1882,10 +1882,10 @@
                     "id": 529,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2753,
+                    "referencedDeclaration": 2765,
                     "src": "1861:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -2486,7 +2486,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2857,
+                            "referencedDeclaration": 2869,
                             "src": "2860:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -2507,10 +2507,10 @@
                             "name": "token",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2755,
+                            "referencedDeclaration": 2767,
                             "src": "2844:5:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_MenloToken_$2753",
+                              "typeIdentifier": "t_contract$_MenloToken_$2765",
                               "typeString": "contract MenloToken"
                             }
                           },
@@ -2521,7 +2521,7 @@
                           "lValueRequested": false,
                           "memberName": "balanceOf",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 1966,
+                          "referencedDeclaration": 1978,
                           "src": "2844:15:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -3069,10 +3069,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "3203:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -3342,7 +3342,7 @@
                         "name": "now",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2812,
+                        "referencedDeclaration": 2824,
                         "src": "3406:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -5528,7 +5528,7 @@
                         "name": "now",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2812,
+                        "referencedDeclaration": 2824,
                         "src": "4826:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -5748,7 +5748,7 @@
                       "name": "now",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2812,
+                      "referencedDeclaration": 2824,
                       "src": "4974:3:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -5890,7 +5890,7 @@
                               "name": "this",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2857,
+                              "referencedDeclaration": 2869,
                               "src": "5173:4:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -6038,7 +6038,7 @@
                               "name": "this",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2857,
+                              "referencedDeclaration": 2869,
                               "src": "5102:4:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -6383,10 +6383,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5307:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -6505,10 +6505,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5405:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -6810,10 +6810,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5639:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -6861,7 +6861,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2810,
+                            "referencedDeclaration": 2822,
                             "src": "5698:3:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -6954,10 +6954,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5690:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -7070,10 +7070,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5756:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -7110,7 +7110,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2810,
+                          "referencedDeclaration": 2822,
                           "src": "5826:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -7162,10 +7162,10 @@
                         "name": "token",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2755,
+                        "referencedDeclaration": 2767,
                         "src": "5811:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -7176,7 +7176,7 @@
                       "lValueRequested": false,
                       "memberName": "transfer",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2398,
+                      "referencedDeclaration": 2410,
                       "src": "5811:14:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -7213,7 +7213,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2810,
+                          "referencedDeclaration": 2822,
                           "src": "5865:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -7445,7 +7445,7 @@
                           "name": "this",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2857,
+                          "referencedDeclaration": 2869,
                           "src": "6142:4:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -7466,10 +7466,10 @@
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2755,
+                          "referencedDeclaration": 2767,
                           "src": "6126:5:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -7480,7 +7480,7 @@
                         "lValueRequested": false,
                         "memberName": "balanceOf",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1966,
+                        "referencedDeclaration": 1978,
                         "src": "6126:15:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -7670,10 +7670,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              2813,
-                              2814
+                              2825,
+                              2826
                             ],
-                            "referencedDeclaration": 2814,
+                            "referencedDeclaration": 2826,
                             "src": "6202:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -8240,7 +8240,7 @@
                           "name": "ONE_RECEIVED",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2768,
+                          "referencedDeclaration": 2780,
                           "src": "6532:12:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes4",
@@ -8414,10 +8414,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              2813,
-                              2814
+                              2825,
+                              2826
                             ],
-                            "referencedDeclaration": 2814,
+                            "referencedDeclaration": 2826,
                             "src": "6611:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -8984,7 +8984,7 @@
                           "name": "ONE_RECEIVED",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2768,
+                          "referencedDeclaration": 2780,
                           "src": "6943:12:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes4",
@@ -9158,10 +9158,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              2813,
-                              2814
+                              2825,
+                              2826
                             ],
-                            "referencedDeclaration": 2814,
+                            "referencedDeclaration": 2826,
                             "src": "7018:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -9614,7 +9614,7 @@
                           "name": "ONE_RECEIVED",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2768,
+                          "referencedDeclaration": 2780,
                           "src": "7334:12:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes4",
@@ -9670,7 +9670,7 @@
                   "name": "onlyTokenContract",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2781,
+                  "referencedDeclaration": 2793,
                   "src": "6026:17:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -9850,7 +9850,7 @@
             "scope": 1281,
             "src": "5895:1487:1",
             "stateMutability": "nonpayable",
-            "superFunction": 2794,
+            "superFunction": 2806,
             "visibility": "public"
           },
           {
@@ -9866,7 +9866,7 @@
                       {
                         "argumentTypes": null,
                         "commonType": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         },
                         "id": 1204,
@@ -9888,7 +9888,7 @@
                               "referencedDeclaration": 1192,
                               "src": "7574:9:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Redeemer_$1582",
+                                "typeIdentifier": "t_contract$_Redeemer_$1594",
                                 "typeString": "contract Redeemer"
                               }
                             },
@@ -9899,10 +9899,10 @@
                             "lValueRequested": false,
                             "memberName": "from",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1581,
+                            "referencedDeclaration": 1593,
                             "src": "7574:14:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2753_$",
+                              "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2765_$",
                               "typeString": "function () view external returns (contract MenloToken)"
                             }
                           },
@@ -9916,7 +9916,7 @@
                           "nodeType": "FunctionCall",
                           "src": "7574:16:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -9928,10 +9928,10 @@
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2755,
+                          "referencedDeclaration": 2767,
                           "src": "7594:5:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -9953,10 +9953,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2813,
+                      "referencedDeclaration": 2825,
                       "src": "7566:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -9994,7 +9994,7 @@
                         "referencedDeclaration": 1192,
                         "src": "7625:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -10007,7 +10007,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2857,
+                            "referencedDeclaration": 2869,
                             "src": "7652:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -10028,10 +10028,10 @@
                             "name": "token",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2755,
+                            "referencedDeclaration": 2767,
                             "src": "7636:5:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_MenloToken_$2753",
+                              "typeIdentifier": "t_contract$_MenloToken_$2765",
                               "typeString": "contract MenloToken"
                             }
                           },
@@ -10042,7 +10042,7 @@
                           "lValueRequested": false,
                           "memberName": "balanceOf",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 1966,
+                          "referencedDeclaration": 1978,
                           "src": "7636:15:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -10067,7 +10067,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         },
                         {
@@ -10081,10 +10081,10 @@
                         "name": "token",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2755,
+                        "referencedDeclaration": 2767,
                         "src": "7611:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -10095,7 +10095,7 @@
                       "lValueRequested": false,
                       "memberName": "approve",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2437,
+                      "referencedDeclaration": 2449,
                       "src": "7611:13:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -10135,7 +10135,7 @@
                         "referencedDeclaration": 1192,
                         "src": "7668:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -10146,7 +10146,7 @@
                       "lValueRequested": false,
                       "memberName": "redeem",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1568,
+                      "referencedDeclaration": 1580,
                       "src": "7668:16:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
@@ -10186,7 +10186,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       },
                       "typeName": {
@@ -10194,10 +10194,10 @@
                         "id": 1222,
                         "name": "MenloToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 2753,
+                        "referencedDeclaration": 2765,
                         "src": "7696:10:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -10220,7 +10220,7 @@
                         "referencedDeclaration": 1192,
                         "src": "7712:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -10231,10 +10231,10 @@
                       "lValueRequested": false,
                       "memberName": "to",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1576,
+                      "referencedDeclaration": 1588,
                       "src": "7712:12:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2753_$",
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2765_$",
                         "typeString": "function () view external returns (contract MenloToken)"
                       }
                     },
@@ -10248,7 +10248,7 @@
                     "nodeType": "FunctionCall",
                     "src": "7712:14:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -10269,10 +10269,10 @@
                       "name": "token",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2755,
+                      "referencedDeclaration": 2767,
                       "src": "7736:5:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       }
                     },
@@ -10287,13 +10287,13 @@
                       "referencedDeclaration": 1223,
                       "src": "7744:2:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       }
                     },
                     "src": "7736:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -10311,7 +10311,7 @@
                     "referencedDeclaration": 1223,
                     "src": "7763:2:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -10337,7 +10337,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1708,
+                  "referencedDeclaration": 1720,
                   "src": "7525:9:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -10364,7 +10364,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_Redeemer_$1582",
+                    "typeIdentifier": "t_contract$_Redeemer_$1594",
                     "typeString": "contract Redeemer"
                   },
                   "typeName": {
@@ -10372,10 +10372,10 @@
                     "id": 1191,
                     "name": "Redeemer",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1582,
+                    "referencedDeclaration": 1594,
                     "src": "7496:8:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Redeemer_$1582",
+                      "typeIdentifier": "t_contract$_Redeemer_$1594",
                       "typeString": "contract Redeemer"
                     }
                   },
@@ -10400,7 +10400,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2753",
+                    "typeIdentifier": "t_contract$_MenloToken_$2765",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
@@ -10408,10 +10408,10 @@
                     "id": 1196,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2753,
+                    "referencedDeclaration": 2765,
                     "src": "7544:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -10440,7 +10440,7 @@
                       {
                         "argumentTypes": null,
                         "commonType": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         },
                         "id": 1249,
@@ -10462,7 +10462,7 @@
                               "referencedDeclaration": 1237,
                               "src": "7870:9:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Redeemer_$1582",
+                                "typeIdentifier": "t_contract$_Redeemer_$1594",
                                 "typeString": "contract Redeemer"
                               }
                             },
@@ -10473,10 +10473,10 @@
                             "lValueRequested": false,
                             "memberName": "to",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1576,
+                            "referencedDeclaration": 1588,
                             "src": "7870:12:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2753_$",
+                              "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2765_$",
                               "typeString": "function () view external returns (contract MenloToken)"
                             }
                           },
@@ -10490,7 +10490,7 @@
                           "nodeType": "FunctionCall",
                           "src": "7870:14:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -10502,10 +10502,10 @@
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2755,
+                          "referencedDeclaration": 2767,
                           "src": "7888:5:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -10527,10 +10527,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2813,
+                      "referencedDeclaration": 2825,
                       "src": "7862:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -10568,7 +10568,7 @@
                         "referencedDeclaration": 1237,
                         "src": "7919:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -10581,7 +10581,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2857,
+                            "referencedDeclaration": 2869,
                             "src": "7946:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -10602,10 +10602,10 @@
                             "name": "token",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2755,
+                            "referencedDeclaration": 2767,
                             "src": "7930:5:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_MenloToken_$2753",
+                              "typeIdentifier": "t_contract$_MenloToken_$2765",
                               "typeString": "contract MenloToken"
                             }
                           },
@@ -10616,7 +10616,7 @@
                           "lValueRequested": false,
                           "memberName": "balanceOf",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 1966,
+                          "referencedDeclaration": 1978,
                           "src": "7930:15:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -10641,7 +10641,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         },
                         {
@@ -10655,10 +10655,10 @@
                         "name": "token",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2755,
+                        "referencedDeclaration": 2767,
                         "src": "7905:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -10669,7 +10669,7 @@
                       "lValueRequested": false,
                       "memberName": "approve",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2437,
+                      "referencedDeclaration": 2449,
                       "src": "7905:13:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -10709,7 +10709,7 @@
                         "referencedDeclaration": 1237,
                         "src": "7962:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -10720,7 +10720,7 @@
                       "lValueRequested": false,
                       "memberName": "undo",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1571,
+                      "referencedDeclaration": 1583,
                       "src": "7962:14:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
@@ -10760,7 +10760,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       },
                       "typeName": {
@@ -10768,10 +10768,10 @@
                         "id": 1267,
                         "name": "MenloToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 2753,
+                        "referencedDeclaration": 2765,
                         "src": "7988:10:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -10794,7 +10794,7 @@
                         "referencedDeclaration": 1237,
                         "src": "8006:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -10805,10 +10805,10 @@
                       "lValueRequested": false,
                       "memberName": "from",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1581,
+                      "referencedDeclaration": 1593,
                       "src": "8006:14:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2753_$",
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2765_$",
                         "typeString": "function () view external returns (contract MenloToken)"
                       }
                     },
@@ -10822,7 +10822,7 @@
                     "nodeType": "FunctionCall",
                     "src": "8006:16:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -10843,10 +10843,10 @@
                       "name": "token",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2755,
+                      "referencedDeclaration": 2767,
                       "src": "8032:5:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       }
                     },
@@ -10861,13 +10861,13 @@
                       "referencedDeclaration": 1268,
                       "src": "8040:4:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       }
                     },
                     "src": "8032:12:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -10885,7 +10885,7 @@
                     "referencedDeclaration": 1268,
                     "src": "8061:4:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -10911,7 +10911,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1708,
+                  "referencedDeclaration": 1720,
                   "src": "7821:9:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -10938,7 +10938,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_Redeemer_$1582",
+                    "typeIdentifier": "t_contract$_Redeemer_$1594",
                     "typeString": "contract Redeemer"
                   },
                   "typeName": {
@@ -10946,10 +10946,10 @@
                     "id": 1236,
                     "name": "Redeemer",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1582,
+                    "referencedDeclaration": 1594,
                     "src": "7792:8:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Redeemer_$1582",
+                      "typeIdentifier": "t_contract$_Redeemer_$1594",
                       "typeString": "contract Redeemer"
                     }
                   },
@@ -10974,7 +10974,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2753",
+                    "typeIdentifier": "t_contract$_MenloToken_$2765",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
@@ -10982,10 +10982,10 @@
                     "id": 1241,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2753,
+                    "referencedDeclaration": 2765,
                     "src": "7840:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -11041,7 +11041,7 @@
         "id": 434,
         "nodeType": "ImportDirective",
         "scope": 1282,
-        "sourceUnit": 2796,
+        "sourceUnit": 2808,
         "src": "628:46:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -11063,7 +11063,7 @@
         "id": 436,
         "nodeType": "ImportDirective",
         "scope": 1282,
-        "sourceUnit": 1583,
+        "sourceUnit": 1595,
         "src": "703:24:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -11494,10 +11494,10 @@
               "id": 472,
               "name": "MenloTokenReceiver",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2795,
+              "referencedDeclaration": 2807,
               "src": "1121:18:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_MenloTokenReceiver_$2795",
+                "typeIdentifier": "t_contract$_MenloTokenReceiver_$2807",
                 "typeString": "contract MenloTokenReceiver"
               }
             },
@@ -11548,10 +11548,10 @@
               "id": 478,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1760,
+              "referencedDeclaration": 1772,
               "src": "1172:7:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$1760",
+                "typeIdentifier": "t_contract$_Ownable_$1772",
                 "typeString": "contract Ownable"
               }
             },
@@ -11566,10 +11566,10 @@
               "id": 480,
               "name": "CanReclaimToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1845,
+              "referencedDeclaration": 1857,
               "src": "1181:15:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_CanReclaimToken_$1845",
+                "typeIdentifier": "t_contract$_CanReclaimToken_$1857",
                 "typeString": "contract CanReclaimToken"
               }
             },
@@ -11581,9 +11581,9 @@
         "contractDependencies": [
           431,
           459,
-          1760,
-          1845,
-          2795
+          1772,
+          1857,
+          2807
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -11591,11 +11591,11 @@
         "id": 1281,
         "linearizedBaseContracts": [
           1281,
-          1845,
-          1760,
+          1857,
+          1772,
           431,
           459,
-          2795
+          2807
         ],
         "name": "MenloForum",
         "nodeType": "ContractDefinition",
@@ -12654,7 +12654,7 @@
                         "name": "now",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2812,
+                        "referencedDeclaration": 2824,
                         "src": "2405:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -12724,7 +12724,7 @@
                           "name": "this",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2857,
+                          "referencedDeclaration": 2869,
                           "src": "2455:4:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -12745,10 +12745,10 @@
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2755,
+                          "referencedDeclaration": 2767,
                           "src": "2439:5:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -12759,7 +12759,7 @@
                         "lValueRequested": false,
                         "memberName": "balanceOf",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1966,
+                        "referencedDeclaration": 1978,
                         "src": "2439:15:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -12809,7 +12809,7 @@
                     "referencedDeclaration": 530,
                     "src": "2033:6:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   }
@@ -12821,10 +12821,10 @@
                   "name": "MenloTokenReceiver",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2795,
+                  "referencedDeclaration": 2807,
                   "src": "2014:18:1",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_type$_t_contract$_MenloTokenReceiver_$2795_$",
+                    "typeIdentifier": "t_type$_t_contract$_MenloTokenReceiver_$2807_$",
                     "typeString": "type(contract MenloTokenReceiver)"
                   }
                 },
@@ -12848,7 +12848,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2753",
+                    "typeIdentifier": "t_contract$_MenloToken_$2765",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
@@ -12856,10 +12856,10 @@
                     "id": 529,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2753,
+                    "referencedDeclaration": 2765,
                     "src": "1861:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -13460,7 +13460,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2857,
+                            "referencedDeclaration": 2869,
                             "src": "2860:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -13481,10 +13481,10 @@
                             "name": "token",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2755,
+                            "referencedDeclaration": 2767,
                             "src": "2844:5:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_MenloToken_$2753",
+                              "typeIdentifier": "t_contract$_MenloToken_$2765",
                               "typeString": "contract MenloToken"
                             }
                           },
@@ -13495,7 +13495,7 @@
                           "lValueRequested": false,
                           "memberName": "balanceOf",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 1966,
+                          "referencedDeclaration": 1978,
                           "src": "2844:15:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -14043,10 +14043,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "3203:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -14316,7 +14316,7 @@
                         "name": "now",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2812,
+                        "referencedDeclaration": 2824,
                         "src": "3406:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -16502,7 +16502,7 @@
                         "name": "now",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2812,
+                        "referencedDeclaration": 2824,
                         "src": "4826:3:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -16722,7 +16722,7 @@
                       "name": "now",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2812,
+                      "referencedDeclaration": 2824,
                       "src": "4974:3:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -16864,7 +16864,7 @@
                               "name": "this",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2857,
+                              "referencedDeclaration": 2869,
                               "src": "5173:4:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -17012,7 +17012,7 @@
                               "name": "this",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2857,
+                              "referencedDeclaration": 2869,
                               "src": "5102:4:1",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -17357,10 +17357,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5307:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -17479,10 +17479,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5405:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -17784,10 +17784,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5639:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -17835,7 +17835,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2810,
+                            "referencedDeclaration": 2822,
                             "src": "5698:3:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -17928,10 +17928,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5690:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -18044,10 +18044,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2814,
+                      "referencedDeclaration": 2826,
                       "src": "5756:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -18084,7 +18084,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2810,
+                          "referencedDeclaration": 2822,
                           "src": "5826:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -18136,10 +18136,10 @@
                         "name": "token",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2755,
+                        "referencedDeclaration": 2767,
                         "src": "5811:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -18150,7 +18150,7 @@
                       "lValueRequested": false,
                       "memberName": "transfer",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2398,
+                      "referencedDeclaration": 2410,
                       "src": "5811:14:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -18187,7 +18187,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2810,
+                          "referencedDeclaration": 2822,
                           "src": "5865:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -18419,7 +18419,7 @@
                           "name": "this",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2857,
+                          "referencedDeclaration": 2869,
                           "src": "6142:4:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -18440,10 +18440,10 @@
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2755,
+                          "referencedDeclaration": 2767,
                           "src": "6126:5:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -18454,7 +18454,7 @@
                         "lValueRequested": false,
                         "memberName": "balanceOf",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 1966,
+                        "referencedDeclaration": 1978,
                         "src": "6126:15:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -18644,10 +18644,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              2813,
-                              2814
+                              2825,
+                              2826
                             ],
-                            "referencedDeclaration": 2814,
+                            "referencedDeclaration": 2826,
                             "src": "6202:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -19214,7 +19214,7 @@
                           "name": "ONE_RECEIVED",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2768,
+                          "referencedDeclaration": 2780,
                           "src": "6532:12:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes4",
@@ -19388,10 +19388,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              2813,
-                              2814
+                              2825,
+                              2826
                             ],
-                            "referencedDeclaration": 2814,
+                            "referencedDeclaration": 2826,
                             "src": "6611:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -19958,7 +19958,7 @@
                           "name": "ONE_RECEIVED",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2768,
+                          "referencedDeclaration": 2780,
                           "src": "6943:12:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes4",
@@ -20132,10 +20132,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              2813,
-                              2814
+                              2825,
+                              2826
                             ],
-                            "referencedDeclaration": 2814,
+                            "referencedDeclaration": 2826,
                             "src": "7018:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -20588,7 +20588,7 @@
                           "name": "ONE_RECEIVED",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2768,
+                          "referencedDeclaration": 2780,
                           "src": "7334:12:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bytes4",
@@ -20644,7 +20644,7 @@
                   "name": "onlyTokenContract",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 2781,
+                  "referencedDeclaration": 2793,
                   "src": "6026:17:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -20824,7 +20824,7 @@
             "scope": 1281,
             "src": "5895:1487:1",
             "stateMutability": "nonpayable",
-            "superFunction": 2794,
+            "superFunction": 2806,
             "visibility": "public"
           },
           {
@@ -20840,7 +20840,7 @@
                       {
                         "argumentTypes": null,
                         "commonType": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         },
                         "id": 1204,
@@ -20862,7 +20862,7 @@
                               "referencedDeclaration": 1192,
                               "src": "7574:9:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Redeemer_$1582",
+                                "typeIdentifier": "t_contract$_Redeemer_$1594",
                                 "typeString": "contract Redeemer"
                               }
                             },
@@ -20873,10 +20873,10 @@
                             "lValueRequested": false,
                             "memberName": "from",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1581,
+                            "referencedDeclaration": 1593,
                             "src": "7574:14:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2753_$",
+                              "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2765_$",
                               "typeString": "function () view external returns (contract MenloToken)"
                             }
                           },
@@ -20890,7 +20890,7 @@
                           "nodeType": "FunctionCall",
                           "src": "7574:16:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -20902,10 +20902,10 @@
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2755,
+                          "referencedDeclaration": 2767,
                           "src": "7594:5:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -20927,10 +20927,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2813,
+                      "referencedDeclaration": 2825,
                       "src": "7566:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -20968,7 +20968,7 @@
                         "referencedDeclaration": 1192,
                         "src": "7625:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -20981,7 +20981,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2857,
+                            "referencedDeclaration": 2869,
                             "src": "7652:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -21002,10 +21002,10 @@
                             "name": "token",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2755,
+                            "referencedDeclaration": 2767,
                             "src": "7636:5:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_MenloToken_$2753",
+                              "typeIdentifier": "t_contract$_MenloToken_$2765",
                               "typeString": "contract MenloToken"
                             }
                           },
@@ -21016,7 +21016,7 @@
                           "lValueRequested": false,
                           "memberName": "balanceOf",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 1966,
+                          "referencedDeclaration": 1978,
                           "src": "7636:15:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -21041,7 +21041,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         },
                         {
@@ -21055,10 +21055,10 @@
                         "name": "token",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2755,
+                        "referencedDeclaration": 2767,
                         "src": "7611:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -21069,7 +21069,7 @@
                       "lValueRequested": false,
                       "memberName": "approve",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2437,
+                      "referencedDeclaration": 2449,
                       "src": "7611:13:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -21109,7 +21109,7 @@
                         "referencedDeclaration": 1192,
                         "src": "7668:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -21120,7 +21120,7 @@
                       "lValueRequested": false,
                       "memberName": "redeem",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1568,
+                      "referencedDeclaration": 1580,
                       "src": "7668:16:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
@@ -21160,7 +21160,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       },
                       "typeName": {
@@ -21168,10 +21168,10 @@
                         "id": 1222,
                         "name": "MenloToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 2753,
+                        "referencedDeclaration": 2765,
                         "src": "7696:10:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -21194,7 +21194,7 @@
                         "referencedDeclaration": 1192,
                         "src": "7712:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -21205,10 +21205,10 @@
                       "lValueRequested": false,
                       "memberName": "to",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1576,
+                      "referencedDeclaration": 1588,
                       "src": "7712:12:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2753_$",
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2765_$",
                         "typeString": "function () view external returns (contract MenloToken)"
                       }
                     },
@@ -21222,7 +21222,7 @@
                     "nodeType": "FunctionCall",
                     "src": "7712:14:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -21243,10 +21243,10 @@
                       "name": "token",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2755,
+                      "referencedDeclaration": 2767,
                       "src": "7736:5:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       }
                     },
@@ -21261,13 +21261,13 @@
                       "referencedDeclaration": 1223,
                       "src": "7744:2:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       }
                     },
                     "src": "7736:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -21285,7 +21285,7 @@
                     "referencedDeclaration": 1223,
                     "src": "7763:2:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -21311,7 +21311,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1708,
+                  "referencedDeclaration": 1720,
                   "src": "7525:9:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -21338,7 +21338,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_Redeemer_$1582",
+                    "typeIdentifier": "t_contract$_Redeemer_$1594",
                     "typeString": "contract Redeemer"
                   },
                   "typeName": {
@@ -21346,10 +21346,10 @@
                     "id": 1191,
                     "name": "Redeemer",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1582,
+                    "referencedDeclaration": 1594,
                     "src": "7496:8:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Redeemer_$1582",
+                      "typeIdentifier": "t_contract$_Redeemer_$1594",
                       "typeString": "contract Redeemer"
                     }
                   },
@@ -21374,7 +21374,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2753",
+                    "typeIdentifier": "t_contract$_MenloToken_$2765",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
@@ -21382,10 +21382,10 @@
                     "id": 1196,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2753,
+                    "referencedDeclaration": 2765,
                     "src": "7544:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -21414,7 +21414,7 @@
                       {
                         "argumentTypes": null,
                         "commonType": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         },
                         "id": 1249,
@@ -21436,7 +21436,7 @@
                               "referencedDeclaration": 1237,
                               "src": "7870:9:1",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_Redeemer_$1582",
+                                "typeIdentifier": "t_contract$_Redeemer_$1594",
                                 "typeString": "contract Redeemer"
                               }
                             },
@@ -21447,10 +21447,10 @@
                             "lValueRequested": false,
                             "memberName": "to",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 1576,
+                            "referencedDeclaration": 1588,
                             "src": "7870:12:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2753_$",
+                              "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2765_$",
                               "typeString": "function () view external returns (contract MenloToken)"
                             }
                           },
@@ -21464,7 +21464,7 @@
                           "nodeType": "FunctionCall",
                           "src": "7870:14:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -21476,10 +21476,10 @@
                           "name": "token",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2755,
+                          "referencedDeclaration": 2767,
                           "src": "7888:5:1",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_MenloToken_$2753",
+                            "typeIdentifier": "t_contract$_MenloToken_$2765",
                             "typeString": "contract MenloToken"
                           }
                         },
@@ -21501,10 +21501,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2813,
-                        2814
+                        2825,
+                        2826
                       ],
-                      "referencedDeclaration": 2813,
+                      "referencedDeclaration": 2825,
                       "src": "7862:7:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -21542,7 +21542,7 @@
                         "referencedDeclaration": 1237,
                         "src": "7919:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -21555,7 +21555,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2857,
+                            "referencedDeclaration": 2869,
                             "src": "7946:4:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_MenloForum_$1281",
@@ -21576,10 +21576,10 @@
                             "name": "token",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2755,
+                            "referencedDeclaration": 2767,
                             "src": "7930:5:1",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_MenloToken_$2753",
+                              "typeIdentifier": "t_contract$_MenloToken_$2765",
                               "typeString": "contract MenloToken"
                             }
                           },
@@ -21590,7 +21590,7 @@
                           "lValueRequested": false,
                           "memberName": "balanceOf",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 1966,
+                          "referencedDeclaration": 1978,
                           "src": "7930:15:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
@@ -21615,7 +21615,7 @@
                     "expression": {
                       "argumentTypes": [
                         {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         },
                         {
@@ -21629,10 +21629,10 @@
                         "name": "token",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2755,
+                        "referencedDeclaration": 2767,
                         "src": "7905:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -21643,7 +21643,7 @@
                       "lValueRequested": false,
                       "memberName": "approve",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2437,
+                      "referencedDeclaration": 2449,
                       "src": "7905:13:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -21683,7 +21683,7 @@
                         "referencedDeclaration": 1237,
                         "src": "7962:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -21694,7 +21694,7 @@
                       "lValueRequested": false,
                       "memberName": "undo",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1571,
+                      "referencedDeclaration": 1583,
                       "src": "7962:14:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$__$returns$__$",
@@ -21734,7 +21734,7 @@
                       "stateVariable": false,
                       "storageLocation": "default",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       },
                       "typeName": {
@@ -21742,10 +21742,10 @@
                         "id": 1267,
                         "name": "MenloToken",
                         "nodeType": "UserDefinedTypeName",
-                        "referencedDeclaration": 2753,
+                        "referencedDeclaration": 2765,
                         "src": "7988:10:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2753",
+                          "typeIdentifier": "t_contract$_MenloToken_$2765",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -21768,7 +21768,7 @@
                         "referencedDeclaration": 1237,
                         "src": "8006:9:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_Redeemer_$1582",
+                          "typeIdentifier": "t_contract$_Redeemer_$1594",
                           "typeString": "contract Redeemer"
                         }
                       },
@@ -21779,10 +21779,10 @@
                       "lValueRequested": false,
                       "memberName": "from",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1581,
+                      "referencedDeclaration": 1593,
                       "src": "8006:14:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2753_$",
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_contract$_MenloToken_$2765_$",
                         "typeString": "function () view external returns (contract MenloToken)"
                       }
                     },
@@ -21796,7 +21796,7 @@
                     "nodeType": "FunctionCall",
                     "src": "8006:16:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -21817,10 +21817,10 @@
                       "name": "token",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2755,
+                      "referencedDeclaration": 2767,
                       "src": "8032:5:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       }
                     },
@@ -21835,13 +21835,13 @@
                       "referencedDeclaration": 1268,
                       "src": "8040:4:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2753",
+                        "typeIdentifier": "t_contract$_MenloToken_$2765",
                         "typeString": "contract MenloToken"
                       }
                     },
                     "src": "8032:12:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -21859,7 +21859,7 @@
                     "referencedDeclaration": 1268,
                     "src": "8061:4:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -21885,7 +21885,7 @@
                   "name": "onlyOwner",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 1708,
+                  "referencedDeclaration": 1720,
                   "src": "7821:9:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
@@ -21912,7 +21912,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_Redeemer_$1582",
+                    "typeIdentifier": "t_contract$_Redeemer_$1594",
                     "typeString": "contract Redeemer"
                   },
                   "typeName": {
@@ -21920,10 +21920,10 @@
                     "id": 1236,
                     "name": "Redeemer",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 1582,
+                    "referencedDeclaration": 1594,
                     "src": "7792:8:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_Redeemer_$1582",
+                      "typeIdentifier": "t_contract$_Redeemer_$1594",
                       "typeString": "contract Redeemer"
                     }
                   },
@@ -21948,7 +21948,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2753",
+                    "typeIdentifier": "t_contract$_MenloToken_$2765",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
@@ -21956,10 +21956,10 @@
                     "id": 1241,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2753,
+                    "referencedDeclaration": 2765,
                     "src": "7840:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2753",
+                      "typeIdentifier": "t_contract$_MenloToken_$2765",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -21988,5 +21988,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-09-27T23:55:51.127Z"
+  "updatedAt": "2018-09-28T16:31:43.514Z"
 }

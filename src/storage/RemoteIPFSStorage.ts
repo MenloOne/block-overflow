@@ -17,7 +17,26 @@
 
 import ipfsAPI from 'ipfs-api'
 import PromiseTimeout, { Timeout } from '../utils/PromiseTimeout'
+import Message from "../services/Message";
 
+
+export class IPFSMessage {
+    version: number
+    offset:  number
+    topic:   number
+    parent:  string
+    author:  string
+    date:    number
+    body:    string
+}
+
+export class IPFSTopic {
+    version: number
+    offset:  number
+    author:  string
+    date:    number
+    body:    string
+}
 
 class RemoteIPFSStorage {
 
@@ -28,9 +47,9 @@ class RemoteIPFSStorage {
         this.ipfs = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
     }
 
-    async createMessage(message) {
+    async createMessage(message : IPFSMessage) {
         const file = {
-            path: `/${message.offset}.json`,
+            path: `/${message.topic}/${message.offset}.json`,
             content: Buffer.from(JSON.stringify(message))
         }
         const result = await this.ipfs.files.add([file], { pin: true })
@@ -59,12 +78,43 @@ class RemoteIPFSStorage {
         return hash
     }
 
-    async get(hash) : Promise<string> {
+    async createTopic(topic : IPFSTopic) {
+        const file = {
+            path: `/${topic.offset}/Topic.json`,
+            content: Buffer.from(JSON.stringify(topic))
+        }
+        const result = await this.ipfs.files.add([file], { pin: true })
+        const hash = result[0].hash
+
+        /*
+        console.log(`Created ${hash}`)
+
+        const list = await this.ipfs.pin.ls()
+        console.log(list.filter(l => l.hash === hash))
+
+        const add = await this.ipfs.pin.add(hash)
+
+        const list2 = await this.ipfs.pin.ls()
+        console.log(list.filter(l => l.hash === hash))
+
+        Test
+        const hashSolidity = HashUtils.cidToSolidityHash(hash)
+        const ipfsHash = HashUtils.solidityHashToCid(hashSolidity)
+
+        let files = await this.ipfs.files.get(ipfsHash)
+        let ipfsMessage = JSON.parse(files[0].content.toString('utf8'))
+        console.log(`Stored ${ipfsMessage}`)
+         */
+
+        return hash
+    }
+
+    async get(hash) : Promise<IPFSTopic | IPFSMessage> {
         const files = await PromiseTimeout(10000, this.ipfs.files.get(hash))
         return JSON.parse(files[0].content.toString('utf8'))
     }
 
-    async fillMessage(message) {
+    async fillMessage(message : Message) {
         console.log(`IPFS Files Get ${message.id}`)
         try {
             const ipfsMessage = await this.get(message.id)
@@ -79,16 +129,13 @@ class RemoteIPFSStorage {
         }
     }
 
-    async pin(hash) {
-        const result = (await this.ipfs as any).pin.add(hash)
-        if (result && result.length > 0) {
-            return hash
-        }
+    async pin(hash : string) {
+        await (this.ipfs as any).pin.add(hash)
     }
 
-    async unpin(hash) {
+    async unpin(hash : string) {
         console.log(`Unpinning ${hash}`)
-        return (this.ipfs as any).pin.rm(hash)
+        await (this.ipfs as any).pin.rm(hash)
     }
 }
 

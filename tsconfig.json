@@ -2,7 +2,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "rootDir": "src",
-        "outDir": "./dist",
+        "outDir": "./build/",
         "target": "es5",
         "lib": ["es6", "dom"],
         "sourceMap": true,
@@ -36,9 +36,7 @@
     ],
     "include": [
         "./types/**/*.d.ts",
-        "./gen-src/**/*.ts",
         "./src/**/*.ts",
-        "./src/**/*.tsx",
-        "./truffle-tests/**/*.ts"
+        "./src/**/*.tsx"
     ]
 }

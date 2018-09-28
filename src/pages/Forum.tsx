@@ -1,37 +1,36 @@
 import * as React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 import TopNav from '../components/TopNav'
 import MessageBoard from '../messaging/MessageBoard'
 import ResponsiveEmbed from 'react-responsive-embed'
 import ForumService from '../services/ForumService'
+import AccountService, { withAcct } from "../services/AccountService";
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-
-import '../App.scss'
 import assets from '../assets'
+import '../App.scss'
+
+
 
 const arrowRight = require('../images/arrow-right.svg')
 const globe = require('../images/icon-globe.svg')
 const paper = require('../images/icon-paper.svg')
 
-
 const twitter = require('../images/twitter.svg')
 const facebook = require('../images/facebook.svg')
 const github = require('../images/github.svg')
-// const slack = require('../images/slack.svg')
 const telegram = require('../images/telegram.svg')
 
-// const screenshot = require('../images/screenshot.png')
 const userIm = require('../images/user-1.png')
 const user2Im = require('../images/user-2.png')
 const iconIm = require('../images/icon.png')
 const computer = require('../images/ICO_profile_page_svg.svg')
-// const whitePaperIm = require('../images/white-paper.png')
-// const globe = require('../images/globe.png')
 const townhall = require('../images/Townhall_valued_comment_svg.svg')
 
 
 interface ForumProps {
-    address: string
+    address: string,
+    acct: AccountService
 }
 
 interface ForumState {
@@ -53,8 +52,20 @@ class Forum extends React.Component<ForumProps> {
 
         this.state = {
             eth: 1,
-            tokens: 0,
-            forum: new ForumService(props.address)
+            tokens: 0
+        }
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+
+        this.updateForum(nextProps.address)
+    }
+
+    async updateForum(nextProps) {
+        if (nextProps.address !== this.props.address) {
+
+            this.state.forum = new ForumService(nextProps.address)
+            await this.state.forum!.setAccount(nextProps.acct)
         }
     }
 
@@ -431,4 +442,4 @@ class Forum extends React.Component<ForumProps> {
     }
 }
 
-export default Forum
+export default withAcct(Forum)

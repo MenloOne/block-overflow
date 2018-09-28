@@ -2,6 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 
+import App from './App'
+import registerServiceWorker from './registerServiceWorker'
+
 import './App.scss'
 
 
@@ -23,10 +26,6 @@ const theme = createMuiTheme({
 });
 
 
-import App from './App'
-import registerServiceWorker from './registerServiceWorker'
-
-
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
         <App/>
@@ -35,4 +34,3 @@ ReactDOM.render(
 );
 
 registerServiceWorker()
-

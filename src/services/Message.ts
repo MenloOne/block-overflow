@@ -1,18 +1,20 @@
 import ForumService from "./ForumService";
+import { IPFSMessage } from "../storage/RemoteIPFSStorage";
 
-export default class Message {
+export default class Message extends IPFSMessage {
 
     public forum: ForumService
+
     public id: string
-    public author: string
     public parent: string
-    public offset: number
     public children: string[]
+
     public votes: number
     public myvotes: number
-    public body: string
 
     constructor(forum, id, parent, offset) {
+        super()
+
         this.forum = forum
         this.id = id
         this.parent = parent

@@ -1,30 +1,24 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const path = require('path'),
+    webpack = require('webpack'),
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-
-const path = require('path');
 
 module.exports = {
     entry: {
-        app: path.resolve(__dirname, './src/index.jsx')
+        app: ['./src/index.jsx', 'webpack-hot-middleware/client'],
+        vendor: ['react', 'react-dom']
     },
-    devtool: 'inline-source-map',
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'js/[name].bundle.js'
+    },
+    devtool: 'source-map',
+    resolve: {
+        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
     },
     module: {
         rules: [
-            {
-                test: /\.tsx?$/,
-                use: {
-                    loader: 'ts-loader'
-                },
-                exclude: /node_modules/
-            },
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
@@ -33,6 +27,11 @@ module.exports = {
                     presets: ["@babel/preset-env", "@babel/preset-react"],
                     plugins: ["@babel/plugin-proposal-class-properties"]
                 }
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                loader: 'ts-loader',
+                options: { reportFiles: ['src/**/*.{ts,tsx}'] }
             },
             {
                 test: /\.scss$/,
@@ -63,28 +62,12 @@ module.exports = {
                 loader: 'babel-loader!svg-react-loader',
                 include: path.join(__dirname, 'src')
             },
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
         ]
     },
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
-    },
-    /*
     plugins: [
-        new CopyWebpackPlugin([
-            { from: 'dist', to: './'}
-        ]),
-        new HtmlWebpackPlugin({
-            title: 'Block Overflow'
-        }),
-        new HtmlWebpackIncludeAssetsPlugin({
-            jsExtensions: ['.js', 'js'],
-            assets: ['main.css'],
-            append: false }),
+        new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src', 'index.html') }),
+        new webpack.HotModuleReplacementPlugin(),
         new ForkTsCheckerWebpackPlugin()
-    ],
-    */
-    devServer: {
-        contentBase: path.resolve('dist')
-    },
-    performance: { hints: false }
-};
+    ]
+}

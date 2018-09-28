@@ -17,21 +17,16 @@
         "react/no-unused-prop-types": 0,
         "react/style-prop-object": 0,
         "import/no-webpack-loader-syntax": 0,
-        "import/no-extraneous-dependencies": [
-            2,
-            {
-                "devDependencies": [
-                    "**/*.{spec,test}.{js,jsx}",
-                    "**/*.config.js",
-                    "server/koa.js",
-                    "internals/**"
-                ]
-            }
-        ],
-
+        "import/no-extraneous-dependencies": [2, {
+            "devDependencies": [
+                "**/*.{spec,test}.{js,jsx}",
+                "**/*.config.js",
+                "server/koa.js",
+                "internals/**"
+            ]
+        }],
         "import/extensions": [2, "never", { "svg": "always", "css": "always", "json": "always" }],
         "import/no-dynamic-require": 0,
-
         "jsx-a11y/no-static-element-interactions": 0,
         "comma-dangle": [2, "only-multiline"],
         "indent": [2, 2],
@@ -70,6 +65,7 @@
                 "MemberExpression": 1
             }
         ],
+        "object-curly-spacing": [2, "always"],
         "array-bracket-spacing": false,
         "quotemark": false,
         "no-trailing-whitespace": false,

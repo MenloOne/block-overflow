@@ -19,13 +19,12 @@ import TruffleContract from 'truffle-contract'
 
 import MessagesGraph from '../messaging/MessageBoardGraph'
 
-import RemoteIPFSStorage from '../storage/RemoteIPFSStorage'
+import RemoteIPFSStorage, {IPFSMessage, IPFSTopic} from '../storage/RemoteIPFSStorage'
 import HashUtils from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
-import TokenContract from '../../node_modules/menlo-token/build/contracts/MenloToken.json'
-import ForumContract from '../build-contracts/MenloForum.json'
+import TokenContract  from '../build-contracts/MenloToken.json'
 import { MenloForum } from '../.contracts/MenloForum'
 import { MenloToken } from '../.contracts/MenloToken'
 
@@ -51,12 +50,14 @@ class ForumService {
     public synced: QPromise<void>
 
     public tokenContract: MenloToken | null
+
+    public contractAddress: string
     public contract: MenloForum | null
 
     public actions: { post, upvote, downvote }
 
     public account: string | null
-    public topic: string
+    public topic: IPFSTopic
     public remoteStorage: RemoteIPFSStorage
     public messages: MessagesGraph
     public messagesCallbacks: Map<string, NewMessageCallback> | {}
@@ -76,6 +77,8 @@ class ForumService {
     constructor( forumAddress: string ) {
         this.ready  = QPromise((resolve) => { this.signalReady = resolve })
         this.synced = QPromise((resolve) => { this.signalSynced = resolve })
+
+        this.contractAddress = forumAddress
 
         this.remoteStorage = new RemoteIPFSStorage()
         this.messages = new MessagesGraph()
@@ -102,10 +105,12 @@ class ForumService {
             this.topicOffsets = {}
             this.topicHashes = []
 
+            /*
             const forumContract = TruffleContract(ForumContract)
             await forumContract.setProvider(web3.currentProvider)
             forumContract.defaults({ from: this.account })
-            this.contract = await MenloForum.createAndValidate(web3, (await forumContract.deployed()).address)
+            */
+            this.contract = await MenloForum.createAndValidate(web3, this.contractAddress)
 
             this.topic = await this.remoteStorage.get(await this.contract.topicHash)
             const [post, upvote, downvote] = await Promise.all([this.contract.ACTION_POST, this.contract.ACTION_UPVOTE, await this.contract.ACTION_DOWNVOTE])
@@ -296,7 +301,7 @@ class ForumService {
             message.myvotes += delta
         } else {
             if (!message || !message.id) {
-                throw (new Error('invalid Message ID'))
+                throw (new Error('invalid Topic ID'))
             }
             const [votes, myvotes] = await Promise.all([
                 forum.votes.call(this.topicOffset(message.id)),
@@ -372,11 +377,12 @@ class ForumService {
         await this.ready
         const contract = this.contract!
 
-        const ipfsMessage = {
+        const ipfsMessage : IPFSMessage = {
             version: 1,
+            topic: this.topic.offset,
             offset: this.topicHashes.length,
             parent: parentHash || '0x0', // Do we need this since its in Topic?
-            author: this.account,
+            author: this.account!,
             date: Date.now(),
             body,
         }

@@ -49,7 +49,7 @@ describe('MessagesContainer', () => {
     expect(messagesContainer.text()).toContain('There are no messages.')
   })
 
-  it('renders a Message for each message retrieved from the client', () => {
+  it('renders a Topic for each message retrieved from the client', () => {
     messagesContainer.update()
 
     const components = messagesContainer.find(Message)

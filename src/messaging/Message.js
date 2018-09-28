@@ -61,7 +61,7 @@ class Message extends React.Component {
         /*
 
         const child = (
-            <Message key={message.id}
+            <Topic key={message.id}
                      message={message}
                      forumService={this.props.forumService}/>
         )

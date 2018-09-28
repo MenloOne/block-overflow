@@ -4,7 +4,7 @@ import * as History from 'history'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { AccountService, AccountContext } from './services/AccountService'
 import { history } from './config'
-import router from './router'
+import BasicRouter from './BasicRouter'
 
 import Topics from './pages/Topics'
 import Forum from './pages/Forum'
@@ -23,7 +23,8 @@ class Footer extends React.Component {
 
 interface AppState {
     account: AccountService,
-    component: React.Component
+    component: React.Component,
+    forumAddress: string | null
 }
 
 
@@ -64,24 +65,24 @@ class App extends React.Component {
     }
 
     async renderLocation(location : History.Location, action: History.Action) {
-        const renderComponent = this.renderComponent.bind(self)
+        const renderComponent = this.renderComponent.bind(this)
 
         if (this.state.account.isLoggedIn()) {
 
             this.setState({ wasLoggedIn: true })
 
-            router.resolve(this.loggedInRoutes, location)
+            BasicRouter.resolve(this.loggedInRoutes, location)
                 .then(renderComponent)
-                .catch(error => router.resolve({ ...this.loggedInRoutes, ...this.commonRoutes }, { ...location, error })
+                .catch(error => BasicRouter.resolve({ ...this.loggedInRoutes, ...this.commonRoutes }, { ...location, error })
                     .then(renderComponent));
             return
         }
 
         this.setState({ wasLoggedIn: false })
 
-        router.resolve({ ...this.loggedOutRoutes, ...this.commonRoutes }, location)
+        BasicRouter.resolve( this.loggedOutRoutes, location)
             .then(renderComponent)
-            .catch(error => router.resolve(this.loggedOutRoutes, { ...location, error })
+            .catch(error => BasicRouter.resolve(this.loggedOutRoutes, { ...location, error })
                 .then(renderComponent));
     }
 
@@ -105,7 +106,6 @@ class App extends React.Component {
             <AccountContext.Provider value={this.state.account}>
                 <CssBaseline />
                 { this.state.component }
-                <Forum address='0x4e72770760c011647d4873f60a3cf6cdea896cd8' />
                 { this.props.children }
                 <Footer />
             </AccountContext.Provider>
