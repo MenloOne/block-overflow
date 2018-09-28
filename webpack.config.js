@@ -3,15 +3,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
+
 const path = require('path');
 
 module.exports = {
-    entry: './src/index.tsx',
+    entry: {
+        app: path.resolve(__dirname, './src/index.jsx')
+    },
+    devtool: 'inline-source-map',
     output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: '[name]-[hash].js',
-        chunkFilename: '[name]-[hash].js',
-        publicPath: '/assets/'
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist')
     },
     module: {
         rules: [
@@ -19,7 +22,8 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: {
                     loader: 'ts-loader'
-                }
+                },
+                exclude: /node_modules/
             },
             {
                 test: /\.jsx?$/,
@@ -64,6 +68,7 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
     },
+    /*
     plugins: [
         new CopyWebpackPlugin([
             { from: 'dist', to: './'}
@@ -75,9 +80,9 @@ module.exports = {
             jsExtensions: ['.js', 'js'],
             assets: ['main.css'],
             append: false }),
-        new ForkTsCheckerWebpackPlugin(),
-        new FaviconsWebpackPlugin('./public/favicon.ico')
+        new ForkTsCheckerWebpackPlugin()
     ],
+    */
     devServer: {
         contentBase: path.resolve('dist')
     },

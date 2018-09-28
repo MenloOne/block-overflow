@@ -12,7 +12,7 @@ const SVG_REGEX = /\.svg(\?v=\d+\.\d+\.\d+)?$/
 export default {
   devtool: 'source-map',
   entry: {
-    app: './app/index.tsx'
+    app: './app/index.jsx'
   },
   output: {
     path: path.resolve(__dirname, '../../dist'),
