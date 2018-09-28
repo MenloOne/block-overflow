@@ -29,6 +29,7 @@ var Topic_1 = tslib_1.__importDefault(require("./Topic"));
 var TopicsService = /** @class */ (function () {
     function TopicsService() {
         var _this = this;
+        this.topics = [];
         this.ready = QPromise_1.QPromise(function (resolve) { _this.signalReady = resolve; });
         this.synced = QPromise_1.QPromise(function (resolve) { _this.signalSynced = resolve; });
         this.remoteStorage = new RemoteIPFSStorage_1.default();

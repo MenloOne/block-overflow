@@ -12,16 +12,16 @@ var TopicBoard = /** @class */ (function (_super) {
     tslib_1.__extends(TopicBoard, _super);
     function TopicBoard(props, context) {
         var _this = _super.call(this, props, context) || this;
-        _this.onSubmitMessage = _this.onSubmitMessage.bind(_this);
-        _this.onChangeReplying = _this.onChangeReplying.bind(_this);
-        _this.claimWinnings = _this.claimWinnings.bind(_this);
-        _this.refreshMessages = _this.refreshMessages.bind(_this);
         _this.state = {
             messages: [],
             topFive: false,
             showCompose: true,
             topics: new TopicsService_1.default()
         };
+        _this.onSubmitMessage = _this.onSubmitMessage.bind(_this);
+        _this.onChangeReplying = _this.onChangeReplying.bind(_this);
+        _this.claimWinnings = _this.claimWinnings.bind(_this);
+        _this.refreshMessages = _this.refreshMessages.bind(_this);
         return _this;
     }
     TopicBoard.prototype.componentDidMount = function () {
@@ -30,8 +30,6 @@ var TopicBoard = /** @class */ (function (_super) {
     };
     TopicBoard.prototype.componentWillUnmount = function () {
         this.state.topics.subscribeTopics(null);
-    };
-    TopicBoard.prototype.componentWillReceiveProps = function (newProps) {
     };
     TopicBoard.prototype.refreshMessages = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -54,19 +52,6 @@ var TopicBoard = /** @class */ (function (_super) {
     };
     TopicBoard.prototype.onSubmitMessage = function (body) {
         return this.state.topics.createTopic(body, 5);
-    };
-    TopicBoard.prototype.topFiveMessages = function () {
-        return this.state.messages
-            .sort(function (a, b) {
-            if (a.votes > b.votes) {
-                return -1;
-            }
-            if (a.votes < b.votes) {
-                return 1;
-            }
-            return 0;
-        })
-            .slice(0, 5);
     };
     TopicBoard.prototype.renderMessagesFilterButton = function () {
         var _this = this;
@@ -120,10 +105,9 @@ var TopicBoard = /** @class */ (function (_super) {
         }
         if (this.state.messages.length === 0) {
             return (React.createElement("li", { className: 'borderis' },
-                React.createElement("div", { style: { paddingBottom: '3em' } }, "Be the first to leave a comment...")));
+                React.createElement("div", { style: { paddingBottom: '3em' } }, "Be the first to ask a question...")));
         }
-        var messages = this.state.topFive ? this.topFiveMessages() : this.state.messages;
-        return messages.map(function (m, index) {
+        return this.state.messages.map(function (m, index) {
             return (React.createElement("div", { key: index, className: 'row' },
                 React.createElement("div", { className: 'col-12' },
                     React.createElement(Topic_1.default, { key: m.id, service: _this.state.topics, topic: m, onChangeReplying: _this.onChangeReplying }))));

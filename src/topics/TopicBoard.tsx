@@ -51,9 +51,6 @@ class TopicBoard extends React.Component<TopicBoardProps> {
         this.state.topics.subscribeTopics(null)
     }
 
-    componentWillReceiveProps(newProps) {
-    }
-
     async refreshMessages() {
         const messages = await this.state.topics.getTopics()
         this.setState({ messages })
@@ -69,21 +66,6 @@ class TopicBoard extends React.Component<TopicBoardProps> {
         return this.state.topics.createTopic(body, 5)
     }
 
-    topFiveMessages() {
-        return this.state.messages
-            .sort((a, b) => {
-                if (a.metadata!.votes > b.metadata!.votes) {
-                    return -1
-                }
-
-                if (a.metadata!.votes < b.metadata!.votes) {
-                    return 1
-                }
-
-                return 0
-            })
-            .slice(0, 5)
-    }
 
     renderMessagesFilterButton() {
         if (this.state.topFive) {
@@ -193,14 +175,12 @@ class TopicBoard extends React.Component<TopicBoardProps> {
         if (this.state.messages.length === 0) {
             return (<li className='borderis'>
                 <div style={{ paddingBottom: '3em' }}>
-                    Be the first to leave a comment...
+                    Be the first to ask a question...
                 </div>
             </li>)
         }
 
-        const messages = this.state.topFive ? this.topFiveMessages() : this.state.messages
-
-        return messages.map((m, index) => {
+        return this.state.messages.map((m, index) => {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
@@ -252,9 +232,6 @@ class TopicBoard extends React.Component<TopicBoardProps> {
                     </div>
                 </div>
             </div>
-
-
-
         )
     }
 }

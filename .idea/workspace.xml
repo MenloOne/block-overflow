@@ -2,55 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8d4dfe2-2f60-4ca8-94cd-2d39de816dbd" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/Topic.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/TopicsService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/topics/Topic.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/topics/Topic.d.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/topics/Topic.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/topics/TopicBoard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/topics/TopicForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.babelrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/BasicToken.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/BasicToken.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/BurnableToken.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/BurnableToken.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/BytesDecode.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/BytesDecode.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/CanReclaimToken.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/CanReclaimToken.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/ERC20.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/ERC20.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/ERC20Basic.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/ERC20Basic.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/MenloForum.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/MenloForum.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/MenloForumCallback.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/MenloForumCallback.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/MenloForumEvents.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/MenloForumEvents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/MenloToken.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/MenloToken.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/MenloTokenReceiver.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/MenloTokenReceiver.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/MenloTopicEvents.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/MenloTopicEvents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/MenloTopics.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/MenloTopics.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/Migrations.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/Migrations.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/Ownable.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/Ownable.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/Pausable.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/Pausable.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/PausableToken.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/PausableToken.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/Redeemer.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/Redeemer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/SafeERC20.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/SafeERC20.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/SafeMath.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/SafeMath.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/contracts/StandardToken.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/contracts/StandardToken.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/MenloTopics.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/MenloTopics.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/messaging/Message.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/messaging/Message.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/messaging/MessagesContainer.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/messaging/MessagesContainer.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Forum.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Forum.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Topics.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Topics.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/AccountService.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/AccountService.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/ForumService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/ForumService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/Message.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/Message.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/storage/RemoteIPFSStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/storage/RemoteIPFSStorage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tslint.json" beforeDir="false" afterPath="$PROJECT_DIR$/tslint.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/topics/TopicBoard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/topics/TopicBoard.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -129,7 +81,7 @@
           <entry key="sol" value="37" />
           <entry key="svg" value="1" />
           <entry key="ts" value="57" />
-          <entry key="tsx" value="32" />
+          <entry key="tsx" value="34" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -145,7 +97,7 @@
           <entry key="SVG" value="1" />
           <entry key="Solidity file" value="37" />
           <entry key="TypeScript" value="57" />
-          <entry key="TypeScript JSX" value="32" />
+          <entry key="TypeScript JSX" value="34" />
           <entry key="tsconfig" value="10" />
         </counts>
       </usages-collector>
@@ -160,8 +112,8 @@
           <entry key="jsx" value="3" />
           <entry key="sh" value="98" />
           <entry key="sol" value="4395" />
-          <entry key="ts" value="9292" />
-          <entry key="tsx" value="7112" />
+          <entry key="ts" value="9297" />
+          <entry key="tsx" value="7132" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -172,8 +124,8 @@
           <entry key="JavaScript" value="1123" />
           <entry key="PLAIN_TEXT" value="140" />
           <entry key="Solidity file" value="4395" />
-          <entry key="TypeScript" value="9292" />
-          <entry key="TypeScript JSX" value="7112" />
+          <entry key="TypeScript" value="9297" />
+          <entry key="TypeScript JSX" value="7132" />
           <entry key="tsconfig" value="219" />
         </counts>
       </usages-collector>
@@ -191,10 +143,34 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/App.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="226">
+              <caret line="47" column="10" lean-forward="true" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/services/AccountService.tsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="346">
+              <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+              <folding>
+                <element signature="e#596#626#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/services/TopicsService.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
-              <caret line="188" column="89" lean-forward="true" selection-start-line="188" selection-start-column="89" selection-end-line="188" selection-end-column="89" />
+            <state relative-caret-position="335">
+              <caret line="184" lean-forward="true" selection-start-line="184" selection-end-line="184" />
               <folding>
                 <element signature="e#596#630#0" expanded="true" />
               </folding>
@@ -205,8 +181,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/topics/TopicBoard.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="318">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="226">
+              <caret line="170" column="21" selection-start-line="170" selection-start-column="21" selection-end-line="170" selection-end-column="21" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -271,16 +247,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/messaging/Message.css">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/topics/Topic.css">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/services/Topic.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="450">
@@ -296,10 +262,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.deployed</find>
-      <find>TokenContract</find>
-      <find>deployed()</find>
-      <find>contractaddress</find>
       <find>new Forum(</find>
       <find>create</find>
       <find>createandva</find>
@@ -322,10 +284,14 @@
       <find>ranks</find>
       <find>forumser</find>
       <find>et</find>
-      <find>bounty</find>
       <find>topic</find>
       <find>.length</find>
       <find>messages:</find>
+      <find>setstate</find>
+      <find>bounty</find>
+      <find>loading di</find>
+      <find>.Ok</find>
+      <find>will</find>
     </findStrings>
     <replaceStrings>
       <replace>'</replace>
@@ -414,7 +380,6 @@
         <option value="$PROJECT_DIR$/contracts/MenloTopics.sol" />
         <option value="$PROJECT_DIR$/src/services/Message.ts" />
         <option value="$PROJECT_DIR$/tslint.json" />
-        <option value="$PROJECT_DIR$/src/services/TopicsService.ts" />
         <option value="$PROJECT_DIR$/src/topics/Topic.js" />
         <option value="$PROJECT_DIR$/src/topics/Topic.ts" />
         <option value="$PROJECT_DIR$/src/services/Topic.ts" />
@@ -422,6 +387,7 @@
         <option value="$PROJECT_DIR$/src/services/ForumService.ts" />
         <option value="$PROJECT_DIR$/src/topics/Topic.tsx" />
         <option value="$PROJECT_DIR$/src/topics/Topic.d.ts" />
+        <option value="$PROJECT_DIR$/src/services/TopicsService.ts" />
         <option value="$PROJECT_DIR$/src/topics/TopicBoard.tsx" />
       </list>
     </option>
@@ -616,10 +582,10 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/Topic.tsx&#10;ForumS&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/ForumService.ts&#10;Topic.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topic.ts&#10;Topic.ts&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topic.ts&#10;tsli&#9;FILE&#9;file:///Users/dave/Code/block-overflow/tslint.json&#10;tscon&#9;FILE&#9;file:///Users/dave/Code/block-overflow/tsconfig.json&#10;MenloFo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;pack&#9;FILE&#9;file:///Users/dave/Code/block-overflow/package.json&#10;Topics&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;Topic&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicBoard.tsx&#10;Topics.t&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/pages/Topics.tsx&#10;App&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.tsx&#10;Accou&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/AccountService.tsx&#10;Forum.ts&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/pages/Forum.tsx&#10;Message&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;Foru&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/ForumService.ts&#10;app.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.scss&#10;index&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/index.jsx&#10;MessageBo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;App.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.tsx&#10;paths.js&#9;FILE&#9;file:///Users/dave/Code/block-overflow/build-system/config/paths.js&#10;config/env&#9;FILE&#9;file:///Users/dave/Code/block-overflow/config/env.js&#10;scripts/star&#9;FILE&#9;file:///Users/dave/Code/block-overflow/scripts/start.js&#10;pac&#9;FILE&#9;file:///Users/dave/Code/block-overflow/package.json&#10;index.h&#9;FILE&#9;file:///Users/dave/Code/block-overflow/public/index.html&#10;inde&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/index.tsx&#10;webp&#9;FILE&#9;file:///Users/dave/Code/block-overflow/webpack.config.js&#10;types/&#9;FILE&#9;file:///Users/dave/Code/block-overflow/types&#10;web&#9;FILE&#9;file:///Users/dave/Code/block-overflow/webpack.config.js&#10;index.ts&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/index.tsx&#10;ico&#9;null&#9;null&#10;packa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/package.json&#10;index.tsx&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/index.tsx&#10;Menl&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;eb&#9;FILE&#9;file:///Users/dave/Code/block-overflow/webpack.config.js&#10;MenloForum.sol&#9;FILE&#9;file:///Users/dave/Code/block-overflow/MenloForum.sol&#10;MenloForu&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/.contracts/MenloForum.ts&#10;menlotopi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;MenloToken.json&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/menlo-token/build/contracts/MenloToken.json&#10;MenloToken.j&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/build-contracts/MenloToken.json&#10;truff&#9;FILE&#9;file:///Users/dave/Code/block-overflow/truffle.js&#10;2_&#9;FILE&#9;file:///Users/dave/Code/block-overflow/migrations/2_deploy_reputation.js&#10;MenloTopi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;ForumSer&#9;null&#9;null&#10;menlo-token/&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/menlo-token&#10;MenloToken.so&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/menlo-token/contracts.src/MenloToken.sol&#10;truffle.js&#9;FILE&#9;file:///Users/dave/Code/block-overflow/truffle.js&#10;pa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/package-lock.json&#10;App.sc&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.scss&#10;app.t&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.tsx" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicBoard.tsx&#10;Accou&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/AccountService.tsx&#10;app.t&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.tsx&#10;ForumS&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/ForumService.ts&#10;Topic.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topic.ts&#10;Topic.ts&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topic.ts&#10;tsli&#9;FILE&#9;file:///Users/dave/Code/block-overflow/tslint.json&#10;tscon&#9;FILE&#9;file:///Users/dave/Code/block-overflow/tsconfig.json&#10;MenloFo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;pack&#9;FILE&#9;file:///Users/dave/Code/block-overflow/package.json&#10;Topics&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;Topic&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicBoard.tsx&#10;Topics.t&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/pages/Topics.tsx&#10;App&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.tsx&#10;Forum.ts&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/pages/Forum.tsx&#10;Message&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;Foru&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/ForumService.ts&#10;app.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.scss&#10;index&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/index.jsx&#10;MessageBo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;App.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.tsx&#10;paths.js&#9;FILE&#9;file:///Users/dave/Code/block-overflow/build-system/config/paths.js&#10;config/env&#9;FILE&#9;file:///Users/dave/Code/block-overflow/config/env.js&#10;scripts/star&#9;FILE&#9;file:///Users/dave/Code/block-overflow/scripts/start.js&#10;pac&#9;FILE&#9;file:///Users/dave/Code/block-overflow/package.json&#10;index.h&#9;FILE&#9;file:///Users/dave/Code/block-overflow/public/index.html&#10;inde&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/index.tsx&#10;webp&#9;FILE&#9;file:///Users/dave/Code/block-overflow/webpack.config.js&#10;types/&#9;FILE&#9;file:///Users/dave/Code/block-overflow/types&#10;web&#9;FILE&#9;file:///Users/dave/Code/block-overflow/webpack.config.js&#10;index.ts&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/index.tsx&#10;ico&#9;null&#9;null&#10;packa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/package.json&#10;index.tsx&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/index.tsx&#10;Menl&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;eb&#9;FILE&#9;file:///Users/dave/Code/block-overflow/webpack.config.js&#10;MenloForum.sol&#9;FILE&#9;file:///Users/dave/Code/block-overflow/MenloForum.sol&#10;MenloForu&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/.contracts/MenloForum.ts&#10;menlotopi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;MenloToken.json&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/menlo-token/build/contracts/MenloToken.json&#10;MenloToken.j&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/build-contracts/MenloToken.json&#10;truff&#9;FILE&#9;file:///Users/dave/Code/block-overflow/truffle.js&#10;2_&#9;FILE&#9;file:///Users/dave/Code/block-overflow/migrations/2_deploy_reputation.js&#10;MenloTopi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;ForumSer&#9;null&#9;null&#10;menlo-token/&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/menlo-token&#10;MenloToken.so&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/menlo-token/contracts.src/MenloToken.sol&#10;truffle.js&#9;FILE&#9;file:///Users/dave/Code/block-overflow/truffle.js&#10;pa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/package-lock.json&#10;App.sc&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/App.scss" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538159116692" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538160044987" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
@@ -765,18 +731,18 @@
       <workItem from="1537896286982" duration="26430000" />
       <workItem from="1537988250069" duration="30837000" />
       <workItem from="1538085517317" duration="16006000" />
-      <workItem from="1538101724992" duration="12152000" />
+      <workItem from="1538101724992" duration="13027000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="576132000" />
+    <option name="totallyTimeSpent" value="577007000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="53" y="23" width="1612" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18789808" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18789808" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -784,9 +750,9 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.32834226" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32834226" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.5026738" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.5026738" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -819,6 +785,12 @@
           <url>file://$PROJECT_DIR$/src/services/ForumService.ts</url>
           <line>379</line>
           <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/topics/TopicBoard.tsx</url>
+          <line>166</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -934,16 +906,6 @@
     <entry file="http://localhost:3000/static/js/bundle.js">
       <provider selected="true" editor-type-id="httpFileEditor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/AccountService.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="171" column="41" lean-forward="true" selection-start-line="171" selection-start-column="41" selection-end-line="171" selection-end-column="41" />
-          <folding>
-            <element signature="e#596#626#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/truffle-contract/contract.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
@@ -964,16 +926,6 @@
           <caret line="16" selection-start-line="16" selection-end-line="16" />
           <folding>
             <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.tsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="57" selection-start-line="57" selection-end-line="57" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1076,16 +1028,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/TopicsService.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="188" column="89" lean-forward="true" selection-start-line="188" selection-start-column="89" selection-end-line="188" selection-end-column="89" />
-          <folding>
-            <element signature="e#596#630#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/messaging/Message.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1158,10 +1100,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/TopicsService.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="184" lean-forward="true" selection-start-line="184" selection-end-line="184" />
+          <folding>
+            <element signature="e#596#630#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/AccountService.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="129" lean-forward="true" selection-start-line="129" selection-end-line="129" />
+          <folding>
+            <element signature="e#596#626#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="47" column="10" lean-forward="true" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/topics/TopicBoard.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="226">
+          <caret line="170" column="21" selection-start-line="170" selection-start-column="21" selection-end-line="170" selection-end-column="21" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
