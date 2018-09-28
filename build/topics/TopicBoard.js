@@ -15,43 +15,69 @@ var TopicBoard = /** @class */ (function (_super) {
         _this.state = {
             messages: [],
             topFive: false,
-            showCompose: true,
-            topics: new TopicsService_1.default()
+            showCompose: true
         };
         _this.onSubmitMessage = _this.onSubmitMessage.bind(_this);
         _this.onChangeReplying = _this.onChangeReplying.bind(_this);
         _this.claimWinnings = _this.claimWinnings.bind(_this);
-        _this.refreshMessages = _this.refreshMessages.bind(_this);
+        _this.topicsChanged = _this.topicsChanged.bind(_this);
+        _this.topics = new TopicsService_1.default();
         return _this;
     }
+    TopicBoard.prototype.componentWillReceiveProps = function (nextProps, nextContext) {
+        this.updateTopics(nextProps);
+    };
+    TopicBoard.prototype.updateTopics = function (nextProps) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var e_1;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(nextProps.acct !== this.props.acct)) return [3 /*break*/, 4];
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.topics.setAccount(nextProps.acct)];
+                    case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _a.sent();
+                        nextProps.acct.contractError(e_1);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
     TopicBoard.prototype.componentDidMount = function () {
-        this.state.topics.subscribeTopics(this.refreshMessages);
-        this.refreshMessages();
+        this.topics.subscribeTopics(this.topicsChanged);
+        this.topicsChanged();
     };
     TopicBoard.prototype.componentWillUnmount = function () {
-        this.state.topics.subscribeTopics(null);
+        this.topics.subscribeTopics(null);
     };
-    TopicBoard.prototype.refreshMessages = function () {
+    TopicBoard.prototype.topicsChanged = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             var messages;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.state.topics.getTopics()];
+                    case 0: return [4 /*yield*/, this.topics.getTopics()];
                     case 1:
                         messages = _a.sent();
-                        this.setState({ messages: messages });
+                        this.setState({
+                            topics: Object.assign({}, this.topics),
+                            messages: messages
+                        });
                         return [2 /*return*/];
                 }
             });
         });
     };
     TopicBoard.prototype.claimWinnings = function () {
-        if (this.state.lottery) {
-            this.state.lottery.claimWinnings();
-        }
     };
     TopicBoard.prototype.onSubmitMessage = function (body) {
-        return this.state.topics.createTopic(body, 5);
+        return this.topics.createTopic(body, 5);
     };
     TopicBoard.prototype.renderMessagesFilterButton = function () {
         var _this = this;
@@ -99,7 +125,7 @@ var TopicBoard = /** @class */ (function (_super) {
     };
     TopicBoard.prototype.renderMessages = function () {
         var _this = this;
-        if (this.state.messages.length === 0 && (this.props.acct.status !== AccountService_1.MetamaskStatus.Ok || !this.state.topics.synced.isFulfilled())) {
+        if (this.state.messages.length === 0 && (this.props.acct.status !== AccountService_1.MetamaskStatus.Ok || !this.topics.synced.isFulfilled())) {
             return (React.createElement("li", { className: 'borderis' },
                 React.createElement("div", { style: { paddingBottom: '3em' } }, "Loading Discussion...")));
         }

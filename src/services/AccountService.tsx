@@ -67,6 +67,8 @@ export default class AccountService {
             return
         }
 
+        this.stateChangeCallback(this)
+
         web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
         this.checkMetamaskStatus()
     }
@@ -119,12 +121,14 @@ export default class AccountService {
                 await TokenContract.setProvider(web3.currentProvider)
                 TokenContract.defaults({ from: this.address })
 
-                this.token = await TokenContract.deployed()
+                const tokenAddress = (await TokenContract.deployed()).address
+                this.token = await MenloToken.createAndValidate(web3, tokenAddress)
             }
 
             this.avatar  = <Blockies seed={address} size={10} />
             this.getBalance()
             this.status = MetamaskStatus.Ok
+            await this.getBalance()
 
             await this.stateChangeCallback(this)
 
@@ -154,6 +158,15 @@ export default class AccountService {
             await this.getBalance()
             this.stateChangeCallback(this)
         }, 3000 )
+    }
+
+    async contractError(e : Error) {
+        console.error(e)
+
+        this.status = MetamaskStatus.Error
+        this.error  = e.message
+
+        await this.stateChangeCallback(this)
     }
 }
 

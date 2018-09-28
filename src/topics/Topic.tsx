@@ -18,8 +18,6 @@
 import React from 'react'
 import Moment from 'react-moment'
 
-import TopicForm from './TopicForm'
-
 import '../App.scss'
 import './Topic.css'
 import TopicsService from "../services/TopicsService";
@@ -57,45 +55,6 @@ class TopicComponent extends React.Component<TopicComponentProps> {
     componentWillUnmount() {
     }
 
-    async reply(body) {
-        this.setState({ showReplyForm: false })
-
-        await this.props.service.createTopic(body, 5)
-        /*
-
-        const child = (
-            <Topic key={message.id}
-                     message={message}
-                     forumService={this.props.forumService}/>
-        )
-
-        this.showReplies(true)
-        this.setState({
-            children: [...this.state.children, child],
-            showReplyForm: false
-        })
-         */
-
-        this.setState({
-            showReplyForm: false
-        })
-
-        if (this.props.onChangeReplying) {
-            this.props.onChangeReplying(false)
-        }
-    }
-
-    showReplies (show) {
-        this.setState({ showReplies: show })
-    }
-
-    showReplyForm() {
-        this.setState({showReplyForm: true})
-
-        if (this.props.onChangeReplying) {
-            this.props.onChangeReplying(true)
-        }
-    }
 
     messageStatus() {
         return this.props.service.getTopic(this.props.topic.id) ? 'complete' : 'pending'
@@ -147,9 +106,6 @@ class TopicComponent extends React.Component<TopicComponentProps> {
                     <div className="comments-text">
                         {message.body}
                     </div>
-                    {this.state.showReplyForm &&
-                        <TopicForm onSubmit={(message) => this.reply(message)}/>
-                    }
                 </div>
             </li>
         )

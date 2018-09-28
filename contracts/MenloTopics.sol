@@ -20,7 +20,7 @@ import "./MenloForum.sol";
 
 
 contract MenloTopicEvents {
-    event Topic(address _forum);
+    event NewTopic(address _forum);
 }
 
 
@@ -46,6 +46,10 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
         topicCost = _topicCost;
     }
 
+    function getToken() public view returns (address) {
+        return token;
+    }
+
     function setAlias(string _alias) public {
         alias[msg.sender] = _alias;
     }
@@ -68,7 +72,7 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
         forums[address(forum)] = ForumMetadata(_topicHash,false,0,0,0);
         token.transfer(address(forum), _bounty);
         topicsCount++;
-        emit Topic( address(forum));
+        emit NewTopic( address(forum) );
     }
 
     function onTokenReceived(

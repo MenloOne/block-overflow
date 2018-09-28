@@ -31,7 +31,8 @@ import AccountService from './AccountService'
 import Topic from './Topic'
 
 
-type NewTopicCallback = (topic: Topic) => void
+type NewTopicCallback = (topic: Topic | null) => void
+const TOPIC_LENGTH = 15 * 60 /* 15 Minutes */
 
 class TopicsService {
 
@@ -46,6 +47,7 @@ class TopicsService {
     public synced: QPromise<void>
 
     public tokenContract: MenloToken | null
+    public tokenContractJS: any
     public contract: MenloTopics | null
 
     public actions: { newTopic }
@@ -84,19 +86,22 @@ class TopicsService {
             const tokenContract = TruffleContract(TokenContract)
             await tokenContract.setProvider(web3.currentProvider)
             tokenContract.defaults({ from: this.account })
-            this.tokenContract = new MenloToken(web3, (await tokenContract.deployed()).address)
+
+            this.tokenContractJS = await tokenContract.deployed()
+            this.tokenContract   = new MenloToken(web3, (await tokenContract.deployed()).address)
 
             const topicsContract = TruffleContract(TopicsContract)
             await topicsContract.setProvider(web3.currentProvider)
             topicsContract.defaults({ from: this.account })
-            this.contract = await MenloTopics.createAndValidate(web3, (await topicsContract.deployed()).address)
+            const topicAddress = (await topicsContract.deployed()).address
+            this.contract = await MenloTopics.createAndValidate(web3, topicAddress)
 
             this.filledMessagesCounter = 0
             this.topicOffsets = {}
             this.topicHashes = []
             this.initialTopicCount = (await this.contract.topicsCount).toNumber()
 
-            const [newTopic] = await Promise.all([this.contract.ACTION_NEWTOPIC])
+            const newTopic = (await this.contract.ACTION_NEWTOPIC).toNumber()
             this.actions = { newTopic }
 
             this.watchForTopics()
@@ -107,6 +112,7 @@ class TopicsService {
                 this.signalSynced()
             }
 
+            this.onModifiedTopic(null)
         } catch (e) {
             console.error(e)
             throw(e)
@@ -121,7 +127,7 @@ class TopicsService {
         await this.ready
         const topics = this.contract!
 
-        topics.TopicEvent({}).watch({}, async (error, result) => {
+        topics.NewTopicEvent({}).watch({}, async (error, result) => {
             if (error) {
                 console.error( error )
                 return
@@ -150,7 +156,7 @@ class TopicsService {
     }
 
 
-    onModifiedTopic(topic : Topic) {
+    onModifiedTopic(topic : Topic | null) {
         // Send message back
         if (this.topicsCallback) {
             this.topicsCallback(topic)
@@ -186,7 +192,8 @@ class TopicsService {
             const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
 
             // Send it to Blockchain
-            const result = await this.tokenContract!.transferAndCallTx(contract.address, bounty * 10 ** 18, this.actions.newTopic, hashSolidity).send({})
+            console.log('token ', this.tokenContractJS.address, ' topic ', contract.address, ' bounty ', bounty * 10 ** 18, ' action ', this.actions.newTopic)
+            const result = await this.tokenContractJS.transferAndCall(contract.address, bounty * 10 ** 18, this.actions.newTopic, [hashSolidity, TOPIC_LENGTH])
             console.log(result)
 
             return {

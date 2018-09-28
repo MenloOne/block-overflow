@@ -36,12 +36,12 @@ interface ForumProps {
 interface ForumState {
     eth: number,
     tokens: number
-    forum?: ForumService
 }
 
 
 class Forum extends React.Component<ForumProps> {
 
+    forum?: ForumService
     state : ForumState
 
     constructor(props, context) {
@@ -57,15 +57,19 @@ class Forum extends React.Component<ForumProps> {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-
-        this.updateForum(nextProps.address)
+        this.updateForum(nextProps.acct)
     }
 
     async updateForum(nextProps) {
         if (nextProps.address !== this.props.address) {
 
-            this.state.forum = new ForumService(nextProps.address)
-            await this.state.forum!.setAccount(nextProps.acct)
+            this.forum = new ForumService(nextProps.address)
+            await this.forum!.setAccount(nextProps.acct)
+            return
+        }
+
+        if (nextProps.acct !== this.props.acct) {
+            await this.forum!.setAccount(nextProps.acct)
         }
     }
 

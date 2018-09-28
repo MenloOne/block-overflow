@@ -62,7 +62,7 @@ module.exports = {
                 return noncedWallet(new HDWalletProvider(getPrivKeys('kovan'), 'https://kovan.infura.io/v3/1b81fcc6e29d459ca28861e0901aba99'))
             },
             network_id: 42,
-            gas: 3000000,
+            gas: 6000000,
             gasPrice: 10000000000
         },
         develop: {

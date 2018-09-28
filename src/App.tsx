@@ -30,7 +30,8 @@ interface AppState {
 
 class App extends React.Component {
 
-    state : AppState
+    state   : AppState
+    account : AccountService
 
     constructor(props: any, context: any) {
         super(props, context)
@@ -38,14 +39,19 @@ class App extends React.Component {
         this.renderLocation = this.renderLocation.bind(this)
     }
 
-    async accountChanged(account : AccountService) {
+    async accountChanged(_account : AccountService) {
+        // Setup account state object w/ particular callbacks
+
+        const account = Object.assign({}, _account)
+
+        account.contractError  = _account.contractError.bind(_account)
+        account.refreshBalance = _account.refreshBalance.bind(_account)
+
         this.setState({ account })
     }
 
     componentWillMount() {
-        this.setState({
-            account: new AccountService(this.accountChanged)
-        })
+        this.account = new AccountService(this.accountChanged)
     }
 
     componentDidMount() {
@@ -67,7 +73,7 @@ class App extends React.Component {
     async renderLocation(location : History.Location, action: History.Action) {
         const renderComponent = this.renderComponent.bind(this)
 
-        if (this.state.account.isLoggedIn()) {
+        if (this.account.isLoggedIn()) {
 
             this.setState({ wasLoggedIn: true })
 

@@ -26,6 +26,7 @@ var MenloTopics_json_1 = tslib_1.__importDefault(require("../build-contracts/Men
 var MenloTopics_1 = require("../.contracts/MenloTopics");
 var MenloToken_1 = require("../.contracts/MenloToken");
 var Topic_1 = tslib_1.__importDefault(require("./Topic"));
+var TOPIC_LENGTH = 15 * 60; /* 15 Minutes */
 var TopicsService = /** @class */ (function () {
     function TopicsService() {
         var _this = this;
@@ -38,63 +39,68 @@ var TopicsService = /** @class */ (function () {
     }
     TopicsService.prototype.setAccount = function (acct) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var tokenContract, _a, _b, _c, topicsContract, _d, _e, _f, _g, _h, newTopic, e_1;
-            return tslib_1.__generator(this, function (_j) {
-                switch (_j.label) {
+            var tokenContract, _a, _b, _c, _d, topicsContract, topicAddress, _e, _f, newTopic, e_1;
+            return tslib_1.__generator(this, function (_g) {
+                switch (_g.label) {
                     case 0:
                         if (acct.address === this.account) {
                             return [2 /*return*/];
                         }
-                        _j.label = 1;
+                        _g.label = 1;
                     case 1:
-                        _j.trys.push([1, 9, , 10]);
+                        _g.trys.push([1, 10, , 11]);
                         this.account = acct.address;
                         this.refreshTokenBalance = acct.refreshBalance;
                         tokenContract = truffle_contract_1.default(MenloToken_json_1.default);
                         return [4 /*yield*/, tokenContract.setProvider(web3_override_1.default.currentProvider)];
                     case 2:
-                        _j.sent();
+                        _g.sent();
                         tokenContract.defaults({ from: this.account });
                         _a = this;
-                        _b = MenloToken_1.MenloToken.bind;
-                        _c = [void 0, web3_override_1.default];
                         return [4 /*yield*/, tokenContract.deployed()];
                     case 3:
-                        _a.tokenContract = new (_b.apply(MenloToken_1.MenloToken, _c.concat([(_j.sent()).address])))();
+                        _a.tokenContractJS = _g.sent();
+                        _b = this;
+                        _c = MenloToken_1.MenloToken.bind;
+                        _d = [void 0, web3_override_1.default];
+                        return [4 /*yield*/, tokenContract.deployed()];
+                    case 4:
+                        _b.tokenContract = new (_c.apply(MenloToken_1.MenloToken, _d.concat([(_g.sent()).address])))();
                         topicsContract = truffle_contract_1.default(MenloTopics_json_1.default);
                         return [4 /*yield*/, topicsContract.setProvider(web3_override_1.default.currentProvider)];
-                    case 4:
-                        _j.sent();
+                    case 5:
+                        _g.sent();
                         topicsContract.defaults({ from: this.account });
-                        _d = this;
-                        _f = (_e = MenloTopics_1.MenloTopics).createAndValidate;
-                        _g = [web3_override_1.default];
                         return [4 /*yield*/, topicsContract.deployed()];
-                    case 5: return [4 /*yield*/, _f.apply(_e, _g.concat([(_j.sent()).address]))];
                     case 6:
-                        _d.contract = _j.sent();
+                        topicAddress = (_g.sent()).address;
+                        _e = this;
+                        return [4 /*yield*/, MenloTopics_1.MenloTopics.createAndValidate(web3_override_1.default, topicAddress)];
+                    case 7:
+                        _e.contract = _g.sent();
                         this.filledMessagesCounter = 0;
                         this.topicOffsets = {};
                         this.topicHashes = [];
-                        _h = this;
+                        _f = this;
                         return [4 /*yield*/, this.contract.topicsCount];
-                    case 7:
-                        _h.initialTopicCount = (_j.sent()).toNumber();
-                        return [4 /*yield*/, Promise.all([this.contract.ACTION_NEWTOPIC])];
                     case 8:
-                        newTopic = (_j.sent())[0];
+                        _f.initialTopicCount = (_g.sent()).toNumber();
+                        return [4 /*yield*/, this.contract.ACTION_NEWTOPIC];
+                    case 9:
+                        newTopic = (_g.sent()).toNumber();
                         this.actions = { newTopic: newTopic };
                         this.watchForTopics();
                         this.signalReady();
                         if (this.initialTopicCount === 0) {
                             this.signalSynced();
                         }
-                        return [3 /*break*/, 10];
-                    case 9:
-                        e_1 = _j.sent();
+                        this.onModifiedTopic(null);
+                        return [3 /*break*/, 11];
+                    case 10:
+                        e_1 = _g.sent();
                         console.error(e_1);
                         throw (e_1);
-                    case 10: return [2 /*return*/];
+                    case 11: return [2 /*return*/];
                 }
             });
         });
@@ -112,7 +118,7 @@ var TopicsService = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         topics = this.contract;
-                        topics.TopicEvent({}).watch({}, function (error, result) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                        topics.NewTopicEvent({}).watch({}, function (error, result) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                             var forumAdddress, offset, message;
                             return tslib_1.__generator(this, function (_a) {
                                 switch (_a.label) {
@@ -185,7 +191,9 @@ var TopicsService = /** @class */ (function () {
                         // Create message and pin it to remote IPFS
                         ipfsHash = _a.sent();
                         hashSolidity = HashUtils_1.default.cidToSolidityHash(ipfsHash);
-                        return [4 /*yield*/, this.tokenContract.transferAndCallTx(contract.address, bounty * Math.pow(10, 18), this.actions.newTopic, hashSolidity).send({})];
+                        // Send it to Blockchain
+                        console.log('token ', this.tokenContractJS.address, ' topic ', contract.address, ' bounty ', bounty * Math.pow(10, 18), ' action ', this.actions.newTopic);
+                        return [4 /*yield*/, this.tokenContractJS.transferAndCall(contract.address, bounty * Math.pow(10, 18), this.actions.newTopic, [hashSolidity, TOPIC_LENGTH])];
                     case 4:
                         result = _a.sent();
                         console.log(result);

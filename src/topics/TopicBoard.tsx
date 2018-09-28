@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { AccountService, MetamaskStatus, withAcct } from '../services/AccountService'
 import TopicsService from '../services/TopicsService'
-import Lottery from '../services/Lottery'
 
 import TopicComponent from './Topic'
 import TopicForm from './TopicForm'
@@ -20,18 +19,18 @@ interface TopicBoardState {
     messages: Topic[],
     topFive: boolean,
     showCompose: boolean,
-    topics: TopicsService,
-    lottery?: Lottery,
+    topics?: TopicsService,
 }
 
 class TopicBoard extends React.Component<TopicBoardProps> {
 
+    topics: TopicsService
     state : TopicBoardState = {
         messages: [],
         topFive: false,
-        showCompose: true,
-        topics: new TopicsService()
+        showCompose: true
     }
+    
 
     constructor(props: any, context: any) {
         super(props, context)
@@ -39,31 +38,48 @@ class TopicBoard extends React.Component<TopicBoardProps> {
         this.onSubmitMessage = this.onSubmitMessage.bind(this)
         this.onChangeReplying = this.onChangeReplying.bind(this)
         this.claimWinnings = this.claimWinnings.bind(this)
-        this.refreshMessages = this.refreshMessages.bind(this)
+        this.topicsChanged = this.topicsChanged.bind(this)
+        
+        this.topics = new TopicsService()
     }
 
-    componentDidMount() {
-        this.state.topics.subscribeTopics(this.refreshMessages)
-        this.refreshMessages()
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.updateTopics(nextProps)
     }
 
-    componentWillUnmount() {
-        this.state.topics.subscribeTopics(null)
-    }
-
-    async refreshMessages() {
-        const messages = await this.state.topics.getTopics()
-        this.setState({ messages })
-    }
-
-    claimWinnings() {
-        if (this.state.lottery) {
-            this.state.lottery.claimWinnings()
+    async updateTopics(nextProps) {
+        if (nextProps.acct !== this.props.acct) {
+            try {
+                await this.topics!.setAccount(nextProps.acct)
+            } catch (e) {
+                nextProps.acct.contractError(e)
+            }
         }
     }
 
+    componentDidMount() {
+        this.topics.subscribeTopics(this.topicsChanged)
+        this.topicsChanged()
+    }
+
+    componentWillUnmount() {
+        this.topics.subscribeTopics(null)
+    }
+
+    async topicsChanged() {
+        const messages = await this.topics.getTopics()
+
+        this.setState({
+            topics: Object.assign({}, this.topics),
+            messages
+        })
+    }
+
+    claimWinnings() {
+    }
+
     onSubmitMessage(body) {
-        return this.state.topics.createTopic(body, 5)
+        return this.topics.createTopic(body, 15)
     }
 
 
@@ -164,7 +180,7 @@ class TopicBoard extends React.Component<TopicBoardProps> {
     }
 
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.state.topics.synced.isFulfilled())) {
+        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.topics.synced.isFulfilled())) {
             return (<li className='borderis'>
                 <div style={{ paddingBottom: '3em' }}>
                     Loading Discussion...
@@ -185,7 +201,7 @@ class TopicBoard extends React.Component<TopicBoardProps> {
                 <div key={index} className='row'>
                     <div className='col-12'>
                         <TopicComponent key={m.id}
-                               service={this.state.topics}
+                               service={this.state.topics!}
                                topic={m}
                                onChangeReplying={this.onChangeReplying}
                         />

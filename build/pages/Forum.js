@@ -35,7 +35,7 @@ var Forum = /** @class */ (function (_super) {
         return _this;
     }
     Forum.prototype.componentWillReceiveProps = function (nextProps, nextContext) {
-        this.updateForum(nextProps.address);
+        this.updateForum(nextProps.acct);
     };
     Forum.prototype.updateForum = function (nextProps) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
@@ -43,12 +43,18 @@ var Forum = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         if (!(nextProps.address !== this.props.address)) return [3 /*break*/, 2];
-                        this.state.forum = new ForumService_1.default(nextProps.address);
-                        return [4 /*yield*/, this.state.forum.setAccount(nextProps.acct)];
+                        this.forum = new ForumService_1.default(nextProps.address);
+                        return [4 /*yield*/, this.forum.setAccount(nextProps.acct)];
                     case 1:
                         _a.sent();
-                        _a.label = 2;
-                    case 2: return [2 /*return*/];
+                        return [2 /*return*/];
+                    case 2:
+                        if (!(nextProps.acct !== this.props.acct)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.forum.setAccount(nextProps.acct)];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
                 }
             });
         });

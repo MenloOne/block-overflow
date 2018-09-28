@@ -20,6 +20,7 @@ var React = tslib_1.__importStar(require("react"));
 var truffle_contract_1 = tslib_1.__importDefault(require("truffle-contract"));
 var react_blockies_1 = tslib_1.__importDefault(require("react-blockies"));
 var web3_override_1 = tslib_1.__importDefault(require("./web3_override"));
+var MenloToken_1 = require("../.contracts/MenloToken");
 var QPromise_1 = require("../utils/QPromise");
 var MenloToken_json_1 = tslib_1.__importDefault(require("../../node_modules/menlo-token/build/contracts/MenloToken.json"));
 var MetamaskStatus;
@@ -46,6 +47,7 @@ var AccountService = /** @class */ (function () {
             this.stateChangeCallback(this);
             return;
         }
+        this.stateChangeCallback(this);
         web3_override_1.default.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus);
         this.checkMetamaskStatus();
     }
@@ -95,17 +97,17 @@ var AccountService = /** @class */ (function () {
     };
     AccountService.prototype.refreshAccount = function (reload, address) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var TokenContract, _a, e_1;
+            var TokenContract, tokenAddress, _a, e_1;
             return tslib_1.__generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _b.trys.push([0, 6, , 8]);
+                        _b.trys.push([0, 8, , 10]);
                         if (reload) {
                             // Easy way out for now
                             window.location.reload();
                         }
                         this.address = address;
-                        if (!!this.token) return [3 /*break*/, 4];
+                        if (!!this.token) return [3 /*break*/, 5];
                         return [4 /*yield*/, truffle_contract_1.default(MenloToken_json_1.default)];
                     case 1:
                         TokenContract = _b.sent();
@@ -113,30 +115,36 @@ var AccountService = /** @class */ (function () {
                     case 2:
                         _b.sent();
                         TokenContract.defaults({ from: this.address });
-                        _a = this;
                         return [4 /*yield*/, TokenContract.deployed()];
                     case 3:
-                        _a.token = _b.sent();
-                        _b.label = 4;
+                        tokenAddress = (_b.sent()).address;
+                        _a = this;
+                        return [4 /*yield*/, MenloToken_1.MenloToken.createAndValidate(web3_override_1.default, tokenAddress)];
                     case 4:
+                        _a.token = _b.sent();
+                        _b.label = 5;
+                    case 5:
                         this.avatar = React.createElement(react_blockies_1.default, { seed: address, size: 10 });
                         this.getBalance();
                         this.status = MetamaskStatus.Ok;
+                        return [4 /*yield*/, this.getBalance()];
+                    case 6:
+                        _b.sent();
                         return [4 /*yield*/, this.stateChangeCallback(this)];
-                    case 5:
+                    case 7:
                         _b.sent();
                         this.signalReady();
-                        return [3 /*break*/, 8];
-                    case 6:
+                        return [3 /*break*/, 10];
+                    case 8:
                         e_1 = _b.sent();
                         console.error(e_1);
                         this.status = MetamaskStatus.Error;
                         this.error = e_1.message;
                         return [4 /*yield*/, this.stateChangeCallback(this)];
-                    case 7:
+                    case 9:
                         _b.sent();
-                        return [3 /*break*/, 8];
-                    case 8: return [2 /*return*/];
+                        return [3 /*break*/, 10];
+                    case 10: return [2 /*return*/];
                 }
             });
         });
@@ -176,6 +184,22 @@ var AccountService = /** @class */ (function () {
                                 }
                             });
                         }); }, 3000);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    AccountService.prototype.contractError = function (e) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.error(e);
+                        this.status = MetamaskStatus.Error;
+                        this.error = e.message;
+                        return [4 /*yield*/, this.stateChangeCallback(this)];
+                    case 1:
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });

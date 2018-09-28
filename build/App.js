@@ -37,18 +37,20 @@ var App = /** @class */ (function (_super) {
         _this.renderLocation = _this.renderLocation.bind(_this);
         return _this;
     }
-    App.prototype.accountChanged = function (account) {
+    App.prototype.accountChanged = function (_account) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var account;
             return tslib_1.__generator(this, function (_a) {
+                account = Object.assign({}, _account);
+                account.contractError = _account.contractError.bind(_account);
+                account.refreshBalance = _account.refreshBalance.bind(_account);
                 this.setState({ account: account });
                 return [2 /*return*/];
             });
         });
     };
     App.prototype.componentWillMount = function () {
-        this.setState({
-            account: new AccountService_1.AccountService(this.accountChanged)
-        });
+        this.account = new AccountService_1.AccountService(this.accountChanged);
     };
     App.prototype.componentDidMount = function () {
         config_1.history.listen(this.renderLocation); // render subsequent URLs
@@ -68,7 +70,7 @@ var App = /** @class */ (function (_super) {
             var _this = this;
             return tslib_1.__generator(this, function (_a) {
                 renderComponent = this.renderComponent.bind(this);
-                if (this.state.account.isLoggedIn()) {
+                if (this.account.isLoggedIn()) {
                     this.setState({ wasLoggedIn: true });
                     BasicRouter_1.default.resolve(this.loggedInRoutes, location)
                         .then(renderComponent)
