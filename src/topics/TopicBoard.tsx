@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { AccountService, MetamaskStatus, withAcct } from '../services/AccountService'
 import TopicsService from '../services/TopicsService'
 
-import TopicComponent from './Topic'
+import TopicComponent from './TopicComponent'
 import TopicForm from './TopicForm'
 
 import Topic from "../services/Topic";

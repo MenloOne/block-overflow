@@ -35,7 +35,6 @@ import Message from './Message'
 
 type NewMessageCallback = () => void
 
-const address0 = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
 class ForumService {
 
@@ -50,6 +49,7 @@ class ForumService {
     public synced: QPromise<void>
 
     public tokenContract: MenloToken | null
+    public tokenContractJS: any
 
     public contractAddress: string
     public contract: MenloForum | null
@@ -99,6 +99,8 @@ class ForumService {
             const tokenContract = TruffleContract(TokenContract)
             await tokenContract.setProvider(web3.currentProvider)
             tokenContract.defaults({ from: this.account })
+
+            this.tokenContractJS = await tokenContract.deployed()
             this.tokenContract = new MenloToken(web3, (await tokenContract.deployed()).address)
 
             this.filledMessagesCounter = 0
@@ -112,7 +114,8 @@ class ForumService {
             */
             this.contract = await MenloForum.createAndValidate(web3, this.contractAddress)
 
-            this.topic = await this.remoteStorage.get(await this.contract.topicHash)
+            const hash = await this.contract.topicHash
+            this.topic = await this.remoteStorage.get(HashUtils.solidityHashToCid(hash))
             const [post, upvote, downvote] = await Promise.all([this.contract.ACTION_POST, this.contract.ACTION_UPVOTE, await this.contract.ACTION_DOWNVOTE])
             this.actions = { post, upvote, downvote }
 
@@ -206,7 +209,7 @@ class ForumService {
                 return
             }
 
-            const parentHash  = address0
+            const parentHash  = '0x0'
             const messageHash = HashUtils.solidityHashToCid(result.args.contentHash)
 
             if (parentHash === messageHash) {
@@ -356,7 +359,8 @@ class ForumService {
         const action = (direction > 0) ? this.actions.upvote : this.actions.downvote
 
         const tokenCost = await forum.voteCost
-        await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
+        await this.tokenContractJS.transferAndCall(forum.address, tokenCost, action, [this.topicOffset(id).toString()])
+        // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
 
         const message = this.messages.get(id)
         await this.updateVotesData(message, direction)

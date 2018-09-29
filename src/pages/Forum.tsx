@@ -29,19 +29,19 @@ const townhall = require('../images/Townhall_valued_comment_svg.svg')
 
 
 interface ForumProps {
-    address: string,
+    params: { address: string },
     acct: AccountService
 }
 
 interface ForumState {
     eth: number,
-    tokens: number
+    tokens: number,
+    forum?: ForumService
 }
 
 
 class Forum extends React.Component<ForumProps> {
 
-    forum?: ForumService
     state : ForumState
 
     constructor(props, context) {
@@ -52,24 +52,19 @@ class Forum extends React.Component<ForumProps> {
 
         this.state = {
             eth: 1,
-            tokens: 0
+            tokens: 0,
         }
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.updateForum(nextProps.acct)
+        this.updateForum(nextProps)
     }
 
     async updateForum(nextProps) {
-        if (nextProps.address !== this.props.address) {
-
-            this.forum = new ForumService(nextProps.address)
-            await this.forum!.setAccount(nextProps.acct)
-            return
-        }
-
-        if (nextProps.acct !== this.props.acct) {
-            await this.forum!.setAccount(nextProps.acct)
+        if (nextProps.acct !== this.props.acct || nextProps.address !== this.props.params.address) {
+            const forum = new ForumService(nextProps.params.address)
+            await forum.setAccount(nextProps.acct)
+            this.setState({ forum  })
         }
     }
 
@@ -438,7 +433,7 @@ class Forum extends React.Component<ForumProps> {
                         </div>
 
 
-                        <MessageBoard/>
+                        { this.state.forum && <MessageBoard forum={ this.state.forum }/> }
                     </div>
                 </div>
             </div>

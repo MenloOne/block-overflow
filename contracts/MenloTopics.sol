@@ -67,11 +67,11 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
         return (_cost <= _value);
     }
 
-    function createForum(address _from, bytes32 _topicHash, uint256 _bounty, uint256 _length) private {
+    function createForum(address _from, bytes32 _topicHash, uint256 _bounty, uint256 _length) public {
         MenloForum forum = new MenloForum( token, this, _from, _topicHash, 5 * 10**18, 0, _length);
-        forums[address(forum)] = ForumMetadata(_topicHash,false,0,0,0);
-        token.transfer(address(forum), _bounty);
-        topicsCount++;
+        // token.transfer(address(forum), _bounty);
+        forums[address(forum)] = ForumMetadata(_topicHash,false,0,0,address(0));
+        topicsCount += 1;
         emit NewTopic( address(forum) );
     }
 

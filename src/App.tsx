@@ -4,7 +4,7 @@ import * as History from 'history'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { AccountService, AccountContext } from './services/AccountService'
 import { history } from './config'
-import BasicRouter from './BasicRouter'
+import router from './router'
 
 import Topics from './pages/Topics'
 import Forum from './pages/Forum'
@@ -71,38 +71,34 @@ class App extends React.Component {
     }
 
     async renderLocation(location : History.Location, action: History.Action) {
-        const renderComponent = this.renderComponent.bind(this)
+        const routes : object[] = this.commonRoutes
 
+        this.setState({ wasLoggedIn: this.account.isLoggedIn() })
         if (this.account.isLoggedIn()) {
-
-            this.setState({ wasLoggedIn: true })
-
-            BasicRouter.resolve(this.loggedInRoutes, location)
-                .then(renderComponent)
-                .catch(error => BasicRouter.resolve({ ...this.loggedInRoutes, ...this.commonRoutes }, { ...location, error })
-                    .then(renderComponent));
-            return
+            routes.concat( this.loggedInRoutes )
+        } else {
+            routes.concat( this.loggedOutRoutes )
         }
 
-        this.setState({ wasLoggedIn: false })
-
-        BasicRouter.resolve( this.loggedOutRoutes, location)
-            .then(renderComponent)
-            .catch(error => BasicRouter.resolve(this.loggedOutRoutes, { ...location, error })
-                .then(renderComponent));
+        try {
+            const component = await router.resolve( routes, location)
+            this.renderComponent(component)
+        } catch (error) {
+            const component = await router.resolve( routes, { ...location, error })
+            this.renderComponent(component)
+        }
     }
 
 
     loggedOutRoutes = [
-        { path: '/', action: () => <Topics /> },
     ];
 
     loggedInRoutes = [
-        { path: '/', action: () => <Topics /> },
-        { path: '/topic/:address(\\d+)', action: (params) => <Forum {...params}/> },
     ];
 
     commonRoutes = [
+        { path: '/', action: () => <Topics /> },
+        { path: '/topic/:address(.+)', action: (params) => <Forum { ...params }/> },
         { path: '/privacy', action: () => <Topics /> }
     ];
 

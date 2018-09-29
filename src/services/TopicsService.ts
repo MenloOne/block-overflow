@@ -16,6 +16,7 @@
 
 import web3 from './web3_override'
 import TruffleContract from 'truffle-contract'
+import BigNumber from 'bignumber.js'
 
 import RemoteIPFSStorage, { IPFSTopic } from '../storage/RemoteIPFSStorage'
 import HashUtils from '../storage/HashUtils'
@@ -133,9 +134,9 @@ class TopicsService {
                 return
             }
 
-            const forumAdddress = HashUtils.solidityHashToCid(result.args._forum)
+            const forumAdddress = result.args._forum.toString()
 
-            if (typeof this.topicOffsets[forumAdddress] === 'undefined') {
+            if (typeof this.topicHashes[forumAdddress] === 'undefined') {
                 const offset = this.topicHashes.length
                 console.log(`[[ Topic ]] ( ${offset} ) ${forumAdddress}`)
 
@@ -146,6 +147,8 @@ class TopicsService {
                 await message.fill()
 
                 this.topics.push(message)
+
+                this.onModifiedTopic(message)
             }
         })
     }
@@ -193,7 +196,8 @@ class TopicsService {
 
             // Send it to Blockchain
             console.log('token ', this.tokenContractJS.address, ' topic ', contract.address, ' bounty ', bounty * 10 ** 18, ' action ', this.actions.newTopic)
-            const result = await this.tokenContractJS.transferAndCall(contract.address, bounty * 10 ** 18, this.actions.newTopic, [hashSolidity, TOPIC_LENGTH])
+            const result = await this.contract!.createForumTx(this.account!, new BigNumber(hashSolidity), bounty * 10 ** 18, TOPIC_LENGTH).send({})
+            // const result = await this.tokenContractJS.transferAndCall(contract.address, bounty * 10 ** 18, this.actions.newTopic, [hashSolidity, TOPIC_LENGTH])
             console.log(result)
 
             return {

@@ -177,7 +177,7 @@ const AccountContext = React.createContext({})
 function withAcct(Component) {
     // ...and returns another component...
 
-    return function EthContextComponent(props) {
+    return function withAcctComponent(props) {
         // ... and renders the wrapped component with the context theme!
         // Notice that we pass through any additional props as well
         return (

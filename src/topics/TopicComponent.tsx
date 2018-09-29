@@ -23,6 +23,7 @@ import './Topic.css'
 import TopicsService from "../services/TopicsService";
 import Topic from "../services/Topic";
 
+import { history } from '../config'
 
 interface TopicComponentProps {
     topic: Topic,
@@ -43,6 +44,8 @@ class TopicComponent extends React.Component<TopicComponentProps> {
     constructor(props) {
         super(props)
 
+        this.onClickTopic = this.onClickTopic.bind(this)
+
         this.state = {
             showReplyForm: false,
             showReplies: true
@@ -55,6 +58,9 @@ class TopicComponent extends React.Component<TopicComponentProps> {
     componentWillUnmount() {
     }
 
+    onClickTopic() {
+        history.push(`/topic/${ this.props.topic.forumAddress }`)
+    }
 
     messageStatus() {
         return this.props.service.getTopic(this.props.topic.id) ? 'complete' : 'pending'
@@ -68,45 +74,25 @@ class TopicComponent extends React.Component<TopicComponentProps> {
         return this.messageStatus() === 'pending'
     }
 
-    renderVotes() {
-        const message = this.props.topic
-        const metadata = message.metadata
-        if (!metadata || metadata.votes === 0) {
-            return null
-        }
-
-        return (
-            // tslint:disable-next-line
-            <span className="votes-indicator item text-primary d-lg-block" negative={(metadata.votes < 0) ? 'true' : 'false'}>
-                <div className='circle left'/>
-                <div className='circle mid'>
-                    {metadata.votes < 0 ?
-                        <span><i className='fa fa-fw fa-thumbs-down'/>{metadata.votes}</span>
-                        :
-                        <span><i className='fa fa-fw fa-thumbs-up'/>{metadata.votes}</span>
-                    }
-                </div>
-                <div className='circle right'/>
-            </span>
-        )
-    }
 
     render() {
         const message = this.props.topic
 
         return (
             <li className="borderis message">
-                <div className="content">
-                    <h3 className="tag-name">
-                        <span className="points" style={ { display: 'none' } }>??? points </span>
-                        <span className="time">
-                            <Moment fromNow>{ message.date }</Moment>
-                        </span>
-                    </h3>
-                    <div className="comments-text">
-                        {message.body}
+                <a onClick={ this.onClickTopic } >
+                    <div className="content">
+                        <h3 className="tag-name">
+                            <span className="points" style={ { display: 'none' } }>??? points </span>
+                            <span className="time">
+                                <Moment fromNow>{ message.date }</Moment>
+                            </span>
+                        </h3>
+                        <div className="comments-text">
+                            {message.body}
+                        </div>
                     </div>
-                </div>
+                </a>
             </li>
         )
     }

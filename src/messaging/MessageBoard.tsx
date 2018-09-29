@@ -47,33 +47,33 @@ class MessageBoard extends React.Component<MessageBoardProps> {
             messages: [],
             topFive: false,
             showCompose: true,
-            forum: new ForumService(props.forum)
+            forum: props.forum
         }
     }
 
     componentDidMount() {
-        this.state.forum.subscribeMessages('0x0', this.refreshMessages)
+        this.props.forum.subscribeMessages('0x0', this.refreshMessages)
         this.refreshMessages()
 
-        this.state.forum.subscribeLotteries(this.refreshLotteries)
+        this.props.forum.subscribeLotteries(this.refreshLotteries)
         this.refreshLotteries()
     }
 
     componentWillUnmount() {
-        this.state.forum.subscribeMessages('0x0', null)
-        this.state.forum.subscribeLotteries(null)
+        this.props.forum.subscribeMessages('0x0', null)
+        this.props.forum.subscribeLotteries(null)
     }
 
     componentWillReceiveProps(newProps) {
     }
 
     async refreshMessages() {
-        const messages = await this.state.forum.getChildrenMessages('0x0')
+        const messages = await this.props.forum.getChildrenMessages('0x0')
         this.setState({ messages })
     }
 
     async refreshLotteries() {
-        const lottery = await this.state.forum.lottery
+        const lottery = await this.props.forum.lottery
         this.setState({ lottery })
     }
 
@@ -84,7 +84,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     onSubmitMessage(body) {
-        return this.state.forum.createMessage(body, null)
+        return this.props.forum.createMessage(body, null)
     }
 
     topFiveMessages() {
@@ -256,7 +256,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.state.forum.synced.isFulfilled())) {
+        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.props.forum.synced.isFulfilled())) {
             return (<li className='borderis'>
                 <div style={{ paddingBottom: '3em' }}>
                     Loading Discussion...
@@ -279,7 +279,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 <div key={index} className='row'>
                     <div className='col-12'>
                         <Message key={m.id}
-                                 forumService={this.state.forum}
+                                 forumService={this.props.forum}
                                  message={m}
                                  onChangeReplying={this.onChangeReplying}
                         />
