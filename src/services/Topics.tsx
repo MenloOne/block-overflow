@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import * as React from 'react'
+
 import web3 from './web3_override'
 import TruffleContract from 'truffle-contract'
 import BigNumber from 'bignumber.js'
@@ -26,47 +28,59 @@ import { QPromise } from '../utils/QPromise'
 import TokenContract  from '../build-contracts/MenloToken.json'
 import TopicsContract  from '../build-contracts/MenloTopics.json'
 import { MenloTopics } from '../.contracts/MenloTopics'
-import { MenloToken } from '../.contracts/MenloToken'
+// import { MenloToken } from '../.contracts/MenloToken'
 
-import AccountService from './AccountService'
+import { Account } from './Account'
 import Topic from './Topic'
 
 
-type NewTopicCallback = (topic: Topic | null) => void
-const TOPIC_LENGTH = 15 * 60 /* 15 Minutes */
+export class TopicsModel {
+    public topics: Topic[] = []
+}
 
-class TopicsService {
+export interface TopicsService {
+    ready: any
+    synced: any
+
+    topicOffset(id : string)
+    getTopic(id : string) : Topic
+    allTopics() : Topic[]
+    createTopic(body: string, bounty: number) : Promise<object>
+}
+
+export type TopicsContext = { model: TopicsModel, svc: Topics }
+
+
+type TopicsCallback = (topic: Topic | null) => void
+const TOPIC_LENGTH = 24 * 60 * 60 /* 24 Hours */
+
+export class Topics extends TopicsModel implements TopicsService {
+
+    public ready: any
+    public synced: any
 
     // Private
 
     private signalReady: () => void
     private signalSynced: () => void
 
-    // Public
+    private tokenContractJS: any
+    private contract: MenloTopics | null
 
-    public ready: QPromise<void>
-    public synced: QPromise<void>
+    private actions: { newTopic }
 
-    public tokenContract: MenloToken | null
-    public tokenContractJS: any
-    public contract: MenloTopics | null
+    private account: string | null
+    private remoteStorage: RemoteIPFSStorage
+    private topicsCallback: TopicsCallback | null
 
-    public actions: { newTopic }
-
-    public account: string | null
-    public remoteStorage: RemoteIPFSStorage
-    public topics: Topic[] = []
-    public topicsCallback: NewTopicCallback | null
-
-    public initialTopicCount: number
-    public filledMessagesCounter: number
-    public topicOffsets: Map<string, number> | {}
-    public topicHashes: string[]
-
-    public refreshTokenBalance: () => void
+    private initialTopicCount: number
+    private topicOffsets: Map<string, number> | {}
+    private topicHashes: string[]
 
 
     constructor() {
+        super()
+
         this.ready  = QPromise((resolve) => { this.signalReady = resolve })
         this.synced = QPromise((resolve) => { this.signalSynced = resolve })
 
@@ -75,21 +89,22 @@ class TopicsService {
         this.topicsCallback = null
     }
 
-    async setAccount(acct : AccountService) {
+    public setCallback(callback : TopicsCallback) {
+        this.topicsCallback = callback
+    }
+
+    async setAccount(acct : Account) {
         if (acct.address === this.account) {
             return
         }
 
         try {
             this.account = acct.address
-            this.refreshTokenBalance = acct.refreshBalance
 
             const tokenContract = TruffleContract(TokenContract)
             await tokenContract.setProvider(web3.currentProvider)
             tokenContract.defaults({ from: this.account })
-
             this.tokenContractJS = await tokenContract.deployed()
-            this.tokenContract   = new MenloToken(web3, (await tokenContract.deployed()).address)
 
             const topicsContract = TruffleContract(TopicsContract)
             await topicsContract.setProvider(web3.currentProvider)
@@ -97,7 +112,6 @@ class TopicsService {
             const topicAddress = (await topicsContract.deployed()).address
             this.contract = await MenloTopics.createAndValidate(web3, topicAddress)
 
-            this.filledMessagesCounter = 0
             this.topicOffsets = {}
             this.topicHashes = []
             this.initialTopicCount = (await this.contract.topicsCount).toNumber()
@@ -120,7 +134,7 @@ class TopicsService {
         }
     }
 
-    topicOffset(id : string) {
+    public topicOffset(id : string) {
         return this.topicOffsets[id]
     }
 
@@ -144,7 +158,7 @@ class TopicsService {
                 this.topicHashes.push(forumAdddress)
 
                 const message = new Topic( this, forumAdddress, offset )
-                await message.fill()
+                await this.fillMessage(message)
 
                 this.topics.push(message)
 
@@ -153,9 +167,22 @@ class TopicsService {
         })
     }
 
+    async fillMessage(message: Topic) {
+        await this.ready
+        const contract = this.contract!;
 
-    subscribeTopics(callback : NewTopicCallback | null) {
-        this.topicsCallback = callback
+        const md: [BigNumber, boolean, BigNumber, BigNumber, string] = await contract.forums(message.forumAddress)
+        message.metadata = {
+            messageHash: HashUtils.solidityHashToCid(md[0].toString(16)),
+            isClosed:    md[1],
+            payout:      md[2].toNumber(),
+            votes:       md[3].toNumber(),
+            winner:      md[4]
+        }
+
+        const ipfsTopic : IPFSTopic = await this.remoteStorage.get(message.metadata.messageHash)
+        Object.assign(message, ipfsTopic)
+        message.filled = true
     }
 
 
@@ -166,11 +193,11 @@ class TopicsService {
         }
     }
     
-    getTopic(id : string) : Topic {
+    public getTopic(id : string) : Topic {
         return this.topics[this.topicOffset(id)]
     }
 
-    async getTopics() : Promise<Topic[]> {
+    public allTopics() : Topic[] {
         return this.topics
     }
 
@@ -218,4 +245,20 @@ class TopicsService {
 }
 
 
-export default TopicsService
+export const TopicsCtxtComponent = React.createContext({})
+
+
+export function withTopics(Component) {
+    // ...and returns another component...
+
+    return function withTopicsComponent(props) {
+        // ... and renders the wrapped component with the context theme!
+        // Notice that we pass through any additional props as well
+        return (
+            <TopicsCtxtComponent.Consumer>
+                {(topics: Topics) => <Component { ...props } topics={ topics }/>}
+            </TopicsCtxtComponent.Consumer>
+        )
+    }
+}
+

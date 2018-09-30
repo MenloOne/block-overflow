@@ -1,9 +1,9 @@
-import ForumService from "./ForumService";
+import { Forum } from "./Forum";
 import { IPFSMessage } from "../storage/RemoteIPFSStorage";
 
 export default class Message extends IPFSMessage {
 
-    public forum: ForumService
+    public forum: Forum
 
     public id: string
     public parent: string

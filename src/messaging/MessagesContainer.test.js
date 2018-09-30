@@ -17,7 +17,7 @@
 
 import React from 'react'
 import {shallow} from 'enzyme'
-import Message from './Message'
+import MessageRow from './MessageRow'
 import MessageForm from './MessageForm'
 import MessagesContainer from './MessagesContainer'
 
@@ -44,7 +44,7 @@ describe('MessagesContainer', () => {
 
     messagesContainer = shallow(<MessagesContainer client={client}/>)
 
-    const components = messagesContainer.find(Message)
+    const components = messagesContainer.find(MessageRow)
     expect(components.exists()).toEqual(false)
     expect(messagesContainer.text()).toContain('There are no messages.')
   })
@@ -52,7 +52,7 @@ describe('MessagesContainer', () => {
   it('renders a Topic for each message retrieved from the client', () => {
     messagesContainer.update()
 
-    const components = messagesContainer.find(Message)
+    const components = messagesContainer.find(MessageRow)
 
     expect(components.length).toEqual(messages.length)
   })

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import web3 from '../services/web3_override'
-import { AccountService, MetamaskStatus, withAcct } from '../services/AccountService'
+import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
 
 import TruffleContract from 'truffle-contract'
 
@@ -14,7 +14,7 @@ import '../App.scss'
 const logo = require('../images/logo.svg')
 
 interface TopNavProps {
-    acct: AccountService
+    acct: AccountContext
 }
 
 class TopNav extends React.Component<TopNavProps> {
@@ -25,28 +25,28 @@ class TopNav extends React.Component<TopNavProps> {
     }
 
     async onGetTokens() {
-        if (this.props.acct.status !== MetamaskStatus.Ok) {
+        if (this.props.acct.model.status !== MetamaskStatus.Ok) {
             return
         }
 
         try {
             const faucetContract = TruffleContract(MenloFaucetContract)
             faucetContract.defaults({
-                from: this.props.acct.address
+                from: this.props.acct.model.address
             })
             faucetContract.setProvider(web3.currentProvider)
 
             const faucet = await faucetContract.deployed()
             await faucet.drip()
 
-            this.props.acct.refreshBalance()
+            this.props.acct.svc.refreshBalance()
         } catch (e) {
             window.alert( e )
         }
     }
 
     renderONE() {
-        const one = this.props.acct.balance
+        const one = this.props.acct.model.balance
 
         if (one < 5) {
             return (
@@ -65,9 +65,9 @@ class TopNav extends React.Component<TopNavProps> {
     }
 
     renderAccountStatus() {
-        console.log( 'STATUS: ', this.props.acct.status )
+        console.log( 'STATUS: ', this.props.acct.model.status )
 
-        if (this.props.acct.status === MetamaskStatus.LoggedOut) {
+        if (this.props.acct.model.status === MetamaskStatus.LoggedOut) {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
@@ -77,7 +77,7 @@ class TopNav extends React.Component<TopNavProps> {
             )
         }
 
-        if (this.props.acct.status === MetamaskStatus.Uninstalled) {
+        if (this.props.acct.model.status === MetamaskStatus.Uninstalled) {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
@@ -87,17 +87,17 @@ class TopNav extends React.Component<TopNavProps> {
             )
         }
 
-        if (this.props.acct.status === MetamaskStatus.Error) {
+        if (this.props.acct.model.status === MetamaskStatus.Error) {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
-                        <span className="token-one">{ this.props.acct.error }</span>
+                        <span className="token-one">{ this.props.acct.model.error }</span>
                     </li>
                 </ul>
             )
         }
 
-        if (this.props.acct.status === MetamaskStatus.Starting) {
+        if (this.props.acct.model.status === MetamaskStatus.Starting) {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
@@ -120,9 +120,9 @@ class TopNav extends React.Component<TopNavProps> {
                        aria-expanded="false">
 
                         <span className="user-img">
-                            {this.props.acct.avatar}
+                            {this.props.acct.model.avatar}
                         </span>
-                        <span className="name">{ this.props.acct.address }</span>
+                        <span className="name">{ this.props.acct.model.address }</span>
 
                         { false &&
                         <span className="avatar-indicator text-primary d-none d-lg-block">

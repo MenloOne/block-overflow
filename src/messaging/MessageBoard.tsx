@@ -2,11 +2,11 @@ import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Blockies from 'react-blockies'
 
-import { AccountService, MetamaskStatus, withAcct } from '../services/AccountService'
-import ForumService from '../services/ForumService'
+import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
+import { Forum } from '../services/Forum'
 import Lottery from '../services/Lottery'
 
-import Message from './Message'
+import MessageRow from './MessageRow'
 import MessageForm from './MessageForm'
 import CountdownTimer from '../components/CountdownTimer'
 
@@ -14,15 +14,14 @@ import '../App.scss'
 
 
 interface MessageBoardProps {
-    acct: AccountService,
-    forum: ForumService
+    acct: AccountContext,
+    forum: Forum
 }
 
 interface MessageBoardState {
     messages: any[],
     topFive: boolean,
     showCompose: boolean,
-    forum: ForumService,
     lottery?: Lottery,
 }
 
@@ -46,8 +45,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         this.state = {
             messages: [],
             topFive: false,
-            showCompose: true,
-            forum: props.forum
+            showCompose: true
         }
     }
 
@@ -65,6 +63,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     componentWillReceiveProps(newProps) {
+        // TODO: Redirect home if Forum isn't valid on account change
     }
 
     async refreshMessages() {
@@ -256,7 +255,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.props.forum.synced.isFulfilled())) {
+        if (this.state.messages.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.forum.synced.isFulfilled())) {
             return (<li className='borderis'>
                 <div style={{ paddingBottom: '3em' }}>
                     Loading Discussion...
@@ -278,10 +277,10 @@ class MessageBoard extends React.Component<MessageBoardProps> {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <Message key={m.id}
-                                 forumService={this.props.forum}
-                                 message={m}
-                                 onChangeReplying={this.onChangeReplying}
+                        <MessageRow key={m.id}
+                                    forumService={this.props.forum}
+                                    message={m}
+                                    onChangeReplying={this.onChangeReplying}
                         />
                     </div>
                 </div>

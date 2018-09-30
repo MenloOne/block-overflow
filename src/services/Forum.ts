@@ -26,9 +26,9 @@ import { QPromise } from '../utils/QPromise'
 
 import TokenContract  from '../build-contracts/MenloToken.json'
 import { MenloForum } from '../.contracts/MenloForum'
-import { MenloToken } from '../.contracts/MenloToken'
+// import { MenloToken } from '../.contracts/MenloToken'
 
-import AccountService from './AccountService'
+import { Account } from './Account'
 import Lottery, { LotteriesCallback } from './Lottery'
 import Message from './Message'
 
@@ -36,7 +36,29 @@ import Message from './Message'
 type NewMessageCallback = () => void
 
 
-class ForumService {
+export class ForumModel {
+    public topic: IPFSTopic
+    public lottery: Lottery
+    public messages: MessagesGraph
+    public lotteryLength : number
+}
+
+
+export interface Forum {
+    topicOffset(id : string)
+    subscribeMessages(parentID : string, callback : NewMessageCallback | null)
+    subscribeLotteries(callback : LotteriesCallback | null)
+    getMessage(id : string) : Message
+    getChildrenMessages(id : string) : Promise<Message[]>
+    upvote(id : string, parent: string | null, hash: string | null) : Promise<number>
+    downvote(id : string, parent: string | null, hash: string | null) : Promise<number>
+    createMessage(body: string, parentHash : string | null) : Promise<object>
+}
+
+export type ForumContext = { model: ForumModel, svc: Forum }
+
+
+export class Forum extends ForumModel implements Forum {
 
     // Private
 
@@ -45,36 +67,35 @@ class ForumService {
 
     // Public
 
-    public ready: QPromise<void>
-    public synced: QPromise<void>
+    public ready: any
+    public synced: any
 
-    public tokenContract: MenloToken | null
-    public tokenContractJS: any
+    // private tokenContract: MenloToken | null
+    private tokenContractJS: any
 
-    public contractAddress: string
+    private contractAddress: string
     public contract: MenloForum | null
 
-    public actions: { post, upvote, downvote }
+    private actions: { post, upvote, downvote }
 
     public account: string | null
-    public topic: IPFSTopic
     public remoteStorage: RemoteIPFSStorage
-    public messages: MessagesGraph
     public messagesCallbacks: Map<string, NewMessageCallback> | {}
 
     public filledMessagesCounter: number
     public topicOffsets: Map<string, number> | {}
     public topicHashes: string[]
 
-    public lottery: Lottery
-
     public initialSyncEpoch : number
-    public lotteryLength : number
+    public postCost : number
+    public voteCost : number
 
     public refreshTokenBalance: () => void
 
 
     constructor( forumAddress: string ) {
+        super()
+
         this.ready  = QPromise((resolve) => { this.signalReady = resolve })
         this.synced = QPromise((resolve) => { this.signalSynced = resolve })
 
@@ -87,7 +108,7 @@ class ForumService {
         this.lottery = new Lottery(this)
     }
 
-    async setAccount(acct : AccountService) {
+    async setAccount(acct : Account) {
         if (acct.address === this.account) {
             return
         }
@@ -99,9 +120,8 @@ class ForumService {
             const tokenContract = TruffleContract(TokenContract)
             await tokenContract.setProvider(web3.currentProvider)
             tokenContract.defaults({ from: this.account })
-
             this.tokenContractJS = await tokenContract.deployed()
-            this.tokenContract = new MenloToken(web3, (await tokenContract.deployed()).address)
+            // this.tokenContract = new MenloToken(web3, (await tokenContract.deployed()).address)
 
             this.filledMessagesCounter = 0
             this.topicOffsets = {}
@@ -116,15 +136,19 @@ class ForumService {
 
             const hash = await this.contract.topicHash
             this.topic = await this.remoteStorage.get(HashUtils.solidityHashToCid(hash))
-            const [post, upvote, downvote] = await Promise.all([this.contract.ACTION_POST, this.contract.ACTION_UPVOTE, await this.contract.ACTION_DOWNVOTE])
+            const [post, upvote, downvote] = (await Promise.all([this.contract.ACTION_POST, this.contract.ACTION_UPVOTE, await this.contract.ACTION_DOWNVOTE])).map(bn => bn.toNumber())
             this.actions = { post, upvote, downvote }
 
-            const [bn1, bn4] = await Promise.all([
+            const [bn1, bn2, bn3, bn4] = await Promise.all([
                 this.contract.postCount,
-                this.contract.epochLength
+                this.contract.epochLength,
+                this.contract.postCost,
+                this.contract.voteCost
             ])
             this.initialSyncEpoch = bn1.toNumber() - 1
-            this.lotteryLength    = bn4.toNumber() * 1000
+            this.lotteryLength    = bn2.toNumber() * 1000
+            this.postCost         = bn3.toNumber()
+            this.voteCost         = bn4.toNumber()
 
             // Figure out cost for post
             // this.postGas = await this.tokenContract.transferAndCall.estimateGas(this.contract.address, 1 * 10**18, this.actions.post, ['0x0', '0x0000000000000000000000000000000000000000000000000000000000000000'])
@@ -210,10 +234,10 @@ class ForumService {
             }
 
             const parentHash  = '0x0'
-            const messageHash = HashUtils.solidityHashToCid(result.args.contentHash)
+            const messageHash = HashUtils.solidityHashToCid(result.args._contentHash)
 
             if (parentHash === messageHash) {
-                console.log(`[[ Topic ]] ${parentHash} > ${messageHash}`)
+                console.log(`[[ Answer ]] ${messageHash}`)
 
                 // Probably 0x0 > 0x0 which Solidity adds to make life simple
                 this.topicOffsets[messageHash] = this.topicHashes.length
@@ -246,9 +270,9 @@ class ForumService {
             }
 
             const parentHash  = HashUtils.solidityHashToCid(result.args._parentHash)
-            const messageHash = HashUtils.solidityHashToCid(result.args.contentHash)
+            const messageHash = HashUtils.solidityHashToCid(result.args._contentHash)
 
-            console.log(`[[ Topic ]] ${parentHash} > ${messageHash}`)
+            console.log(`[[ Comment ]] ${parentHash} > ${messageHash}`)
             const message = new Message( this, messageHash, parentHash, -1 )
 
             this.messages.add(message)
@@ -307,8 +331,8 @@ class ForumService {
                 throw (new Error('invalid Topic ID'))
             }
             const [votes, myvotes] = await Promise.all([
-                forum.votes.call(this.topicOffset(message.id)),
-                forum.voters.call(this.topicOffset(message.id), this.account)])
+                forum.votes(this.topicOffset(message.id)),
+                forum.voters(this.topicOffset(message.id), this.account!)])
 
             message.votes   = votes.toNumber()
             message.myvotes = myvotes.toNumber()
@@ -352,14 +376,13 @@ class ForumService {
         return Promise.all(message.children.map(cid => this.getMessage(cid)).filter(m => m && m.body))
     }
 
-    async vote(id, direction) {
+    async vote(id : string, direction: number, parent : string | null, hash : string | null) {
         await this.ready
         const forum = this.contract!
 
         const action = (direction > 0) ? this.actions.upvote : this.actions.downvote
 
-        const tokenCost = await forum.voteCost
-        await this.tokenContractJS.transferAndCall(forum.address, tokenCost, action, [this.topicOffset(id).toString()])
+        await this.tokenContractJS.transferAndCall(forum.address, this.voteCost, action, [this.topicOffset(id).toString(), parent ? parent : '', hash ? hash : ''])
         // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
 
         const message = this.messages.get(id)
@@ -369,12 +392,12 @@ class ForumService {
         return message
     }
 
-    async upvote(id) : Promise<number> {
-        return this.vote(id, 1)
+    async upvote(id : string, parent: string | null, hash: string | null) : Promise<number> {
+        return this.vote(id, 1, parent, hash)
     }
 
-    async downvote(id) : Promise<number> {
-        return this.vote(id, -1)
+    async downvote(id : string, parent: string | null, hash: string | null) : Promise<number> {
+        return this.vote(id, -1, parent, hash)
     }
 
     async createMessage(body: string, parentHash : string | null) : Promise<object> {
@@ -404,8 +427,8 @@ class ForumService {
             }
 
             // Send it to Blockchain
-            const tokenCost = await contract.postCost
-            const result = await this.tokenContract!.transferAndCallTx(contract.address, tokenCost, this.actions.post, parentHashSolidity + hashSolidity).send({})
+            const result = await this.tokenContractJS.transferAndCall(contract.address, this.postCost, this.actions.post, [parentHashSolidity, hashSolidity])
+            // const result = await this.tokenContract!.transferAndCallTx(contract.address, tokenCost, this.actions.post, parentHashSolidity + hashSolidity).send({})
             console.log(result)
 
             return {
@@ -425,5 +448,3 @@ class ForumService {
     }
 }
 
-
-export default ForumService

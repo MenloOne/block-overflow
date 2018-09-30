@@ -24,7 +24,7 @@ import MessageForm from './MessageForm'
 import '../App.scss'
 import './Message.css'
 
-class Message extends React.Component {
+class MessageRow extends React.Component {
     constructor(props) {
         super(props)
 
@@ -94,11 +94,11 @@ class Message extends React.Component {
     }
 
     async upvote() {
-        await this.props.forumService.upvote(this.props.message.id)
+        await this.props.forumService.upvote(this.props.message.id, null, null)
     }
 
     async downvote() {
-        await this.props.forumService.downvote(this.props.message.id)
+        await this.props.forumService.downvote(this.props.message.id, null, null)
     }
 
     messageStatus() {
@@ -137,9 +137,9 @@ class Message extends React.Component {
     renderReplies() {
         return this.state.children.map(m => {
             return (
-                <Message key={m.id}
-                         message={m}
-                         forumService={this.props.forumService}/>
+                <MessageRow key={m.id}
+                            message={m}
+                            forumService={this.props.forumService}/>
             )
         })
     }
@@ -199,4 +199,4 @@ class Message extends React.Component {
     }
 }
 
-export default Message
+export default MessageRow

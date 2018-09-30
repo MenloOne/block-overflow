@@ -2,14 +2,16 @@ import * as React from 'react'
 import * as History from 'history'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { AccountService, AccountContext } from './services/AccountService'
+import { Account, AccountContext, AccountCtxtComponent } from './services/Account'
+import { Topics, TopicsContext, TopicsCtxtComponent } from './services/Topics'
 import { history } from './config'
 import router from './router'
 
-import Topics from './pages/Topics'
-import Forum from './pages/Forum'
+import TopicsPage from './topics/TopicsPage'
+import ForumPage from './messaging/ForumPage'
 
 import "./App.scss"
+import Topic from "./services/Topic";
 
 
 class Footer extends React.Component {
@@ -22,43 +24,53 @@ class Footer extends React.Component {
 
 
 interface AppState {
-    account: AccountService,
-    component: React.Component,
-    forumAddress: string | null
+    account: AccountContext,
+    topics:  TopicsContext,
+    component?: React.Component
 }
 
 
 class App extends React.Component {
 
     state   : AppState
-    account : AccountService
+
+    account : Account
+    topics  : Topics
 
     constructor(props: any, context: any) {
         super(props, context)
+
         this.accountChanged = this.accountChanged.bind(this)
+        this.topicsChanged = this.topicsChanged.bind(this)
         this.renderLocation = this.renderLocation.bind(this)
+
+        this.account = new Account()
+        this.topics  = new Topics()
+
+        this.state = {
+            account: { model: this.account, svc: this.account },
+            topics:  { model: this.topics,  svc: this.topics }
+        }
+
+        this.account.setCallback(this.accountChanged)
+        this.topics.setCallback(this.topicsChanged)
     }
 
-    async accountChanged(_account : AccountService) {
+    async topicsChanged(_topic: Topic) {
+        this.setState({ topics: { model: Object.assign({}, this.topics), svc: this.topics } })
+    }
+
+    async accountChanged() {
         // Setup account state object w/ particular callbacks
 
-        const account = Object.assign({}, _account)
-
-        account.contractError  = _account.contractError.bind(_account)
-        account.refreshBalance = _account.refreshBalance.bind(_account)
-
-        this.setState({ account })
-    }
-
-    componentWillMount() {
-        this.account = new AccountService(this.accountChanged)
+        this.setState({ account: { model: Object.assign({}, this.account), svc: this.account } })
+        this.topics.setAccount(this.account)
     }
 
     componentDidMount() {
         history.listen(this.renderLocation)   // render subsequent URLs
         this.renderLocation(history.location, 'REPLACE')
     }
-
 
     renderComponent(component : any) {
         if (!component) {
@@ -97,20 +109,22 @@ class App extends React.Component {
     ];
 
     commonRoutes = [
-        { path: '/', action: () => <Topics /> },
-        { path: '/topic/:address(.+)', action: (params) => <Forum { ...params }/> },
-        { path: '/privacy', action: () => <Topics /> }
+        { path: '/', action: () => <TopicsPage /> },
+        { path: '/topic/:address(.+)', action: (params) => <ForumPage { ...params }/> },
+        { path: '/privacy', action: () => <TopicsPage /> }
     ];
 
 
     render() {
         return (
-            <AccountContext.Provider value={this.state.account}>
-                <CssBaseline />
-                { this.state.component }
-                { this.props.children }
-                <Footer />
-            </AccountContext.Provider>
+            <AccountCtxtComponent.Provider value={this.state.account}>
+                <TopicsCtxtComponent.Provider value={this.state.topics}>
+                    <CssBaseline />
+                    { this.state.component }
+                    { this.props.children }
+                    <Footer />
+                </TopicsCtxtComponent.Provider>
+            </AccountCtxtComponent.Provider>
         )
     }
 }

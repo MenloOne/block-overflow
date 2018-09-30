@@ -1,7 +1,6 @@
-import TopicsService from "./TopicsService";
-import { BigNumber } from "bignumber.js";
+import { Topics } from "./Topics";
 import {IPFSTopic} from "../storage/RemoteIPFSStorage";
-import HashUtils from '../storage/HashUtils'
+
 
 type TopicMetadata = {
     isClosed:  boolean,
@@ -14,7 +13,7 @@ type TopicMetadata = {
 
 export default class Topic extends IPFSTopic {
 
-    public topics: TopicsService
+    public topics: Topics
 
     public forumAddress: string
     public offset: number
@@ -23,7 +22,7 @@ export default class Topic extends IPFSTopic {
     public body: string
     public filled: boolean
 
-    constructor(topics : TopicsService, forumAddress : string, offset : number) {
+    constructor(topics : Topics, forumAddress : string, offset : number) {
         super()
 
         this.topics = topics
@@ -42,24 +41,6 @@ export default class Topic extends IPFSTopic {
     async refreshMetadata(address) {
         await this.topics.ready
 
-    }
-
-    async fill() {
-        await this.topics.ready
-        const contract = this.topics.contract!;
-
-        const md: [BigNumber, boolean, BigNumber, BigNumber, string] = await contract.forums(this.forumAddress)
-        this.metadata = {
-            messageHash: HashUtils.solidityHashToCid(md[0].toString(16)),
-            isClosed:    md[1],
-            payout:      md[2].toNumber(),
-            votes:       md[3].toNumber(),
-            winner:      md[4]
-        }
-
-        const ipfsTopic : IPFSTopic = await this.topics.remoteStorage.get(this.metadata.messageHash)
-        Object.assign(this, ipfsTopic)
-        this.filled = true
     }
 }
 

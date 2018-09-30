@@ -27,7 +27,7 @@ import { QPromise } from '../utils/QPromise'
 import TokenContractJSON from '../../node_modules/menlo-token/build/contracts/MenloToken.json'
 
 
-enum MetamaskStatus {
+export enum MetamaskStatus {
     Starting = 'starting',
     Uninstalled = 'uninstalled',
     LoggedOut = 'logged out',
@@ -35,11 +35,7 @@ enum MetamaskStatus {
     Error = 'error'
 }
 
-
-type AccountChangeCallback = (svc : AccountService) => Promise<void>
-
-export default class AccountService {
-
+export class AccountModel {
     public ready: any
     public address: string | null
     public avatar: JSX.Element
@@ -47,33 +43,53 @@ export default class AccountService {
     public fullBalance: BigNumber
     public status: MetamaskStatus
     public error: string | null
+}
+
+export type AccountContext = { model: AccountModel, svc: Account }
+
+
+export interface AccountService {
+    refreshBalance() : Promise<void>
+    contractError(e : Error) : Promise<void>
+    isLoggedIn() : boolean
+}
+
+type AccountChangeCallback = () => Promise<void>
+
+export class Account extends AccountModel implements AccountService {
 
     private token : MenloToken
     private signalReady : () => void
-    private stateChangeCallback : AccountChangeCallback
+    private stateChangeCallback : AccountChangeCallback | null
 
-    constructor(stateChangeCallback : AccountChangeCallback) {
+    constructor() {
+        super()
+
         this.ready = QPromise((res, rej) => this.signalReady = res)
         this.address = null
         this.balance = 0
         this.avatar = <span></span>
         this.status = MetamaskStatus.Starting
-        this.stateChangeCallback = stateChangeCallback
+        this.stateChangeCallback = null
 
         this.checkMetamaskStatus = this.checkMetamaskStatus.bind(this)
         if (!web3) {
             this.status = MetamaskStatus.Uninstalled
-            this.stateChangeCallback(this)
+            this.onStateChange()
             return
         }
 
-        this.stateChangeCallback(this)
+        this.onStateChange()
 
         web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
         this.checkMetamaskStatus()
     }
 
-    isLoggedIn() : boolean {
+    public setCallback(callback : AccountChangeCallback) {
+        this.stateChangeCallback = callback
+    }
+
+    public isLoggedIn() : boolean {
         return false
     }
 
@@ -81,7 +97,7 @@ export default class AccountService {
         web3.eth.getAccounts(async (err, accounts) => {
             if (err || !accounts || accounts.length === 0) {
                 this.status = MetamaskStatus.LoggedOut
-                this.stateChangeCallback(this)
+                this.onStateChange()
                 return
             }
 
@@ -130,7 +146,7 @@ export default class AccountService {
             this.status = MetamaskStatus.Ok
             await this.getBalance()
 
-            await this.stateChangeCallback(this)
+            this.onStateChange()
 
             this.signalReady()
 
@@ -140,7 +156,7 @@ export default class AccountService {
             this.status = MetamaskStatus.Error
             this.error  = e.message
 
-            await this.stateChangeCallback(this)
+            this.onStateChange()
         }
     }
 
@@ -156,7 +172,7 @@ export default class AccountService {
 
         setTimeout(async () => {
             await this.getBalance()
-            this.stateChangeCallback(this)
+            this.onStateChange()
         }, 3000 )
     }
 
@@ -166,32 +182,31 @@ export default class AccountService {
         this.status = MetamaskStatus.Error
         this.error  = e.message
 
-        await this.stateChangeCallback(this)
+        this.onStateChange()
+    }
+
+    async onStateChange() {
+        if (this.stateChangeCallback) {
+            this.stateChangeCallback()
+        }
     }
 }
 
 
-const AccountContext = React.createContext({})
+export const AccountCtxtComponent = React.createContext({})
 
 
-function withAcct(Component) {
+export function withAcct(Component) {
     // ...and returns another component...
 
     return function withAcctComponent(props) {
         // ... and renders the wrapped component with the context theme!
         // Notice that we pass through any additional props as well
         return (
-            <AccountContext.Consumer>
+            <AccountCtxtComponent.Consumer>
                 {(account: Account) => <Component { ...props } acct={ account }/>}
-            </AccountContext.Consumer>
+            </AccountCtxtComponent.Consumer>
         )
     }
 }
 
-
-export {
-    AccountContext,
-    AccountService,
-    MetamaskStatus,
-    withAcct
-}

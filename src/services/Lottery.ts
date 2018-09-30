@@ -1,12 +1,12 @@
 import Message from './Message'
-import ForumService from "./ForumService";
+import { Forum } from "./Forum";
 
 
 export type LotteriesCallback  = () => void
 
 export default class Lottery {
 
-    private forum: ForumService
+    private forum: Forum
 
     public  endTime: number = 0
     public  endTimeServer: number = 0
@@ -23,7 +23,7 @@ export default class Lottery {
     public lotteriesCallback: LotteriesCallback | null
 
 
-    constructor( _forum : ForumService ) {
+    constructor( _forum : Forum ) {
         this.forum = _forum
         this.claimed = false
 

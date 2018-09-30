@@ -22,8 +22,8 @@ import "./Redeemer.sol";
 
 
 contract MenloForumEvents {
-    event Answer(bytes32 contentHash);
-    event Comment(bytes32 _parentHash, bytes32 contentHash);
+    event Answer(bytes32 _contentHash);
+    event Comment(bytes32 _parentHash, bytes32 _contentHash);
     event Payout(address _user, uint256 _tokens);
     event Vote(uint32 _offset, int32 _direction);
 }
@@ -148,8 +148,9 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
     }
 
     function post(address _poster, bytes32 _parentHash, bytes32 _contentHash) internal {
-        if (_parentHash == 0x0) {
+        if (_parentHash != 0) {
             emit Comment(_parentHash, _contentHash);
+            endTimestamp = now + epochLength;
             return;
         }
 
@@ -164,7 +165,7 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
             return true;
         }
 
-        if (now > endTimestamp) {
+        if (now < endTimestamp) {
             return false;
         }
 

@@ -25,7 +25,7 @@ contract('transferAndCall Tests', async function ([miner, owner, investor, inves
 
     describe('Topic tests', async function () {
 
-        it('Topics cost 5', async function () {
+        it('TopicsPage cost 5', async function () {
             var cost   = await topicsDeployed.topicCost.call();
 
             assert.equal(cost, 5 * 10**18, "Minimum topic bounty is 5 ONE")

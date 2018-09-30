@@ -18,16 +18,18 @@
 import React from 'react'
 import Moment from 'react-moment'
 
+import { TopicsContext, withTopics } from "../services/Topics";
+import Topic from "../services/Topic";
+
 import '../App.scss'
 import './Topic.css'
-import TopicsService from "../services/TopicsService";
-import Topic from "../services/Topic";
+
 
 import { history } from '../config'
 
 interface TopicComponentProps {
     topic: Topic,
-    service: TopicsService,
+    topics: TopicsContext,
     onChangeReplying: (bool) => void
 }
 
@@ -37,7 +39,7 @@ interface TopicComponentState {
 }
 
 
-class TopicComponent extends React.Component<TopicComponentProps> {
+class TopicRow extends React.Component<TopicComponentProps> {
 
     state : TopicComponentState
 
@@ -63,7 +65,7 @@ class TopicComponent extends React.Component<TopicComponentProps> {
     }
 
     messageStatus() {
-        return this.props.service.getTopic(this.props.topic.id) ? 'complete' : 'pending'
+        return this.props.topics.svc.getTopic(this.props.topic.id) ? 'complete' : 'pending'
     }
 
     messageComplete() {
@@ -98,4 +100,4 @@ class TopicComponent extends React.Component<TopicComponentProps> {
     }
 }
 
-export default TopicComponent
+export default withTopics(TopicRow)

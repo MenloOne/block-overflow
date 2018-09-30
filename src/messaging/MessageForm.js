@@ -16,7 +16,7 @@
  */
 
 import React from 'react'
-import { withAcct } from '../services/AccountService'
+import { withAcct } from '../services/Account'
 
 
 class MessageForm extends React.Component {

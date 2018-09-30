@@ -1,32 +1,28 @@
 import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import { AccountService, MetamaskStatus, withAcct } from '../services/AccountService'
-import TopicsService from '../services/TopicsService'
+import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
+import { TopicsContext, withTopics } from "../services/Topics";
 
-import TopicComponent from './TopicComponent'
+import TopicRow from './TopicRow'
 import TopicForm from './TopicForm'
 
-import Topic from "../services/Topic";
 import '../App.scss'
 
 
 interface TopicBoardProps {
-    acct: AccountService
+    acct: AccountContext,
+    topics: TopicsContext
 }
 
 interface TopicBoardState {
-    messages: Topic[],
     topFive: boolean,
-    showCompose: boolean,
-    topics?: TopicsService,
+    showCompose: boolean
 }
 
 class TopicBoard extends React.Component<TopicBoardProps> {
 
-    topics: TopicsService
     state : TopicBoardState = {
-        messages: [],
         topFive: false,
         showCompose: true
     }
@@ -38,48 +34,16 @@ class TopicBoard extends React.Component<TopicBoardProps> {
         this.onSubmitMessage = this.onSubmitMessage.bind(this)
         this.onChangeReplying = this.onChangeReplying.bind(this)
         this.claimWinnings = this.claimWinnings.bind(this)
-        this.topicsChanged = this.topicsChanged.bind(this)
-        
-        this.topics = new TopicsService()
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.updateTopics(nextProps)
-    }
-
-    async updateTopics(nextProps) {
-        if (nextProps.acct !== this.props.acct) {
-            try {
-                await this.topics!.setAccount(nextProps.acct)
-            } catch (e) {
-                nextProps.acct.contractError(e)
-            }
-        }
-    }
-
-    componentDidMount() {
-        this.topics.subscribeTopics(this.topicsChanged)
-        this.topicsChanged()
-    }
-
-    componentWillUnmount() {
-        this.topics.subscribeTopics(null)
-    }
-
-    async topicsChanged() {
-        const messages = await this.topics.getTopics()
-
-        this.setState({
-            topics: Object.assign({}, this.topics),
-            messages
-        })
     }
 
     claimWinnings() {
     }
 
     onSubmitMessage(body) {
-        return this.topics.createTopic(body, 15)
+        return this.props.topics.svc.createTopic(body, 15)
     }
 
 
@@ -180,7 +144,7 @@ class TopicBoard extends React.Component<TopicBoardProps> {
     }
 
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.acct.status !== MetamaskStatus.Ok || !this.topics.synced.isFulfilled())) {
+        if (this.props.topics.model.topics.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.topics.svc.synced.isFulfilled())) {
             return (<li className='borderis'>
                 <div style={{ paddingBottom: '3em' }}>
                     Loading Discussion...
@@ -188,7 +152,7 @@ class TopicBoard extends React.Component<TopicBoardProps> {
             </li>)
         }
 
-        if (this.state.messages.length === 0) {
+        if (this.props.topics.model.topics.length === 0) {
             return (<li className='borderis'>
                 <div style={{ paddingBottom: '3em' }}>
                     Be the first to ask a question...
@@ -196,14 +160,13 @@ class TopicBoard extends React.Component<TopicBoardProps> {
             </li>)
         }
 
-        return this.state.messages.map((m, index) => {
+        return this.props.topics.model.topics.map((m, index) => {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <TopicComponent key={m.id}
-                               service={this.state.topics!}
-                               topic={m}
-                               onChangeReplying={this.onChangeReplying}
+                        <TopicRow key={m.id}
+                                  topic={m}
+                                  onChangeReplying={this.onChangeReplying}
                         />
                     </div>
                 </div>
@@ -252,5 +215,5 @@ class TopicBoard extends React.Component<TopicBoardProps> {
     }
 }
 
-export default withAcct(TopicBoard)
+export default withAcct(withTopics(TopicBoard))
 
