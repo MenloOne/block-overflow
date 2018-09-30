@@ -23,8 +23,8 @@ import HashUtils from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
-import TokenContract  from '../build-contracts/MenloToken.json'
-import TopicsContract  from '../build-contracts/MenloTopics.json'
+import TokenContract  from '../../output/MenloToken.json'
+import TopicsContract  from '../../output/MenloTopics.json'
 import { MenloTopics } from '../.contracts/MenloTopics'
 import { MenloToken } from '../.contracts/MenloToken'
 
@@ -165,7 +165,7 @@ class TopicsService {
             this.topicsCallback(topic)
         }
     }
-    
+
     getTopic(id : string) : Topic {
         return this.topics[this.topicOffset(id)]
     }

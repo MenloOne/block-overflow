@@ -2,6 +2,7 @@ require('babel-register');
 require('babel-polyfill');
 const readline = require('readline');
 const fs = require('fs')
+const path = require('path');
 
 var NonceTrackerSubprovider = require("web3-provider-engine/subproviders/nonce-tracker")
 
@@ -49,6 +50,7 @@ function getPrivKeys(network) {
 
 
 module.exports = {
+    contracts_build_directory: path.join(__dirname, 'output'),
     networks: {
         onetokenlive: {
             host: "localhost",
