@@ -52,7 +52,7 @@ export type TopicsContext = { model: TopicsModel, svc: Topics }
 
 
 type TopicsCallback = (topic: Topic | null) => void
-const TOPIC_LENGTH = 3 * 60 /* TODO: Change to 24 Hours */
+const TOPIC_LENGTH = 15 * 60 /* TODO: Change to 24 Hours */
 
 export class Topics extends TopicsModel implements TopicsService {
 
