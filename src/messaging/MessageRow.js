@@ -16,6 +16,7 @@
  */
 
 import React from 'react'
+import AnimateHeight from 'react-animate-height';
 import Blockies from 'react-blockies'
 import Moment from 'react-moment'
 
@@ -23,6 +24,9 @@ import MessageForm from './MessageForm'
 
 import '../App.scss'
 import './Message.css'
+
+const voteTriangle = require('../images/vote-triangle.svg')
+
 
 class MessageRow extends React.Component {
     constructor(props) {
@@ -32,11 +36,26 @@ class MessageRow extends React.Component {
             showReplyForm: false,
             showReplies: true,
             children: [],
+            expanded: true,
+            height: 'auto'
         }
     }
 
+    toggle = () => {
+        const { height } = this.state;
+
+        this.setState({
+            height: height === 200 ? 'auto' : 200,
+        });
+    };
+
     componentDidMount() {
         this.props.forumService.subscribeMessages(this.props.message.id, this.refreshMessages.bind(this))
+
+        this.setState({
+            height: this.message.clientHeight > 200 ? 200 : 'auto',
+            originalHeight: this.message.clientHeight
+        })
     }
 
     componentWillUnmount() {
@@ -145,42 +164,85 @@ class MessageRow extends React.Component {
     }
 
     render() {
+        const { height } = this.state;
+
         let message = this.props.message
 
         return (
             <li className="borderis message">
-                <div className="comments user-img">
+                <div className="user-img">
                     <Blockies seed={message.author} size={ 9 } />
                 </div>
                 <div className="content">
-                    <h3 className="tag-name">
-                        {message.author}
-                        <span className="points" style={ { display: 'none' } }>??? points </span>
-                        <span className="time">
-                            <Moment fromNow>{ message.date }</Moment>
-                        </span>
-                    </h3>
-                    <div className="comments-text">
-                        {message.body}
-                    </div>
+                    <span className="tag-name-0x">
+                        {message.author && message.author.slice(0,2)}
+                    </span>
+                    <span className="tag-name">
+                        {message.author && message.author.slice(2, message.author.length)}
+                    </span>
+                    <span className="tag-name-dots">
+                        …
+                    </span>
+                    <span className="points" style={{ display: 'none' }}>??? points </span>
+                    <span className="time">
+                        <Moment fromNow>{message.date}</Moment>
+                    </span>
+                    <AnimateHeight
+                        duration={500}
+                        height={height} // see props documentation bellow
+                    >
+                        <div className={"comments-text " + (this.state.expanded ? "" : "limit")} ref={element => {
+                            this.message = element;
+                        }}>
+                            {message.body}
+                        </div>
+                    </AnimateHeight>
+                    {this.state.originalHeight > 200 && this.state.height !== 'auto' &&
+                    <button className="comments-readmore" onClick={ () => this.toggle() }>
+                        Read More
+                    </button>
+                    }
+                    {this.state.originalHeight > 200 && this.state.height === 'auto' &&
+                    <button className="comments-readmore" onClick={ () => this.toggle() }>
+                        Collapse Comment
+                    </button>
+                    }
                     <div className="comments-votes">
                         <span>{ this.renderVotes() }</span>
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
-                            <span >
-                                    <a onClick={this.downvote.bind(this)}  disabled={this.props.message.downvoteDisabled()}><span className='item'><i className="fa fa-thumbs-down fa-lg"></i></span></a>
-                                    <a onClick={this.upvote.bind(this)}    disabled={this.props.message.upvoteDisabled()}><span className='item'><i className="fa fa-thumbs-up fa-lg" ></i></span></a>
-                                </span>
+                        <span >
+                                <a onClick={this.upvote.bind(this)} disabled={this.props.message.upvoteDisabled()}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
+                                <a onClick={this.downvote.bind(this)} disabled={this.props.message.downvoteDisabled()}>
+                                    <span className="Question-downvote">
+                                        <img src={voteTriangle} className="icon-downvote" />
+                                        Downvote
+                                    </span>
+                                </a>
+                            </span>
                         }
                         { (this.state.children.length > 0 || message.parent === '0x0') &&
                         <span className='item'>
-                            { message.parent === '0x0' &&  <a className="reply" onClick={this.showReplyForm.bind(this)}><span>Reply</span></a> }
+                            {message.parent === '0x0' && <a className="reply" onClick={this.showReplyForm.bind(this)}>
+                                <span className="Question-reply">
+                                    Reply
+                                    </span></a>}
+                            <a href="">
+                                    <span className="Question-permalink">
+                                        Permalink
+                                    </span>
+                                </a>
+                                <a href="">
+                                    <span className="Question-report">
+                                        Report
+                                    </span>
+                                </a>
                             {this.state.children.length > 0 &&
                             <span>
                                 {this.state.showReplies &&
-                                <a onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide
+                                <a className="hideReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide
                                     Replies </em></a>}
                                 {!this.state.showReplies &&
-                                <a onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show
+                                <a className="showReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show
                                     Replies</em> ({message.children.length})</a>}
                                 </span>
                             }
@@ -191,7 +253,7 @@ class MessageRow extends React.Component {
                         {this.state.showReplies && this.renderReplies()}
                     </ul>
                     {this.state.showReplyForm &&
-                        <MessageForm onSubmit={(message) => this.reply(message)}/>
+                    <MessageForm onSubmit={(message) => this.reply(message)}/>
                     }
                 </div>
             </li>

@@ -49,9 +49,18 @@ class ForumPage extends React.Component<ForumProps> {
         return (
             <div>
                 <TopNav/>
-                <div className="game-token shadow-sm">
+
+                <div className="content-wrapper">
                     <div className="container">
-                        <MessageBoard forum={ this.state.forum }/>
+                        <div className="row">
+                            <div className="col-md-8">
+                                <p>
+                                    <a href="">&laquo; Back to Topics</a>
+                                </p>
+
+                                <MessageBoard forum={ this.state.forum }/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
