@@ -24,7 +24,7 @@ import HashUtils from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
-import TokenContract  from '../build-contracts/MenloToken.json'
+import TokenContract  from '../../output/MenloToken.json'
 import { MenloForum } from '../.contracts/MenloForum'
 // import { MenloToken } from '../.contracts/MenloToken'
 
@@ -277,7 +277,7 @@ export class Forum extends ForumModel implements Forum {
             this.messages.add(message)
             this.fillMessage(message.id)
         })
-    }    
+    }
 
     async fillMessage(id) {
         await this.ready;
@@ -350,7 +350,7 @@ export class Forum extends ForumModel implements Forum {
         this.refreshBalances()
         this.lottery.refresh()
     }
-    
+
     get rewardPool() : number {
         return this.lottery.pool
     }

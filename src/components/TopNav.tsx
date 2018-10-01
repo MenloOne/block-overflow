@@ -7,7 +7,7 @@ import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
 
 import TruffleContract from 'truffle-contract'
 
-const MenloFaucetContract = require('../build-contracts/MenloFaucet.json')
+const MenloFaucetContract = require('../../output/MenloFaucet.json')
 import '../App.scss'
 
 

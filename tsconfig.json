@@ -2,7 +2,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "rootDir": "src",
-        "outDir": "./build/",
+        "outDir": "./dist/",
         "target": "es5",
         "lib": ["es6", "dom"],
         "sourceMap": true,
@@ -19,7 +19,7 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "jsx": "react",
-        "module": "commonjs",
+        "module": "esnext",
         "moduleResolution": "node",
         "typeRoots": [
             "./node_modules/@types"
