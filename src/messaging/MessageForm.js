@@ -17,6 +17,8 @@
 
 import React from 'react'
 import { withAcct } from '../services/Account'
+import SimpleMDE from 'react-simplemde-editor';
+import "simplemde/dist/simplemde.min.css";
 
 
 class MessageForm extends React.Component {
@@ -59,8 +61,8 @@ class MessageForm extends React.Component {
         }
     }
 
-    onChange(event) {
-        this.setState({ message: event.target.value })
+    onChange(value) {
+        this.setState({ message: value })
     }
 
     onCancel() {
@@ -73,7 +75,15 @@ class MessageForm extends React.Component {
                 { this.props.icon &&
                     <span className='comment-indicator'><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
                 }
-                <textarea name="" className="field" id="" cols="30" rows={this.props.rows ? this.props.rows : 5} value={this.state.message} onChange={this.onChange}></textarea>
+                <SimpleMDE
+                    onChange={this.onChange}
+                    value={this.state.message}
+                    options={{
+                        autofocus: true,
+                        spellChecker: false,
+                        // etc.
+                    }}
+                />
                 <input type="submit" className="btn submit-btn" disabled={this.state.submitting}/>
                 <a href="" className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
                 {this.state.error && <p className="error new-message">{this.state.error}</p>}

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Blockies from 'react-blockies'
+import MarkDown from 'react-markdown'
 
 import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
 import { Forum, ForumContext } from '../services/Forum'
@@ -11,6 +12,7 @@ import MessageForm from './MessageForm'
 import CountdownTimer from '../components/CountdownTimer'
 
 import '../App.scss'
+import { CIDZero } from '../storage/HashUtils'
 
 
 
@@ -59,7 +61,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     subscribe(forum: Forum) {
-        forum.subscribeMessages('0x0', this.refreshMessages)
+        forum.subscribeMessages(CIDZero, this.refreshMessages)
         this.refreshMessages()
 
         forum.subscribeLotteries(this.refreshLotteries)
@@ -67,7 +69,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     unsubscribe(forum: Forum) {
-        forum.subscribeMessages('0x0', null)
+        forum.subscribeMessages(CIDZero, null)
         forum.subscribeLotteries(null)
     }
 
@@ -91,7 +93,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     async refreshMessages() {
-        const messages = await this.props.forum.svc.getChildrenMessages('0x0')
+        const messages = await this.props.forum.svc.getChildrenMessages(CIDZero)
         this.setState({ messages })
     }
 
@@ -243,9 +245,6 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                         <h6>
                             { this.props.forum.model.topic && this.props.forum.model.topic.title }
                         </h6>
-                        <h4>
-                            { this.props.forum.model.topic && this.props.forum.model.topic.body }
-                        </h4>
                         <span><span className='alias'>{ this.props.forum.model.topic ? this.props.forum.model.topic.author : '...' }</span>&nbsp;<i className="sX"></i></span><span>?? points</span><span>19 hours ago</span>
                     </div>
                     <div className="QuestionHeader-countdown">
@@ -283,7 +282,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 <div className="Question-wrapper left-side-wrapper">
                     <span className="small-heading">Question</span>
                     <p>
-                        { this.props.forum.model.topic ? this.props.forum.model.topic.body : '...' }
+                        { this.props.forum.model.topic ? <MarkDown source={this.props.forum.model.topic.body}/> : '...' }
                     </p>
                     <p>
                         <a href="">

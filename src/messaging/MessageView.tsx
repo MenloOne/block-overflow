@@ -19,6 +19,7 @@ import React from 'react'
 import AnimateHeight from 'react-animate-height';
 import Blockies from 'react-blockies'
 import Moment from 'react-moment'
+import MarkDown from 'react-markdown'
 
 import Message from '../services/Message'
 import { ForumContext } from '../services/Forum'
@@ -27,6 +28,7 @@ import MessageForm from './MessageForm'
 
 import '../App.scss'
 import './Message.css'
+import { CIDZero } from '../storage/HashUtils'
 
 
 const voteTriangle = require('../images/vote-triangle.svg')
@@ -231,9 +233,9 @@ export default class MessageView extends React.Component<MessageViewProps> {
                         <div className={`comments-text ${(this.state.expanded ? "" : "limit")}`} ref={element => {
                             this.bodyElement = element;
                         }}>
-                            {message.body}
+                            <MarkDown source={message.body}/>
                         </div>
-                    </AnimateHeight>
+                    </AnimateHeight>0x0d8cc4b8d15d4c3ef1d70af0071376fb26b5669b
                     {this.state.originalHeight > 200 && this.state.height !== 'auto' &&
                     <button className="comments-readmore" onClick={ () => this.toggle() }>
                         Read More
@@ -257,9 +259,9 @@ export default class MessageView extends React.Component<MessageViewProps> {
                                 </a>
                             </span>
                         }
-                        { (this.state.children.length > 0 || message.parent === '0x0') &&
+                        { (this.state.children.length > 0 || message.parent === CIDZero) &&
                         <span className='item'>
-                            {message.parent === '0x0' && <a className="reply" onClick={this.showCommentForm.bind(this)}>
+                            {message.parent === CIDZero && <a className="reply" onClick={this.showCommentForm.bind(this)}>
                                 <span className="Question-reply">
                                     Reply
                                     </span></a>}

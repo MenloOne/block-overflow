@@ -55,8 +55,8 @@ class TopicsPage extends React.Component<TopicPageProps> {
         this.setState({ showCompose: false })
     }
 
-    onSubmitQuestion(title, body) {
-        this.props.topics.svc.createTopic(title, body, 15)
+    async onSubmitQuestion(title, body) {
+        await this.props.topics.svc.createTopic(title, body, 15)
         this.setState({ showCompose: false })
     }
 

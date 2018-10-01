@@ -85,7 +85,7 @@ class TopicView extends React.Component<TopicViewProps> {
                 <a onClick={ this.onClickTopic } >
                     <div className="content">
                         <div className="title">
-                            {message.body}
+                            {message.title}
                         </div>
                         <h3 className="tag-name">
                             <span className="points" style={ { display: 'none' } }>??? points </span>

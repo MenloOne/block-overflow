@@ -42,7 +42,7 @@ class TopicBoard extends React.Component<TopicBoardProps> {
         if (this.props.topics.model.topics.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.topics.svc.synced.isFulfilled())) {
             return (<li className=''>
                 <div style={{ paddingBottom: '3em' }}>
-                    Loading Discussion...
+                    Loading Questions...
                 </div>
             </li>)
         }

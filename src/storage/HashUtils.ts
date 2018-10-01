@@ -28,7 +28,7 @@ export const CIDZero : CID = '0'
 
 
 export function cidToSolidityHash(cid : CID) : SolidityHash {
-    if (cid === '0x0') {
+    if (cid === CIDZero) {
         return SolidityHashZero
     }
 
@@ -41,7 +41,7 @@ export function cidToSolidityHash(cid : CID) : SolidityHash {
 
 export function solidityHashToCid(_hash : SolidityHash) : CID {
     if (_hash === SolidityHashZero) {
-        return '0x0'
+        return CIDZero
     }
 
     let hash = _hash

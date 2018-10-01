@@ -1102,10 +1102,6 @@ button.comments-readmore {
     float: right;
 }
 
-#root .QuestionHeader {
-    border-bottom: 1px solid #f0f4ff;
-}
-
 .left-side .top-users .member-users {
     padding-left: 10px;
     padding-bottom: 15px;
@@ -2411,15 +2407,20 @@ table.stats tr td:nth-child(2) {
 .moreinfo-social-wrapper li {
     margin: 1rem 1rem 0 0;
 }
-.QuestionHeader {
-    display: flex;
-    align-items: center;
-    padding: .8rem;
+
+#root .QuestionHeader {
+    border-bottom: 1px solid #f0f4ff;
 }
 
-.QuestionHeader h6 {
-    font-size: 1.3rem;
-    line-height: 2rem;
+.QuestionHeader {
+    display: flex;
+    align-items: flex-start;
+    padding: .8rem;
+
+    & h6 {
+        font-size: 1.3rem;
+        line-height: 2rem;
+    }
 }
 
 .QuestionHeader-textWrapper {

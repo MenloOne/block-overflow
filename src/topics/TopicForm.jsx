@@ -17,6 +17,8 @@
 
 import React from 'react'
 import { withAcct } from '../services/Account'
+import SimpleMDE from 'react-simplemde-editor';
+import "simplemde/dist/simplemde.min.css";
 
 
 class TopicForm extends React.Component {
@@ -62,8 +64,8 @@ class TopicForm extends React.Component {
         }
     }
 
-    onChange(event) {
-        this.setState({ message: event.target.value })
+    onChange(value) {
+        this.setState({ message: value })
     }
 
     onChangeTitle(event) {
@@ -81,7 +83,15 @@ class TopicForm extends React.Component {
                 <div>Question</div>
                 <textarea name="" className="field" id="" cols="30" rows="1" value={this.state.title} onChange={this.onChangeTitle}></textarea>
                 <div>Details</div>
-                <textarea name="" className="field" id="" cols="30" rows="5" value={this.state.message} onChange={this.onChange}></textarea>
+                <SimpleMDE
+                    onChange={this.onChange}
+                    value={this.state.message}
+                    options={{
+                        autofocus: true,
+                        spellChecker: false,
+                        // etc.
+                    }}
+                />
                 <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question'/>
                 <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
                 {this.state.error && <p className="error new-message">{this.state.error}</p>}

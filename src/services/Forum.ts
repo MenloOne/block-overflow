@@ -20,7 +20,7 @@ import TruffleContract from 'truffle-contract'
 import MessagesGraph from '../messaging/MessageBoardGraph'
 
 import RemoteIPFSStorage, {IPFSMessage, IPFSTopic} from '../storage/RemoteIPFSStorage'
-import HashUtils, { CIDZero, SolidityHash, solidityHashToCid } from '../storage/HashUtils'
+import HashUtils, { CIDZero, SolidityHash, solidityHashToCid, SolidityHashZero } from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
@@ -103,7 +103,7 @@ export class Forum extends ForumModel implements Forum {
         this.contractAddress = forumAddress
 
         this.remoteStorage = new RemoteIPFSStorage()
-        this.messages = new MessagesGraph(new Message(this, '0x0', '0x0', 0))
+        this.messages = new MessagesGraph(new Message(this, CIDZero, CIDZero, 0))
         this.account = null;
         this.messagesCallbacks = {}
         this.lottery = new Lottery(this)
@@ -157,7 +157,7 @@ export class Forum extends ForumModel implements Forum {
             this.lotteryLength    *= 1000
 
             // Figure out cost for post
-            // this.postGas = await this.tokenContract.transferAndCall.estimateGas(this.contract.address, 1 * 10**18, this.actions.post, ['0x0', '0x0000000000000000000000000000000000000000000000000000000000000000'])
+            // this.postGas = await this.tokenContract.transferAndCall.estimateGas(this.contract.address, 1 * 10**18, this.actions.post, [SolidityHashZero, '0x0000000000000000000000000000000000000000000000000000000000000000'])
             // this.voteGas = await this.tokenContract.transferAndCall.estimateGas(this.contract.address, 1 * 10**18, this.actions.upvote, ['0x0000000000000000000000000000000000000000000000000000000000000000'])
             // console.log(`postGas ${this.postGas}, voteGas ${this.voteGas}`)
 
@@ -321,7 +321,7 @@ export class Forum extends ForumModel implements Forum {
         }
     }
 
-    subscribeMessages(parentID : string, callback : NewMessageCallback | null) {
+    subscribeMessages(parentID : CID, callback : NewMessageCallback | null) {
         this.messagesCallbacks[parentID] = callback
     }
 
@@ -402,7 +402,8 @@ export class Forum extends ForumModel implements Forum {
 
         if (!body) {
             // Send it to Blockchain
-            const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, [this.topicOffset(id).toString(), '0x0', '0x0'])
+            const data: [string, SolidityHash, SolidityHash] = [this.topicOffset(id).toString(), SolidityHashZero, SolidityHashZero]
+            const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
             // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
             console.log(result)
             return null
@@ -455,7 +456,7 @@ export class Forum extends ForumModel implements Forum {
             version: 1,
             topic: this.topic.offset,
             offset: this.topicHashes.length,
-            parent: parentHash || '0x0', // Do we need this since its in Topic?
+            parent: parentHash || CIDZero, // Do we need this since its in Topic?
             author: this.account!,
             date: Date.now(),
             body,
@@ -469,7 +470,7 @@ export class Forum extends ForumModel implements Forum {
 
             const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
             let parentHashSolidity = ipfsMessage.parent
-            if (parentHashSolidity !== '0x0') {
+            if (parentHashSolidity !== SolidityHashZero) {
                 parentHashSolidity = HashUtils.cidToSolidityHash(parentHashSolidity)
             }
 
