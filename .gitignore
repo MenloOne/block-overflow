@@ -6,6 +6,8 @@ coverage
 dist
 /contract/build
 src/**/*.map
+build/**/*.js
+build/**/*.map
 gen-src/**/*
 bin
 src/.contracts

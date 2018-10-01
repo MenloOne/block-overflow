@@ -27,14 +27,10 @@ interface MessageBoardState {
 
 class MessageBoard extends React.Component<MessageBoardProps> {
 
-    private ranks: string[]
-
-    state : MessageBoardState 
+    state : MessageBoardState
 
     constructor(props: any, context: any) {
         super(props, context)
-
-        this.ranks = ['1st', '2nd', '3rd', '4th', '5th']
 
         this.onSubmitMessage = this.onSubmitMessage.bind(this)
         this.onChangeReplying = this.onChangeReplying.bind(this)
@@ -137,36 +133,30 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                         NO VOTES YET...
                     </div>
                 }
-                { lottery.winner &&
+                {
+                    lottery.winner &&
                     <span>
-                    {  lottery.iWon && !lottery.claimed && <div className='message'>YOU WON!!!</div> }
-                    {  lottery.iWon &&  lottery.claimed && <div className='message'>TOKENS CLAIMED</div> }
-                    { !lottery.iWon && <div className='winners-message'>CURRENT WINNER</div> }
-
-                    <div className='winners-block'>
+                        {  lottery.iWon && !lottery.claimed && <div className='message'>YOU WON!!!</div> }
+                        {  lottery.iWon &&  lottery.claimed && <div className='message'>TOKENS CLAIMED</div> }
+                        { !lottery.iWon && <div className='winners-message'>CURRENT WINNER</div> }
+                        <div className='winners-block'>
                             <div className='winners'>
-                                {
-                                    lottery.winners.map((a, i) => {
-                                        return (
-                                            <div key={i} className='pedestal'>
-                                                <div className='user-img'>
-                                                    <Blockies seed={a} size={10} scale={3}/>
-                                                </div>
-                                                <div className='rank'>{ this.ranks[i] }</div>
-                                                <div className='tokens'>
-                                                    { Number(lottery.winnings(i)) === 0 ? <span>PAID<br/>OUT</span> : Number(lottery.pool).toFixed(1) }
-                                                    { Number(lottery.winnings(i)) === 0 ? null : <span><br/>ONE</span> }
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
+                                <div className='pedestal'>
+                                    <div className='user-img'>
+                                        <Blockies seed={ lottery.winner } size={10} scale={3}/>
+                                    </div>
+                                    <div className='tokens'>
+                                        { Number(lottery.pool) === 0 ? <span>PAID<br/>OUT</span> : Number(lottery.pool).toFixed(1) }
+                                        { Number(lottery.pool) === 0 ? null : <span><br/>ONE</span> }
+                                    </div>
+                                </div>
                             </div>
-                        {   lottery.iWon && !lottery.claimed &&
-                            <div className='claim'>
-                                <button className='btn claim-btn' onClick={this.claimWinnings}>CLAIM { Number(lottery.pool).toFixed(1) } ONE TOKENS</button>
-                            </div>
-                        }
+                            {
+                                lottery.iWon && !lottery.claimed &&
+                                <div className='claim'>
+                                    <button className='btn claim-btn' onClick={this.claimWinnings}>CLAIM { Number(lottery.pool).toFixed(1) } ONE TOKENS</button>
+                                </div>
+                            }
                         </div>
                     </span>
                 }
@@ -175,7 +165,6 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     renderUserStats() {
-
         return (
             <div className="user-stats right-side-box white-bg">
                 <h4>User Metrics</h4>

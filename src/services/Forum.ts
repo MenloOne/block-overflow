@@ -76,6 +76,7 @@ export class Forum extends ForumModel implements Forum {
     private contractAddress: string
     public contract: MenloForum | null
 
+    private acct: Account
     private actions: { post, upvote, downvote }
 
     public account: string | null
@@ -89,8 +90,6 @@ export class Forum extends ForumModel implements Forum {
     public initialSyncEpoch : number
     public postCost : number
     public voteCost : number
-
-    public refreshTokenBalance: () => void
 
 
     constructor( forumAddress: string ) {
@@ -114,8 +113,8 @@ export class Forum extends ForumModel implements Forum {
         }
 
         try {
+            this.acct = acct
             this.account = acct.address
-            this.refreshTokenBalance = acct.refreshBalance
 
             const tokenContract = TruffleContract(TokenContract)
             await tokenContract.setProvider(web3.currentProvider)
@@ -359,7 +358,7 @@ export class Forum extends ForumModel implements Forum {
     async refreshBalances() {
         await this.ready
         
-        this.refreshTokenBalance()
+        this.acct.refreshBalance()
     }
 
     getMessage(id : string) : Message {
