@@ -141,7 +141,7 @@ export class Account extends AccountModel implements AccountService {
                 this.token = await MenloToken.createAndValidate(web3, tokenAddress)
             }
 
-            this.avatar  = <Blockies seed={address} size={10} />
+            this.avatar  = <Blockies seed={address} size={7} />
             this.getBalance()
             this.status = MetamaskStatus.Ok
             await this.getBalance()

@@ -36,6 +36,9 @@ export default class Lottery {
 
         [this.pool, this.endTimeServer] = (await Promise.all([ contract.pool, contract.endTimestamp ])).map(n => n.toNumber())
 
+        // Convert to JS time
+        this.endTimeServer *= 1000
+
         if (!this.endTime) {
             this.endTime = this.endTimeServer
         }

@@ -12,8 +12,6 @@ import CountdownTimer from '../components/CountdownTimer'
 
 import '../App.scss'
 
-const questionAvatar = require('../images/question-avatar.svg')
-const voteTriangle = require('../images/vote-triangle.svg')
 
 
 interface MessageBoardProps {
@@ -26,13 +24,14 @@ interface MessageBoardState {
     topFive: boolean,
     showCompose: boolean,
     lottery?: Lottery,
+    topicAvatar: Element | null
 }
 
 class MessageBoard extends React.Component<MessageBoardProps> {
 
     state : MessageBoardState
 
-    constructor(props: any, context: any) {
+    constructor(props: MessageBoardProps, context: any) {
         super(props, context)
 
         this.onSubmitMessage = this.onSubmitMessage.bind(this)
@@ -40,15 +39,18 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         this.claimWinnings = this.claimWinnings.bind(this)
         this.refreshLotteries = this.refreshLotteries.bind(this)
         this.refreshMessages = this.refreshMessages.bind(this)
-        
+
         this.state = {
             messages: [],
             topFive: false,
-            showCompose: true
+            showCompose: true,
+            topicAvatar: null
         }
+
+        this.updateForum(props.forum)
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.subscribe(this.props.forum)
     }
 
@@ -69,11 +71,22 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         forum.subscribeLotteries(null)
     }
 
-    componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps : MessageBoardProps) {
         // TODO: Redirect home if Forum isn't valid on account change
         if ( newProps.forum !== this.props.forum) {
             this.unsubscribe(this.props.forum)
-            this.subscribe(newProps.forum)
+            this.updateForum(newProps.forum)
+        }
+    }
+
+    async updateForum(forum : Forum) {
+        await forum.ready
+        this.subscribe(forum)
+
+        if (forum.topic) {
+            this.setState({ topicAvatar: <Blockies seed={ forum.topic.author } size={ 7 }/> })
+        } else {
+            this.setState({ topicAvatar: null })
         }
     }
 
@@ -135,18 +148,18 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 <h4>Answers</h4>
 
                 { !lottery.hasEnded &&
-                    <div>
-                        <div className='message'>TIME LEFT</div>
-                        <div className='time-left'>
-                            <CountdownTimer date={ new Date(lottery.endTime) }/>
-                        </div>
+                <div>
+                    <div className='message'>TIME LEFT</div>
+                    <div className='time-left'>
+                        <CountdownTimer date={ new Date(lottery.endTime) }/>
                     </div>
+                </div>
                 }
                 { !(lottery.winner) &&
-                    <div className='message' style={{ top: '0.3em', textAlign: 'center' }}>
-                        TOP VOTED ANSWER WINS { lottery.pool.toFixed(1) } TOKENS<br/>
-                        NO VOTES YET...
-                    </div>
+                <div className='message' style={{ top: '0.3em', textAlign: 'center' }}>
+                    TOP VOTED ANSWER WINS { lottery.pool.toFixed(1) } TOKENS<br/>
+                    NO VOTES YET...
+                </div>
                 }
                 {
                     lottery.winner &&
@@ -169,7 +182,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                             {
                                 lottery.iWon && !lottery.claimed &&
                                 <div className='claim'>
-                                    <button className='btn claim-btn' onClick={this.claimWinnings}>CLAIM { Number(lottery.pool).toFixed(1) } ONE TOKENS</button>
+                                    <button className='btn claim-btn' onClick={this.claimWinnings}>CLAIM { Number(lottery.pool).toFixed(0) } ONE TOKENS</button>
                                 </div>
                             }
                         </div>
@@ -182,19 +195,21 @@ class MessageBoard extends React.Component<MessageBoardProps> {
 
     renderMessages() {
         if (this.state.messages.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.forum.synced.isFulfilled())) {
-            return (<li className='borderis'>
-                <div style={{ paddingBottom: '3em' }}>
-                    Loading Discussion...
-                </div>
-            </li>)
+            return (
+                <li className='borderis message'>
+                    <div style={{ paddingBottom: '3em' }}>
+                        Loading Answers...
+                    </div>
+                </li>)
         }
 
         if (this.state.messages.length === 0) {
-            return (<li className='borderis'>
-                <div style={{ paddingBottom: '3em' }}>
-                    Be the first to leave a comment...
-                </div>
-            </li>)
+            return (
+                <li className='borderis message'>
+                    <div style={{ paddingBottom: '3em' }}>
+                        Be the first to leave an Answer!
+                    </div>
+                </li>)
         }
 
         const messages = this.state.topFive ? this.topFiveMessages() : this.state.messages
@@ -220,11 +235,15 @@ class MessageBoard extends React.Component<MessageBoardProps> {
             <div className="left-side">
                 <div className="QuestionHeader">
                     <div className="QuestionHeader-logoWrapper">
-                        <img src={questionAvatar}/>
+                        <span className="user-img">
+                            { this.state.topicAvatar }
+                        </span>
                     </div>
                     <div className="QuestionHeader-textWrapper">
-                        <h6>How does Menlo.one work with relational databases?</h6>
-                        <span>@cypherpunk<i className="sX"></i></span><span>104 points</span><span>19 hours ago</span>
+                        <h6>
+                            { this.props.forum.topic && this.props.forum.topic.body }
+                        </h6>
+                        <span>{ this.props.forum.topic ? this.props.forum.topic.author : '...' }&nbsp;<i className="sX"></i></span><span>?? points</span><span>19 hours ago</span>
                     </div>
                     <div className="QuestionHeader-countdown">
                         {this.state.lottery &&
@@ -233,17 +252,17 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 </div>
                 <div className="Question-stats">
                     <div className="stat">
-                        <div className="number-circle"><span>84%</span></div>
+                        <div className="number-circle"><span>{ this.props.forum.rewardPool.toFixed(0) }</span></div>
                         <div className="stat-label-wrapper">
                             <span>Payout for Winning Answer</span>
-                            <span>1,337 ONE token ($41 USD)</span>
+                            <span>{ this.props.forum.rewardPool.toFixed(0) } ONE Tokens</span>
                         </div>
                     </div>
                     <div className="stat">
                         <div className="number-circle"><span>84%</span></div>
                         <div className="stat-label-wrapper">
                             <span>Most Popular</span>
-                            <span>9 Replies</span>
+                            <span>{ this.state.messages.length } Answer{ this.state.messages.length > 1 ? 's' : '' }</span>
                         </div>
                     </div>
                     <div className="stat">
@@ -261,25 +280,12 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 <div className="Question-wrapper left-side-wrapper">
                     <span className="small-heading">Question</span>
                     <p>
-                        With the content node infrastructure being Node and Mongo, how can Menlo One store relational
-                        data?
+                        { this.props.forum.topic ? this.props.forum.topic.body : '...' }
                     </p>
                     <p>
                         <a href="">
-                        <span className="Question-upvote">
-                            <img src={voteTriangle} className="icon-upvote"/>
-                            Upvote (12)
-                        </span>
-                        </a>
-                        <a href="">
-                        <span className="Question-downvote">
-                            <img src={voteTriangle} className="icon-downvote"/>
-                            Downvote
-                        </span>
-                        </a>
-                        <a href="">
                         <span className="Question-reply">
-                            Reply
+                            Answer
                         </span>
                         </a>
                         <a href="">
@@ -300,19 +306,19 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                             <div className="comments">
                                 <div className="message-wrapper">
                                     <span className="small-heading">Townhall</span>
-                                </div>
-                                <ul>
-                                    {this.renderMessages()}
+                                    <ul>
+                                        {this.renderMessages()}
 
-                                    {
-                                        this.state.showCompose &&
-                                        <li>
-                                            <div className='content message-wrapper'>
-                                                <MessageForm onSubmit={this.onSubmitMessage}/>
-                                            </div>
-                                        </li>
-                                    }
-                                </ul>
+                                        {
+                                            this.state.showCompose &&
+                                            <li>
+                                                <div className='reply-form'>
+                                                    <MessageForm onSubmit={this.onSubmitMessage}/>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

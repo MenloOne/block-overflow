@@ -1648,12 +1648,12 @@ span.sold {
 }
 
 .expert-reviews-1 {
-    margin-bottom: 60px;
     border-radius: 6px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border: none;
     padding: 0;
+    padding-bottom: 60px;
 }
 
 .Expert-Reviews {
@@ -1838,7 +1838,7 @@ span.sold {
 }
 
 .comments {
-    padding: 1rem 0;
+    padding: 1rem 0 0;
 }
 
 .comments ul > li > ul {
@@ -1876,15 +1876,16 @@ span.sold {
     font-size: 12px;
     font-style: normal;
     font-stretch: normal;
+    margin-right: 1em;
     letter-spacing: .04rem;
     line-height: 2rem;
     color: #18af41;
     margin-bottom: 0;
     padding-bottom: 0;
-    text-overflow: clip;
-    width: 48px;
+    width: 68px;
     display: inline-block;
     overflow: hidden;
+    text-overflow: ellipsis;
     font-family: monospace;
 }
 
@@ -1922,16 +1923,16 @@ span.time {
     white-space: pre-wrap;
 }
 
-.MessageForm-buttonWrapper, .comments .comments-text, .field, .left-side p {
-    max-width: 580px;
-}
-
 .comments-text p {
     margin-bottom: 0;
 }
 
 span.tag {
     flex: 1;
+}
+
+.reply-form {
+    margin-right: 3em;
 }
 
 .comments .tag-name .btn {
@@ -2020,7 +2021,7 @@ span.tag {
 }
 
 .field {
-    width: 580px;
+    width: 100%;
     height: 150px;
     border-radius: 6px;
     border: solid 1px #dadae1;
@@ -2513,6 +2514,12 @@ table.stats tr td:nth-child(2) {
 .QuestionHeader-textWrapper {
     flex: 1;
     line-height: 0.8rem;
+
+    h6 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60%;
+    }
 }
 
 .QuestionHeader-textWrapper span {

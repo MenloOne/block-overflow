@@ -174,14 +174,8 @@ class MessageRow extends React.Component {
                     <Blockies seed={message.author} size={ 9 } />
                 </div>
                 <div className="content">
-                    <span className="tag-name-0x">
-                        {message.author && message.author.slice(0,2)}
-                    </span>
                     <span className="tag-name">
-                        {message.author && message.author.slice(2, message.author.length)}
-                    </span>
-                    <span className="tag-name-dots">
-                        …
+                        { message.author }
                     </span>
                     <span className="points" style={{ display: 'none' }}>??? points </span>
                     <span className="time">

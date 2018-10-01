@@ -125,7 +125,7 @@ class TopNav extends React.Component<TopNavProps> {
                         <span className="name">{ this.props.acct.model.address }</span>
 
                         { false &&
-                        <span className="avatar-indicator text-primary d-none d-lg-block">
+                        <span className="avatar-indicator text-primary d-none d-lg-blocka">
                             <i className="fa fa-fw fa-circle">3</i>
                         </span>
                         }

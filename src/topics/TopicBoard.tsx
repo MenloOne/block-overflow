@@ -110,9 +110,7 @@ class TopicBoard extends React.Component<TopicBoardProps> {
                                 {
                                     this.state.showCompose &&
                                     <li>
-                                        <div className='content'>
-                                            <TopicForm onSubmit={this.onSubmitMessage}/>
-                                        </div>
+                                        <TopicForm onSubmit={this.onSubmitMessage}/>
                                     </li>
                                 }
                             </ul>

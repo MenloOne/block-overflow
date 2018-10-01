@@ -352,7 +352,7 @@ export class Forum extends ForumModel implements Forum {
     }
 
     get rewardPool() : number {
-        return this.lottery.pool
+        return this.lottery.pool / 10 ** 18
     }
 
     async refreshBalances() {

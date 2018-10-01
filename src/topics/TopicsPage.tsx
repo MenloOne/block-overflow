@@ -38,7 +38,7 @@ const shapeshift = require('../images/shapeshift.svg')
 class TopicsPage extends React.Component {
 
     state = {
-        howToHeight: 0
+        howToHeight: 'auto'
     }
 
     constructor(props, context) {
@@ -279,9 +279,6 @@ class TopicsPage extends React.Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-8">
-                                <p>
-                                    <a href="">&laquo; Back to Topics</a>
-                                </p>
                                 {/* <div className="left-side">
                                 <div className="left-side-wrapper">
                                     <div className="top-users" style={{ display: 'none' }}>
