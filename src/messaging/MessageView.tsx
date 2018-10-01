@@ -185,25 +185,28 @@ export default class MessageView extends React.Component<MessageViewProps> {
 
         return (
             <span className="votes-indicator item text-primary d-lg-block" negative={(message.votes < 0) ? 'true' : 'false'}>
-                <div className='circle left'/>
-                <div className='circle mid'>
-                    {message.votes < 0 ?
-                        <span><i className='fa fa-fw fa-thumbs-down'/>{message.votes}</span>
-                        :
-                        <span><i className='fa fa-fw fa-thumbs-up'/>{message.votes}</span>
-                    }
-                </div>
-                <div className='circle right'/>
+                {
+                    message.votes < 0 ?
+                    <i className='fa fa-fw fa-thumbs-down'/>
+                    :
+                    <i className='fa fa-fw fa-thumbs-up'/>
+                }
+                { message.votes }
             </span>
         )
     }
 
     renderReplies() {
-        return this.state.children.map(m => {
+        return this.state.children.map(message => {
             return (
-                <MessageView key={m.id}
-                             message={m}
-                             forum={this.props.forum}/>
+                <li className="borderis message">
+                    <div className="user-img">
+                        <Blockies seed={message.author} size={ 8 } scale={ 3 }/>
+                    </div>
+                    <div className="content">
+                        <MarkDown source={message.body}/>
+                    </div>
+                </li>
             )
         })
     }
@@ -215,8 +218,12 @@ export default class MessageView extends React.Component<MessageViewProps> {
 
         return (
             <li className="borderis message">
+                {
+                    this.props.forum.model.lottery.winningMessage && this.props.forum.model.lottery.winningMessage.id === message.id &&
+                    <i className='winning-check fa fa-checkmark' />
+                }
                 <div className="user-img">
-                    <Blockies seed={message.author} size={ 7 } scale={ 3 }/>
+                    <Blockies seed={message.author} size={ 8 } scale={ 3 }/>
                 </div>
                 <div className="content">
                     <span className="alias">
@@ -230,12 +237,10 @@ export default class MessageView extends React.Component<MessageViewProps> {
                         duration={500}
                         height={height} // see props documentation bellow
                     >
-                        <div className={`comments-text ${(this.state.expanded ? "" : "limit")}`} ref={element => {
-                            this.bodyElement = element;
-                        }}>
+                        <div className={`comments-text ${(this.state.expanded ? "" : "limit")}`} ref={element => { this.bodyElement = element }}>
                             <MarkDown source={message.body}/>
                         </div>
-                    </AnimateHeight>0x0d8cc4b8d15d4c3ef1d70af0071376fb26b5669b
+                    </AnimateHeight>
                     {this.state.originalHeight > 200 && this.state.height !== 'auto' &&
                     <button className="comments-readmore" onClick={ () => this.toggle() }>
                         Read More
@@ -261,29 +266,23 @@ export default class MessageView extends React.Component<MessageViewProps> {
                         }
                         { (this.state.children.length > 0 || message.parent === CIDZero) &&
                         <span className='item'>
-                            {message.parent === CIDZero && <a className="reply" onClick={this.showCommentForm.bind(this)}>
-                                <span className="Question-reply">
-                                    Reply
-                                    </span></a>}
-                            <a href="">
-                                    <span className="Question-permalink">
-                                        Permalink
-                                    </span>
-                                </a>
-                                <a href="">
-                                    <span className="Question-report">
-                                        Report
-                                    </span>
-                                </a>
+                            <a style={{display: 'none'}}>
+                                <span className="Question-permalink">
+                                    Permalink
+                                </span>
+                            </a>
+                            <a style={{display: 'none'}}>
+                                <span className="Question-report">
+                                    Report
+                                </span>
+                            </a>
                             {this.state.children.length > 0 &&
                             <span>
                                 {this.state.showReplies &&
-                                <a className="hideReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide
-                                    Replies </em></a>}
+                                <a className="hideReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide Comments </em></a>}
                                 {!this.state.showReplies &&
-                                <a className="showReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show
-                                    Replies</em> ({message.children.length})</a>}
-                                </span>
+                                <a className="showReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show Comments</em> ({message.children.length})</a>}
+                            </span>
                             }
                         </span>
                         }

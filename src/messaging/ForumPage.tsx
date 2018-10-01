@@ -79,7 +79,7 @@ class ForumPage extends React.Component<ForumProps> {
                         <div className="row">
                             <div className="col-md-8">
                                 <p>
-                                    <a href="" onClick={ this.goBack }>&laquo; Back to Topics</a>
+                                    <a onClick={ this.goBack }>&laquo; Back to Topics</a>
                                 </p>
 
                                 <MessageBoard forum={ this.state.forum }/>

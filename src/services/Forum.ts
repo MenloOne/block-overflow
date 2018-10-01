@@ -42,7 +42,6 @@ export class ForumModel {
     public lottery: Lottery
     public messages: MessagesGraph
     public lotteryLength : number
-    public winningVotes : number
 }
 
 
@@ -145,12 +144,11 @@ export class Forum extends ForumModel implements Forum {
 
             this.actions = { post, upvote, downvote };
 
-            [this.initialSyncEpoch, this.lotteryLength, this.postCost, this.voteCost, this.winningVotes] = (await Promise.all([
+            [this.initialSyncEpoch, this.lotteryLength, this.postCost, this.voteCost] = (await Promise.all([
                 this.contract.postCount,
                 this.contract.epochLength,
                 this.contract.postCost,
-                this.contract.voteCost,
-                this.contract.winningVotes
+                this.contract.voteCost
             ])).map(bn => bn.toNumber())
 
             this.initialSyncEpoch -= 1
@@ -203,6 +201,8 @@ export class Forum extends ForumModel implements Forum {
                 this.lottery.markClaimed()
                 this.lottery.refresh()
             }
+
+            this.lottery.refresh()
         })
     }
 
@@ -219,13 +219,15 @@ export class Forum extends ForumModel implements Forum {
             const offset    = result.args._offset as number
             const direction = result.args._direction as number
 
-            console.log(`[[ Vote ]] ( ${offset} ) ^v ${direction}` )
+            console.log(`[[ Vote ]] ( ${offset} ) > ${direction}` )
 
             const message = this.messages.get(this.topicHashes[offset])
             if (message) {
                 this.updateVotesData(message, 0)
                 this.onModifiedMessage(message)
             }
+
+            this.lottery.refresh()
         })
     }
 
@@ -262,12 +264,14 @@ export class Forum extends ForumModel implements Forum {
 
                 this.messages.add(message)
                 this.fillMessage(message.id)
+
+                this.lottery.refresh()
             }
         })
     }
 
     async watchForComments() {
-        await this.ready
+        await this.synced
         const forum = this.contract!
 
         forum.CommentEvent({}).watch({}, (error, result) => {
@@ -287,6 +291,8 @@ export class Forum extends ForumModel implements Forum {
 
             this.messages.add(message)
             this.fillMessage(message.id)
+
+            this.lottery.refresh()
         })
     }
 
@@ -299,7 +305,11 @@ export class Forum extends ForumModel implements Forum {
         }
 
         try {
-            await Promise.all([this.updateVotesData(message, 0), this.remoteStorage.fillMessage(message)])
+            if (message.parent === CIDZero) {
+                await this.updateVotesData(message, 0)
+            }
+
+            await this.remoteStorage.fillMessage(message)
             message.filled = true
 
             // console.log('onModified ',message)
@@ -359,7 +369,6 @@ export class Forum extends ForumModel implements Forum {
         }
 
         this.refreshBalances()
-        this.lottery.refresh()
     }
 
     get rewardPool() : number {
@@ -368,7 +377,6 @@ export class Forum extends ForumModel implements Forum {
 
     async refreshBalances() {
         await this.ready
-        
         this.acct.refreshBalance()
     }
 

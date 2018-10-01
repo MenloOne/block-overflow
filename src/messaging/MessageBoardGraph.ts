@@ -50,6 +50,8 @@ class MessageGraph {
                 parent.children.push(message.id)
             }
         }
+
+        console.log(`Added ${message.id} w/ children ${message.children.map(id => `${id}, `)}`)
     }
 
     delete(message : Message) {

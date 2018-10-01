@@ -6,13 +6,14 @@ import MarkDown from 'react-markdown'
 import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
 import { Forum, ForumContext } from '../services/Forum'
 import Lottery from '../services/Lottery'
+import { CIDZero } from '../storage/HashUtils'
+
+import CountdownTimer from '../components/CountdownTimer'
 
 import MessageView from './MessageView'
 import MessageForm from './MessageForm'
-import CountdownTimer from '../components/CountdownTimer'
 
 import '../App.scss'
-import { CIDZero } from '../storage/HashUtils'
 
 
 
@@ -24,7 +25,7 @@ interface MessageBoardProps {
 interface MessageBoardState {
     messages: any[],
     topFive: boolean,
-    showCompose: boolean,
+    isCommenting: boolean,
     lottery?: Lottery,
     topicAvatar: Element | null
 }
@@ -41,11 +42,12 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         this.claimWinnings = this.claimWinnings.bind(this)
         this.refreshLotteries = this.refreshLotteries.bind(this)
         this.refreshMessages = this.refreshMessages.bind(this)
+        this.clickAnswer = this.clickAnswer.bind(this)
 
         this.state = {
             messages: [],
             topFive: false,
-            showCompose: true,
+            isCommenting: false,
             topicAvatar: null
         }
 
@@ -81,6 +83,10 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         }
     }
 
+    clickAnswer() {
+
+    }
+
     async updateForum(forum : ForumContext) {
         await forum.svc.ready
         this.subscribe(forum.svc)
@@ -108,8 +114,8 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         }
     }
 
-    onSubmitMessage(body) {
-        return this.props.forum.svc.postMessage(body, null)
+    async onSubmitMessage(body) {
+        await this.props.forum.svc.postMessage(body, null)
     }
 
     topFiveMessages() {
@@ -136,8 +142,8 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         }
     }
 
-    onChangeReplying(replying : boolean) {
-        this.setState({ showCompose: !replying })
+    onChangeReplying(commenting : boolean) {
+        this.setState({ isCommenting: commenting })
     }
 
     renderCompleted() {
@@ -153,6 +159,10 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 <div>
                     <div className='message'>TIME LEFT</div>
                     <div className='time-left'>
+                        {
+                            this.props.forum.model.lottery.hasEnded &&
+                            <p>TIME EXPIRED</p>
+                        }
                         <CountdownTimer date={ new Date(lottery.endTime) }/>
                     </div>
                 </div>
@@ -206,6 +216,15 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         }
 
         if (this.state.messages.length === 0) {
+            if (this.props.forum.model.lottery.hasEnded) {
+                return (
+                    <li className='borderis message'>
+                        <div style={{ paddingBottom: '3em' }}>
+                            Nobody answered this question before the discussion closed.
+                        </div>
+                    </li>)
+            }
+
             return (
                 <li className='borderis message'>
                     <div style={{ paddingBottom: '3em' }}>
@@ -245,9 +264,17 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                         <h6>
                             { this.props.forum.model.topic && this.props.forum.model.topic.title }
                         </h6>
-                        <span><span className='alias'>{ this.props.forum.model.topic ? this.props.forum.model.topic.author : '...' }</span>&nbsp;<i className="sX"></i></span><span>?? points</span><span>19 hours ago</span>
+                        <span>
+                            <span className='alias'>{ this.props.forum.model.topic ? this.props.forum.model.topic.author : '...' }</span>&nbsp;<i className="sX"></i>
+                        </span>
+                        <span style={{ display: 'none' }}>?? points</span>
+                        <span>19 hours ago</span>
                     </div>
                     <div className="QuestionHeader-countdown">
+                        {
+                            this.props.forum.model.lottery.hasEnded &&
+                            <p>QUESTION CLOSED</p>
+                        }
                         {this.state.lottery &&
                         <CountdownTimer date={new Date(this.state.lottery.endTime)}/>}
                     </div>
@@ -272,9 +299,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                             <span>Total Votes</span>
                             <span>
                             <i className="fa fa-fw fa-thumbs-up"></i>
-                            { this.props.forum.model.winningVotes }
-                            <i className="fa fa-fw fa-thumbs-down"></i>
-                            {}
+                            { this.props.forum.model.lottery.winningVotes }
                         </span>
                         </div>
                     </div>
@@ -285,15 +310,18 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                         { this.props.forum.model.topic ? <MarkDown source={this.props.forum.model.topic.body}/> : '...' }
                     </p>
                     <p>
+                        {
+                            !this.props.forum.model.lottery.hasEnded &&
+                            <a href='#answerForm'>
+                                <span className="Question-reply">
+                                    Answer
+                                </span>
+                            </a>
+                        }
                         <a href="">
-                        <span className="Question-reply">
-                            Answer
-                        </span>
-                        </a>
-                        <a href="">
-                        <span className="Question-permalink">
-                            Permalink
-                        </span>
+                            <span className="Question-permalink">
+                                Permalink
+                            </span>
                         </a>
                         <a href="">
                         </a>
@@ -304,14 +332,15 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                         <div className="message-wrapper">
                             <span className="small-heading">Townhall</span>
                             <ul>
-                                {this.renderMessages()}
-
+                                { this.renderMessages() }
                                 {
-                                    this.state.showCompose &&
+                                    !this.state.isCommenting && !this.props.forum.model.lottery.hasEnded &&
                                     <li>
-                                        <div className='reply-form'>
-                                            <MessageForm onSubmit={this.onSubmitMessage}/>
-                                        </div>
+                                        <a id='answerForm'>
+                                            <div className='reply-form'>
+                                                <MessageForm onSubmit={this.onSubmitMessage}/>
+                                            </div>
+                                        </a>
                                     </li>
                                 }
                             </ul>

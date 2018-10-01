@@ -306,6 +306,8 @@ class TopicsPage extends React.Component<TopicPageProps> {
                                         this.state.showCompose &&
                                         <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion}/>
                                     }
+                                </div>
+                                <div className='left-side-wrapper'>
                                     <TopicBoard />
                                 </div>
                             </div>

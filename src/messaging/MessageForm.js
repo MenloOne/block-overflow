@@ -72,19 +72,35 @@ class MessageForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                { this.props.icon &&
-                    <span className='comment-indicator'><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
+                { this.props.rows == 1 &&
+                    <div>
+                        { this.props.icon &&
+                        <span className='comment-indicator'><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
+                        }
+                        <textarea
+                            className='field'
+                            onChange={(e) => this.onChange(e.target.value)}
+                            value={this.state.message}
+                            rows={ 1 }
+                            autoFocus={true}
+                        />
+                        <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Vote' />
+                    </div>
                 }
-                <SimpleMDE
-                    onChange={this.onChange}
-                    value={this.state.message}
-                    options={{
-                        autofocus: true,
-                        spellChecker: false,
-                        // etc.
-                    }}
-                />
-                <input type="submit" className="btn submit-btn" disabled={this.state.submitting}/>
+                { this.props.rows > 1 &&
+                    <div>
+                        <SimpleMDE
+                            onChange={this.onChange}
+                            value={this.state.message}
+                            options={{
+                                autofocus: true,
+                                spellChecker: false,
+                                // etc.
+                            }}
+                        />
+                        <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Answer' />
+                    </div>
+                }
                 <a href="" className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
                 {this.state.error && <p className="error new-message">{this.state.error}</p>}
             </form>

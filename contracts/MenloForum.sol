@@ -148,16 +148,16 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
     }
 
     function post(address _poster, bytes32 _parentHash, bytes32 _contentHash) internal {
+        endTimestamp = now + epochLength;
+
         if (_parentHash != 0) {
             emit Comment(_parentHash, _contentHash);
-            endTimestamp = now + epochLength;
             return;
         }
 
         emit Answer(_contentHash);
         voters[uint32(posters.length)][_poster] = 1;
         pushMessage(_contentHash, _poster);
-        endTimestamp = now + epochLength;
     }
 
     function closeForum() internal returns (bool) {

@@ -2149,17 +2149,6 @@ table.stats tr td:nth-child(2) {
     font-family: Open Sans;
 }
 
-.comments li.borderis:after {
-    content: '';
-    width: 1px;
-    height: calc(100% - 40px);
-    background: #ececed;
-    display: inline-block;
-    top: 50px;
-    left: 20px;
-    position: absolute;
-    z-index: 0;
-}
 
 .comments .message-wrapper:nth-child(even) {
     background: #ecf3ff;
@@ -2472,7 +2461,6 @@ table.stats tr td:nth-child(2) {
 .showReplies {
     font-size: 12px;
     color: #6B768E;
-    font-family: Open Sans;
     font-weight: 600;
     margin-right: 2rem;
 }
