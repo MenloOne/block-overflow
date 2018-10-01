@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
+import Message from '../services/Message'
+import { CID } from 'ipfs'
+import { CIDZero } from '../storage/HashUtils'
+
 
 class MessageGraph {
 
-    constructor(rootMessage) {
-        if (!rootMessage) {
-            rootMessage = {
-                id: '0x0',
-                children: []
-            }
-        }
+    messages : {}
 
+    constructor(rootMessage: Message) {
         this.messages = {}
         this.add(rootMessage)
     }
 
-    add(message) {
-        let parentID = message.parent || '0x0'
+    add(message : Message) {
+        const parentID : CID = message.parent || CIDZero
         // console.log('adding :', message)
 
         if (typeof message.id === 'undefined') {
@@ -42,17 +41,22 @@ class MessageGraph {
         if (parentID && parentID !== message.id) {
             let parent = this.messages[parentID]
 
+            if (!parent) {
+                parent = new Message(message.forum, parentID, CIDZero, -1)
+                this.add(parent)
+            }
+
             if (!parent.children.includes(message.id)) {
                 parent.children.push(message.id)
             }
         }
     }
 
-    delete(message) {
+    delete(message : Message) {
         delete this.messages[message.id]
     }
 
-    get(id) {
+    get(id : CID) : Message {
         return this.messages[id]
     }
 }

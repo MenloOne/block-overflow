@@ -4,8 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
 import { TopicsContext, withTopics } from "../services/Topics";
 
-import TopicRow from './TopicRow'
-import TopicForm from './TopicForm'
+import TopicView from './TopicView'
+
+
 
 import '../App.scss'
 
@@ -16,36 +17,18 @@ interface TopicBoardProps {
 }
 
 interface TopicBoardState {
-    topFive: boolean,
-    showCompose: boolean
+    topFive: boolean
 }
 
 class TopicBoard extends React.Component<TopicBoardProps> {
 
     state : TopicBoardState = {
-        topFive: false,
-        showCompose: true
+        topFive: false
     }
     
-
     constructor(props: any, context: any) {
         super(props, context)
-
-        this.onSubmitMessage = this.onSubmitMessage.bind(this)
-        this.onChangeReplying = this.onChangeReplying.bind(this)
-        this.claimWinnings = this.claimWinnings.bind(this)
     }
-
-    componentWillReceiveProps(nextProps, nextContext) {
-    }
-
-    claimWinnings() {
-    }
-
-    onSubmitMessage(body) {
-        return this.props.topics.svc.createTopic(body, 15)
-    }
-
 
     renderMessagesFilterButton() {
         if (this.state.topFive) {
@@ -55,17 +38,9 @@ class TopicBoard extends React.Component<TopicBoardProps> {
         }
     }
 
-    onChangeReplying(replying) {
-        this.setState({ showCompose: !replying })
-    }
-
-    renderCompleted() {
-        return null
-    }
-
     renderMessages() {
         if (this.props.topics.model.topics.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.topics.svc.synced.isFulfilled())) {
-            return (<li className='borderis'>
+            return (<li className=''>
                 <div style={{ paddingBottom: '3em' }}>
                     Loading Discussion...
                 </div>
@@ -73,7 +48,7 @@ class TopicBoard extends React.Component<TopicBoardProps> {
         }
 
         if (this.props.topics.model.topics.length === 0) {
-            return (<li className='borderis'>
+            return (<li className=''>
                 <div style={{ paddingBottom: '3em' }}>
                     Be the first to ask a question...
                 </div>
@@ -84,9 +59,8 @@ class TopicBoard extends React.Component<TopicBoardProps> {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <TopicRow key={m.id}
-                                  topic={m}
-                                  onChangeReplying={this.onChangeReplying}
+                        <TopicView key={m.id}
+                                   topic={m}
                         />
                     </div>
                 </div>
@@ -97,26 +71,10 @@ class TopicBoard extends React.Component<TopicBoardProps> {
 
     render() {
         return (
-            <div className="left-side">
-                <div className="left-side-wrapper">
-                    <div className="expert-reviews-1 left-side white-bg">
-                        <h2>Townhall</h2>
-                        <h6>If anyone makes money off your internet activity,<br />it should be you. Build a reputation and profit. </h6>
-                        <p>What is TownHall? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
-                        <div className="comments">
-                            <ul>
-                                { this.renderMessages() }
-
-                                {
-                                    this.state.showCompose &&
-                                    <li>
-                                        <TopicForm onSubmit={this.onSubmitMessage}/>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div className="comments">
+                <ul>
+                    { this.renderMessages() }
+                </ul>
             </div>
         )
     }

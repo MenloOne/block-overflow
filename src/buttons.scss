@@ -1,0 +1,103 @@
+a, input {
+  &.btn {
+    border-radius: 3px;
+    font-family: 'Titillium web', 'Helvetica Neue';
+    font-size: 13px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    border: solid 1px #eaeaea !important;
+    color: #2c3035 !important;
+    vertical-align: middle;
+    background: black !important;
+    padding: .2rem .5rem;
+    width: 300px;
+    min-height: 2.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:disabled {
+      color: #b2b2b2;
+    }
+
+    &.btn-big {
+      padding: .8rem 4rem;
+      margin-right: 1rem;
+    }
+
+    &.btn-green {
+      background: #6EB735 !important;
+      color: white !important;
+    }
+
+    &.btn-grey {
+      background: #f3f3f3 !important;
+      color: black !important;
+    }
+
+    &.claim-btn {
+      border: 2px solid #858585 !important;
+      width: 100%;
+      color: #858585 !important;
+    }
+  }
+
+  &.green-btn,
+  &.green-btn:hover {
+    border-radius: 3px;
+    background-color: #6eb735 !important;
+    display: block;
+    height: 77px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    padding-top: 22px;
+  }
+
+  &.faucet-btn {
+  }
+
+  &.main-btn,
+  &.submit-btn,
+  &.ask-btn {
+    background-color: #154dca !important;
+    border-color: #154dca !important;
+    color: #ffffff !important;
+  }
+
+  &.submit-btn {
+    float: right;
+    margin-left: 19px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  &.submit-btn[disabled] {
+    background-color: #a3b1db !important;
+    color: white;
+  }
+
+  &.cancel-btn {
+    color: black !important;
+    background: none !important;
+    border: black solid 1px;
+    float: right;
+    width: 77px;
+    display: inline-block;
+
+    &[disabled] {
+      color: grey !important;
+      border-color: grey !important;
+    }
+  }
+}
+

@@ -1,27 +1,32 @@
 import { Forum } from "./Forum";
 import { IPFSMessage } from "../storage/RemoteIPFSStorage";
+import { CID } from 'ipfs'
+
 
 export default class Message extends IPFSMessage {
 
     public forum: Forum
 
-    public id: string
-    public parent: string
-    public children: string[]
+    public id: CID
+    public parent: CID
 
-    public votes: number
-    public myvotes: number
+    public children: string[] = []
+    public votes: number = 0
+    public myvotes: number = 0
 
-    constructor(forum, id, parent, offset) {
+    public filled: boolean = false
+    public error?: Error | null
+
+    constructor(forum: Forum, id: CID, parent: CID, offset: number) {
         super()
 
         this.forum = forum
         this.id = id
-        this.parent = parent
-        this.offset = offset
-        this.children = []
-        this.votes = 0
-        this.myvotes = 0
+
+        // IPFS Message
+        this.parent  = parent
+        this.offset  = offset
+
         this.body = 'Loading from IPFS...'
     }
 

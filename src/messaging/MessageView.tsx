@@ -38,8 +38,14 @@ interface MessageViewProps {
     onChangeReplying?: (replying: boolean) => void
 }
 
+enum CommentFormState {
+    Closed,
+    OpenForUpvote,
+    OpenForDownvote
+}
+
 interface MessageViewState {
-    showReplyForm: boolean
+    commentFormState: CommentFormState
     showReplies: boolean
     expanded: boolean
     children: any[]
@@ -56,7 +62,7 @@ export default class MessageView extends React.Component<MessageViewProps> {
         super(props)
 
         this.state = {
-            showReplyForm: false,
+            commentFormState: CommentFormState.Closed,
             showReplies: true,
             children: [],
             expanded: true,
@@ -64,6 +70,7 @@ export default class MessageView extends React.Component<MessageViewProps> {
             originalHeight: 0
         }
 
+        this.submitComment = this.submitComment.bind(this)
         this.upvote = this.upvote.bind(this)
         this.downvote = this.downvote.bind(this)
     }
@@ -100,10 +107,22 @@ export default class MessageView extends React.Component<MessageViewProps> {
         this.setState({ children: replies })
     }
 
-    async reply(body) {
-        this.setState({ showReplyForm: false })
+    async submitComment(_body) {
 
-        await this.props.forum.svc.createMessage(body, this.props.message.id)
+        let body = _body.trim()
+        if (body.length === 0) {
+            body = null
+        }
+
+        if ( this.state.commentFormState === CommentFormState.OpenForUpvote) {
+            this.props.forum.svc.upvoteAndComment(this.props.message.id, body)
+        } else {
+            this.props.forum.svc.downvoteAndComment(this.props.message.id, body)
+        }
+
+        this.setState({
+            commentFormState: CommentFormState.Closed
+        })
         /*
 
         const child = (
@@ -115,12 +134,9 @@ export default class MessageView extends React.Component<MessageViewProps> {
         this.showReplies(true)
         this.setState({
             children: [...this.state.children, child],
-            showReplyForm: false
+            showCommentForm: false
         })
          */
-        this.setState({
-            showReplyForm: false
-        })
 
         if (this.props.onChangeReplying) {
             this.props.onChangeReplying(false)
@@ -131,8 +147,8 @@ export default class MessageView extends React.Component<MessageViewProps> {
         this.setState({ showReplies: show })
     }
 
-    showReplyForm() {
-        this.setState({showReplyForm: true})
+    showCommentForm() {
+        this.setState({showCommentForm: true})
 
         if (this.props.onChangeReplying) {
             this.props.onChangeReplying(true)
@@ -140,11 +156,11 @@ export default class MessageView extends React.Component<MessageViewProps> {
     }
 
     async upvote() {
-        this.props.forum.svc.upvote(this.props.message.id, null, null)
+        this.setState({ commentFormState: CommentFormState.OpenForUpvote })
     }
 
     async downvote() {
-        this.props.forum.svc.downvote(this.props.message.id, null, null)
+        this.setState({ commentFormState: CommentFormState.OpenForDownvote })
     }
 
     messageStatus() {
@@ -198,7 +214,7 @@ export default class MessageView extends React.Component<MessageViewProps> {
         return (
             <li className="borderis message">
                 <div className="user-img">
-                    <Blockies seed={message.author} size={ 9 } />
+                    <Blockies seed={message.author} size={ 7 } scale={ 3 }/>
                 </div>
                 <div className="content">
                     <span className="alias">
@@ -232,8 +248,8 @@ export default class MessageView extends React.Component<MessageViewProps> {
                         <span>{ this.renderVotes() }</span>
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
                         <span >
-                                <a onClick={this.upvote}   disabled={this.props.message.upvoteDisabled()}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
-                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled()}>
+                                <a onClick={this.upvote}   disabled={this.props.message.upvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
+                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}>
                                     <span className="Question-downvote">
                                         <img src={voteTriangle} className="icon-downvote" />
                                         Downvote
@@ -243,7 +259,7 @@ export default class MessageView extends React.Component<MessageViewProps> {
                         }
                         { (this.state.children.length > 0 || message.parent === '0x0') &&
                         <span className='item'>
-                            {message.parent === '0x0' && <a className="reply" onClick={this.showReplyForm.bind(this)}>
+                            {message.parent === '0x0' && <a className="reply" onClick={this.showCommentForm.bind(this)}>
                                 <span className="Question-reply">
                                     Reply
                                     </span></a>}
@@ -273,8 +289,8 @@ export default class MessageView extends React.Component<MessageViewProps> {
                     <ul>
                         {this.state.showReplies && this.renderReplies()}
                     </ul>
-                    {this.state.showReplyForm &&
-                    <MessageForm onSubmit={(message) => this.reply(message)}/>
+                    {this.state.commentFormState !== CommentFormState.Closed &&
+                        <MessageForm onSubmit={(message) => this.submitComment(message)} rows={1} icon={ this.state.commentFormState === CommentFormState.OpenForUpvote ? 'fa-thumbs-up' : 'fa-thumbs-down' }/>
                     }
                 </div>
             </li>

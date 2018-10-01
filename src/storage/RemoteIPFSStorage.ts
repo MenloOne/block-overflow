@@ -18,13 +18,14 @@
 import ipfsAPI from 'ipfs-api'
 import PromiseTimeout, { Timeout } from '../utils/PromiseTimeout'
 import Message from "../services/Message";
+import { CID } from 'ipfs'
 
 
 export class IPFSMessage {
     version: number
     offset:  number
     topic:   number
-    parent:  string
+    parent:  CID
     author:  string
     date:    number
     body:    string
@@ -35,6 +36,7 @@ export class IPFSTopic {
     offset:  number
     author:  string
     date:    number
+    title:   string
     body:    string
 }
 
@@ -43,11 +45,11 @@ class RemoteIPFSStorage {
     private ipfs : ipfs
 
     constructor() {
-        // this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-        this.ipfs = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
+        this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
+        // this.ipfs = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
     }
 
-    async createMessage(message : IPFSMessage) {
+    async createMessage(message : IPFSMessage) : Promise<CID> {
         const file = {
             path: `/${message.topic}/${message.offset}.json`,
             content: Buffer.from(JSON.stringify(message))
@@ -78,7 +80,7 @@ class RemoteIPFSStorage {
         return hash
     }
 
-    async createTopic(topic : IPFSTopic) {
+    async createTopic(topic : IPFSTopic) : Promise<CID> {
         const file = {
             path: `/${topic.offset}/Topic.json`,
             content: Buffer.from(JSON.stringify(topic))
@@ -109,7 +111,12 @@ class RemoteIPFSStorage {
         return hash
     }
 
-    async get(hash) : Promise<IPFSTopic | IPFSMessage> {
+    async getTopic(hash : CID) : Promise<IPFSTopic> {
+        const files = await PromiseTimeout(10000, this.ipfs.files.get(hash))
+        return JSON.parse(files[0].content.toString('utf8'))
+    }
+
+    async getMessage(hash : CID) : Promise<IPFSMessage> {
         const files = await PromiseTimeout(10000, this.ipfs.files.get(hash))
         return JSON.parse(files[0].content.toString('utf8'))
     }
@@ -117,7 +124,7 @@ class RemoteIPFSStorage {
     async fillMessage(message : Message) {
         console.log(`IPFS Files Get ${message.id}`)
         try {
-            const ipfsMessage = await this.get(message.id)
+            const ipfsMessage = await this.getMessage(message.id)
 
             Object.assign(message, ipfsMessage)
 
@@ -129,11 +136,11 @@ class RemoteIPFSStorage {
         }
     }
 
-    async pin(hash : string) {
+    async pin(hash : CID) {
         await (this.ipfs as any).pin.add(hash)
     }
 
-    async unpin(hash : string) {
+    async unpin(hash : CID) {
         console.log(`Unpinning ${hash}`)
         await (this.ipfs as any).pin.rm(hash)
     }

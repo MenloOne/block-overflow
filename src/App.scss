@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700');
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import './buttons.scss';
+
 
 html {
     position: relative;
@@ -545,7 +547,10 @@ i.fa.fa-circle {
     padding: 1px 3px;
 }
 
-.votes-indicator .circle {
+
+
+.votes-indicator .circle,
+.comment-indicator {
     background-color: #1944a5;
     font-family: 'Titillium web', 'Helvetica Neue';
     font-weight: 900;
@@ -564,6 +569,8 @@ i.fa.fa-circle {
     min-width: 20px;
     min-height: 1.6em;
 }
+
+
 
 .votes-indicator .circle.mid {
     border-radius: 0;
@@ -851,26 +858,6 @@ img.hero-logo {
     align-items: flex-start;
 }
 
-a.btn {
-    background: black;
-    padding: .2rem .5rem;
-    color: white;
-}
-
-a.btn.btn-big {
-    padding: .8rem 4rem;
-    margin-right: 1rem;
-}
-
-a.btn.btn-green {
-    background: #6EB735;
-    color: white;
-}
-
-a.btn.btn-grey {
-    background: none;
-    color: black;
-}
 
 .hero-logo-text-wrapper h1 {
     font-size: 2.3rem;
@@ -1060,7 +1047,7 @@ span.location {
 }
 
 .left-side-wrapper {
-    padding: 0 32px;
+    padding: 2em 32px;
 }
 
 .left-side h6 {
@@ -1384,12 +1371,6 @@ body {
     margin-top: 1em;
 }
 
-.btn.claim-btn {
-    border: 2px solid #858585;
-    width: 100%;
-    color: #858585;
-}
-
 .time-watch {
     text-align: center;
     display: flex;
@@ -1506,24 +1487,6 @@ span.sold {
     font-size: 13px;
 }
 
-
-.green-btn, .green-btn:hover {
-    border-radius: 3px;
-    background-color: #6eb735;
-    display: block;
-    height: 77px;
-    color: #fff;
-    font-family: 'Titillium web', 'Helvetica Neue';
-    font-size: 22px;
-    font-weight: 300;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #ffffff;
-    padding-top: 22px;
-}
 
 .token-cal {
     display: flex;
@@ -2015,68 +1978,23 @@ span.tag {
 
 .field {
     width: 100%;
-    height: 150px;
     border-radius: 6px;
     border: solid 1px #dadae1;
     margin: 1rem 0;
 }
 
-.btn {
-    border-radius: 3px;
-    font-family: 'Titillium web', 'Helvetica Neue';
-    font-size: 13px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    border: solid 1px #eaeaea;
-    color: #2c3035;
-    border: 0;
+.comment-indicator {
+    margin-right: 1em;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    padding-top: 3px;
+    top: -1.8em;
+}
+
+.comment-indicator + .field {
     display: inline-block;
-    vertical-align: middle;
-}
-
-.btn:disabled {
-    color: #b2b2b2;
-}
-
-.faucet-btn {
-}
-
-.submit-btn {
-    border-radius: 3px;
-    background-color: #154dca;
-    color: #ffffff;
-    border: 0;
-    display: inline-block;
-    vertical-align: middle;
-    float: right;
-    margin-left: 19px;
-    padding-left: 2rem;
-    padding-right: 2rem;
-}
-
-.submit-btn[disabled] {
-    background-color: #a3b1db;
-    color: white;
-}
-
-.cancel-btn {
-    float: right;
-    vertical-align: middle;
-    width: 77px;
-    display: inline-block;
-    text-align: center;
-    height: 36px;
-    line-height: 36px;
-    border-radius: 3px;
-    padding-top: 0;
-    margin-left: 19px;
-    background: none !important;
-    float: right;
-    color: black;
+    width: calc(100% - 3em)
 }
 
 .right-side-box.moreinfo {

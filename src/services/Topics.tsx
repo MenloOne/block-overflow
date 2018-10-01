@@ -45,7 +45,7 @@ export interface TopicsService {
     topicOffset(id : string)
     getTopic(id : string) : Topic
     allTopics() : Topic[]
-    createTopic(body: string, bounty: number) : Promise<object>
+    createTopic(title: string, body: string, bounty: number) : Promise<object>
 }
 
 export type TopicsContext = { model: TopicsModel, svc: Topics }
@@ -158,7 +158,7 @@ export class Topics extends TopicsModel implements TopicsService {
                 this.topicHashes.push(forumAdddress)
 
                 const message = new Topic( this, forumAdddress, offset )
-                await this.fillMessage(message)
+                await this.fillTopic(message)
 
                 this.topics.push(message)
 
@@ -167,12 +167,12 @@ export class Topics extends TopicsModel implements TopicsService {
         })
     }
 
-    async fillMessage(message: Topic) {
+    async fillTopic(topic: Topic) {
         await this.ready
         const contract = this.contract!;
 
-        const md: [BigNumber, boolean, BigNumber, BigNumber, string] = await contract.forums(message.forumAddress)
-        message.metadata = {
+        const md: [BigNumber, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress)
+        topic.metadata = {
             messageHash: HashUtils.solidityHashToCid(md[0].toString(16)),
             isClosed:    md[1],
             payout:      md[2].toNumber(),
@@ -180,9 +180,9 @@ export class Topics extends TopicsModel implements TopicsService {
             winner:      md[4]
         }
 
-        const ipfsTopic : IPFSTopic = await this.remoteStorage.get(message.metadata.messageHash)
-        Object.assign(message, ipfsTopic)
-        message.filled = true
+        const ipfsTopic = await this.remoteStorage.getTopic(topic.metadata.messageHash)
+        Object.assign(topic, ipfsTopic)
+        topic.filled = true
     }
 
 
@@ -201,15 +201,16 @@ export class Topics extends TopicsModel implements TopicsService {
         return this.topics
     }
 
-    async createTopic(body: string, bounty: number) : Promise<object> {
+    async createTopic(title: string, body: string, bounty: number) : Promise<object> {
         await this.ready
         const contract = this.contract!
 
-        const ipfsMessage : IPFSTopic = {
+        const ipfsTopic : IPFSTopic = {
             version: 1,
             offset: this.topicHashes.length,
             author: this.account!,
             date: Date.now(),
+            title,
             body,
         }
 
@@ -217,19 +218,19 @@ export class Topics extends TopicsModel implements TopicsService {
 
         try {
             // Create message and pin it to remote IPFS
-            ipfsHash = await this.remoteStorage.createTopic(ipfsMessage)
+            ipfsHash = await this.remoteStorage.createTopic(ipfsTopic)
 
             const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
 
             // Send it to Blockchain
             console.log('token ', this.tokenContractJS.address, ' topic ', contract.address, ' bounty ', bounty * 10 ** 18, ' action ', this.actions.newTopic)
-            const result = await this.contract!.createForumTx(this.account!, new BigNumber(hashSolidity), bounty * 10 ** 18, TOPIC_LENGTH).send({})
+            const result = await this.contract!.createForumTx(this.account!, new BigNumber(hashSolidity.toString()), bounty * 10 ** 18, TOPIC_LENGTH).send({})
             // const result = await this.tokenContractJS.transferAndCall(contract.address, bounty * 10 ** 18, this.actions.newTopic, [hashSolidity, TOPIC_LENGTH])
             console.log(result)
 
             return {
                 id: ipfsHash,
-                ...ipfsMessage
+                ...ipfsTopic
             }
         } catch (e) {
             if (ipfsHash) {

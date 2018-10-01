@@ -33,6 +33,10 @@ a[disabled], a[disabled]:hover {
     cursor: pointer;
 }
 
+.question .title {
+    font-size: 2em;
+}
+
 .parent {
     padding-bottom: 1em;
 }

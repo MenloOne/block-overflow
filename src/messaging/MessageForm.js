@@ -70,7 +70,10 @@ class MessageForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                <textarea name="" className="field" id="" cols="30" rows="10" value={this.state.message} onChange={this.onChange}></textarea>
+                { this.props.icon &&
+                    <span className='comment-indicator'><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
+                }
+                <textarea name="" className="field" id="" cols="30" rows={this.props.rows ? this.props.rows : 5} value={this.state.message} onChange={this.onChange}></textarea>
                 <input type="submit" className="btn submit-btn" disabled={this.state.submitting}/>
                 <a href="" className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
                 {this.state.error && <p className="error new-message">{this.state.error}</p>}

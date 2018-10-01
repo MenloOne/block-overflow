@@ -107,7 +107,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     onSubmitMessage(body) {
-        return this.props.forum.svc.createMessage(body, null)
+        return this.props.forum.svc.postMessage(body, null)
     }
 
     topFiveMessages() {
@@ -241,8 +241,11 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                     </div>
                     <div className="QuestionHeader-textWrapper">
                         <h6>
-                            { this.props.forum.model.topic && this.props.forum.model.topic.body }
+                            { this.props.forum.model.topic && this.props.forum.model.topic.title }
                         </h6>
+                        <h4>
+                            { this.props.forum.model.topic && this.props.forum.model.topic.body }
+                        </h4>
                         <span><span className='alias'>{ this.props.forum.model.topic ? this.props.forum.model.topic.author : '...' }</span>&nbsp;<i className="sX"></i></span><span>?? points</span><span>19 hours ago</span>
                     </div>
                     <div className="QuestionHeader-countdown">
@@ -298,25 +301,21 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                     </p>
                 </div>
                 <div className="left-side-wrapper townhall">
-                    <div className="expert-reviews-1">
-                        <div>
-                            <div className="comments">
-                                <div className="message-wrapper">
-                                    <span className="small-heading">Townhall</span>
-                                    <ul>
-                                        {this.renderMessages()}
+                    <div className="comments">
+                        <div className="message-wrapper">
+                            <span className="small-heading">Townhall</span>
+                            <ul>
+                                {this.renderMessages()}
 
-                                        {
-                                            this.state.showCompose &&
-                                            <li>
-                                                <div className='reply-form'>
-                                                    <MessageForm onSubmit={this.onSubmitMessage}/>
-                                                </div>
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            </div>
+                                {
+                                    this.state.showCompose &&
+                                    <li>
+                                        <div className='reply-form'>
+                                            <MessageForm onSubmit={this.onSubmitMessage}/>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
                         </div>
                     </div>
                 </div>

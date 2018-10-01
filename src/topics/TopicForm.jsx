@@ -22,6 +22,7 @@ import { withAcct } from '../services/Account'
 class TopicForm extends React.Component {
     state = {
         message: '',
+        title: '',
         submitting: false
     }
 
@@ -31,6 +32,7 @@ class TopicForm extends React.Component {
         this.onChange = this.onChange.bind(this)
         this.onCancel = this.onCancel.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+        this.onChangeTitle = this.onChangeTitle.bind(this)
     }
 
     componentWillReceiveProps(newProps) {
@@ -45,8 +47,9 @@ class TopicForm extends React.Component {
         this.setState({ submitting: true })
 
         try {
-            await this.props.onSubmit(this.state.message)
+            await this.props.onSubmit(this.state.title, this.state.message)
             this.setState({
+                title: '',
                 message: '',
                 submitting: false,
                 error: null
@@ -63,16 +66,24 @@ class TopicForm extends React.Component {
         this.setState({ message: event.target.value })
     }
 
+    onChangeTitle(event) {
+        this.setState({ title: event.target.value })
+    }
+
     onCancel() {
-        this.setState({ message: '' })
+        this.setState({ title: '', message: '' })
+        this.props.onCancel()
     }
 
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                <textarea name="" className="field" id="" cols="30" rows="10" value={this.state.message} onChange={this.onChange}></textarea>
-                <input type="submit" className="btn submit-btn" disabled={this.state.submitting}/>
-                <a href="" className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                <div>Question</div>
+                <textarea name="" className="field" id="" cols="30" rows="1" value={this.state.title} onChange={this.onChangeTitle}></textarea>
+                <div>Details</div>
+                <textarea name="" className="field" id="" cols="30" rows="5" value={this.state.message} onChange={this.onChange}></textarea>
+                <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question'/>
+                <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
                 {this.state.error && <p className="error new-message">{this.state.error}</p>}
             </form>
         )

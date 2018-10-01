@@ -7,6 +7,8 @@ import TopNav from '../components/TopNav'
 import TopicBoard from "../topics/TopicBoard";
 
 import '../App.scss'
+import TopicForm from './TopicForm'
+import { TopicsContext, withTopics } from '../services/Topics'
 
 const twitter  = require('../images/twitter.svg')
 const facebook = require('../images/facebook.svg')
@@ -16,9 +18,6 @@ const telegram = require('../images/telegram.svg')
 const arrowRight = require('../images/arrow-right.svg')
 const globe      = require('../images/icon-globe.svg')
 const paper      = require('../images/icon-paper.svg')
-
-const userIm = require('../images/user-1.png')
-const user2Im = require('../images/user-2.png')
 
 const bitmart = require('../images/bitmart.svg')
 const BlockOverflowIcon = require('../images/BlockOverflow-icon.svg')
@@ -33,16 +32,36 @@ const metal = require('../images/metal-pay.svg')
 const shapeshift = require('../images/shapeshift.svg')
 
 
+class TopicPageProps {
+    topics: TopicsContext
+}
 
-
-class TopicsPage extends React.Component {
+class TopicsPage extends React.Component<TopicPageProps> {
 
     state = {
-        howToHeight: 'auto'
+        howToHeight: 'auto',
+        showCompose: false
     }
 
-    constructor(props, context) {
+    constructor(props: TopicPageProps, context) {
         super(props, context)
+
+        this.clickAsk = this.clickAsk.bind(this)
+        this.onSubmitQuestion = this.onSubmitQuestion.bind(this)
+        this.onCancelQuestion = this.onCancelQuestion.bind(this)
+    }
+
+    onCancelQuestion() {
+        this.setState({ showCompose: false })
+    }
+
+    onSubmitQuestion(title, body) {
+        this.props.topics.svc.createTopic(title, body, 15)
+        this.setState({ showCompose: false })
+    }
+
+    clickAsk() {
+        this.setState({ showCompose: true })
     }
 
 
@@ -109,7 +128,6 @@ class TopicsPage extends React.Component {
     }
 
     renderUserStats() {
-
         return (
             <div className="user-stats right-side-box white-bg">
                 <div className="block-header">
@@ -278,159 +296,19 @@ class TopicsPage extends React.Component {
                 <div className="content-wrapper">
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-8">
-                                {/* <div className="left-side">
+                            <div className="col-md-8 left-side white-bg">
                                 <div className="left-side-wrapper">
-                                    <div className="top-users" style={{ display: 'none' }}>
-                                        <div className="members">
-                                            <h3>MEMBERS 12 (3)</h3>
-                                            <div className="member-users">
-                                                <span className="user-img"><img src={userIm} title="user"
-                                                                                alt="user"/></span>
-                                                <span className="user-img"><img src={user2Im} title="user" alt="user"/></span>
-                                                <span className="user-img"><img src={userIm} title="user"
-                                                                                alt="user"/></span>
-                                            </div>
-                                            <div className="top-names"><a >@david</a>, <a >@jenny</a>,
-                                                and <a >@bobNYC</a></div>
-                                        </div>
-
-                                        <div className="backers">
-                                            <h3>Other Backers (1,322)</h3>
-                                            <div className="member-users">
-                                                <span className="user-img"><img src={userIm} title="user"
-                                                                                alt="user"/></span>
-                                                <span className="user-img"><img src={user2Im} title="user" alt="user"/></span>
-                                                <span className="user-img"><img src={userIm} title="user"
-                                                                                alt="user"/></span>
-                                            </div>
-                                            <div className="top-names"><a >@BlockchainCapital</a>, <a >@RogerVer</a> and 1,322 others
-                                            </div>
-                                        </div>
-
-                                        <hr/>
-                                    </div>
-
-
-                                    <h2>The next generation of the web</h2>
-                                    <h6>All of the data on this page was pulled from<br />a blockchain, but is as fast as the cloud.</h6>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <p>This page is different from any other webpage you’ve ever used. While it may not seem like it, all of the information here was pulled in from several blockchains and decentralized systems, and there is a built in protocol for you the user to verify that. The goal of Menlo One is to make dApps as fast and easy to use as their centralized predecessors, and this page is a demonstrtion of the alpha release of our framework in action.</p>
-                                        </div>
-                                        <div className="col-md-6 text-center">
-                                            <img src={computer} />
-                                        </div>
-                                    </div>
+                                    {
+                                        !this.state.showCompose &&
+                                        <a className='btn btn-big ask-btn' onClick={ this.clickAsk }>Ask a Question</a>
+                                    }
+                                    {
+                                        this.state.showCompose &&
+                                        <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion}/>
+                                    }
+                                    <TopicBoard />
                                 </div>
-                                <hr />
-                                <div className="left-side-wrapper">
-                                    <ResponsiveEmbed src='https://www.youtube.com/embed/yuohXyDP1pk?rel=0' allowFullScreen />
-                                </div>
-                            </div> */}
-
-                                <div className="team left-side" style={{display: 'none'}}>
-                                    <h2>Team</h2>
-                                    <div className="team-member">
-                                        <span className="user-img"><img src={userIm} title="user" alt="user"/></span>
-                                        <div className="user-detail">
-                                            <div className="team-member-name"><a >@wethefuture</a></div>
-                                            <div className="designation">CTO</div>
-                                        </div>
-                                    </div>
-                                    <div className="team-member">
-                                        <span className="user-img"><img src={user2Im} title="user" alt="user"/></span>
-                                        <div className="user-detail">
-                                            <div className="team-member-name"><a >@greatthings</a></div>
-                                            <div className="designation">COO</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div className="reviews-and-comments expert-reviews left-side" style={{display: 'none'}}>
-                                    <div className="Expert-Reviews">
-                                        <h3> Expert Reviews </h3>
-                                        <div className="boxinner">
-                                            <span className="oval-1">84%</span>
-                                            <div className="boxinner-text"> Blockchain Architect Guild<span>3,812 Reviews</span>
-                                            </div>
-                                        </div>
-                                        <div className="boxinner">
-                                            <span className="oval-2">92%</span>
-                                            <div className="boxinner-text">Startup MBA Guild<span>401 Reviews</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="User-Reviews">
-                                        <h3>User Reviews</h3>
-                                        <div className="Profile">
-                                            <i className="fa fa-thumbs-up"></i>
-                                            12
-                                        </div>
-                                        <div className="Profile">
-                                            <i className="fa fa-thumbs-down"></i>
-                                            109
-                                        </div>
-
-                                    </div>
-                                    <div className="awesome-product-aw">
-                                        “Love what these guys are doing.” <br/>
-                                        <span className="name">- Blockchain Architect Guild</span>
-                                    </div>
-
-                                </div>
-                                {/* <div className="left-side">
-                                    <div className="left-side-wrapper">
-                                        <h2>Build reputation, earn tokens</h2>
-                                        <h6>You know it’s secure, because you validate it yourself.</h6>
-                                        <div style={{ display: 'flex' }}>
-                                            <img src={townhall} style={{ marginRight: '1rem' }} />
-                                            <div className="paragraph-details-wrapper">
-                                                <p>EXPLAIN WHY REPUTATION IS IMPORTANT HERE - Vallidate this page and begin earning tokens. ———Meow up on this idea, since if we built this game on the blockchain everything would’ve been easier to create. So here we are, the decentralized way to make games a </p>
-                                                <div className="points-wrapper">
-                                                    <div className="point">
-                                                        <span className="points-label">
-                                                            REPUTATION
-                                                </span>
-                                                        <span className="points-stat">
-                                                            2
-                                                </span>
-                                                    </div>
-                                                    <div className="point">
-                                                        <span className="points-label">
-                                                            REWARD
-                                                </span>
-                                                        <span className="points-stat">
-                                                            2 ONE
-                                                </span>
-                                                    </div>
-                                                    <div className="point">
-                                                        <span className="points-label">
-                                                            VALIDATION COST
-                                                </span>
-                                                        <span className="points-stat">
-                                                            0.00013 ETH
-                                                </span>
-                                                    </div>
-                                                    <div className="point">
-                                                        <span className="points-label">
-                                                            PROFIT
-                                                </span>
-                                                        <span className="points-stat">
-                                                            13%
-                                                </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> */}
-
-
-                                <TopicBoard />
                             </div>
-
 
                             <div className="col-md-4">
                                 {this.renderUserStats()}
@@ -487,6 +365,7 @@ class TopicsPage extends React.Component {
                                             </table>
                                         </div>
                                     </div>
+
                                     <div className="white-bg content-node">
                                         <div className="block-header">
                                             <h4>Buy ONE Token</h4>
@@ -538,8 +417,6 @@ class TopicsPage extends React.Component {
                                     </div>
                                 </div>
 
-
-
                                 {/* <div className="token-metrics right-side-box white-bg">
                                     <div className="block-header">
                                         <h4>Token Metrics</h4>
@@ -577,4 +454,4 @@ class TopicsPage extends React.Component {
     }
 }
 
-export default TopicsPage
+export default withTopics(TopicsPage)

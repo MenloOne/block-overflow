@@ -26,7 +26,7 @@ contract MenloTopicEvents {
 
 contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents, BytesDecode, Ownable, CanReclaimToken {
     struct ForumMetadata {
-        bytes32 message;
+        bytes32 topicHash;
         bool    closed;
         uint256 payout;
         int32   votes;
@@ -55,7 +55,7 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
     }
 
     modifier isForum() {
-        require(forums[msg.sender].message != 0, "Sender must be forum");
+        require(forums[msg.sender].topicHash != 0, "Sender must be forum");
         _;
     }
 

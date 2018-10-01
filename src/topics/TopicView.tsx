@@ -27,21 +27,21 @@ import './Topic.css'
 
 import { history } from '../router'
 
-interface TopicComponentProps {
+interface TopicViewProps {
     topic: Topic,
     topics: TopicsContext,
     onChangeReplying: (bool) => void
 }
 
-interface TopicComponentState {
+interface TopicViewState {
     showReplyForm: boolean,
     showReplies: boolean,
 }
 
 
-class TopicRow extends React.Component<TopicComponentProps> {
+class TopicView extends React.Component<TopicViewProps> {
 
-    state : TopicComponentState
+    state : TopicViewState
 
     constructor(props) {
         super(props)
@@ -81,18 +81,18 @@ class TopicRow extends React.Component<TopicComponentProps> {
         const message = this.props.topic
 
         return (
-            <li className="borderis message">
+            <li className='question'>
                 <a onClick={ this.onClickTopic } >
                     <div className="content">
+                        <div className="title">
+                            {message.body}
+                        </div>
                         <h3 className="tag-name">
                             <span className="points" style={ { display: 'none' } }>??? points </span>
                             <span className="time">
                                 <Moment fromNow>{ message.date }</Moment>
                             </span>
                         </h3>
-                        <div className="comments-text">
-                            {message.body}
-                        </div>
                     </div>
                 </a>
             </li>
@@ -100,4 +100,4 @@ class TopicRow extends React.Component<TopicComponentProps> {
     }
 }
 
-export default withTopics(TopicRow)
+export default withTopics(TopicView)
