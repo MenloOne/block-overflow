@@ -20,16 +20,39 @@ import AnimateHeight from 'react-animate-height';
 import Blockies from 'react-blockies'
 import Moment from 'react-moment'
 
+import Message from '../services/Message'
+import { Forum } from '../services/Forum'
+
 import MessageForm from './MessageForm'
 
 import '../App.scss'
 import './Message.css'
 
+
 const voteTriangle = require('../images/vote-triangle.svg')
 
 
-class MessageRow extends React.Component {
-    constructor(props) {
+interface MessageViewProps {
+    forum: Forum,
+    message: Message,
+    onChangeReplying?: (replying: boolean) => void
+}
+
+interface MessageViewState {
+    showReplyForm: boolean,
+    showReplies: boolean,
+    expanded: boolean
+    children: any[],
+    height: string | number,
+    originalHeight: string | number
+}
+
+export default class MessageView extends React.Component<MessageViewProps> {
+
+    state : MessageViewState
+    bodyElement : any
+
+    constructor(props: MessageViewProps) {
         super(props)
 
         this.state = {
@@ -37,8 +60,12 @@ class MessageRow extends React.Component {
             showReplies: true,
             children: [],
             expanded: true,
-            height: 'auto'
+            height: 'auto',
+            originalHeight: 0
         }
+
+        this.upvote = this.upvote.bind(this)
+        this.downvote = this.downvote.bind(this)
     }
 
     toggle = () => {
@@ -50,16 +77,16 @@ class MessageRow extends React.Component {
     };
 
     componentDidMount() {
-        this.props.forumService.subscribeMessages(this.props.message.id, this.refreshMessages.bind(this))
+        this.props.forum.subscribeMessages(this.props.message.id, this.refreshMessages.bind(this))
 
         this.setState({
-            height: this.message.clientHeight > 200 ? 200 : 'auto',
-            originalHeight: this.message.clientHeight
+            height: this.bodyElement.clientHeight > 200 ? 200 : 'auto',
+            originalHeight: this.bodyElement.clientHeight
         })
     }
 
     componentWillUnmount() {
-        this.props.forumService.subscribeMessages(this.props.message.id, null);
+        this.props.forum.subscribeMessages(this.props.message.id, null);
     }
 
     componentWillReceiveProps(newProps) {
@@ -67,22 +94,22 @@ class MessageRow extends React.Component {
     }
 
     async refreshMessages() {
-        let message = this.props.message
+        const message = this.props.message
 
-        let replies = await this.props.forumService.getChildrenMessages(message.id)
+        const replies = await this.props.forum.getChildrenMessages(message.id)
         this.setState({ children: replies })
     }
 
     async reply(body) {
         this.setState({ showReplyForm: false })
 
-        let message = await this.props.forumService.createMessage(body, this.props.message.id)
+        await this.props.forum.createMessage(body, this.props.message.id)
         /*
 
         const child = (
             <Topic key={message.id}
                      message={message}
-                     forumService={this.props.forumService}/>
+                     forumService={this.props.forum}/>
         )
 
         this.showReplies(true)
@@ -113,15 +140,15 @@ class MessageRow extends React.Component {
     }
 
     async upvote() {
-        await this.props.forumService.upvote(this.props.message.id, null, null)
+        this.props.forum.upvote(this.props.message.id, null, null)
     }
 
     async downvote() {
-        await this.props.forumService.downvote(this.props.message.id, null, null)
+        this.props.forum.downvote(this.props.message.id, null, null)
     }
 
     messageStatus() {
-        return this.props.forumService.getMessage(this.props.message.id) ? 'complete' : 'pending'
+        return this.props.forum.getMessage(this.props.message.id) ? 'complete' : 'pending'
     }
 
     messageComplete() {
@@ -133,7 +160,7 @@ class MessageRow extends React.Component {
     }
 
     renderVotes() {
-        let message = this.props.message
+        const message = this.props.message
         if (message.votes === 0) {
             return null
         }
@@ -156,9 +183,9 @@ class MessageRow extends React.Component {
     renderReplies() {
         return this.state.children.map(m => {
             return (
-                <MessageRow key={m.id}
-                            message={m}
-                            forumService={this.props.forumService}/>
+                <MessageView key={m.id}
+                             message={m}
+                             forum={this.props.forum}/>
             )
         })
     }
@@ -166,7 +193,7 @@ class MessageRow extends React.Component {
     render() {
         const { height } = this.state;
 
-        let message = this.props.message
+        const message = this.props.message
 
         return (
             <li className="borderis message">
@@ -185,8 +212,8 @@ class MessageRow extends React.Component {
                         duration={500}
                         height={height} // see props documentation bellow
                     >
-                        <div className={"comments-text " + (this.state.expanded ? "" : "limit")} ref={element => {
-                            this.message = element;
+                        <div className={`comments-text ${(this.state.expanded ? "" : "limit")}`} ref={element => {
+                            this.bodyElement = element;
                         }}>
                             {message.body}
                         </div>
@@ -205,8 +232,8 @@ class MessageRow extends React.Component {
                         <span>{ this.renderVotes() }</span>
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
                         <span >
-                                <a onClick={this.upvote.bind(this)} disabled={this.props.message.upvoteDisabled()}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
-                                <a onClick={this.downvote.bind(this)} disabled={this.props.message.downvoteDisabled()}>
+                                <a onClick={this.upvote}   disabled={this.props.message.upvoteDisabled()}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
+                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled()}>
                                     <span className="Question-downvote">
                                         <img src={voteTriangle} className="icon-downvote" />
                                         Downvote
@@ -254,5 +281,3 @@ class MessageRow extends React.Component {
         )
     }
 }
-
-export default MessageRow

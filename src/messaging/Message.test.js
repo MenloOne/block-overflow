@@ -16,10 +16,10 @@
 
 import React from 'react'
 import {shallow} from 'enzyme'
-import MessageRow from './MessageRow'
+import Message from './MessageView'
 import MessageForm from './MessageForm'
 
-describe('MessageRow', () => {
+describe('Message', () => {
   let message, client
 
   beforeEach(() => {
@@ -34,10 +34,10 @@ describe('MessageRow', () => {
 
   describe('parent message', () => {
     beforeEach(() => {
-      message = shallow(<MessageRow type={'parent'}
-                                    client={client}
-                                    body={'someMessageBody'}
-                                    hash={'parentHash'}/>)
+      message = shallow(<Message type={'parent'}
+                                 client={client}
+                                 body={'someMessageBody'}
+                                 hash={'parentHash'}/>)
     })
 
     it('renders the message body and reply action', () => {
@@ -75,10 +75,10 @@ describe('MessageRow', () => {
 
   describe('child message', () => {
     beforeEach(() => {
-      message = shallow(<MessageRow type={'child'}
-                                    client={client}
-                                    body={'someMessageBody'}
-                                    hash={'childHash'}/>)
+      message = shallow(<Message type={'child'}
+                                 client={client}
+                                 body={'someMessageBody'}
+                                 hash={'childHash'}/>)
     })
 
     it('only renders the message body', () => {

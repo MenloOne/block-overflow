@@ -17,7 +17,7 @@
 
 import React from 'react'
 import {shallow} from 'enzyme'
-import MessageRow from './MessageRow'
+import Message from './MessageView'
 import MessageForm from './MessageForm'
 import MessagesContainer from './MessagesContainer'
 

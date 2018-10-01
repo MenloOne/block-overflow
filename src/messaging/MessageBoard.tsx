@@ -6,7 +6,7 @@ import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
 import { Forum } from '../services/Forum'
 import Lottery from '../services/Lottery'
 
-import MessageRow from './MessageRow'
+import MessageView from './MessageView'
 import MessageForm from './MessageForm'
 import CountdownTimer from '../components/CountdownTimer'
 
@@ -134,7 +134,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         }
     }
 
-    onChangeReplying(replying) {
+    onChangeReplying(replying : boolean) {
         this.setState({ showCompose: !replying })
     }
 
@@ -218,10 +218,10 @@ class MessageBoard extends React.Component<MessageBoardProps> {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <MessageRow key={m.id}
-                                    forumService={this.props.forum}
-                                    message={m}
-                                    onChangeReplying={this.onChangeReplying}
+                        <MessageView key={m.id}
+                                     forum={this.props.forum}
+                                     message={m}
+                                     onChangeReplying={this.onChangeReplying}
                         />
                     </div>
                 </div>
@@ -294,9 +294,6 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                         </span>
                         </a>
                         <a href="">
-                        <span className="Question-report">
-                            Report
-                        </span>
                         </a>
                     </p>
                 </div>
