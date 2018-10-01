@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": "8.11.4",
+    "npm": "5.10.0"
+  },
   "scripts": {
     "heroku-postbuild": "unset GIT_DIR && npm run build",
     "clean": "node_modules/.bin/rimraf bin dist lib",
