@@ -21,11 +21,19 @@ import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
 
 
-class TopicForm extends React.Component {
+class TopicFormProps {
+    onSubmit: (title: string, body: string) => void
+    onCancel: () => void
+}
+
+
+class TopicForm extends React.Component<TopicFormProps> {
+    
     state = {
         message: '',
         title: '',
-        submitting: false
+        submitting: false,
+        error: ''
     }
 
     constructor(props) {
@@ -81,7 +89,7 @@ class TopicForm extends React.Component {
         return (
             <form onSubmit={this.onSubmit}>
                 <div>Question</div>
-                <textarea name="" className="field" id="" cols="30" rows="1" value={this.state.title} onChange={this.onChangeTitle}></textarea>
+                <textarea name="" className="field" id="" cols={30} rows={1} value={this.state.title} onChange={this.onChangeTitle}></textarea>
                 <div>Details</div>
                 <SimpleMDE
                     onChange={this.onChange}
