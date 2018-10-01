@@ -52,7 +52,7 @@ export type TopicsContext = { model: TopicsModel, svc: Topics }
 
 
 type TopicsCallback = (topic: Topic | null) => void
-const TOPIC_LENGTH = 15 * 60 /* TODO: Change to 24 Hours */
+const TOPIC_LENGTH : number = 15 * 60 /* TODO: Change to 24 Hours */
 
 export class Topics extends TopicsModel implements TopicsService {
 
@@ -224,8 +224,10 @@ export class Topics extends TopicsModel implements TopicsService {
 
             // Send it to Blockchain
             console.log('token ', this.tokenContractJS.address, ' topic ', contract.address, ' bounty ', bounty * 10 ** 18, ' action ', this.actions.newTopic)
-            const result = await this.contract!.createForumTx(this.account!, new BigNumber(hashSolidity.toString()), bounty * 10 ** 18, TOPIC_LENGTH).send({})
-            // const result = await this.tokenContractJS.transferAndCall(contract.address, bounty * 10 ** 18, this.actions.newTopic, [hashSolidity, TOPIC_LENGTH])
+            // const result = await this.contract!.createForumTx(this.account!, new BigNumber(hashSolidity.toString()), bounty * 10 ** 18, TOPIC_LENGTH).send({})
+
+            const data : [string, string] = [hashSolidity.toString(), TOPIC_LENGTH.toString()]
+            const result = await this.tokenContractJS.transferAndCall(contract.address, bounty * 10 ** 18, this.actions.newTopic, data)
             console.log(result)
 
             return {

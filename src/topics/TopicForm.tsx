@@ -22,18 +22,20 @@ import "simplemde/dist/simplemde.min.css";
 
 
 class TopicFormProps {
-    onSubmit: (title: string, body: string) => void
+    onSubmit: (title: string, body: string, tokenBounty: number) => void
     onCancel: () => void
 }
 
+const MIN_BOUNTY = 10
 
 class TopicForm extends React.Component<TopicFormProps> {
-    
+
     state = {
         message: '',
         title: '',
         submitting: false,
-        error: ''
+        error: '',
+        bounty: MIN_BOUNTY.toString()
     }
 
     constructor(props) {
@@ -43,10 +45,24 @@ class TopicForm extends React.Component<TopicFormProps> {
         this.onCancel = this.onCancel.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.onChangeTitle = this.onChangeTitle.bind(this)
+        this.onChangeBounty = this.onChangeBounty.bind(this)
+        this.onBlurBounty = this.onBlurBounty.bind(this)
     }
 
     componentWillReceiveProps(newProps) {
         this.refreshForum(newProps)
+    }
+
+    onBlurBounty(evt) {
+        let bounty = parseInt(evt.target.value, 10)
+        if (bounty < MIN_BOUNTY) {
+            bounty = MIN_BOUNTY
+        }
+        this.setState({ bounty: bounty.toString() })
+    }
+
+    onChangeBounty(evt) {
+        this.setState({ bounty: evt.target.value })
     }
 
     async refreshForum(newProps) {
@@ -57,7 +73,7 @@ class TopicForm extends React.Component<TopicFormProps> {
         this.setState({ submitting: true })
 
         try {
-            await this.props.onSubmit(this.state.title, this.state.message)
+            await this.props.onSubmit(this.state.title, this.state.message, parseInt(this.state.bounty, 10))
             this.setState({
                 title: '',
                 message: '',
@@ -88,21 +104,30 @@ class TopicForm extends React.Component<TopicFormProps> {
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                <div>Question</div>
-                <textarea name="" className="field" id="" cols={30} rows={1} value={this.state.title} onChange={this.onChangeTitle}></textarea>
-                <div>Details</div>
-                <SimpleMDE
-                    onChange={this.onChange}
-                    value={this.state.message}
-                    options={{
-                        autofocus: true,
-                        spellChecker: false,
-                        // etc.
-                    }}
-                />
-                <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question'/>
-                <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
-                {this.state.error && <p className="error new-message">{this.state.error}</p>}
+                <div className='row'>
+                    <div className='col-12 col-md-8'>
+                        <div>Question</div>
+                        <textarea className="field" id="" cols={30} rows={1} value={this.state.title} onChange={this.onChangeTitle}></textarea>
+                    </div>
+                    <div className='col-12 col-md-4'>
+                        <div>Bounty</div>
+                        <input className='field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty}/>
+                    </div>
+                    <div className='col-12'>
+                        <div>Details</div>
+                        <SimpleMDE
+                            onChange={this.onChange}
+                            value={this.state.message}
+                            options={{
+                                autofocus: true,
+                                spellChecker: false,
+                            }}
+                        />
+                        <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question'/>
+                        <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                        {this.state.error && <p className="error new-message">{this.state.error}</p>}
+                    </div>
+                </div>
             </form>
         )
     }
