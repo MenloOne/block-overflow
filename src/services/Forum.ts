@@ -41,6 +41,7 @@ export class ForumModel {
     public lottery: Lottery
     public messages: MessagesGraph
     public lotteryLength : number
+    public winningVotes : number
 }
 
 
@@ -135,19 +136,24 @@ export class Forum extends ForumModel implements Forum {
 
             const hash = await this.contract.topicHash
             this.topic = await this.remoteStorage.get(HashUtils.solidityHashToCid(hash))
-            const [post, upvote, downvote] = (await Promise.all([this.contract.ACTION_POST, this.contract.ACTION_UPVOTE, await this.contract.ACTION_DOWNVOTE])).map(bn => bn.toNumber())
-            this.actions = { post, upvote, downvote }
+            const [post, upvote, downvote] = (await Promise.all([
+                this.contract.ACTION_POST,
+                this.contract.ACTION_UPVOTE,
+                this.contract.ACTION_DOWNVOTE
+            ])).map(bn => bn.toNumber());
 
-            const [bn1, bn2, bn3, bn4] = await Promise.all([
+            this.actions = { post, upvote, downvote };
+
+            [this.initialSyncEpoch, this.lotteryLength, this.postCost, this.voteCost, this.winningVotes] = (await Promise.all([
                 this.contract.postCount,
                 this.contract.epochLength,
                 this.contract.postCost,
-                this.contract.voteCost
-            ])
-            this.initialSyncEpoch = bn1.toNumber() - 1
-            this.lotteryLength    = bn2.toNumber() * 1000
-            this.postCost         = bn3.toNumber()
-            this.voteCost         = bn4.toNumber()
+                this.contract.voteCost,
+                this.contract.winningVotes
+            ])).map(bn => bn.toNumber())
+
+            this.initialSyncEpoch -= 1
+            this.lotteryLength    *= 1000
 
             // Figure out cost for post
             // this.postGas = await this.tokenContract.transferAndCall.estimateGas(this.contract.address, 1 * 10**18, this.actions.post, ['0x0', '0x0000000000000000000000000000000000000000000000000000000000000000'])

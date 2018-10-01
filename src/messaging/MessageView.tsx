@@ -21,7 +21,7 @@ import Blockies from 'react-blockies'
 import Moment from 'react-moment'
 
 import Message from '../services/Message'
-import { Forum } from '../services/Forum'
+import { ForumContext } from '../services/Forum'
 
 import MessageForm from './MessageForm'
 
@@ -33,17 +33,17 @@ const voteTriangle = require('../images/vote-triangle.svg')
 
 
 interface MessageViewProps {
-    forum: Forum,
-    message: Message,
+    forum: ForumContext
+    message: Message
     onChangeReplying?: (replying: boolean) => void
 }
 
 interface MessageViewState {
-    showReplyForm: boolean,
-    showReplies: boolean,
+    showReplyForm: boolean
+    showReplies: boolean
     expanded: boolean
-    children: any[],
-    height: string | number,
+    children: any[]
+    height: string | number
     originalHeight: string | number
 }
 
@@ -77,7 +77,7 @@ export default class MessageView extends React.Component<MessageViewProps> {
     };
 
     componentDidMount() {
-        this.props.forum.subscribeMessages(this.props.message.id, this.refreshMessages.bind(this))
+        this.props.forum.svc.subscribeMessages(this.props.message.id, this.refreshMessages.bind(this))
 
         this.setState({
             height: this.bodyElement.clientHeight > 200 ? 200 : 'auto',
@@ -86,7 +86,7 @@ export default class MessageView extends React.Component<MessageViewProps> {
     }
 
     componentWillUnmount() {
-        this.props.forum.subscribeMessages(this.props.message.id, null);
+        this.props.forum.svc.subscribeMessages(this.props.message.id, null);
     }
 
     componentWillReceiveProps(newProps) {
@@ -96,14 +96,14 @@ export default class MessageView extends React.Component<MessageViewProps> {
     async refreshMessages() {
         const message = this.props.message
 
-        const replies = await this.props.forum.getChildrenMessages(message.id)
+        const replies = await this.props.forum.svc.getChildrenMessages(message.id)
         this.setState({ children: replies })
     }
 
     async reply(body) {
         this.setState({ showReplyForm: false })
 
-        await this.props.forum.createMessage(body, this.props.message.id)
+        await this.props.forum.svc.createMessage(body, this.props.message.id)
         /*
 
         const child = (
@@ -140,15 +140,15 @@ export default class MessageView extends React.Component<MessageViewProps> {
     }
 
     async upvote() {
-        this.props.forum.upvote(this.props.message.id, null, null)
+        this.props.forum.svc.upvote(this.props.message.id, null, null)
     }
 
     async downvote() {
-        this.props.forum.downvote(this.props.message.id, null, null)
+        this.props.forum.svc.downvote(this.props.message.id, null, null)
     }
 
     messageStatus() {
-        return this.props.forum.getMessage(this.props.message.id) ? 'complete' : 'pending'
+        return this.props.forum.svc.getMessage(this.props.message.id) ? 'complete' : 'pending'
     }
 
     messageComplete() {
@@ -201,7 +201,7 @@ export default class MessageView extends React.Component<MessageViewProps> {
                     <Blockies seed={message.author} size={ 9 } />
                 </div>
                 <div className="content">
-                    <span className="tag-name">
+                    <span className="alias">
                         { message.author }
                     </span>
                     <span className="points" style={{ display: 'none' }}>??? points </span>

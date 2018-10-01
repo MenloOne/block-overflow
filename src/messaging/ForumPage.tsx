@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import TopNav from '../components/TopNav'
 import MessageBoard from '../messaging/MessageBoard'
-import { Forum } from '../services/Forum'
+import { Forum, ForumContext } from '../services/Forum'
 import { AccountContext, withAcct } from "../services/Account";
 
 import '../App.scss'
@@ -15,22 +15,30 @@ interface ForumProps {
 }
 
 interface ForumState {
-    forum?: Forum
+    forum: ForumContext
 }
 
 
 class ForumPage extends React.Component<ForumProps> {
 
     state : ForumState
+    forum : Forum
 
     constructor(props : ForumProps, context) {
         super(props, context)
 
-        this.state = {
-            forum: new Forum(props.params.address)
-        }
+        this.forum = new Forum(props.params.address)
 
-        this.state.forum!.setAccount(props.acct.svc)
+        this.state = {
+            forum: { model: this.forum, svc: this.forum}
+        }
+        
+        this.prepForum(props)
+    }
+
+    async prepForum(props: ForumProps) {
+        await this.forum.setAccount(props.acct.svc)
+        this.setState({ forum: { model: Object.assign({}, this.forum), svc: this.forum }  })
     }
 
     componentWillReceiveProps(nextProps : ForumProps, nextContext) {
@@ -38,10 +46,13 @@ class ForumPage extends React.Component<ForumProps> {
     }
 
     async updateForum(nextProps : ForumProps) {
-        if (nextProps.acct.model.address !== this.props.acct.model.address || nextProps.params.address !== this.props.params.address) {
-            const forum = new Forum(nextProps.params.address)
-            await forum.setAccount(nextProps.acct.svc)
-            this.setState({ forum  })
+        if (nextProps.params.address !== this.props.params.address) {
+            this.forum = new Forum(nextProps.params.address)
+            this.prepForum(nextProps)
+        }
+
+        if (nextProps.acct.model.address !== this.props.acct.model.address) {
+            this.prepForum(nextProps)
         }
     }
 

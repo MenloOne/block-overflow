@@ -1406,7 +1406,7 @@ body {
 }
 
 .time-watch div {
-    font-family: "Titillium";
+    font-family: "Titillium web";
     color: #6B768E;
     font-size: 50px;
     font-weight: normal;
@@ -1427,14 +1427,9 @@ body {
     margin: -6px 6px 0;
 }
 
-.QuestionHeader .time-watch div span:nth-child(1) {
-    line-height: 1rem;
-    padding-top: 12px;
-}
-
-.time-watch div span:nth-child(2) {
+.time-watch div span:nth-child(1) {
     font-family: 'Titillium web', 'Helvetica Neue';
-    font-size: 11px;
+    font-size: 0.7em;
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
@@ -1869,9 +1864,8 @@ span.sold {
     margin-right: .5rem;
 }
 
-.comments .tag-name,
-.comments .tag-name-0x,
-.comments .tag-name-dots {
+.alias {
+    max-width: 70px;
     height: 22px;
     font-size: 12px;
     font-style: normal;
@@ -1882,7 +1876,6 @@ span.sold {
     color: #18af41;
     margin-bottom: 0;
     padding-bottom: 0;
-    width: 68px;
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;

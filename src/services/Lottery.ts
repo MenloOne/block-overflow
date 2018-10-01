@@ -35,6 +35,7 @@ export default class Lottery {
         const contract = this.forum.contract!;
 
         [this.pool, this.endTimeServer] = (await Promise.all([ contract.pool, contract.endTimestamp ])).map(n => n.toNumber())
+        this.pool /= 10 ** 18
 
         // Convert to JS time
         this.endTimeServer *= 1000

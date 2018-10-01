@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Blockies from 'react-blockies'
 
 import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
-import { Forum } from '../services/Forum'
+import { Forum, ForumContext } from '../services/Forum'
 import Lottery from '../services/Lottery'
 
 import MessageView from './MessageView'
@@ -16,7 +16,7 @@ import '../App.scss'
 
 interface MessageBoardProps {
     acct: AccountContext,
-    forum: Forum
+    forum: ForumContext
 }
 
 interface MessageBoardState {
@@ -51,11 +51,11 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     componentWillMount() {
-        this.subscribe(this.props.forum)
+        this.subscribe(this.props.forum.svc)
     }
 
     componentWillUnmount() {
-        this.unsubscribe(this.props.forum)
+        this.unsubscribe(this.props.forum.svc)
     }
 
     subscribe(forum: Forum) {
@@ -74,29 +74,29 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     componentWillReceiveProps(newProps : MessageBoardProps) {
         // TODO: Redirect home if Forum isn't valid on account change
         if ( newProps.forum !== this.props.forum) {
-            this.unsubscribe(this.props.forum)
+            this.unsubscribe(this.props.forum.svc)
             this.updateForum(newProps.forum)
         }
     }
 
-    async updateForum(forum : Forum) {
-        await forum.ready
-        this.subscribe(forum)
+    async updateForum(forum : ForumContext) {
+        await forum.svc.ready
+        this.subscribe(forum.svc)
 
-        if (forum.topic) {
-            this.setState({ topicAvatar: <Blockies seed={ forum.topic.author } size={ 7 }/> })
+        if (forum.model.topic) {
+            this.setState({ topicAvatar: <Blockies seed={ forum.model.topic.author } size={ 7 }/> })
         } else {
             this.setState({ topicAvatar: null })
         }
     }
 
     async refreshMessages() {
-        const messages = await this.props.forum.getChildrenMessages('0x0')
+        const messages = await this.props.forum.svc.getChildrenMessages('0x0')
         this.setState({ messages })
     }
 
     async refreshLotteries() {
-        const lottery = await this.props.forum.lottery
+        const lottery = await this.props.forum.model.lottery
         this.setState({ lottery })
     }
 
@@ -107,7 +107,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     onSubmitMessage(body) {
-        return this.props.forum.createMessage(body, null)
+        return this.props.forum.svc.createMessage(body, null)
     }
 
     topFiveMessages() {
@@ -194,7 +194,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
 
 
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.forum.synced.isFulfilled())) {
+        if (this.state.messages.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.forum.svc.synced.isFulfilled())) {
             return (
                 <li className='borderis message'>
                     <div style={{ paddingBottom: '3em' }}>
@@ -241,9 +241,9 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                     </div>
                     <div className="QuestionHeader-textWrapper">
                         <h6>
-                            { this.props.forum.topic && this.props.forum.topic.body }
+                            { this.props.forum.model.topic && this.props.forum.model.topic.body }
                         </h6>
-                        <span>{ this.props.forum.topic ? this.props.forum.topic.author : '...' }&nbsp;<i className="sX"></i></span><span>?? points</span><span>19 hours ago</span>
+                        <span><span className='alias'>{ this.props.forum.model.topic ? this.props.forum.model.topic.author : '...' }</span>&nbsp;<i className="sX"></i></span><span>?? points</span><span>19 hours ago</span>
                     </div>
                     <div className="QuestionHeader-countdown">
                         {this.state.lottery &&
@@ -252,16 +252,16 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 </div>
                 <div className="Question-stats">
                     <div className="stat">
-                        <div className="number-circle"><span>{ this.props.forum.rewardPool.toFixed(0) }</span></div>
+                        <div className="number-circle"><span>{ this.props.forum.model.lottery.pool.toFixed(0) }</span></div>
                         <div className="stat-label-wrapper">
                             <span>Payout for Winning Answer</span>
-                            <span>{ this.props.forum.rewardPool.toFixed(0) } ONE Tokens</span>
+                            <span>{ this.props.forum.model.lottery.pool.toFixed(0) } ONE Tokens</span>
                         </div>
                     </div>
                     <div className="stat">
-                        <div className="number-circle"><span>84%</span></div>
+                        <div className="number-circle"><span>{ this.state.messages.length }</span></div>
                         <div className="stat-label-wrapper">
-                            <span>Most Popular</span>
+                            <span>Activity</span>
                             <span>{ this.state.messages.length } Answer{ this.state.messages.length > 1 ? 's' : '' }</span>
                         </div>
                     </div>
@@ -270,9 +270,9 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                             <span>Total Votes</span>
                             <span>
                             <i className="fa fa-fw fa-thumbs-up"></i>
-                            210
+                            { this.props.forum.model.winningVotes }
                             <i className="fa fa-fw fa-thumbs-down"></i>
-                            10
+                            {}
                         </span>
                         </div>
                     </div>
@@ -280,7 +280,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                 <div className="Question-wrapper left-side-wrapper">
                     <span className="small-heading">Question</span>
                     <p>
-                        { this.props.forum.topic ? this.props.forum.topic.body : '...' }
+                        { this.props.forum.model.topic ? this.props.forum.model.topic.body : '...' }
                     </p>
                     <p>
                         <a href="">
