@@ -38,7 +38,7 @@ class ForumPage extends React.Component<ForumProps> {
     }
 
     async updateForum(nextProps : ForumProps) {
-        if (nextProps.acct !== this.props.acct || nextProps.params.address !== this.props.params.address) {
+        if (nextProps.acct.model.address !== this.props.acct.model.address || nextProps.params.address !== this.props.params.address) {
             const forum = new Forum(nextProps.params.address)
             await forum.setAccount(nextProps.acct.svc)
             this.setState({ forum  })

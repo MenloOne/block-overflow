@@ -5,6 +5,6 @@
 
 truffle compile
 
-./node_modules/.bin/typechain --force --outDir ./src/.contracts ./node_modules/menlo-token/build/contracts/MenloToken.json
-./node_modules/.bin/typechain --force --outDir ./src/.contracts ./build/contracts/MenloForum.json
-./node_modules/.bin/typechain --force --outDir ./src/.contracts ./build/contracts/MenloTopics.json
+./node_modules/.bin/typechain --force --outDir ./src/contracts ./node_modules/menlo-token/build/contracts/MenloToken.json
+./node_modules/.bin/typechain --force --outDir ./src/contracts ./src/artifacts/MenloForum.json
+./node_modules/.bin/typechain --force --outDir ./src/contracts ./src/artifacts/MenloTopics.json

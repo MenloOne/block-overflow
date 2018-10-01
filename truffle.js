@@ -50,7 +50,7 @@ function getPrivKeys(network) {
 
 
 module.exports = {
-    contracts_build_directory: path.join(__dirname, 'output'),
+    contracts_build_directory: path.join(__dirname, 'src/artifacts'),
     networks: {
         onetokenlive: {
             host: "localhost",

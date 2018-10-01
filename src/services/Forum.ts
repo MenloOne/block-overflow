@@ -24,9 +24,9 @@ import HashUtils from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
-import TokenContract  from '../../output/MenloToken.json'
-import { MenloForum } from '../.contracts/MenloForum'
-// import { MenloToken } from '../.contracts/MenloToken'
+import TokenContract  from 'menlo-token/build/contracts/MenloToken.json'
+import { MenloForum } from '../contracts/MenloForum'
+// import { MenloToken } from '../contracts/MenloToken'
 
 import { Account } from './Account'
 import Lottery, { LotteriesCallback } from './Lottery'

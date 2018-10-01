@@ -7,7 +7,6 @@
     "clean": "node_modules/.bin/rimraf bin dist lib",
     "start": "node scripts/start.js",
     "build": "npm run clean && npm run gen && node scripts/build.js",
-    "start:admin": "node_modules/.bin/webpack-dev-server --port 4000 --hot --inline --mode development -d --config ./webpack.config.admin.js",
     "lint": "npm run lint:typescript",
     "lint:typescript": "./node_modules/.bin/tslint --force --project tsconfig.json",
     "lint:solidity": "./node_modules/.bin/solium -d ./contracts",
@@ -44,7 +43,8 @@
     "ts-loader": "^4.3.0",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
-    "typescript": "^3"
+    "typescript": "^3",
+    "web3-provider-engine": "^14.0.6"
   },
   "dependencies": {
     "@babel/core": "^7.1.0",

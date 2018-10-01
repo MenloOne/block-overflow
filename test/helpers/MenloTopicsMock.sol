@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-import '../../contracts/MenloTopics.sol';
+import '../contracts/MenloTopics.sol';
 
 contract MenloTopicsMock is MenloTopics {
   uint256 public timeStamp = block.timestamp;

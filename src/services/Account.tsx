@@ -21,10 +21,10 @@ import TruffleContract from 'truffle-contract'
 import Blockies from 'react-blockies'
 
 import web3 from './web3_override'
-import { MenloToken } from '../.contracts/MenloToken'
+import { MenloToken } from '../contracts/MenloToken'
 import { QPromise } from '../utils/QPromise'
 
-import TokenContractJSON from '../../node_modules/menlo-token/build/contracts/MenloToken.json'
+import TokenContractJSON from 'menlo-token/build/contracts/MenloToken.json'
 
 
 export enum MetamaskStatus {

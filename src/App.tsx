@@ -48,8 +48,8 @@ class App extends React.Component {
         this.topics  = new Topics()
 
         this.state = {
-            account: { model: this.account, svc: this.account },
-            topics:  { model: this.topics,  svc: this.topics }
+            account: { model: Object.assign({}, this.account), svc: this.account },
+            topics:  { model: Object.assign({}, this.topics),  svc: this.topics }
         }
 
         this.account.setCallback(this.accountChanged)

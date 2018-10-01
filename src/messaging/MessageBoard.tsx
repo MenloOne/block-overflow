@@ -46,20 +46,32 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 
     componentDidMount() {
-        this.props.forum.subscribeMessages('0x0', this.refreshMessages)
-        this.refreshMessages()
-
-        this.props.forum.subscribeLotteries(this.refreshLotteries)
-        this.refreshLotteries()
+        this.subscribe(this.props.forum)
     }
 
     componentWillUnmount() {
-        this.props.forum.subscribeMessages('0x0', null)
-        this.props.forum.subscribeLotteries(null)
+        this.unsubscribe(this.props.forum)
+    }
+
+    subscribe(forum: Forum) {
+        forum.subscribeMessages('0x0', this.refreshMessages)
+        this.refreshMessages()
+
+        forum.subscribeLotteries(this.refreshLotteries)
+        this.refreshLotteries()
+    }
+
+    unsubscribe(forum: Forum) {
+        forum.subscribeMessages('0x0', null)
+        forum.subscribeLotteries(null)
     }
 
     componentWillReceiveProps(newProps) {
         // TODO: Redirect home if Forum isn't valid on account change
+        if ( newProps.forum !== this.props.forum) {
+            this.unsubscribe(this.props.forum)
+            this.subscribe(newProps.forum)
+        }
     }
 
     async refreshMessages() {
