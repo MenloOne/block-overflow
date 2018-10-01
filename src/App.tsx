@@ -4,8 +4,7 @@ import * as History from 'history'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { Account, AccountContext, AccountCtxtComponent } from './services/Account'
 import { Topics, TopicsContext, TopicsCtxtComponent } from './services/Topics'
-import { history } from './config'
-import router from './router'
+import { resolve, history } from './router'
 
 import TopicsPage from './topics/TopicsPage'
 import ForumPage from './messaging/ForumPage'
@@ -93,10 +92,10 @@ class App extends React.Component {
         }
 
         try {
-            const component = await router.resolve( routes, location)
+            const component = await resolve( routes, location)
             this.renderComponent(component)
         } catch (error) {
-            const component = await router.resolve( routes, { ...location, error })
+            const component = await resolve( routes, { ...location, error })
             this.renderComponent(component)
         }
     }

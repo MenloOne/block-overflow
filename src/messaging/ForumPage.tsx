@@ -5,6 +5,7 @@ import TopNav from '../components/TopNav'
 import MessageBoard from '../messaging/MessageBoard'
 import { Forum, ForumContext } from '../services/Forum'
 import { AccountContext, withAcct } from "../services/Account";
+import { history } from '../router'
 
 import '../App.scss'
 
@@ -27,6 +28,8 @@ class ForumPage extends React.Component<ForumProps> {
     constructor(props : ForumProps, context) {
         super(props, context)
 
+        this.goBack = this.goBack.bind(this)
+
         this.forum = new Forum(props.params.address)
 
         this.state = {
@@ -37,12 +40,22 @@ class ForumPage extends React.Component<ForumProps> {
     }
 
     async prepForum(props: ForumProps) {
-        await this.forum.setAccount(props.acct.svc)
+        try {
+            await this.forum.setAccount(props.acct.svc)
+        } catch (e) {
+            // If this fails we probably got a bad forum address
+            console.log('Error setting up forum ', e)
+            history.push('/')
+        }
         this.setState({ forum: { model: Object.assign({}, this.forum), svc: this.forum }  })
     }
 
     componentWillReceiveProps(nextProps : ForumProps, nextContext) {
         this.updateForum(nextProps)
+    }
+
+    goBack() {
+        history.push('/')
     }
 
     async updateForum(nextProps : ForumProps) {
@@ -66,7 +79,7 @@ class ForumPage extends React.Component<ForumProps> {
                         <div className="row">
                             <div className="col-md-8">
                                 <p>
-                                    <a href="">&laquo; Back to Topics</a>
+                                    <a href="" onClick={ this.goBack }>&laquo; Back to Topics</a>
                                 </p>
 
                                 <MessageBoard forum={ this.state.forum }/>

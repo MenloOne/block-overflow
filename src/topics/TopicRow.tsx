@@ -25,7 +25,7 @@ import '../App.scss'
 import './Topic.css'
 
 
-import { history } from '../config'
+import { history } from '../router'
 
 interface TopicComponentProps {
     topic: Topic,

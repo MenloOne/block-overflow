@@ -1,6 +1,11 @@
 import toRegex from 'path-to-regexp'
-import { history } from './config'
+import { createBrowserHistory } from 'history'
 
+const history = createBrowserHistory()
+
+function push(path) {
+    return history.push(path)
+}
 
 function matchURI(path, uri) {
     const keys : any[] = [];
@@ -33,4 +38,8 @@ async function resolve(routes, context) {
     throw `Route for ${context.pathname} not found`;
 }
 
-export default { resolve }
+export {
+    history,
+    push,
+    resolve
+}

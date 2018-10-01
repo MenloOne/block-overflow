@@ -1,7 +1,3 @@
-import { createBrowserHistory } from 'history'
-
-const history = createBrowserHistory()
-
 class Config {
     public contentNodeUrl: string
 
@@ -17,7 +13,4 @@ class Config {
 
 const config = new Config()
 
-export {
-    config,
-    history
-}
+export default config

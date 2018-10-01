@@ -73,7 +73,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
 
     componentWillReceiveProps(newProps : MessageBoardProps) {
         // TODO: Redirect home if Forum isn't valid on account change
-        if ( newProps.forum !== this.props.forum) {
+        if ( newProps.forum.svc !== this.props.forum.svc) {
             this.unsubscribe(this.props.forum.svc)
             this.updateForum(newProps.forum)
         }
