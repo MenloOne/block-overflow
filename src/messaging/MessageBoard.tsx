@@ -12,6 +12,9 @@ import CountdownTimer from '../components/CountdownTimer'
 
 import '../App.scss'
 
+const questionAvatar = require('../images/question-avatar.svg')
+const voteTriangle = require('../images/vote-triangle.svg')
+
 
 interface MessageBoardProps {
     acct: AccountContext,
@@ -176,84 +179,6 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         )
     }
 
-    renderUserStats() {
-        return (
-            <div className="user-stats right-side-box white-bg">
-                <h4>User Metrics</h4>
-                <div className="stats-wrapper">
-                    <div className="stat">
-                        <div className="number-circle">
-                            <span>84%</span>
-                        </div>
-                        <div className="stat-label-wrapper">
-                            <span>Your Reputation</span>
-                            <span>3,812 Reviews</span>
-                        </div>
-                    </div>
-                    <div className="stat">
-                        <div className="number-circle">
-                            <span>102</span>
-                        </div>
-                        <div className="stat-label-wrapper">
-                            <span>ONE Tokens Earned</span>
-                            <span>($10 USD)</span>
-                        </div>
-                    </div>
-                    <div className="stat">
-                        <div className="number-circle">
-                            <span>12</span>
-                        </div>
-                        <div className="stat-label-wrapper">
-                            <span>Your Posts</span>
-                            <span>See Posts</span>
-                        </div>
-                    </div>
-                    <div className="stat">
-                        <div className="number-circle">
-                            <span>9</span>
-                        </div>
-                        <div className="stat-label-wrapper">
-                            <span>Paid Views</span>
-                            <span>Link</span>
-                        </div>
-                    </div>
-                </div>
-                {/* <div className="userstats-countdown-wrapper">
-                    <span className="userstats-countdown-label">Conversation Ends</span>
-                    <div className="userstats-timeblock-wrapper">
-                        <div className="userstats-timeblock">
-                            <div className="userstats-block">00</div>
-                            <div className="userstats-label">Days</div>
-                        </div>
-                        <div className="userstats-divider">
-                            <div className="userstats-block">:</div>
-                            <div className="userstats-label">&nbsp;</div>
-                        </div>
-                        <div className="userstats-timeblock">
-                            <div className="userstats-block">00</div>
-                            <div className="userstats-label">Hours</div>
-                        </div>
-                        <div className="userstats-divider">
-                            <div className="userstats-block">:</div>
-                            <div className="userstats-label">&nbsp;</div>
-                        </div>
-                        <div className="userstats-timeblock">
-                            <div className="userstats-block">00</div>
-                            <div className="userstats-label">Minutes</div>
-                        </div>
-                        <div className="userstats-divider">
-                            <div className="userstats-block">:</div>
-                            <div className="userstats-label">&nbsp;</div>
-                        </div>
-                        <div className="userstats-timeblock">
-                            <div className="userstats-block">00</div>
-                            <div className="userstats-label">Seconds</div>
-                        </div>
-                    </div>
-                </div> */}
-            </div>
-        )
-    }
 
     renderMessages() {
         if (this.state.messages.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.forum.synced.isFulfilled())) {
@@ -292,48 +217,107 @@ class MessageBoard extends React.Component<MessageBoardProps> {
 
     render() {
         return (
-            <div className='row'>
-                <div className="col-md-8">
-
-                    <div className="left-side">
-                        <div className="left-side-wrapper">
-                            <div className="expert-reviews-1 left-side white-bg">
-                                <h2>Townhall</h2>
-                                <h6>If anyone makes money off your internet activity,<br />it should be you. Build a reputation and profit. </h6>
-                                <p>What is TownHall? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
-                                <div className="comments">
-                                    <ul>
-                                        { this.renderMessages() }
-
-                                        {
-                                            this.state.showCompose &&
-                                            <li>
-                                                <div className='content'>
-                                                    <MessageForm onSubmit={this.onSubmitMessage}/>
-                                                </div>
-                                            </li>
-                                        }
-                                    </ul>
+            <div className="left-side">
+                <div className="QuestionHeader">
+                    <div className="QuestionHeader-logoWrapper">
+                        <img src={questionAvatar}/>
+                    </div>
+                    <div className="QuestionHeader-textWrapper">
+                        <h6>How does Menlo.one work with relational databases?</h6>
+                        <span>@cypherpunk<i className="sX"></i></span><span>104 points</span><span>19 hours ago</span>
+                    </div>
+                    <div className="QuestionHeader-countdown">
+                        {this.state.lottery &&
+                        <CountdownTimer date={new Date(this.state.lottery.endTime)}/>}
+                    </div>
+                </div>
+                <div className="Question-stats">
+                    <div className="stat">
+                        <div className="number-circle"><span>84%</span></div>
+                        <div className="stat-label-wrapper">
+                            <span>Payout for Winning Answer</span>
+                            <span>1,337 ONE token ($41 USD)</span>
+                        </div>
+                    </div>
+                    <div className="stat">
+                        <div className="number-circle"><span>84%</span></div>
+                        <div className="stat-label-wrapper">
+                            <span>Most Popular</span>
+                            <span>9 Replies</span>
+                        </div>
+                    </div>
+                    <div className="stat">
+                        <div className="stat-label-wrapper">
+                            <span>Total Votes</span>
+                            <span>
+                            <i className="fa fa-fw fa-thumbs-up"></i>
+                            210
+                            <i className="fa fa-fw fa-thumbs-down"></i>
+                            10
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div className="Question-wrapper left-side-wrapper">
+                    <span className="small-heading">Question</span>
+                    <p>
+                        With the content node infrastructure being Node and Mongo, how can Menlo One store relational
+                        data?
+                    </p>
+                    <p>
+                        <a href="">
+                        <span className="Question-upvote">
+                            <img src={voteTriangle} className="icon-upvote"/>
+                            Upvote (12)
+                        </span>
+                        </a>
+                        <a href="">
+                        <span className="Question-downvote">
+                            <img src={voteTriangle} className="icon-downvote"/>
+                            Downvote
+                        </span>
+                        </a>
+                        <a href="">
+                        <span className="Question-reply">
+                            Reply
+                        </span>
+                        </a>
+                        <a href="">
+                        <span className="Question-permalink">
+                            Permalink
+                        </span>
+                        </a>
+                        <a href="">
+                        <span className="Question-report">
+                            Report
+                        </span>
+                        </a>
+                    </p>
+                </div>
+                <div className="left-side-wrapper townhall">
+                    <div className="expert-reviews-1">
+                        <div>
+                            <div className="comments">
+                                <div className="message-wrapper">
+                                    <span className="small-heading">Townhall</span>
                                 </div>
+                                <ul>
+                                    {this.renderMessages()}
+
+                                    {
+                                        this.state.showCompose &&
+                                        <li>
+                                            <div className='content message-wrapper'>
+                                                <MessageForm onSubmit={this.onSubmitMessage}/>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div className="col-md-4">
-                    <div className='right-side'>
-                        {this.renderUserStats()}
-                        {this.state.lottery &&
-                            <div className="lottery right-side-box white-bg">
-                                {this.renderLottery(this.state.lottery)}
-                            </div>
-                        }
-                    </div>
-                </div>
             </div>
-
-
-
         )
     }
 }
