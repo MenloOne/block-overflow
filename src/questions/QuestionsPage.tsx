@@ -176,39 +176,6 @@ class QuestionsPage extends React.Component<TopicPageProps> {
                         </div>
                     </div>
                 </div>
-                {/* <div className="userstats-countdown-wrapper">
-                    <span className="userstats-countdown-label">Conversation Ends</span>
-                    <div className="userstats-timeblock-wrapper">
-                        <div className="userstats-timeblock">
-                            <div className="userstats-block">00</div>
-                            <div className="userstats-label">Days</div>
-                        </div>
-                        <div className="userstats-divider">
-                            <div className="userstats-block">:</div>
-                            <div className="userstats-label">&nbsp;</div>
-                        </div>
-                        <div className="userstats-timeblock">
-                            <div className="userstats-block">00</div>
-                            <div className="userstats-label">Hours</div>
-                        </div>
-                        <div className="userstats-divider">
-                            <div className="userstats-block">:</div>
-                            <div className="userstats-label">&nbsp;</div>
-                        </div>
-                        <div className="userstats-timeblock">
-                            <div className="userstats-block">00</div>
-                            <div className="userstats-label">Minutes</div>
-                        </div>
-                        <div className="userstats-divider">
-                            <div className="userstats-block">:</div>
-                            <div className="userstats-label">&nbsp;</div>
-                        </div>
-                        <div className="userstats-timeblock">
-                            <div className="userstats-block">00</div>
-                            <div className="userstats-label">Seconds</div>
-                        </div>
-                    </div>
-                </div> */}
             </div>
         )
     }

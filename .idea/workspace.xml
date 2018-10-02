@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8d4dfe2-2f60-4ca8-94cd-2d39de816dbd" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/models/Topics.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Topics.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/questions/QuestionsBoard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/questions/QuestionsBoard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -125,7 +124,7 @@
           <entry key="sh" value="166" />
           <entry key="sol" value="5040" />
           <entry key="ts" value="15447" />
-          <entry key="tsx" value="19689" />
+          <entry key="tsx" value="19692" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -139,7 +138,7 @@
           <entry key="SCSS" value="1050" />
           <entry key="Solidity file" value="5040" />
           <entry key="TypeScript" value="15447" />
-          <entry key="TypeScript JSX" value="19689" />
+          <entry key="TypeScript JSX" value="19692" />
           <entry key="tsconfig" value="219" />
         </counts>
       </usages-collector>
@@ -199,11 +198,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/questions/QuestionsPage.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1742">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="136">
+              <caret line="302" column="65" selection-start-line="302" selection-start-column="65" selection-end-line="302" selection-end-column="65" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -211,10 +210,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/questions/QuestionsBoard.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
+            <state relative-caret-position="260">
               <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
@@ -226,8 +225,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/models/Topics.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="140" lean-forward="true" selection-start-line="140" selection-end-line="140" />
+            <state relative-caret-position="297">
+              <caret line="151" column="34" lean-forward="true" selection-start-line="151" selection-start-column="34" selection-end-line="151" selection-end-column="34" />
               <folding>
                 <element signature="e#596#626#0" expanded="true" />
               </folding>
@@ -275,7 +274,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>countdowntimer</find>
       <find>renderlo</find>
       <find>MessageBoardGraph</find>
       <find>col-md-8</find>
@@ -305,6 +303,7 @@
       <find>topics.push</find>
       <find>.sort(</find>
       <find>.watch</find>
+      <find>ask a q</find>
     </findStrings>
     <replaceStrings>
       <replace>===</replace>
@@ -394,14 +393,14 @@
         <option value="$PROJECT_DIR$/src/services/Lottery.ts" />
         <option value="$PROJECT_DIR$/src/questions/QuestionView.tsx" />
         <option value="$PROJECT_DIR$/src/questions/QuestionForm.tsx" />
-        <option value="$PROJECT_DIR$/src/questions/QuestionsPage.tsx" />
         <option value="$PROJECT_DIR$/src/answers/AnswersBoard.tsx" />
         <option value="$PROJECT_DIR$/src/answers/AnswerView.tsx" />
         <option value="$PROJECT_DIR$/src/services/Forum.ts" />
         <option value="$PROJECT_DIR$/src/answers/AnswersPage.tsx" />
         <option value="$PROJECT_DIR$/src/models/Forum.ts" />
-        <option value="$PROJECT_DIR$/src/models/Topics.tsx" />
         <option value="$PROJECT_DIR$/src/questions/QuestionsBoard.tsx" />
+        <option value="$PROJECT_DIR$/src/models/Topics.tsx" />
+        <option value="$PROJECT_DIR$/src/questions/QuestionsPage.tsx" />
       </list>
     </option>
   </component>
@@ -434,10 +433,10 @@
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="169" />
-    <option name="y" value="23" />
-    <option name="width" value="1440" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="56" />
+    <option name="y" value="24" />
+    <option name="width" value="1624" />
     <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -590,10 +589,10 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/models/Topics.tsx&#10;que&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/questions/QuestionsPage.tsx&#10;topics&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topics.tsx&#10;questions&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/questions/QuestionsPage.tsx&#10;menlo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;Menlo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;answersp&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswersPage.tsx&#10;answervi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswerView.tsx&#10;answerbo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswersBoard.tsx&#10;answer&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswerForm.js&#10;topicfo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicForm.tsx&#10;answerfor&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswerForm.js&#10;Forum&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Forum.ts&#10;MenloF&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;MenloForu&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;Lotter&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Lottery.ts&#10;QuestionHeader-&#9;null&#9;null&#10;MessageBoa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;MessageBo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;user-img&#9;null&#9;null&#10;question&#9;null&#9;null&#10;topicvi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicView.tsx&#10;MessageB&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;menlotop&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;topicf&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicForm.tsx&#10;toString&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/sinon/lib/sinon/util/core/function-to-string.js&#10;menlotopi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;topicpa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicsPage.tsx&#10;topicfor&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicForm.jsx&#10;topics.t&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topics.tsx&#10;Topic.ts&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topic.ts&#10;forump&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/ForumPage.tsx&#10;messagebo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;messagevi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageView.tsx&#10;menlofo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;fo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Forum.ts&#10;watchforcom&#9;null&#9;null&#10;messageview&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageView.tsx&#10;messageboa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;field&#9;null&#9;null&#10;messagefor&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageForm.js&#10;forum.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Forum.ts&#10;topic&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicsPage.tsx&#10;MESSAGEVIE&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageView.tsx&#10;Forum.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Forum.ts&#10;lottery.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Lottery.ts&#10;messagefo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageForm.js&#10;topicp&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicsPage.tsx&#10;topicbo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicBoard.tsx&#10;menlo-token/&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/menlo-token" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/questions/QuestionsPage.tsx&#10;que&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/questions/QuestionsPage.tsx&#10;topics&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topics.tsx&#10;questions&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/questions/QuestionsPage.tsx&#10;menlo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;Menlo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;answersp&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswersPage.tsx&#10;answervi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswerView.tsx&#10;answerbo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswersBoard.tsx&#10;answer&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswerForm.js&#10;topicfo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicForm.tsx&#10;answerfor&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/answers/AnswerForm.js&#10;Forum&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Forum.ts&#10;MenloF&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;MenloForu&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;Lotter&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Lottery.ts&#10;QuestionHeader-&#9;null&#9;null&#10;MessageBoa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;MessageBo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;user-img&#9;null&#9;null&#10;question&#9;null&#9;null&#10;topicvi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicView.tsx&#10;MessageB&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;menlotop&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;topicf&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicForm.tsx&#10;toString&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/sinon/lib/sinon/util/core/function-to-string.js&#10;menlotopi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloTopics.sol&#10;topicpa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicsPage.tsx&#10;topicfor&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicForm.jsx&#10;topics.t&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topics.tsx&#10;Topic.ts&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Topic.ts&#10;forump&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/ForumPage.tsx&#10;messagebo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;messagevi&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageView.tsx&#10;menlofo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/contracts/MenloForum.sol&#10;fo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Forum.ts&#10;watchforcom&#9;null&#9;null&#10;messageview&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageView.tsx&#10;messageboa&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageBoard.tsx&#10;field&#9;null&#9;null&#10;messagefor&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageForm.js&#10;forum.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Forum.ts&#10;topic&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicsPage.tsx&#10;MESSAGEVIE&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageView.tsx&#10;Forum.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Forum.ts&#10;lottery.&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/services/Lottery.ts&#10;messagefo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/messaging/MessageForm.js&#10;topicp&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicsPage.tsx&#10;topicbo&#9;FILE&#9;file:///Users/dave/Code/block-overflow/src/topics/TopicBoard.tsx&#10;menlo-token/&#9;FILE&#9;file:///Users/dave/Code/block-overflow/node_modules/menlo-token" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538448780909" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538449128387" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.jscs" value="true" />
@@ -754,12 +753,12 @@
       <workItem from="1538250845037" duration="5333000" />
       <workItem from="1538268648388" duration="11004000" />
       <workItem from="1538279800038" duration="22775000" />
-      <workItem from="1538369582082" duration="41312000" />
+      <workItem from="1538369582082" duration="41574000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="683525000" />
+    <option name="totallyTimeSpent" value="683787000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -771,7 +770,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="56" y="24" width="1624" height="1027" extended-state="6" />
+    <frame x="56" y="24" width="1624" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19974716" />
@@ -1177,10 +1176,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/questions/QuestionsPage.tsx">
+    <entry file="file://$PROJECT_DIR$/src/questions/QuestionsBoard.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1742">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="260">
+          <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
@@ -1189,18 +1188,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/Topics.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="140" lean-forward="true" selection-start-line="140" selection-end-line="140" />
+        <state relative-caret-position="297">
+          <caret line="151" column="34" lean-forward="true" selection-start-line="151" selection-start-column="34" selection-end-line="151" selection-end-column="34" />
           <folding>
             <element signature="e#596#626#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/questions/QuestionsBoard.tsx">
+    <entry file="file://$PROJECT_DIR$/src/questions/QuestionsPage.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+        <state relative-caret-position="136">
+          <caret line="302" column="65" selection-start-line="302" selection-start-column="65" selection-end-line="302" selection-end-column="65" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
