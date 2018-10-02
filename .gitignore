@@ -12,3 +12,4 @@ src/contracts
 build
 
 bin
+/.idea/workspace.xml
