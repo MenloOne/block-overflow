@@ -135,6 +135,10 @@ export class Topics extends TopicsModel implements TopicsService {
         }
     }
 
+    public get latestTopics() : Topic[] {
+        return this.topics.sort((a, b) => { return b.date - a.date })
+    }
+
     public topicOffset(id : string) {
         return this.topicOffsets[id]
     }
