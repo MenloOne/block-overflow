@@ -222,7 +222,8 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         return (
             <AnimateHeight
                 duration={500}
-                height={howToHeight}> // see props documentation bellow
+                height={howToHeight} // see props documentation bellow
+            >
                 <div className="game-token shadow-sm">
                     <div className="container">
                         <div className="col-md-5 game-detail-wrapper">
@@ -308,18 +309,16 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                     <div className="content-wrapper">
                         <div className="container">
                             <div className="row">
-                                <div className="col-md-8 left-side white-bg">
-                                    <div className="left-side-wrapper">
-                                        {
-                                            !this.state.showCompose &&
-                                            <a className='btn btn-big ask-btn' onClick={ this.clickAsk }>Ask a Question</a>
-                                        }
-                                        {
-                                            this.state.showCompose &&
-                                            <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion}/>
-                                        }
-                                    </div>
-                                    <div className='left-side-wrapper'>
+                                <div className="col-md-8">
+                                    {
+                                        !this.state.showCompose &&
+                                        <a className='btn btn-big ask-btn' onClick={ this.clickAsk }>Ask a Question</a>
+                                    }
+                                    {
+                                        this.state.showCompose &&
+                                        <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion}/>
+                                    }
+                                    <div className='left-side-wrapper left-side'>
                                         <QuestionsBoard />
                                     </div>
                                 </div>

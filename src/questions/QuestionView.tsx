@@ -82,6 +82,9 @@ class QuestionView extends React.Component<TopicViewProps> {
     render() {
         const topic = this.props.topic
 
+        console.log(topic);
+        
+
         return (
             <li className='question'>
                 <a onClick={ this.onClickTopic } >
@@ -89,18 +92,16 @@ class QuestionView extends React.Component<TopicViewProps> {
                         <Blockies size={10} scale={6} seed={topic.author}/>
                     </div>
                     <div className="content">
-                        <div className="title">
+                        <span className="title">
                             {topic.title}
-                        </div>
-                        <h3 className="tag-name">
+                        </span>
+                        <span>
                             <span className="points" style={ { display: 'none' } }>??? points </span>
-                            <span className="time">
-                                <Moment fromNow>{ topic.date }</Moment>
-                            </span>
-                        </h3>
+                        </span>
+                        <Moment fromNow>{topic.date}</Moment>
                     </div>
-                    <div className='stats' style={{ display: 'none' }}>
-                        <CountdownTimer date={ new Date(0 /*topic.forumEndTime*/ ) } />
+                    <div className='stats'>
+                        <CountdownTimer date={ Date.now() + 1000000 } />
                     </div>
                 </a>
             </li>

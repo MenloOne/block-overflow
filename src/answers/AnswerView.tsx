@@ -226,9 +226,11 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                     <Blockies seed={message.author} size={ 8 } scale={ 3 }/>
                 </div>
                 <div className="content">
-                    <span className="alias">
-                        { message.author }
-                    </span>
+                    <div className="tag-name-wrapper">
+                        <span className="tag-name-0x">0x</span>
+                        <span className="tag-name">{message.author}</span>
+                        <span className="tag-name-dots">…</span>
+                    </div>
                     <span className="points" style={{ display: 'none' }}>??? points </span>
                     <span className="time">
                         <Moment fromNow>{message.date}</Moment>

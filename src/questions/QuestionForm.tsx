@@ -107,7 +107,7 @@ class QuestionForm extends React.Component<TopicFormProps> {
                 <div>Bounty</div>
                 <input className='field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty}/>
                 <div>Question</div>
-                <textarea className="field" id="" cols={30} rows={2} value={this.state.title} onChange={this.onChangeTitle}></textarea>
+                <input className="field" id="" value={this.state.title} onChange={this.onChangeTitle} />
                 <div>Details</div>
                 <SimpleMDE
                     onChange={this.onChange}
@@ -117,8 +117,10 @@ class QuestionForm extends React.Component<TopicFormProps> {
                         spellChecker: false,
                     }}
                 />
-                <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question'/>
-                <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                <div className="askquestion-button-wrapper">
+                    <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question' />
+                    <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                </div>
                 {this.state.error && <p className="error new-message">{this.state.error}</p>}
             </form>
         )

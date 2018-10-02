@@ -44,10 +44,7 @@ a[disabled], a[disabled]:hover {
     .user-img {
         width: 60px;
         height: 60px;
-    }
-
-    .title {
-        font-size: 1.2em;
+        align-self: flex-start;
     }
 }
 
@@ -72,4 +69,53 @@ a[disabled], a[disabled]:hover {
 .error .new-message {
     padding-top: 0;
     text-align: right;
+}
+
+.alias-wrapper {
+    display: inline-flex;
+    align-items: center;
+}
+
+.tag-name-wrapper {
+    display: inline-block;
+    background: #f0f4ff;
+    padding: 0 .2rem;
+    border: 1px solid #ececed;
+    border-radius: 3px;
+    margin-right: 0.5rem;
+    line-height: 0;
+}
+
+.tag-name,
+.tag-name-0x,
+.tag-name-dots {
+    font-size: 12px;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: .04rem;
+    line-height: 1rem;
+    color: #bbb;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    text-overflow: clip;
+    width: 48px;
+    display: inline-flex;
+    overflow: hidden;
+    font-family: monospace;
+}
+
+.tag-name-dots,  {
+    user-select: none;
+}
+
+.tag-name {
+    color: #18af41;
+}
+
+.Page-permalink .tag-name {
+    color: #1944a5;
+}
+
+.tag-name-dots, .tag-name-0x {
+    width: auto;
 }

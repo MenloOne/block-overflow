@@ -524,6 +524,7 @@ span.user-img {
     border-radius: 50%;
     overflow: hidden;
     margin-right: 15px;
+    align-self: flex-start;
 }
 
 i.fa.fa-circle {
@@ -1385,7 +1386,7 @@ body {
 .time-watch div {
     font-family: "Titillium web";
     color: #6B768E;
-    font-size: 50px;
+    line-height: 40px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -1398,10 +1399,14 @@ body {
     vertical-align: top;
 }
 
+.question .time-watch div {
+    line-height: 16px;
+}
+
 .time-watch div.dots {
     color: #6B768E;
     width: 16px;
-    margin: -6px 6px 0;
+    margin: -6px 0 0;
 }
 
 .time-watch div span:nth-child(1) {
@@ -1415,6 +1420,10 @@ body {
     text-align: center;
     color: #a1aecb;
     display: block;
+}
+
+.question .time-watch div span:nth-child(1) {
+    font-size: 9px;
 }
 
 
@@ -1473,11 +1482,10 @@ span.sold {
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    line-height: normal;
     letter-spacing: normal;
     color: #2e4168;
-    padding-bottom: 10px;
 }
+
 .white-bg p {
     font-family: Open Sans;
     font-size: 13px;
@@ -1819,19 +1827,25 @@ span.sold {
     vertical-align: top;
 }
 
-.comments .tag-name-dots {
-    margin-right: .5rem;
+.question a {
+    display: flex;
+    align-items: center;
+}
+
+.question .content {
+    flex: 1;
+    line-height: 1.2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .alias {
     max-width: 70px;
-    height: 22px;
+    line-height: initial;
     font-size: 12px;
     font-style: normal;
     font-stretch: normal;
-    margin-right: 1em;
     letter-spacing: .04rem;
-    line-height: 2rem;
     color: #18af41;
     margin-bottom: 0;
     padding-bottom: 0;
@@ -1846,21 +1860,28 @@ span.sold {
     width: auto;
 }
 
-span.time {
-    height: 22px;
+.question time, .message time, .QuestionHeader-textWrapper time {
     font-size: 11px;
     font-style: normal;
     font-stretch: normal;
-    letter-spacing: .04rem;
-    line-height: 2rem;
+    letter-spacing: .02rem;
     font-style: italic;
     color: #a5a5a5;
     margin-bottom: 0;
     padding-bottom: 0;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    display: inline-block;
-    overflow: hidden;
+}
+
+.comments .question .tag-name .time {
+    padding-left: 0;
+}
+
+.question {
+    padding: 0 0 10px;
+}
+.question .title {
+    font-size: 1rem;
 }
 
 .comments .comments-text {
@@ -1976,7 +1997,12 @@ span.tag {
     width: 100%;
     border-radius: 6px;
     border: solid 1px #dadae1;
-    margin: 1rem 0;
+    margin: .5rem 0 1rem;
+    padding: 0.4rem 0.5rem;
+}
+
+#simplepostmd-editor-1-wrapper {
+    margin: .5rem 0 0;
 }
 
 .comment-indicator {
@@ -2414,7 +2440,7 @@ table.stats tr td:nth-child(2) {
 
 .QuestionHeader-textWrapper {
     flex: 1;
-    line-height: 0.8rem;
+    line-height: 1.5rem;
 
     h6 {
         overflow: hidden;
@@ -2423,22 +2449,16 @@ table.stats tr td:nth-child(2) {
     }
 }
 
-.QuestionHeader-textWrapper span {
-    margin-right: .4rem;
-    font-size: .8rem;
-}
-.QuestionHeader-textWrapper span:nth-of-type(1) {
-    color: #18AF41;
-}
-.QuestionHeader-textWrapper span:nth-of-type(2) {
-    color: #2C3035;
-}
-.QuestionHeader-textWrapper span:nth-of-type(3) {
-    color: #BDBDBD;
-}
+    .QuestionHeader-textWrapper span {
+        font-size: .8rem;
+    }
 
 .QuestionHeader-countdown {
     text-align: right;
+    p {
+        margin: 0;
+        margin-right: 1rem;
+    }
 }
 
 .QuestionHeader-logoWrapper {

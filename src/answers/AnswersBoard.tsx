@@ -2,6 +2,7 @@ import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Blockies from 'react-blockies'
 import MarkDown from 'react-markdown-renderer'
+import Moment from 'react-moment'
 
 import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 import { Forum, ForumContext } from '../models/Forum'
@@ -211,11 +212,13 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                         <h6>
                             { this.props.forum.model.topic && this.props.forum.model.topic.title }
                         </h6>
-                        <span>
-                            <span className='alias'>{ this.props.forum.model.topic ? this.props.forum.model.topic.author : '...' }</span>&nbsp;<i className="sX"></i>
-                        </span>
+                        <div className="tag-name-wrapper">
+                            <span className="tag-name-0x">0x</span>
+                            <span className="tag-name">{this.props.forum.model.topic ? this.props.forum.model.topic.author : '...'}</span>
+                            <span className="tag-name-dots">…</span>
+                        </div>
                         <span style={{ display: 'none' }}>?? points</span>
-                        <span>19 hours ago</span>
+                        <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>
                     </div>
                     <div className="QuestionHeader-countdown">
                         {

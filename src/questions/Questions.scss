@@ -37,12 +37,21 @@ a[disabled], a[disabled]:hover {
     padding-bottom: 1em;
 }
 
-.comments .tag-name .time {
+.question .tag-name {
+  line-height: initial;
+}
+
+.question .tag-name .time {
     color: #bdbdbd;
     padding-left: 1em;
 }
 
-.comments .tag-name span.points {
+.askquestion-button-wrapper {
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.question .tag-name span.points {
     color: #2c3035;
     padding-left: 1em;
 }
