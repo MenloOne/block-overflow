@@ -28,7 +28,7 @@ class TopicFormProps {
 
 const MIN_BOUNTY = 10
 
-class TopicForm extends React.Component<TopicFormProps> {
+class QuestionForm extends React.Component<TopicFormProps> {
 
     state = {
         message: '',
@@ -125,4 +125,4 @@ class TopicForm extends React.Component<TopicFormProps> {
     }
 }
 
-export default withAcct(TopicForm)
+export default withAcct(QuestionForm)

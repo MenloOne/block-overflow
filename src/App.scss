@@ -2403,7 +2403,7 @@ table.stats tr td:nth-child(2) {
 
 .QuestionHeader {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     padding: .8rem;
 
     & h6 {
@@ -2419,7 +2419,7 @@ table.stats tr td:nth-child(2) {
     h6 {
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 60%;
+        max-width: 75%;
     }
 }
 
@@ -2435,6 +2435,10 @@ table.stats tr td:nth-child(2) {
 }
 .QuestionHeader-textWrapper span:nth-of-type(3) {
     color: #BDBDBD;
+}
+
+.QuestionHeader-countdown {
+    text-align: right;
 }
 
 .QuestionHeader-logoWrapper {

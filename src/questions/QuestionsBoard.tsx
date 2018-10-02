@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
 import { TopicsContext, withTopics } from "../services/Topics";
 
-import TopicView from './TopicView'
+import TopicView from './QuestionView'
 
 
 
@@ -20,7 +20,7 @@ interface TopicBoardState {
     topFive: boolean
 }
 
-class TopicBoard extends React.Component<TopicBoardProps> {
+class QuestionsBoard extends React.Component<TopicBoardProps> {
 
     state : TopicBoardState = {
         topFive: false
@@ -80,5 +80,5 @@ class TopicBoard extends React.Component<TopicBoardProps> {
     }
 }
 
-export default withAcct(withTopics(TopicBoard))
+export default withAcct(withTopics(QuestionsBoard))
 

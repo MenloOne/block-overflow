@@ -2,7 +2,7 @@ import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import TopNav from '../components/TopNav'
-import MessageBoard from '../messaging/MessageBoard'
+import AnswersBoard from './AnswersBoard'
 import { Forum, ForumContext } from '../services/Forum'
 import { AccountContext, withAcct } from "../services/Account";
 import { history } from '../router'
@@ -77,12 +77,12 @@ class AnswersPage extends React.Component<ForumProps> {
                 <div className="content-wrapper">
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-8">
+                            <div className="col-md-12">
                                 <p>
                                     <a onClick={ this.goBack }>&laquo; Back to Topics</a>
                                 </p>
 
-                                <MessageBoard forum={ this.state.forum }/>
+                                <AnswersBoard forum={ this.state.forum }/>
                             </div>
                         </div>
                     </div>

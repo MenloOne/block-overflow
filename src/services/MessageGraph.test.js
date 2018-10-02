@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import MessageBoardGraph from './MessageBoardGraph'
+import MessageBoardGraph from './MessageGraph'
 
 describe(MessageBoardGraph.name, () => {
   describe('children(node)', () => {

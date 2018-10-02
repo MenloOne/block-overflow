@@ -21,7 +21,7 @@ import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
 
 
-class MessageForm extends React.Component {
+class AnswerForm extends React.Component {
     state = {
         message: '',
         submitting: false
@@ -108,4 +108,4 @@ class MessageForm extends React.Component {
     }
 }
 
-export default withAcct(MessageForm)
+export default withAcct(AnswerForm)

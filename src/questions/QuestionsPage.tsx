@@ -4,11 +4,14 @@ import AnimateHeight from 'react-animate-height'
 
 import TopNav from '../components/TopNav'
 
-import TopicBoard from "../topics/TopicBoard";
+import QuestionsBoard from "./QuestionsBoard";
+
+import TopicForm from './QuestionForm'
+import { TopicsContext, withTopics } from '../services/Topics'
 
 import '../App.scss'
-import TopicForm from './TopicForm'
-import { TopicsContext, withTopics } from '../services/Topics'
+
+
 
 const twitter  = require('../images/twitter.svg')
 const facebook = require('../images/facebook.svg')
@@ -36,7 +39,7 @@ class TopicPageProps {
     topics: TopicsContext
 }
 
-class TopicsPage extends React.Component<TopicPageProps> {
+class QuestionsPage extends React.Component<TopicPageProps> {
 
     state = {
         howToHeight: 'auto',
@@ -308,7 +311,7 @@ class TopicsPage extends React.Component<TopicPageProps> {
                                     }
                                 </div>
                                 <div className='left-side-wrapper'>
-                                    <TopicBoard />
+                                    <QuestionsBoard />
                                 </div>
                             </div>
 
@@ -456,4 +459,4 @@ class TopicsPage extends React.Component<TopicPageProps> {
     }
 }
 
-export default withTopics(TopicsPage)
+export default withTopics(QuestionsPage)

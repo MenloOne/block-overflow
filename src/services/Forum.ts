@@ -17,7 +17,7 @@
 import web3 from './web3_override'
 import TruffleContract from 'truffle-contract'
 
-import MessagesGraph from '../messaging/MessageBoardGraph'
+import MessagesGraph from './MessageGraph'
 
 import RemoteIPFSStorage, {IPFSMessage, IPFSTopic} from '../storage/RemoteIPFSStorage'
 import HashUtils, { CIDZero, SolidityHash, solidityHashToCid, SolidityHashZero } from '../storage/HashUtils'
@@ -26,7 +26,7 @@ import { QPromise } from '../utils/QPromise'
 
 import TokenContract  from 'menlo-token/build/contracts/MenloToken.json'
 import { MenloForum } from '../contracts/MenloForum'
-// import { MenloToken } from '../contracts/MenloToken'
+import { MenloToken } from '../contracts/MenloToken'
 
 import { Account } from './Account'
 import Lottery, { LotteriesCallback } from './Lottery'
@@ -71,10 +71,10 @@ export class Forum extends ForumModel implements Forum {
     public ready: any
     public synced: any
 
-    // private tokenContract: MenloToken | null
+    public tokenContract: MenloToken | null
     private tokenContractJS: any
 
-    private contractAddress: string
+    public contractAddress: string
     public contract: MenloForum | null
 
     private acct: Account
@@ -121,7 +121,7 @@ export class Forum extends ForumModel implements Forum {
             await tokenContract.setProvider(web3.currentProvider)
             tokenContract.defaults({ from: this.account })
             this.tokenContractJS = await tokenContract.deployed()
-            // this.tokenContract = new MenloToken(web3, (await tokenContract.deployed()).address)
+            this.tokenContract = new MenloToken(web3, this.tokenContractJS.address)
 
             this.filledMessagesCounter = 0
             this.topicOffsets = {}
@@ -203,6 +203,7 @@ export class Forum extends ForumModel implements Forum {
             }
 
             this.lottery.refresh()
+            this.refreshBalances()
         })
     }
 

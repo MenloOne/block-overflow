@@ -33,6 +33,13 @@ a[disabled], a[disabled]:hover {
     cursor: pointer;
 }
 
+.QuestionHeader {
+    .user-img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
 .question {
     .user-img {
         width: 60px;

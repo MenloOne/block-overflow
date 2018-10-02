@@ -17,7 +17,7 @@
 import React from 'react'
 import {shallow} from 'enzyme'
 import Message from './MessageView'
-import MessageForm from './MessageForm'
+import MessageForm from './AnswerForm'
 
 describe('Message', () => {
   let message, client

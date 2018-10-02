@@ -6,8 +6,8 @@ import { Account, AccountContext, AccountCtxtComponent } from './services/Accoun
 import { Topics, TopicsContext, TopicsCtxtComponent } from './services/Topics'
 import { resolve, history } from './router'
 
-import TopicsPage from './topics/TopicsPage'
-import ForumPage from './messaging/AnswersPage'
+import TopicsPage from './questions/QuestionsPage'
+import ForumPage from './answers/AnswersPage'
 
 import "./App.scss"
 import Topic from "./services/Topic";

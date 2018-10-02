@@ -10,10 +10,11 @@ import { CIDZero } from '../storage/HashUtils'
 
 import CountdownTimer from '../components/CountdownTimer'
 
-import MessageView from './MessageView'
-import MessageForm from './MessageForm'
+import AnswerView from './AnswerView'
+import AnswerForm from './AnswerForm'
 
 import '../App.scss'
+import './Answers.scss'
 
 
 
@@ -30,7 +31,7 @@ interface MessageBoardState {
     topicAvatar: Element | null
 }
 
-class MessageBoard extends React.Component<MessageBoardProps> {
+class AnswersBoard extends React.Component<MessageBoardProps> {
 
     state : MessageBoardState
 
@@ -43,6 +44,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         this.refreshLotteries = this.refreshLotteries.bind(this)
         this.refreshMessages = this.refreshMessages.bind(this)
         this.clickAnswer = this.clickAnswer.bind(this)
+        this.clickClaimTokens = this.clickClaimTokens.bind(this)
 
         this.state = {
             messages: [],
@@ -87,12 +89,16 @@ class MessageBoard extends React.Component<MessageBoardProps> {
 
     }
 
+    async clickClaimTokens() {
+        await this.props.forum.svc.lottery.claimWinnings()
+    }
+
     async updateForum(forum : ForumContext) {
         await forum.svc.ready
         this.subscribe(forum.svc)
 
         if (forum.model.topic) {
-            this.setState({ topicAvatar: <Blockies seed={ forum.model.topic.author } size={ 7 }/> })
+            this.setState({ topicAvatar: <Blockies seed={ forum.model.topic.author } size={ 10 } scale={6} /> })
         } else {
             this.setState({ topicAvatar: null })
         }
@@ -146,65 +152,6 @@ class MessageBoard extends React.Component<MessageBoardProps> {
         this.setState({ isCommenting: commenting })
     }
 
-    renderCompleted() {
-        return null
-    }
-
-    renderLottery(lottery) {
-        return (
-            <div className='lottery-block right-side'>
-                <h4>Answers</h4>
-
-                { !lottery.hasEnded &&
-                <div>
-                    <div className='message'>TIME LEFT</div>
-                    <div className='time-left'>
-                        {
-                            this.props.forum.model.lottery.hasEnded &&
-                            <p>TIME EXPIRED</p>
-                        }
-                        <CountdownTimer date={ new Date(lottery.endTime) }/>
-                    </div>
-                </div>
-                }
-                { !(lottery.winner) &&
-                <div className='message' style={{ top: '0.3em', textAlign: 'center' }}>
-                    TOP VOTED ANSWER WINS { lottery.pool.toFixed(1) } TOKENS<br/>
-                    NO VOTES YET...
-                </div>
-                }
-                {
-                    lottery.winner &&
-                    <span>
-                        {  lottery.iWon && !lottery.claimed && <div className='message'>YOU WON!!!</div> }
-                        {  lottery.iWon &&  lottery.claimed && <div className='message'>TOKENS CLAIMED</div> }
-                        { !lottery.iWon && <div className='winners-message'>CURRENT WINNER</div> }
-                        <div className='winners-block'>
-                            <div className='winners'>
-                                <div className='pedestal'>
-                                    <div className='user-img'>
-                                        <Blockies seed={ lottery.winner } size={10} scale={3}/>
-                                    </div>
-                                    <div className='tokens'>
-                                        { Number(lottery.pool) === 0 ? <span>PAID<br/>OUT</span> : Number(lottery.pool).toFixed(1) }
-                                        { Number(lottery.pool) === 0 ? null : <span><br/>ONE</span> }
-                                    </div>
-                                </div>
-                            </div>
-                            {
-                                lottery.iWon && !lottery.claimed &&
-                                <div className='claim'>
-                                    <button className='btn claim-btn' onClick={this.claimWinnings}>CLAIM { Number(lottery.pool).toFixed(0) } ONE TOKENS</button>
-                                </div>
-                            }
-                        </div>
-                    </span>
-                }
-            </div>
-        )
-    }
-
-
     renderMessages() {
         if (this.state.messages.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.forum.svc.synced.isFulfilled())) {
             return (
@@ -239,10 +186,10 @@ class MessageBoard extends React.Component<MessageBoardProps> {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <MessageView key={m.id}
-                                     forum={this.props.forum}
-                                     message={m}
-                                     onChangeReplying={this.onChangeReplying}
+                        <AnswerView key={m.id}
+                                    forum={this.props.forum}
+                                    message={m}
+                                    onChangeReplying={this.onChangeReplying}
                         />
                     </div>
                 </div>
@@ -273,7 +220,17 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                     <div className="QuestionHeader-countdown">
                         {
                             this.props.forum.model.lottery.hasEnded &&
-                            <p>QUESTION CLOSED</p>
+                            <span>
+                                <p>QUESTION CLOSED</p>
+                                {
+                                    this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner === this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&
+                                    <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>RECLAIM TOKENS</a>
+                                }
+                                {
+                                    this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner !== this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&
+                                    <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
+                                }
+                            </span>
                         }
                         {this.state.lottery &&
                         <CountdownTimer date={new Date(this.state.lottery.endTime)}/>}
@@ -338,7 +295,7 @@ class MessageBoard extends React.Component<MessageBoardProps> {
                                     <li>
                                         <a id='answerForm'>
                                             <div className='reply-form'>
-                                                <MessageForm onSubmit={this.onSubmitMessage}/>
+                                                <AnswerForm onSubmit={this.onSubmitMessage} rows={10}/>
                                             </div>
                                         </a>
                                     </li>
@@ -352,5 +309,5 @@ class MessageBoard extends React.Component<MessageBoardProps> {
     }
 }
 
-export default withAcct(MessageBoard)
+export default withAcct(AnswersBoard)
 

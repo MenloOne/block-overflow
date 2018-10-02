@@ -1,5 +1,6 @@
 import { Forum } from "./Forum";
 import Message from './Message'
+import { CIDZero } from '../storage/HashUtils'
 
 
 export type LotteriesCallback  = () => void
@@ -13,6 +14,7 @@ export default class Lottery {
 
     public  author: string = ''
     public  pool: number = 0
+    public  tokenBalance: number = 0
     public  willReconcile: boolean = false
     public  hasEnded: boolean = false
     public  claimed: boolean = false
@@ -54,6 +56,12 @@ export default class Lottery {
         this.winningVotes = (await contract.winningVotes).toNumber()
         this.winningOffset = (await contract.winningOffset).toNumber()
         this.winningMessage = this.forum.messages.get(this.forum.topicHashes[this.winningOffset])
+        this.tokenBalance = (await this.forum.tokenContract!.balanceOf(this.forum.contractAddress)).toNumber()
+        if (this.winningMessage && this.winningMessage.id !== CIDZero) {
+            this.winner = this.winningMessage.author
+        } else {
+            this.winner = this.forum.topic.author
+        }
         this.iWon = this.winner === this.forum.account
 
         this.updateEndTimeTimer()

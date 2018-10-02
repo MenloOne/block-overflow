@@ -16,7 +16,7 @@
 
 import React from 'react'
 import {shallow} from 'enzyme'
-import MessageForm from './MessageForm'
+import MessageForm from './AnswerForm'
 
 describe('MessageForm', () => {
   it('renders a form to submit a message', () => {

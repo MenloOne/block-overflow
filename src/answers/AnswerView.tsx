@@ -24,10 +24,10 @@ import MarkDown from 'react-markdown'
 import Message from '../services/Message'
 import { ForumContext } from '../services/Forum'
 
-import MessageForm from './MessageForm'
+import MessageForm from './AnswerForm'
 
 import '../App.scss'
-import './Message.scss'
+import './Answers.scss'
 import { CIDZero } from '../storage/HashUtils'
 
 
@@ -55,7 +55,7 @@ interface MessageViewState {
     originalHeight: string | number
 }
 
-export default class MessageView extends React.Component<MessageViewProps> {
+export default class AnswerView extends React.Component<MessageViewProps> {
 
     state : MessageViewState
     bodyElement : any

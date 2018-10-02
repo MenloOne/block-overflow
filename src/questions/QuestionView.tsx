@@ -24,7 +24,7 @@ import Topic from "../services/Topic";
 import CountdownTimer from '../components/CountdownTimer'
 
 import '../App.scss'
-import './Topic.css'
+import './Questions.scss'
 
 
 import { history } from '../router'
@@ -41,7 +41,7 @@ interface TopicViewState {
 }
 
 
-class TopicView extends React.Component<TopicViewProps> {
+class QuestionView extends React.Component<TopicViewProps> {
 
     state : TopicViewState
 
@@ -108,4 +108,4 @@ class TopicView extends React.Component<TopicViewProps> {
     }
 }
 
-export default withTopics(TopicView)
+export default withTopics(QuestionView)
