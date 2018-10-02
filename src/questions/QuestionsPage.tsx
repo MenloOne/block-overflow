@@ -7,7 +7,7 @@ import TopNav from '../components/TopNav'
 import QuestionsBoard from "./QuestionsBoard";
 
 import TopicForm from './QuestionForm'
-import { TopicsContext, withTopics } from '../services/Topics'
+import { TopicsContext, withTopics } from '../models/Topics'
 
 import '../App.scss'
 

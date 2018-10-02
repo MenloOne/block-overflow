@@ -19,8 +19,8 @@ import React from 'react'
 import Moment from 'react-moment'
 import Blockies from 'react-blockies'
 
-import { TopicsContext, withTopics } from "../services/Topics";
-import Topic from "../services/Topic";
+import { TopicsContext, withTopics } from "../models/Topics";
+import Topic from "../models/Topic";
 import CountdownTimer from '../components/CountdownTimer'
 
 import '../App.scss'

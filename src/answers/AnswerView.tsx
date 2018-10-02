@@ -21,8 +21,8 @@ import Blockies from 'react-blockies'
 import Moment from 'react-moment'
 import MarkDown from 'react-markdown'
 
-import Message from '../services/Message'
-import { ForumContext } from '../services/Forum'
+import Message from '../models/Message'
+import { ForumContext } from '../models/Forum'
 
 import MessageForm from './AnswerForm'
 

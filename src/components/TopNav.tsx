@@ -2,8 +2,8 @@ import * as React from  'react'
 import BigNumber from 'bignumber.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import web3 from '../services/web3_override'
-import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
+import web3 from '../models/web3_override'
+import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 
 import TruffleContract from 'truffle-contract'
 

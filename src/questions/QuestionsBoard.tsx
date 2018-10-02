@@ -1,8 +1,8 @@
 import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
-import { TopicsContext, withTopics } from "../services/Topics";
+import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
+import { TopicsContext, withTopics } from "../models/Topics";
 
 import TopicView from './QuestionView'
 

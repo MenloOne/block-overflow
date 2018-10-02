@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import Message from '../services/Message'
+import Message from './/Message'
 import { CID } from 'ipfs'
 import { CIDZero } from '../storage/HashUtils'
 

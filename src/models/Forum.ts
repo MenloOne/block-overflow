@@ -484,10 +484,8 @@ export class Forum extends ForumModel implements Forum {
             }
 
             // Send it to Blockchain
-            const data : [SolidityHash, SolidityHash] = [parentHashSolidity, hashSolidity]
-
-            const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.postCost, this.actions.post, data)
-            // const result = await this.tokenContract!.transferAndCallTx(contract.address, tokenCost, this.actions.post, parentHashSolidity + hashSolidity).send({})
+            const data : string = `["${parentHashSolidity}","${hashSolidity}"]`
+            const result = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.postCost, this.actions.post, data).send({})
             console.log(result)
 
             return {

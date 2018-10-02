@@ -16,7 +16,7 @@
  */
 
 import React from 'react'
-import { withAcct } from '../services/Account'
+import { withAcct } from '../models/Account'
 import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
 

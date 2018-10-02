@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import TopNav from '../components/TopNav'
 import AnswersBoard from './AnswersBoard'
-import { Forum, ForumContext } from '../services/Forum'
-import { AccountContext, withAcct } from "../services/Account";
+import { Forum, ForumContext } from '../models/Forum'
+import { AccountContext, withAcct } from "../models/Account";
 import { history } from '../router'
 
 import '../App.scss'
@@ -77,7 +77,7 @@ class AnswersPage extends React.Component<ForumProps> {
                 <div className="content-wrapper">
                     <div className="container">
                         <div className="row">
-                            <div className="col-md-12">
+                            <div className="col-12">
                                 <p>
                                     <a onClick={ this.goBack }>&laquo; Back to Topics</a>
                                 </p>

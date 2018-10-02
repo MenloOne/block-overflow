@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Blockies from 'react-blockies'
 import MarkDown from 'react-markdown'
 
-import { AccountContext, MetamaskStatus, withAcct } from '../services/Account'
-import { Forum, ForumContext } from '../services/Forum'
-import Lottery from '../services/Lottery'
+import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
+import { Forum, ForumContext } from '../models/Forum'
+import Lottery from '../models/Lottery'
 import { CIDZero } from '../storage/HashUtils'
 
 import CountdownTimer from '../components/CountdownTimer'

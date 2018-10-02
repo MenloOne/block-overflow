@@ -17,7 +17,7 @@
 
 import ipfsAPI from 'ipfs-api'
 import PromiseTimeout, { Timeout } from '../utils/PromiseTimeout'
-import Message from "../services/Message";
+import Message from "../models/Message";
 import { CID } from 'ipfs'
 
 

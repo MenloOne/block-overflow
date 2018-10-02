@@ -2,15 +2,15 @@ import * as React from 'react'
 import * as History from 'history'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { Account, AccountContext, AccountCtxtComponent } from './services/Account'
-import { Topics, TopicsContext, TopicsCtxtComponent } from './services/Topics'
+import { Account, AccountContext, AccountCtxtComponent } from './models/Account'
+import { Topics, TopicsContext, TopicsCtxtComponent } from './models/Topics'
 import { resolve, history } from './router'
 
 import TopicsPage from './questions/QuestionsPage'
 import ForumPage from './answers/AnswersPage'
 
 import "./App.scss"
-import Topic from "./services/Topic";
+import Topic from "./models/Topic";
 
 
 class Footer extends React.Component {
