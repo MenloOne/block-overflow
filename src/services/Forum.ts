@@ -397,11 +397,11 @@ export class Forum extends ForumModel implements Forum {
 
 
     async upvoteAndComment(id : string, body: string | null) {
-        return this.voteAndComment(id, 1, body)
+        await this.voteAndComment(id, 1, body)
     }
 
     async downvoteAndComment(id : string, body: string | null) {
-        return this.voteAndComment(id, -1, body)
+        await this.voteAndComment(id, -1, body)
     }
 
     async voteAndComment(id : CID, direction: number, body: string | null) {

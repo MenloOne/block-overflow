@@ -117,9 +117,9 @@ export default class AnswerView extends React.Component<MessageViewProps> {
         }
 
         if ( this.state.commentFormState === CommentFormState.OpenForUpvote) {
-            this.props.forum.svc.upvoteAndComment(this.props.message.id, body)
+            await this.props.forum.svc.upvoteAndComment(this.props.message.id, body)
         } else {
-            this.props.forum.svc.downvoteAndComment(this.props.message.id, body)
+            await this.props.forum.svc.downvoteAndComment(this.props.message.id, body)
         }
 
         this.setState({
