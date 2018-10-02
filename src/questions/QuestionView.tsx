@@ -95,10 +95,17 @@ class QuestionView extends React.Component<TopicViewProps> {
                         <span className="title">
                             {topic.title}
                         </span>
-                        <span>
-                            <span className="points" style={ { display: 'none' } }>??? points </span>
-                        </span>
-                        <Moment fromNow>{topic.date}</Moment>
+                        <div>
+                            <div className="tag-name-wrapper">
+                                <span className="tag-name-0x">0x</span>
+                                <span className="tag-name">{topic ? topic.author : '...'}</span>
+                                <span className="tag-name-dots">…</span>
+                            </div>
+                            <span>
+                                <span className="points" style={{ display: 'none' }}>??? points </span>
+                            </span>
+                            <Moment fromNow>{topic.date}</Moment>
+                        </div>
                     </div>
                     <div className='stats'>
                         <CountdownTimer date={ Date.now() + 1000000 } />
