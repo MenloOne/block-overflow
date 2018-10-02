@@ -27,7 +27,7 @@ import { ForumContext } from '../services/Forum'
 import MessageForm from './MessageForm'
 
 import '../App.scss'
-import './Message.css'
+import './Message.scss'
 import { CIDZero } from '../storage/HashUtils'
 
 

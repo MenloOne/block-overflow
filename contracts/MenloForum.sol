@@ -55,13 +55,13 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
     address[] public posters;
     bytes32[] public messages;
 
-    uint256 public pool;
     int32   public winningVotes;
     uint32  public winningOffset;
     bool    private closed;
+    uint256 public pool;
 
 
-    constructor(MenloToken _token, MenloForumCallback _callback, address _author, bytes32 _topicHash, uint256 _postCost, uint256 _voteCost, uint256 _epochLength) public MenloTokenReceiver(_token) {
+    constructor(MenloToken _token, MenloForumCallback _callback, address _author, bytes32 _topicHash, uint256 _bounty, uint256 _postCost, uint256 _voteCost, uint256 _epochLength) public MenloTokenReceiver(_token) {
 
         // Push 0 so empty memory (0) doesn't overlap with a voter
         posters.push(0);
@@ -75,7 +75,7 @@ contract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownabl
         postCost = _postCost;
         epochLength = _epochLength;
         endTimestamp = now + epochLength;
-        pool = token.balanceOf(this);
+        pool = _bounty;
     }
 
     function getVoters(uint32 i, address user) public view returns (int8) {

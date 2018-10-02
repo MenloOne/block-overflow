@@ -21,7 +21,8 @@ export function QPromise(param) {
     );
 
     result.isFulfilled = function() { return isFulfilled; };
-    result.isPending = function() { return isPending; };
-    result.isRejected = function() { return isRejected; };
+    result.isPending   = function() { return isPending; };
+    result.isRejected  = function() { return isRejected; };
+
     return result;
 }

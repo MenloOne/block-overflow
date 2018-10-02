@@ -17,9 +17,11 @@
 
 import React from 'react'
 import Moment from 'react-moment'
+import Blockies from 'react-blockies'
 
 import { TopicsContext, withTopics } from "../services/Topics";
 import Topic from "../services/Topic";
+import CountdownTimer from '../components/CountdownTimer'
 
 import '../App.scss'
 import './Topic.css'
@@ -78,21 +80,27 @@ class TopicView extends React.Component<TopicViewProps> {
 
 
     render() {
-        const message = this.props.topic
+        const topic = this.props.topic
 
         return (
             <li className='question'>
                 <a onClick={ this.onClickTopic } >
+                    <div className='user-img'>
+                        <Blockies size={10} scale={6} seed={topic.author}/>
+                    </div>
                     <div className="content">
                         <div className="title">
-                            {message.title}
+                            {topic.title}
                         </div>
                         <h3 className="tag-name">
                             <span className="points" style={ { display: 'none' } }>??? points </span>
                             <span className="time">
-                                <Moment fromNow>{ message.date }</Moment>
+                                <Moment fromNow>{ topic.date }</Moment>
                             </span>
                         </h3>
+                    </div>
+                    <div className='stats' style={{ display: 'none' }}>
+                        <CountdownTimer date={ new Date(0 /*topic.forumEndTime*/ ) } />
                     </div>
                 </a>
             </li>

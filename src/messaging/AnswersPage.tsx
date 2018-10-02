@@ -20,7 +20,7 @@ interface ForumState {
 }
 
 
-class ForumPage extends React.Component<ForumProps> {
+class AnswersPage extends React.Component<ForumProps> {
 
     state : ForumState
     forum : Forum
@@ -92,4 +92,4 @@ class ForumPage extends React.Component<ForumProps> {
     }
 }
 
-export default withAcct(ForumPage)
+export default withAcct(AnswersPage)

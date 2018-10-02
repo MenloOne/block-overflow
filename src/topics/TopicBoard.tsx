@@ -39,7 +39,7 @@ class TopicBoard extends React.Component<TopicBoardProps> {
     }
 
     renderMessages() {
-        if (this.props.topics.model.topics.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.topics.svc.synced.isFulfilled())) {
+        if (this.props.topics.model.topics.length === 0 && this.props.acct.model.status !== MetamaskStatus.Ok) {
             return (<li className=''>
                 <div style={{ paddingBottom: '3em' }}>
                     Loading Questions...

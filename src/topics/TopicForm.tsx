@@ -104,30 +104,22 @@ class TopicForm extends React.Component<TopicFormProps> {
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                <div className='row'>
-                    <div className='col-12 col-md-8'>
-                        <div>Question</div>
-                        <textarea className="field" id="" cols={30} rows={1} value={this.state.title} onChange={this.onChangeTitle}></textarea>
-                    </div>
-                    <div className='col-12 col-md-4'>
-                        <div>Bounty</div>
-                        <input className='field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty}/>
-                    </div>
-                    <div className='col-12'>
-                        <div>Details</div>
-                        <SimpleMDE
-                            onChange={this.onChange}
-                            value={this.state.message}
-                            options={{
-                                autofocus: true,
-                                spellChecker: false,
-                            }}
-                        />
-                        <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question'/>
-                        <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
-                        {this.state.error && <p className="error new-message">{this.state.error}</p>}
-                    </div>
-                </div>
+                <div>Bounty</div>
+                <input className='field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty}/>
+                <div>Question</div>
+                <textarea className="field" id="" cols={30} rows={2} value={this.state.title} onChange={this.onChangeTitle}></textarea>
+                <div>Details</div>
+                <SimpleMDE
+                    onChange={this.onChange}
+                    value={this.state.message}
+                    options={{
+                        autofocus: true,
+                        spellChecker: false,
+                    }}
+                />
+                <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question'/>
+                <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                {this.state.error && <p className="error new-message">{this.state.error}</p>}
             </form>
         )
     }

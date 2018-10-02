@@ -33,8 +33,15 @@ a[disabled], a[disabled]:hover {
     cursor: pointer;
 }
 
-.question .title {
-    font-size: 2em;
+.question {
+    .user-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .title {
+        font-size: 1.2em;
+    }
 }
 
 .parent {

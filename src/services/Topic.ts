@@ -22,6 +22,8 @@ export default class Topic extends IPFSTopic {
     public body: string
     public filled: boolean
 
+    error: Error
+
     constructor(topics : Topics, forumAddress : string, offset : number) {
         super()
 

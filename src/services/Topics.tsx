@@ -74,6 +74,7 @@ export class Topics extends TopicsModel implements TopicsService {
     private topicsCallback: TopicsCallback | null
 
     private initialTopicCount: number
+    private filledTopicsCounter: number = 0
     private topicOffsets: Map<string, number> | {}
     private topicHashes: string[]
 
@@ -171,18 +172,34 @@ export class Topics extends TopicsModel implements TopicsService {
         await this.ready
         const contract = this.contract!;
 
-        const md: [BigNumber, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress)
-        topic.metadata = {
-            messageHash: HashUtils.solidityHashToCid(md[0].toString(16)),
-            isClosed:    md[1],
-            payout:      md[2].toNumber(),
-            votes:       md[3].toNumber(),
-            winner:      md[4]
+        try {
+            const md: [BigNumber, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress)
+            topic.metadata = {
+                messageHash: HashUtils.solidityHashToCid(md[0].toString(16)),
+                isClosed:    md[1],
+                payout:      md[2].toNumber(),
+                votes:       md[3].toNumber(),
+                winner:      md[4]
+            }
+
+            const ipfsTopic = await this.remoteStorage.getTopic(topic.metadata.messageHash)
+            Object.assign(topic, ipfsTopic)
+            topic.filled = true
+        } catch (e) {
+            // Couldn't fill message, throw it away for now
+            // topics.delete(topic)
+            console.error(e)
+
+            topic.error = e
+            topic.body = 'IPFS Connectivity Issue. Retrying...'
+        } finally {
+            this.filledTopicsCounter++;
+
+            if (this.filledTopicsCounter >= this.initialTopicCount) {
+                this.signalSynced()
+            }
         }
 
-        const ipfsTopic = await this.remoteStorage.getTopic(topic.metadata.messageHash)
-        Object.assign(topic, ipfsTopic)
-        topic.filled = true
     }
 
 
@@ -192,7 +209,7 @@ export class Topics extends TopicsModel implements TopicsService {
             this.topicsCallback(topic)
         }
     }
-    
+
     public getTopic(id : string) : Topic {
         return this.topics[this.topicOffset(id)]
     }
