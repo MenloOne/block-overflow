@@ -235,7 +235,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                     </span>
                     <AnimateHeight
                         duration={500}
-                        height={height} // see props documentation bellow
+                        height={height}
                     >
                         <div className={`comments-text ${(this.state.expanded ? "" : "limit")}`} ref={element => { this.bodyElement = element }}>
                             <MarkdownRenderer markdown={message.body}/>
