@@ -13,6 +13,7 @@ import '../App.scss'
 
 const logo = require('../images/logo.svg')
 
+
 interface TopNavProps {
     acct: AccountContext
 }

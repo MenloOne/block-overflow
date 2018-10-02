@@ -3,14 +3,12 @@ import * as History from 'history'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { Account, AccountContext, AccountCtxtComponent } from './models/Account'
-import { Topics, TopicsContext, TopicsCtxtComponent } from './models/Topics'
 import { resolve, history } from './router'
 
 import TopicsPage from './questions/QuestionsPage'
 import ForumPage from './answers/AnswersPage'
 
 import "./App.scss"
-import Topic from "./models/Topic";
 
 
 class Footer extends React.Component {
@@ -24,7 +22,6 @@ class Footer extends React.Component {
 
 interface AppState {
     account: AccountContext,
-    topics:  TopicsContext,
     component?: React.Component
 }
 
@@ -34,36 +31,26 @@ class App extends React.Component {
     state   : AppState
 
     account : Account
-    topics  : Topics
 
     constructor(props: any, context: any) {
         super(props, context)
 
         this.accountChanged = this.accountChanged.bind(this)
-        this.topicsChanged = this.topicsChanged.bind(this)
         this.renderLocation = this.renderLocation.bind(this)
 
         this.account = new Account()
-        this.topics  = new Topics()
 
         this.state = {
             account: { model: Object.assign({}, this.account), svc: this.account },
-            topics:  { model: Object.assign({}, this.topics),  svc: this.topics }
         }
 
         this.account.setCallback(this.accountChanged)
-        this.topics.setCallback(this.topicsChanged)
-    }
-
-    async topicsChanged(_topic: Topic) {
-        this.setState({ topics: { model: Object.assign({}, this.topics), svc: this.topics } })
     }
 
     async accountChanged() {
         // Setup account state object w/ particular callbacks
 
         this.setState({ account: { model: Object.assign({}, this.account), svc: this.account } })
-        this.topics.setAccount(this.account)
     }
 
     componentDidMount() {
@@ -84,8 +71,7 @@ class App extends React.Component {
     async renderLocation(location : History.Location, action: History.Action) {
         const routes : object[] = this.commonRoutes
 
-        this.setState({ wasLoggedIn: this.account.isLoggedIn() })
-        if (this.account.isLoggedIn()) {
+        if (this.account.isSignedIn()) {
             routes.concat( this.loggedInRoutes )
         } else {
             routes.concat( this.loggedOutRoutes )
@@ -117,12 +103,10 @@ class App extends React.Component {
     render() {
         return (
             <AccountCtxtComponent.Provider value={this.state.account}>
-                <TopicsCtxtComponent.Provider value={this.state.topics}>
-                    <CssBaseline />
-                    { this.state.component }
-                    { this.props.children }
-                    <Footer />
-                </TopicsCtxtComponent.Provider>
+                <CssBaseline />
+                { this.state.component }
+                { this.props.children }
+                <Footer />
             </AccountCtxtComponent.Provider>
         )
     }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Blockies from 'react-blockies'
-import MarkDown from 'react-markdown'
+import MarkDown from 'react-markdown-renderer'
 
 import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 import { Forum, ForumContext } from '../models/Forum'
@@ -264,7 +264,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                 <div className="Question-wrapper left-side-wrapper">
                     <span className="small-heading">Question</span>
                     <p>
-                        { this.props.forum.model.topic ? <MarkDown source={this.props.forum.model.topic.body}/> : '...' }
+                        { this.props.forum.model.topic ? <MarkDown markdown={this.props.forum.model.topic.body}/> : '...' }
                     </p>
                     <p>
                         {
@@ -293,11 +293,10 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 {
                                     !this.state.isCommenting && !this.props.forum.model.lottery.hasEnded &&
                                     <li>
-                                        <a id='answerForm'>
-                                            <div className='reply-form'>
-                                                <AnswerForm onSubmit={this.onSubmitMessage} rows={10}/>
-                                            </div>
-                                        </a>
+                                        <a id='answerForm'/>
+                                        <div className='reply-form'>
+                                            <AnswerForm onSubmit={this.onSubmitMessage} rows={10}/>
+                                        </div>
                                     </li>
                                 }
                             </ul>

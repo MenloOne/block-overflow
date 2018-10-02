@@ -19,7 +19,7 @@ import React from 'react'
 import AnimateHeight from 'react-animate-height';
 import Blockies from 'react-blockies'
 import Moment from 'react-moment'
-import MarkDown from 'react-markdown'
+import MarkdownRenderer from 'react-markdown-renderer';
 
 import Message from '../models/Message'
 import { ForumContext } from '../models/Forum'
@@ -204,7 +204,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                         <Blockies seed={message.author} size={ 8 } scale={ 3 }/>
                     </div>
                     <div className="content">
-                        <MarkDown source={message.body}/>
+                        <MarkdownRenderer markdown={message.body}/>
                     </div>
                 </li>
             )
@@ -238,7 +238,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                         height={height} // see props documentation bellow
                     >
                         <div className={`comments-text ${(this.state.expanded ? "" : "limit")}`} ref={element => { this.bodyElement = element }}>
-                            <MarkDown source={message.body}/>
+                            <MarkdownRenderer markdown={message.body}/>
                         </div>
                     </AnimateHeight>
                     {this.state.originalHeight > 200 && this.state.height !== 'auto' &&

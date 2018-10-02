@@ -19,12 +19,15 @@ import * as React from 'react'
 import BigNumber from 'bignumber.js'
 import TruffleContract from 'truffle-contract'
 import Blockies from 'react-blockies'
+import ethUtil from 'ethereumjs-util'
+import axios from 'axios'
 
 import web3 from './web3_override'
 import { MenloToken } from '../contracts/MenloToken'
 import { QPromise } from '../utils/QPromise'
 
 import TokenContractJSON from 'menlo-token/build/contracts/MenloToken.json'
+import config from '../config'
 
 
 export enum MetamaskStatus {
@@ -51,7 +54,8 @@ export type AccountContext = { model: AccountModel, svc: Account }
 export interface AccountService {
     refreshBalance() : Promise<void>
     contractError(e : Error) : Promise<void>
-    isLoggedIn() : boolean
+    signIn()
+    isSignedIn() : boolean
 }
 
 type AccountChangeCallback = () => Promise<void>
@@ -89,7 +93,27 @@ export class Account extends AccountModel implements AccountService {
         this.stateChangeCallback = callback
     }
 
-    public isLoggedIn() : boolean {
+    public async signIn() {
+        const baseUrl = config.contentNodeUrl
+
+        try {
+
+            const signed = await web3.personal_sign(this.address, ethUtil.bufferToHex(new Buffer(`Sign into ${baseUrl}`, 'utf8')))
+            console.log('Signed!  Result is: ', signed);
+
+            const result = await axios.post('/signin', {
+                account: this.address,
+                signed,
+            })
+
+            console.log(result)
+        } catch (e) {
+            console.log('Issue signing in: ', e)
+            throw(e)
+        }
+    }
+
+    public isSignedIn() : boolean {
         return false
     }
 
