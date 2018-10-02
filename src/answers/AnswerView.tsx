@@ -199,9 +199,11 @@ export default class AnswerView extends React.Component<MessageViewProps> {
     renderReplies() {
         return this.state.children.map(message => {
             return (
-                <li className="borderis message">
+                <li key={message.id} className="borderis message">
                     <div className="user-img">
+                        { message.author &&
                         <Blockies seed={message.author} size={ 8 } scale={ 3 }/>
+                        }
                     </div>
                     <div className="content">
                         <MarkdownRenderer markdown={message.body}/>
@@ -223,7 +225,9 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                     <i className='winning-check fa fa-checkmark' />
                 }
                 <div className="user-img">
+                    { message.author &&
                     <Blockies seed={message.author} size={ 8 } scale={ 3 }/>
+                    }
                 </div>
                 <div className="content">
                     <div className="tag-name-wrapper">
@@ -237,7 +241,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                     </span>
                     <AnimateHeight
                         duration={500}
-                        height={height} // see props documentation bellow
+                        height={height}
                     >
                         <div className={`comments-text ${(this.state.expanded ? "" : "limit")}`} ref={element => { this.bodyElement = element }}>
                             <MarkdownRenderer markdown={message.body}/>

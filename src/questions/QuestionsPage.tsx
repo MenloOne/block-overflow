@@ -50,10 +50,11 @@ class QuestionsPageState {
     showInstructions: boolean
 }
 
+
 class QuestionsPage extends React.Component<QuestionsPageProps> {
 
+    static topics : Topics = new Topics()
     state : QuestionsPageState
-    topics  : Topics
 
     constructor(props: QuestionsPageProps, context) {
         super(props, context)
@@ -65,8 +66,6 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         this.clickCloseInstructions = this.clickCloseInstructions.bind(this)
         this.clickSignIn = this.clickSignIn.bind(this)
 
-        this.topics  = new Topics()
-
         this.state = {
             howToHeight: 'auto',
             showCompose: false,
@@ -74,7 +73,11 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
             topics: { model: Object.assign({}, this.topics), svc: this.topics }
         }
 
-        this.topics.setCallback(this.topicsChanged)
+        QuestionsPage.topics.setCallback(this.topicsChanged)
+    }
+
+    get topics() : Topics {
+        return QuestionsPage.topics
     }
 
     componentWillReceiveProps(newProps: QuestionsPageProps) {

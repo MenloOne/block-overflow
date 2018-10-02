@@ -266,9 +266,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                 </div>
                 <div className="Question-wrapper left-side-wrapper">
                     <span className="small-heading">Question</span>
-                    <p>
-                        { this.props.forum.model.topic ? <MarkDown markdown={this.props.forum.model.topic.body}/> : '...' }
-                    </p>
+                    { this.props.forum.model.topic ? <MarkDown markdown={this.props.forum.model.topic.body}/> : '...' }
                     <p>
                         {
                             !this.props.forum.model.lottery.hasEnded &&
