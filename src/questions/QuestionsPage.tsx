@@ -113,11 +113,6 @@ class QuestionsPage extends React.Component<TopicPageProps> {
                                     <img src={github} alt="Menlo One Github" />
                                 </a>
                             </li>
-                            {/* <li>
-                                <a href="" target="_blank">
-                                    <img src={slack} alt="Menlo One Slack" />
-                                </a>
-                            </li> */}
                             <li>
                                 <a href="https://t.me/Menloone" target="_blank">
                                     <img src={telegram} alt="Menlo One Telegram" />
