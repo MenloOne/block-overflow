@@ -41,7 +41,7 @@ a[disabled], a[disabled]:hover {
     padding: 5px 14px 5px 7px;
 }
 
-.comments .row:nth-child(even) .question {
+.comments .row:nth-child(odd) .question {
     background: #f0f4ff;
     border-radius: 6px;
 }

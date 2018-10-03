@@ -98,7 +98,7 @@ class QuestionView extends React.Component<TopicViewProps> {
                         <div>
                             <div className="tag-name-wrapper">
                                 <span className="tag-name-0x">0x</span>
-                                <span className="tag-name">{topic ? topic.author : '...'}</span>
+                                <span className="tag-name">{topic ? topic.author.slice(2, topic.author.length) : '...'}</span>
                                 <span className="tag-name-dots">…</span>
                             </div>
                             <span>

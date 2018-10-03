@@ -765,7 +765,7 @@ a#messagesDropdown {
 }
 
 .Question-stats {
-    padding-left: 90px !important;
+    padding-left: 77px !important;
     background: #F2F5FA;
     padding: .33rem;
     display: flex;
@@ -780,7 +780,7 @@ a#messagesDropdown {
 }
 
 .Question-wrapper {
-    padding-left: 90px !important;
+    padding-left: 77px !important;
 }
 
 .townhall .small-heading {
@@ -1822,6 +1822,7 @@ span.sold {
 .comments ul {
     padding-left: 0;
     list-style: none;
+    margin: 0;
 }
 
 .comments ul .icon {
@@ -1922,7 +1923,7 @@ span.tag {
 
 .comments .tag-name .btn {
     font-family: 'Titillium web', 'Helvetica Neue';
-    font-size: 13px;
+    font-size: 9px;
 
     font-weight: bold;
     font-style: normal;
@@ -1931,7 +1932,7 @@ span.tag {
     letter-spacing: normal;
     text-align: center;
     color: #ffffff;
-    width: 56px;
+    width: 37px;
     height: 27px;
     line-height: 27px;
     padding-top: 0;
@@ -2221,14 +2222,15 @@ table.stats tr td:nth-child(2) {
     display: flex;
 }
 .comments div[class*=rah-] {
-    background: #0942ab12;
+    background: #0942ab05;
     padding: 1rem;
     margin-top: 1rem;
     border-radius: 6px 6px 0 0;
+    border: 1px solid #e7ecf7;
 }
 
 .comments .message-wrapper {
-    padding: 2em 90px;
+    padding: 2em 77px;
 }
 
 /*********** Discover Page **************/
