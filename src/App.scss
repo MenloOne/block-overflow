@@ -1064,6 +1064,10 @@ span.location {
     overflow: hidden;
     margin-right: 10px;
     border: 1px solid #dfe6f9;
+    align-self: flex-start;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .game-action-wrapper .text-center * {
@@ -2504,6 +2508,10 @@ table.stats tr td:nth-child(2) {
     margin: -6px 0 0;
 }
 
+.Question-actionWrapper a {
+    margin-right: 2rem;
+}
+
 .Question-upvote,
 .Question-downvote,
 .Question-reply,
@@ -2514,14 +2522,6 @@ table.stats tr td:nth-child(2) {
     font-size: 12px;
     color: #6B768E;
     font-weight: 600;
-    margin-right: 2rem;
-}
-
-.Question-permalink {
-    padding-top: 1rem;
-    border-top: 1px solid #002c841f;
-    width: 100%;
-    display: block;
 }
 
 .Question-upvote {

@@ -72,11 +72,13 @@ p > code {
     .user-img {
         width: 48px;
         height: 48px;
-        align-self: flex-start;
-        justify-content: center;
-        align-items: center;
-        display: flex;
     }
+}
+
+.Question-actionWrapper {
+    width: 100%;
+    border-top: 1px solid #002c841f;
+    padding-top: 1rem;
 }
 
 .parent {

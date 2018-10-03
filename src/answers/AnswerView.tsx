@@ -205,7 +205,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                 <li key={message.id} className="borderis message">
                     <div className="user-img">
                         { message.author &&
-                        <Blockies seed={message.author} size={ 8 } scale={ 3 }/>
+                        <Blockies seed={message.author} size={ 12 } scale={ 4 }/>
                         }
                     </div>
                     <div className="content">
@@ -229,7 +229,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                 }
                 <div className="user-img">
                     { message.author &&
-                    <Blockies seed={message.author} size={ 8 } scale={ 3 }/>
+                    <Blockies seed={message.author} size={ 6 } scale={ 4 }/>
                     }
                 </div>
                 <div className="content">

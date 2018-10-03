@@ -99,7 +99,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
         this.subscribe(forum.svc)
 
         if (forum.model.topic) {
-            this.setState({ topicAvatar: <Blockies seed={ forum.model.topic.author } size={ 10 } scale={6} /> })
+            this.setState({ topicAvatar: <Blockies seed={ forum.model.topic.author } size={ 12 } scale={4} /> })
         } else {
             this.setState({ topicAvatar: null })
         }
@@ -267,7 +267,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                 <div className="Question-wrapper left-side-wrapper">
                     <span className="small-heading">Question</span>
                     { this.props.forum.model.topic ? <MarkDown markdown={this.props.forum.model.topic.body}/> : '...' }
-                    <p>
+                    <p className="Question-actionWrapper">
                         {
                             !this.props.forum.model.lottery.hasEnded &&
                             <a href='#answerForm'>
