@@ -39,23 +39,13 @@ export class TopicsModel {
     public topics: Topic[] = []
 }
 
-export interface TopicsService {
-    ready: any
-    synced: any
-
-    topicOffset(id : string)
-    getTopic(id : string) : Topic
-    allTopics() : Topic[]
-    createTopic(title: string, body: string, bounty: number) : Promise<object>
-}
-
 export type TopicsContext = { model: TopicsModel, svc: Topics }
 
 
 type TopicsCallback = (topic: Topic | null) => void
 const TOPIC_LENGTH : number = 24 * 60 * 60
 
-export class Topics extends TopicsModel implements TopicsService {
+export class Topics extends TopicsModel {
 
     public ready: any
     public synced: any
@@ -136,14 +126,6 @@ export class Topics extends TopicsModel implements TopicsService {
         }
     }
 
-    public get latestTopics() : Topic[] {
-        return this.topics.filter(t => t.title.trim().length > 4).sort((a, b) => { return b.date - a.date })
-    }
-
-    public topicOffset(id : string) {
-        return this.topicOffsets[id]
-    }
-
     async watchForTopics() {
         await this.ready
         const topics = this.contract!
@@ -181,11 +163,10 @@ export class Topics extends TopicsModel implements TopicsService {
             const md: [string, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress)
             topic.metadata = {
                 messageHash: HashUtils.solidityHashToCid(md[0]),
-                isClosed:    md[1],
-                payout:      md[2].toNumber(),
-                votes:       md[3].toNumber(),
-                winner:      md[4]
+                isClosed:    md[1]
             }
+
+            console.log(`[[ Fill Topic ]] ( ${topic.offset} ) ${topic.metadata.messageHash}`)
 
             const ipfsTopic = await this.remoteStorage.getTopic(topic.metadata.messageHash)
             Object.assign(topic, ipfsTopic)
@@ -203,10 +184,11 @@ export class Topics extends TopicsModel implements TopicsService {
         } catch (e) {
             // Couldn't fill message, throw it away for now
             // topics.delete(topic)
-            console.error(e)
+            console.log('Error with Topic ', topic, ' Error ', e)
 
             topic.error = e
-            topic.body = 'IPFS Connectivity Issue. Retrying...'
+            topic.title = 'IPFS Connectivity Issue. Retrying...'
+            topic.body  = '...'
         } finally {
             this.filledTopicsCounter++;
 
@@ -225,12 +207,16 @@ export class Topics extends TopicsModel implements TopicsService {
         }
     }
 
-    public getTopic(id : string) : Topic {
-        return this.topics[this.topicOffset(id)]
+    public get latestTopics() : Topic[] {
+        return this.topics.filter(t => !t.error).sort((a, b) => { return b.date - a.date })
     }
 
-    public allTopics() : Topic[] {
-        return this.topics
+    public topicOffset(id : string) {
+        return this.topicOffsets[id]
+    }
+
+    public getTopic(id : string) : Topic {
+        return this.topics[this.topicOffset(id)]
     }
 
     async createTopic(title: string, body: string, bounty: number) : Promise<object> {

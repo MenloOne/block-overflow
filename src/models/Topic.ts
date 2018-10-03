@@ -5,9 +5,6 @@ import {IPFSTopic} from "../storage/RemoteIPFSStorage";
 type TopicMetadata = {
     isClosed:  boolean,
     messageHash: string,
-    payout:  number,
-    votes:   number,
-    winner:  string
 }
 
 

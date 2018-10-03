@@ -96,7 +96,11 @@ class QuestionView extends React.Component<TopicViewProps> {
                     </div>
                     <div className="content">
                         <span className="title">
-                            {topic.title}
+                            { (topic.title && topic.title.length > 4) ?
+                                topic.title
+                                :
+                                topic.body.substr(0, 100)
+                            }
                         </span>
                         <div>
                             <div className="tag-name-wrapper">
