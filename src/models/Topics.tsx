@@ -165,7 +165,7 @@ export class Topics extends TopicsModel {
 
             console.log(`[[ Fill Topic ]] ( ${topic.offset} ) ${topic.metadata.messageHash}`)
 
-            const ipfsTopic = await this.remoteStorage.getTopic(topic.metadata.messageHash)
+            const ipfsTopic = await this.remoteStorage.getMessage(topic.metadata.messageHash)
             Object.assign(topic, ipfsTopic)
 
             // Grab data from the actual Forum contract

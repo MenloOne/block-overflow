@@ -16,9 +16,8 @@
  */
 
 import ipfsAPI from 'ipfs-api'
-import PromiseTimeout, { Timeout } from '../utils/PromiseTimeout'
-import Message from "../models/Message";
-import { CID } from 'ipfs'
+import PromiseTimeout  from '../utils/PromiseTimeout'
+import { CID, IPFSFile } from 'ipfs'
 
 
 export class IPFSMessage {
@@ -111,29 +110,30 @@ class RemoteIPFSStorage {
         return hash
     }
 
-    async getTopic(hash : CID) : Promise<IPFSTopic> {
-        const files = await PromiseTimeout(10000, this.ipfs.files.get(hash))
-        return JSON.parse(files[0].content.toString('utf8'))
-    }
+    async getMessage<T>(hash : CID) : Promise<T> {
+        let tries = 3
+        let files : IPFSFile[] | null = null
 
-    async getMessage(hash : CID) : Promise<IPFSMessage> {
-        const files = await PromiseTimeout(10000, this.ipfs.files.get(hash))
-        return JSON.parse(files[0].content.toString('utf8'))
-    }
+        do {
 
-    async fillMessage(message : Message) {
-        console.log(`IPFS Files Get ${message.id}`)
-        try {
-            const ipfsMessage = await this.getMessage(message.id)
-
-            Object.assign(message, ipfsMessage)
-
-        } catch (e) {
-            if (e instanceof Timeout) {
-                // TODO: Kill outstanding connection
+            try {
+                files = await PromiseTimeout(10000, this.ipfs.files.get(hash))
+            } catch (e) {
+                if (tries-- === 0) {
+                    throw (e)
+                }
             }
+        } while (!files)
+
+        let json
+        try {
+            json = JSON.parse(files![0].content!.toString())
+        } catch (e) {
+            console.log('Error parsing IPFS JSON', e)
             throw (e)
         }
+
+        return json
     }
 
     async pin(hash : CID) {

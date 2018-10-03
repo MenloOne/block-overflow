@@ -135,7 +135,7 @@ export class Forum extends ForumModel implements Forum {
             this.contract = await MenloForum.createAndValidate(web3, this.contractAddress)
 
             const hash : SolidityHash = (await this.contract.topicHash).toString()
-            this.topic = await this.remoteStorage.getTopic(HashUtils.solidityHashToCid(hash))
+            this.topic = await this.remoteStorage.getMessage<IPFSTopic>(HashUtils.solidityHashToCid(hash))
             const [post, upvote, downvote] = (await Promise.all([
                 this.contract.ACTION_POST,
                 this.contract.ACTION_UPVOTE,
@@ -310,7 +310,9 @@ export class Forum extends ForumModel implements Forum {
                 await this.updateVotesData(message, 0)
             }
 
-            await this.remoteStorage.fillMessage(message)
+            const ipfsMessage = await this.remoteStorage.getMessage(message.id)
+            Object.assign(message, ipfsMessage)
+
             message.filled = true
         } catch (e) {
             console.log('Error with Message ', message, ' Error ', e)

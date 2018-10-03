@@ -96,7 +96,7 @@ export class Account extends AccountModel implements AccountService {
     public async signIn() {
         const baseUrl = config.contentNodeUrl
 
-        web3.eth.sign(this.address, ethUtil.bufferToHex(new Buffer(`Sign into ${baseUrl}`, 'utf8')), async (error, signed) => {
+        web3.personal.sign(ethUtil.bufferToHex(new Buffer(`I want to sign into ${baseUrl}`, 'utf8')), this.address, async (error, signed) => {
             if (error) {
                 console.log('Issue signing in: ', error)
                 throw(error)
