@@ -59,9 +59,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <TopicView key={m.id}
-                                   topic={m}
-                        />
+                        <TopicView topic={m} />
                     </div>
                 </div>
             )

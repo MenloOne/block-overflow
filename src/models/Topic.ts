@@ -22,6 +22,8 @@ export default class Topic extends IPFSTopic {
     public endTime: number
     public winningVotes: number
     public totalAnswers: number
+    public winner: string
+    public iWon: boolean
 
     public filled: boolean
 

@@ -177,8 +177,14 @@ export class Topics extends TopicsModel {
                 forumContract.endTimestamp,
                 forumContract.winningVotes,
                 forumContract.postCount
-                ])).map(bn => bn.toNumber())
+                ])).map(bn => bn.toNumber());
+
+            [topic.winner] =  (await Promise.all([
+                forumContract.winner
+            ]));
+
             topic.endTime *= 1000 // Convert to Milliseconds
+            topic.iWon = (topic.winner === this.account)
 
             topic.filled = true
         } catch (e) {
