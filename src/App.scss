@@ -2524,6 +2524,15 @@ table.stats tr td:nth-child(2) {
     font-weight: 600;
 }
 
+.game-detail-wrapper .btn {
+    width: 11rem;
+}
+
+.btn-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
 .Question-upvote {
 
 }
