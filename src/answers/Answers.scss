@@ -40,6 +40,14 @@ a[disabled], a[disabled]:hover {
     }
 }
 
+.winning-check {
+    color: green;
+    font-size: 30pt;
+    position: absolute;
+    top: 1.5em;
+    left: -0.1em;
+}
+
 pre {
     display: block;
     font-size: 12px;

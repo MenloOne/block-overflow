@@ -225,7 +225,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
             <li className="borderis message">
                 {
                     this.props.forum.model.lottery.winningMessage && this.props.forum.model.lottery.winningMessage.id === message.id &&
-                    <i className='winning-check fa fa-checkmark' />
+                    <i className='winning-check fa fa-check' />
                 }
                 <div className="user-img">
                     { message.author &&
