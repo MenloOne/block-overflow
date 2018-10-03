@@ -185,6 +185,8 @@ export class Account extends AccountModel implements AccountService {
     }
 
     async getBalance() : Promise<number> {
+        await this.ready
+
         this.fullBalance = await this.token.balanceOf(this.address as string)
         this.balance     = this.fullBalance.div( 10 ** 18 ).toNumber()
 

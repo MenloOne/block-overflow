@@ -32,7 +32,10 @@ async function resolve(routes, context) {
             return
         }
         const result = await route.action({ ...context, params });
-        if (result) return result;
+        if (result) {
+            window.scrollTo(0, 0)
+            return result;
+        }
     }
 
     throw `Route for ${context.pathname} not found`;
