@@ -89,7 +89,7 @@ class QuestionView extends React.Component<TopicViewProps> {
             <li className='question'>
                 <a onClick={ this.onClickTopic } >
                     <div className='user-img'>
-                        <Blockies size={10} scale={6} seed={topic.author}/>
+                        <Blockies size={12} scale={4} seed={topic.author}/>
                     </div>
                     <div className="content">
                         <span className="title">

@@ -35,8 +35,8 @@ a[disabled], a[disabled]:hover {
 
 .QuestionHeader {
     .user-img {
-        width: 60px;
-        height: 60px;
+        width: 48px;
+        height: 48px;
     }
 }
 
@@ -50,6 +50,10 @@ pre {
     border: 1px solid #f2f5fa;
     border-radius: 6px;
     padding: 1rem;
+}
+
+div#simplepostmd-editor-3-wrapper {
+    margin: 1rem 0;
 }
 
 p > code {
@@ -66,9 +70,12 @@ p > code {
 
 .question {
     .user-img {
-        width: 60px;
-        height: 60px;
+        width: 48px;
+        height: 48px;
         align-self: flex-start;
+        justify-content: center;
+        align-items: center;
+        display: flex;
     }
 }
 
