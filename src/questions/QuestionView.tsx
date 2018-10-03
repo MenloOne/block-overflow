@@ -108,7 +108,7 @@ class QuestionView extends React.Component<TopicViewProps> {
                         </div>
                     </div>
                     <div className='stats'>
-                        <CountdownTimer date={ Date.now() + 1000000 } />
+                        <CountdownTimer date={Date.now() + (Math.random() * 1000000) } />
                     </div>
                 </a>
             </li>
