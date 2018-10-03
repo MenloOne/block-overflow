@@ -23,11 +23,12 @@ export default class Topic extends IPFSTopic {
     public winningVotes: number
     public totalAnswers: number
     public winner: string
+    public isAnswered: boolean
     public iWon: boolean
 
     public filled: boolean
 
-    error: Error
+    error: Error | null = null
 
     constructor(topics : Topics, forumAddress : string, offset : number) {
         super()

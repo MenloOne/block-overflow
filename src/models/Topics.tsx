@@ -146,11 +146,8 @@ export class Topics extends TopicsModel {
                 this.topicHashes.push(forumAdddress)
 
                 const message = new Topic( this, forumAdddress, offset )
-                await this.fillTopic(message)
-
                 this.topics.push(message)
-
-                this.onModifiedTopic(message)
+                await this.fillTopic(message)
             }
         })
     }
@@ -184,25 +181,31 @@ export class Topics extends TopicsModel {
             ]));
 
             topic.endTime *= 1000 // Convert to Milliseconds
+            topic.isAnswered = (topic.winner !== topic.author)
             topic.iWon = (topic.winner === this.account)
 
+            topic.error  = null
             topic.filled = true
         } catch (e) {
-            // Couldn't fill message, throw it away for now
-            // topics.delete(topic)
             console.log('Error with Topic ', topic, ' Error ', e)
 
+            if (!topic.error) {
+                setTimeout(() => { this.fillTopic(topic) }, 100)
+            }
+
             topic.error = e
-            topic.title = 'IPFS Connectivity Issue. Retrying...'
+            topic.title = 'IPFS Retrieval Issue. Retrying...'
             topic.body  = '...'
+
         } finally {
             this.filledTopicsCounter++;
 
             if (this.filledTopicsCounter >= this.initialTopicCount) {
                 this.signalSynced()
             }
-        }
 
+            this.onModifiedTopic(topic)
+        }
     }
 
 

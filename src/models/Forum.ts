@@ -312,23 +312,29 @@ export class Forum extends ForumModel implements Forum {
 
             await this.remoteStorage.fillMessage(message)
             message.filled = true
-
-            // console.log('onModified ',message)
-            this.onModifiedMessage(message)
-
         } catch (e) {
-            // Couldn't fill message, throw it away for now
-            this.messages.delete(message)
+            console.log('Error with Message ', message, ' Error ', e)
+
+            if (!message.error) {
+                setTimeout(() => { this.fillMessage(message.id) }, 100)
+            } else {
+                this.messages.delete(message)
+            }
+
+            // Couldn't fill message, retry
             console.error(e)
 
             message.error = e
-            message.body = 'IPFS Connectivity Issue. Retrying...'
+            message.body = 'IPFS Retrieval Issue. Retrying...'
         } finally {
             this.filledMessagesCounter++;
 
             if (this.filledMessagesCounter >= this.initialSyncEpoch) {
                 this.signalSynced()
             }
+
+            // console.log('onModified ',message)
+            this.onModifiedMessage(message)
         }
     }
 

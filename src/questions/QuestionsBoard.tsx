@@ -55,7 +55,9 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
             </li>)
         }
 
-        return this.props.topics.svc.latestTopics.map((m, index) => {
+        const topics = this.props.topics.svc.latestTopics
+        console.log(topics)
+        return topics.map((m, index) => {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>

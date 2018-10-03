@@ -80,14 +80,15 @@ class QuestionView extends React.Component<TopicViewProps> {
     }
 
     renderClosed() {
-        if (this.props.topic.iWon) {
-            return (
-                <span className='closed'>YOU WON!</span>
-            )
+        if (!this.props.topic.isAnswered && this.props.topic.metadata!.isClosed) {
+            return <span className='closed'>NO ANSWER</span>
         }
-        return (
-            <span className='closed'>CLOSED</span>
-        )
+
+        if (this.props.topic.iWon) {
+            return <span className='closed'>YOU WON!</span>
+        }
+
+        return <span className='closed'>CLOSED</span>
     }
 
     render() {

@@ -288,7 +288,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                 <div className="left-side-wrapper townhall">
                     <div className="comments">
                         <div className="message-wrapper">
-                            <span className="small-heading">Townhall</span>
+                            <span className="small-heading">Answers</span>
                             <ul>
                                 { this.renderMessages() }
                                 {
