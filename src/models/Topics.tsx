@@ -175,6 +175,7 @@ export class Topics extends TopicsModel {
                 forumContract.winningVotes,
                 forumContract.postCount
                 ])).map(bn => bn.toNumber());
+            topic.totalAnswers -= 1;
 
             [topic.winner] =  (await Promise.all([
                 forumContract.winner
