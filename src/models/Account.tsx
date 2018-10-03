@@ -96,9 +96,12 @@ export class Account extends AccountModel implements AccountService {
     public async signIn() {
         const baseUrl = config.contentNodeUrl
 
-        try {
+        web3.eth.sign(this.address, ethUtil.bufferToHex(new Buffer(`Sign into ${baseUrl}`, 'utf8')), async (error, signed) => {
+            if (error) {
+                console.log('Issue signing in: ', error)
+                throw(error)
+            }
 
-            const signed = await web3.personal_sign(this.address, ethUtil.bufferToHex(new Buffer(`Sign into ${baseUrl}`, 'utf8')))
             console.log('Signed!  Result is: ', signed);
 
             const result = await axios.post('/signin', {
@@ -107,10 +110,7 @@ export class Account extends AccountModel implements AccountService {
             })
 
             console.log(result)
-        } catch (e) {
-            console.log('Issue signing in: ', e)
-            throw(e)
-        }
+        })
     }
 
     public isSignedIn() : boolean {
