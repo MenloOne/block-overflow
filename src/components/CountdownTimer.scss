@@ -1,0 +1,41 @@
+.time-watch {
+    text-align: center;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    div {
+        font-family: "Titillium web";
+        color: #6B768E;
+        line-height: 40px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 40px;
+        letter-spacing: normal;
+        text-align: center;
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        vertical-align: top;
+
+        &.dots {
+            color: #6B768E;
+            width: 16px;
+            margin: -6px 0 0;
+        }
+
+        span:nth-child(1) {
+            font-family: 'Titillium web', 'Helvetica Neue';
+            font-size: 0.7em;
+            font-weight: 400;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 2.09em;
+            letter-spacing: normal;
+            text-align: center;
+            color: #a1aecb;
+            display: block;
+        }
+    }
+}

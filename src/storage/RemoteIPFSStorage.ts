@@ -22,22 +22,22 @@ import { CID } from 'ipfs'
 
 
 export class IPFSMessage {
-    version: number
-    offset:  number
-    topic:   number
-    parent:  CID
-    author:  string
-    date:    number
-    body:    string
+    version: number = 1
+    offset:  number = -1
+    topic:   number = 0
+    parent:  CID = ''
+    author:  string = ''
+    date:    number = 0
+    body:    string = ''
 }
 
 export class IPFSTopic {
-    version: number
-    offset:  number
-    author:  string
-    date:    number
-    title:   string
-    body:    string
+    version: number = 1
+    offset:  number = -1
+    author:  string = ''
+    date:    number = 0
+    title:   string = ''
+    body:    string = ''
 }
 
 class RemoteIPFSStorage {

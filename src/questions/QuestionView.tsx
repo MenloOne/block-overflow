@@ -49,6 +49,7 @@ class QuestionView extends React.Component<TopicViewProps> {
         super(props)
 
         this.onClickTopic = this.onClickTopic.bind(this)
+        this.renderClosed = this.renderClosed.bind(this)
 
         this.state = {
             showReplyForm: false,
@@ -78,12 +79,14 @@ class QuestionView extends React.Component<TopicViewProps> {
         return this.messageStatus() === 'pending'
     }
 
+    renderClosed() {
+        return (
+            <span className='closed'>CLOSED</span>
+        )
+    }
 
     render() {
         const topic = this.props.topic
-
-        console.log(topic);
-        
 
         return (
             <li className='question'>
@@ -108,7 +111,15 @@ class QuestionView extends React.Component<TopicViewProps> {
                         </div>
                     </div>
                     <div className='stats'>
-                        <CountdownTimer date={Date.now() + (Math.random() * 1000000) } />
+                        { topic.totalAnswers }
+                        <span>ANSWERS</span>
+                    </div>
+                    <div className='stats'>
+                        { topic.winningVotes }
+                        <span>VOTES</span>
+                    </div>
+                    <div className='stats stats-timer'>
+                        <CountdownTimer date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
                     </div>
                 </a>
             </li>

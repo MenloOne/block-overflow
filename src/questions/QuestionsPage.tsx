@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import AnimateHeight from 'react-animate-height'
 
 import { AccountContext, withAcct } from '../models/Account'
-import { Topics, TopicsContext, TopicsCtxtComponent, withTopics } from '../models/Topics'
+import { Topics, TopicsContext, TopicsCtxtComponent } from '../models/Topics'
 
 import TopNav from '../components/TopNav'
 
@@ -39,7 +39,6 @@ const shapeshift = require('../images/shapeshift.svg')
 
 
 class QuestionsPageProps {
-    topics: TopicsContext
     acct: AccountContext
 }
 
@@ -103,7 +102,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
     }
 
     async onSubmitQuestion(title: string, body: string, tokenBounty: number) {
-        await this.props.topics.svc.createTopic(title, body, tokenBounty)
+        await this.state.topics.svc.createTopic(title, body, tokenBounty)
         this.setState({ showCompose: false })
     }
 
@@ -225,7 +224,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         return (
             <AnimateHeight
                 duration={500}
-                height={howToHeight}>
+                height={howToHeight}
             >
                 <div className="game-token shadow-sm">
                     <div className="container">
@@ -473,4 +472,4 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
     }
 }
 
-export default withAcct(withTopics(QuestionsPage))
+export default withAcct(QuestionsPage)

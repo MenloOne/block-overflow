@@ -20,6 +20,12 @@ export default class Topic extends IPFSTopic {
 
     public metadata: TopicMetadata | null
     public body: string
+
+    // Read from Forum contract
+    public endTime: number
+    public winningVotes: number
+    public totalAnswers: number
+
     public filled: boolean
 
     error: Error

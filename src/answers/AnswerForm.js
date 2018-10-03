@@ -35,13 +35,6 @@ class AnswerForm extends React.Component {
         this.onSubmit = this.onSubmit.bind(this)
     }
 
-    componentWillReceiveProps(newProps) {
-        this.refreshForum(newProps)
-    }
-
-    async refreshForum(newProps) {
-    }
-
     async onSubmit(event) {
         event.preventDefault()
         this.setState({ submitting: true })

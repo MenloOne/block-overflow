@@ -1,23 +1,24 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Countdown from 'react-countdown-now'
 
-import '../App.scss'
+import './CountdownTimer.scss'
 
-export default class CountdownTimer extends Component {
-    static propTypes = {
-        date: PropTypes.object.isRequired,
-    }
+class CountdownTimerProps {
+    date: Date
+    renderCompleted?: () => void
+}
 
-    constructor() {
-        super()
+export default class CountdownTimer extends Component<CountdownTimerProps> {
+
+    constructor(props : CountdownTimerProps, context) {
+        super(props, context)
         this.renderer = this.renderer.bind(this)
     }
 
     renderer({ days, hours, minutes, seconds, completed }) {
         if (completed) {
             if (this.props.renderCompleted) {
-                this.props.renderCompleted()
+                return this.props.renderCompleted()
             }
 
             return null

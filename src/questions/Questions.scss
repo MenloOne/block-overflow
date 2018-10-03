@@ -38,7 +38,39 @@ a[disabled], a[disabled]:hover {
 }
 
 .question {
-    padding: 5px 14px 5px 7px;
+    padding: 10px 14px;
+
+    .stats {
+        font-family: "Titillium web";
+        min-width: 4em;
+        border-left: 1px solid lightgrey;
+        padding: 0 0.65em;
+        color: #6B768E;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 22px;
+        letter-spacing: normal;
+        text-align: center;
+        width: auto;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        vertical-align: top;
+
+        span {
+            font-size: 0.7em;
+        }
+
+        .closed {
+            font-size: 1em;
+        }
+    }
+
+    .stats-timer {
+        min-width: 10em;
+    }
 }
 
 .comments .row:nth-child(odd) .question {

@@ -1384,12 +1384,6 @@ body {
     margin-top: 1em;
 }
 
-.time-watch {
-    text-align: center;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-}
 
 .time-left {
     position: relative;
@@ -1397,49 +1391,6 @@ body {
 
 .winners-message {
     text-align: center;
-}
-
-.time-watch div {
-    font-family: "Titillium web";
-    color: #6B768E;
-    line-height: 40px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 40px;
-    letter-spacing: normal;
-    text-align: center;
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    vertical-align: top;
-}
-
-.question .time-watch div {
-    line-height: 16px;
-}
-
-.time-watch div.dots {
-    color: #6B768E;
-    width: 16px;
-    margin: -6px 0 0;
-}
-
-.time-watch div span:nth-child(1) {
-    font-family: 'Titillium web', 'Helvetica Neue';
-    font-size: 0.7em;
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 2.09em;
-    letter-spacing: normal;
-    text-align: center;
-    color: #a1aecb;
-    display: block;
-}
-
-.question .time-watch div span:nth-child(1) {
-    font-size: 9px;
 }
 
 
@@ -1840,6 +1791,15 @@ span.sold {
     width: 100%;
 }
 
+.question .time-watch div {
+    line-height: 16px;
+}
+
+.question .time-watch div span:nth-child(1) {
+    font-size: 9px;
+}
+
+
 .question a {
     display: flex;
     align-items: center;
@@ -1888,6 +1848,12 @@ span.sold {
 
 .comments .question .tag-name .time {
     padding-left: 0;
+}
+
+body pre {
+    background-color: #eff0f1;
+    border-radius: 0;
+    padding: 0.7em;
 }
 
 .question {
@@ -2528,6 +2494,7 @@ table.stats tr td:nth-child(2) {
     font-size: 12px;
     color: #6B768E;
     font-weight: 600;
+    padding-right: 1em;
 }
 
 .game-detail-wrapper .btn {

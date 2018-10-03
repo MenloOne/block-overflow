@@ -32,6 +32,7 @@ import { MenloTopics } from '../contracts/MenloTopics'
 
 import { Account } from './Account'
 import Topic from './Topic'
+import { MenloForum } from '../contracts/MenloForum'
 
 
 export class TopicsModel {
@@ -52,7 +53,7 @@ export type TopicsContext = { model: TopicsModel, svc: Topics }
 
 
 type TopicsCallback = (topic: Topic | null) => void
-const TOPIC_LENGTH : number = 15 * 60 /* TODO: Change to 24 Hours */
+const TOPIC_LENGTH : number = 24 * 60 * 60
 
 export class Topics extends TopicsModel implements TopicsService {
 
@@ -188,6 +189,16 @@ export class Topics extends TopicsModel implements TopicsService {
 
             const ipfsTopic = await this.remoteStorage.getTopic(topic.metadata.messageHash)
             Object.assign(topic, ipfsTopic)
+
+            // Grab data from the actual Forum contract
+            const forumContract = await MenloForum.createAndValidate(web3, topic.forumAddress);
+            [topic.endTime, topic.winningVotes, topic.totalAnswers] = (await Promise.all([
+                forumContract.endTimestamp,
+                forumContract.winningVotes,
+                forumContract.postCount
+                ])).map(bn => bn.toNumber())
+            topic.endTime *= 1000 // Convert to Milliseconds
+
             topic.filled = true
         } catch (e) {
             // Couldn't fill message, throw it away for now
