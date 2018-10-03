@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import web3 from './web3_override'
+import web3 from './Web3'
 import TruffleContract from 'truffle-contract'
 
 import MessagesGraph from './MessageGraph'
@@ -134,7 +134,7 @@ export class Forum extends ForumModel implements Forum {
             */
             this.contract = await MenloForum.createAndValidate(web3, this.contractAddress)
 
-            const hash : SolidityHash = (await this.contract.topicHash).toString(16)
+            const hash : SolidityHash = (await this.contract.topicHash).toString()
             this.topic = await this.remoteStorage.getTopic(HashUtils.solidityHashToCid(hash))
             const [post, upvote, downvote] = (await Promise.all([
                 this.contract.ACTION_POST,
@@ -243,7 +243,7 @@ export class Forum extends ForumModel implements Forum {
                 return
             }
 
-            const messageHash : SolidityHash = result.args._contentHash.toString(16)
+            const messageHash : SolidityHash = result.args._contentHash.toString()
             const messageID : CID = solidityHashToCid(messageHash)
 
             if (messageID === CIDZero) {
@@ -281,8 +281,8 @@ export class Forum extends ForumModel implements Forum {
                 return
             }
 
-            const parentHash  : SolidityHash = result.args._parentHash.toString(16)
-            const messageHash : SolidityHash = result.args._contentHash.toString(16)
+            const parentHash  : SolidityHash = result.args._parentHash.toString()
+            const messageHash : SolidityHash = result.args._contentHash.toString()
 
             const parentID  = HashUtils.solidityHashToCid(parentHash)
             const messageID = HashUtils.solidityHashToCid(messageHash)
@@ -484,7 +484,7 @@ export class Forum extends ForumModel implements Forum {
             }
 
             // Send it to Blockchain
-            const data : string = `["${parentHashSolidity}","${hashSolidity}"]`
+            const data : string[] = [parentHashSolidity, hashSolidity]
             const result = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.postCost, this.actions.post, data).send({})
             console.log(result)
 

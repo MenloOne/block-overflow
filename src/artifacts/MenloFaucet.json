@@ -134,14 +134,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b5060405160608061062183398101604090815281516020830151919092015160008054600160a060020a0319908116331790915560018054600160a060020a0390951694909116939093179092556002556003556105ae806100736000396000f3006080604052600436106100775763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416630935f004811461007c57806317ffc320146100af578063715018a6146100d25780638da5cb5b146100e75780639f678cca14610118578063f2fde38b14610141575b600080fd5b34801561008857600080fd5b5061009d600160a060020a0360043516610162565b60408051918252519081900360200190f35b3480156100bb57600080fd5b506100d0600160a060020a0360043516610174565b005b3480156100de57600080fd5b506100d0610240565b3480156100f357600080fd5b506100fc6102ac565b60408051600160a060020a039092168252519081900360200190f35b34801561012457600080fd5b5061012d6102bb565b604080519115158252519081900360200190f35b34801561014d57600080fd5b506100d0600160a060020a036004351661042a565b60046020526000908152604090205481565b60008054600160a060020a0316331461018c57600080fd5b604080517f70a082310000000000000000000000000000000000000000000000000000000081523060048201529051600160a060020a038416916370a082319160248083019260209291908290030181600087803b1580156101ed57600080fd5b505af1158015610201573d6000803e3d6000fd5b505050506040513d602081101561021757600080fd5b505160005490915061023c90600160a060020a0384811691168363ffffffff61044d16565b5050565b600054600160a060020a0316331461025757600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a031681565b33600090815260046020526040812054811015610379576003543360009081526004602052604090205442031161037957604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152602760248201527f4e6f7420656e6f7567682074696d6520656c61707365642073696e6365206c6160448201527f7374206472697000000000000000000000000000000000000000000000000000606482015290519081900360840190fd5b33600081815260046020818152604080842042905560015460025482517fa9059cbb00000000000000000000000000000000000000000000000000000000815294850196909652602484019590955251600160a060020a039094169363a9059cbb936044808501948390030190829087803b1580156103f757600080fd5b505af115801561040b573d6000803e3d6000fd5b505050506040513d602081101561042157600080fd5b50600191505090565b600054600160a060020a0316331461044157600080fd5b61044a81610505565b50565b82600160a060020a031663a9059cbb83836040518363ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018083600160a060020a0316600160a060020a0316815260200182815260200192505050602060405180830381600087803b1580156104c957600080fd5b505af11580156104dd573d6000803e3d6000fd5b505050506040513d60208110156104f357600080fd5b5051151561050057600080fd5b505050565b600160a060020a038116151561051a57600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555600a165627a7a72305820845f7f6a6e3f577f2584dc85e474c1a8b6119d3cc8947ade8628389f65a9f6650029",
-  "deployedBytecode": "0x6080604052600436106100775763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416630935f004811461007c57806317ffc320146100af578063715018a6146100d25780638da5cb5b146100e75780639f678cca14610118578063f2fde38b14610141575b600080fd5b34801561008857600080fd5b5061009d600160a060020a0360043516610162565b60408051918252519081900360200190f35b3480156100bb57600080fd5b506100d0600160a060020a0360043516610174565b005b3480156100de57600080fd5b506100d0610240565b3480156100f357600080fd5b506100fc6102ac565b60408051600160a060020a039092168252519081900360200190f35b34801561012457600080fd5b5061012d6102bb565b604080519115158252519081900360200190f35b34801561014d57600080fd5b506100d0600160a060020a036004351661042a565b60046020526000908152604090205481565b60008054600160a060020a0316331461018c57600080fd5b604080517f70a082310000000000000000000000000000000000000000000000000000000081523060048201529051600160a060020a038416916370a082319160248083019260209291908290030181600087803b1580156101ed57600080fd5b505af1158015610201573d6000803e3d6000fd5b505050506040513d602081101561021757600080fd5b505160005490915061023c90600160a060020a0384811691168363ffffffff61044d16565b5050565b600054600160a060020a0316331461025757600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a031681565b33600090815260046020526040812054811015610379576003543360009081526004602052604090205442031161037957604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152602760248201527f4e6f7420656e6f7567682074696d6520656c61707365642073696e6365206c6160448201527f7374206472697000000000000000000000000000000000000000000000000000606482015290519081900360840190fd5b33600081815260046020818152604080842042905560015460025482517fa9059cbb00000000000000000000000000000000000000000000000000000000815294850196909652602484019590955251600160a060020a039094169363a9059cbb936044808501948390030190829087803b1580156103f757600080fd5b505af115801561040b573d6000803e3d6000fd5b505050506040513d602081101561042157600080fd5b50600191505090565b600054600160a060020a0316331461044157600080fd5b61044a81610505565b50565b82600160a060020a031663a9059cbb83836040518363ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018083600160a060020a0316600160a060020a0316815260200182815260200192505050602060405180830381600087803b1580156104c957600080fd5b505af11580156104dd573d6000803e3d6000fd5b505050506040513d60208110156104f357600080fd5b5051151561050057600080fd5b505050565b600160a060020a038116151561051a57600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555600a165627a7a72305820845f7f6a6e3f577f2584dc85e474c1a8b6119d3cc8947ade8628389f65a9f6650029",
+  "bytecode": "0x608060405234801561001057600080fd5b5060405160608061062183398101604090815281516020830151919092015160008054600160a060020a0319908116331790915560018054600160a060020a0390951694909116939093179092556002556003556105ae806100736000396000f3006080604052600436106100775763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416630935f004811461007c57806317ffc320146100af578063715018a6146100d25780638da5cb5b146100e75780639f678cca14610118578063f2fde38b14610141575b600080fd5b34801561008857600080fd5b5061009d600160a060020a0360043516610162565b60408051918252519081900360200190f35b3480156100bb57600080fd5b506100d0600160a060020a0360043516610174565b005b3480156100de57600080fd5b506100d0610240565b3480156100f357600080fd5b506100fc6102ac565b60408051600160a060020a039092168252519081900360200190f35b34801561012457600080fd5b5061012d6102bb565b604080519115158252519081900360200190f35b34801561014d57600080fd5b506100d0600160a060020a036004351661042a565b60046020526000908152604090205481565b60008054600160a060020a0316331461018c57600080fd5b604080517f70a082310000000000000000000000000000000000000000000000000000000081523060048201529051600160a060020a038416916370a082319160248083019260209291908290030181600087803b1580156101ed57600080fd5b505af1158015610201573d6000803e3d6000fd5b505050506040513d602081101561021757600080fd5b505160005490915061023c90600160a060020a0384811691168363ffffffff61044d16565b5050565b600054600160a060020a0316331461025757600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a031681565b33600090815260046020526040812054811015610379576003543360009081526004602052604090205442031161037957604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152602760248201527f4e6f7420656e6f7567682074696d6520656c61707365642073696e6365206c6160448201527f7374206472697000000000000000000000000000000000000000000000000000606482015290519081900360840190fd5b33600081815260046020818152604080842042905560015460025482517fa9059cbb00000000000000000000000000000000000000000000000000000000815294850196909652602484019590955251600160a060020a039094169363a9059cbb936044808501948390030190829087803b1580156103f757600080fd5b505af115801561040b573d6000803e3d6000fd5b505050506040513d602081101561042157600080fd5b50600191505090565b600054600160a060020a0316331461044157600080fd5b61044a81610505565b50565b82600160a060020a031663a9059cbb83836040518363ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018083600160a060020a0316600160a060020a0316815260200182815260200192505050602060405180830381600087803b1580156104c957600080fd5b505af11580156104dd573d6000803e3d6000fd5b505050506040513d60208110156104f357600080fd5b5051151561050057600080fd5b505050565b600160a060020a038116151561051a57600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555600a165627a7a72305820aa3579c46d3ca064f779266b3434e3511ebb373deab5f086145672f86f08b65a0029",
+  "deployedBytecode": "0x6080604052600436106100775763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416630935f004811461007c57806317ffc320146100af578063715018a6146100d25780638da5cb5b146100e75780639f678cca14610118578063f2fde38b14610141575b600080fd5b34801561008857600080fd5b5061009d600160a060020a0360043516610162565b60408051918252519081900360200190f35b3480156100bb57600080fd5b506100d0600160a060020a0360043516610174565b005b3480156100de57600080fd5b506100d0610240565b3480156100f357600080fd5b506100fc6102ac565b60408051600160a060020a039092168252519081900360200190f35b34801561012457600080fd5b5061012d6102bb565b604080519115158252519081900360200190f35b34801561014d57600080fd5b506100d0600160a060020a036004351661042a565b60046020526000908152604090205481565b60008054600160a060020a0316331461018c57600080fd5b604080517f70a082310000000000000000000000000000000000000000000000000000000081523060048201529051600160a060020a038416916370a082319160248083019260209291908290030181600087803b1580156101ed57600080fd5b505af1158015610201573d6000803e3d6000fd5b505050506040513d602081101561021757600080fd5b505160005490915061023c90600160a060020a0384811691168363ffffffff61044d16565b5050565b600054600160a060020a0316331461025757600080fd5b60008054604051600160a060020a03909116917ff8df31144d9c2f0f6b59d69b8b98abd5459d07f2742c4df920b25aae33c6482091a26000805473ffffffffffffffffffffffffffffffffffffffff19169055565b600054600160a060020a031681565b33600090815260046020526040812054811015610379576003543360009081526004602052604090205442031161037957604080517f08c379a000000000000000000000000000000000000000000000000000000000815260206004820152602760248201527f4e6f7420656e6f7567682074696d6520656c61707365642073696e6365206c6160448201527f7374206472697000000000000000000000000000000000000000000000000000606482015290519081900360840190fd5b33600081815260046020818152604080842042905560015460025482517fa9059cbb00000000000000000000000000000000000000000000000000000000815294850196909652602484019590955251600160a060020a039094169363a9059cbb936044808501948390030190829087803b1580156103f757600080fd5b505af115801561040b573d6000803e3d6000fd5b505050506040513d602081101561042157600080fd5b50600191505090565b600054600160a060020a0316331461044157600080fd5b61044a81610505565b50565b82600160a060020a031663a9059cbb83836040518363ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004018083600160a060020a0316600160a060020a0316815260200182815260200192505050602060405180830381600087803b1580156104c957600080fd5b505af11580156104dd573d6000803e3d6000fd5b505050506040513d60208110156104f357600080fd5b5051151561050057600080fd5b505050565b600160a060020a038116151561051a57600080fd5b60008054604051600160a060020a03808516939216917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a36000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03929092169190911790555600a165627a7a72305820aa3579c46d3ca064f779266b3434e3511ebb373deab5f086145672f86f08b65a0029",
   "sourceMap": "676:650:1:-;;;843:153;8:9:-1;5:2;;;30:1;27;20:12;5:2;843:153:1;;;;;;;;;;;;;;;;;;;;;;;;;1629:5:6;:18;;-1:-1:-1;;;;;;1629:18:6;;;1637:10;1629:18;;;;;925:14:1;;-1:-1:-1;;;;;925:14:1;;;;;;;;;;;;;;949:6;:16;975:5;:14;676:650;;;;;;",
   "deployedSourceMap": "676:650:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;793:43;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;793:43:1;-1:-1:-1;;;;;793:43:1;;;;;;;;;;;;;;;;;;;;;3708:152:6;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;3708:152:6;-1:-1:-1;;;;;3708:152:6;;;;;;;2063:111;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2063:111:6;;;;1300:20;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1300:20:6;;;;;;;;-1:-1:-1;;;;;1300:20:6;;;;;;;;;;;;;;1002:322:1;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1002:322:1;;;;;;;;;;;;;;;;;;;;;;2336:103:6;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;2336:103:6;-1:-1:-1;;;;;2336:103:6;;;;;793:43:1;;;;;;;;;;;;;:::o;3708:152:6:-;3774:15;1781:5;;-1:-1:-1;;;;;1781:5:6;1767:10;:19;1759:28;;;;;;3792:22;;;;;;3809:4;3792:22;;;;;;-1:-1:-1;;;;;3792:16:6;;;;;:22;;;;;;;;;;;;;;-1:-1:-1;3792:16:6;:22;;;5:2:-1;;;;30:1;27;20:12;5:2;3792:22:6;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;3792:22:6;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;3792:22:6;3840:5;;3792:22;;-1:-1:-1;3820:35:6;;-1:-1:-1;;;;;3820:19:6;;;;3840:5;3792:22;3820:35;:19;:35;:::i;:::-;3708:152;;:::o;2063:111::-;1781:5;;-1:-1:-1;;;;;1781:5:6;1767:10;:19;1759:28;;;;;;2139:5;;;2120:25;;-1:-1:-1;;;;;2139:5:6;;;;2120:25;;;2167:1;2151:18;;-1:-1:-1;;2151:18:6;;;2063:111::o;1300:20::-;;;-1:-1:-1;;;;;1300:20:6;;:::o;1002:322:1:-;1063:10;1034:4;1054:20;;;:8;:20;;;;;;:24;-1:-1:-1;1050:153:1;;;1143:5;;1129:10;1120:20;;;;:8;:20;;;;;;1102:15;:38;:46;1094:98;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1222:10;1213:20;;;;:8;:20;;;;;;;;1236:15;1213:38;;1261:5;;1288:6;;1261:34;;;;;;;;;;;;;;;;;;;;-1:-1:-1;;;;;1261:5:1;;;;:14;;:34;;;;;;;;;;;;:5;:34;;;5:2:-1;;;;30:1;27;20:12;5:2;1261:34:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1261:34:1;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1313:4:1;;-1:-1:-1;;1002:322:1;:::o;2336:103:6:-;1781:5;;-1:-1:-1;;;;;1781:5:6;1767:10;:19;1759:28;;;;;;2405:29;2424:9;2405:18;:29::i;:::-;2336:103;:::o;6373:149::-;6488:6;-1:-1:-1;;;;;6488:15:6;;6504:3;6509:6;6488:28;;;;;;;;;;;;;-1:-1:-1;;;;;6488:28:6;-1:-1:-1;;;;;6488:28:6;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;6488:28:6;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;6488:28:6;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;6488:28:6;6480:37;;;;;;;;6373:149;;;:::o;2574:171::-;-1:-1:-1;;;;;2644:23:6;;;;2636:32;;;;;;2700:5;;;2679:38;;-1:-1:-1;;;;;2679:38:6;;;;2700:5;;;2679:38;;;2723:5;:17;;-1:-1:-1;;2723:17:6;-1:-1:-1;;;;;2723:17:6;;;;;;;;;;2574:171::o",
   "source": "/*\n    Copyright 2018 Menlo, Inc.\n\n    Licensed under the Apache License, Version 2.0 (the “License”);\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an “AS IS” BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\npragma solidity^0.4.24;\n\nimport \"menlo-token/contracts/MenloToken.sol\";\n\n\ncontract MenloFaucet is Ownable, CanReclaimToken {\n\n    MenloToken token;\n    uint256 tokens;\n    uint256 delay;\n    mapping(address => uint256) public lastDrip;\n\n    constructor(MenloToken _token, uint256 _tokens, uint256 _delay ) public {\n        token = _token;\n        tokens = _tokens;\n        delay = _delay;\n    }\n\n    function drip() public returns (bool) {\n        if (lastDrip[msg.sender] > 0) {\n            require(block.timestamp - lastDrip[msg.sender] > delay, \"Not enough time elapsed since last drip\");\n        }\n\n        lastDrip[msg.sender] = block.timestamp;\n        token.transfer(msg.sender, tokens);\n\n        return true;\n    }\n}",
-  "sourcePath": "/Users/richardbross/block-overflow/contracts/MenloFaucet.sol",
+  "sourcePath": "/Users/dave/Code/block-overflow/contracts/MenloFaucet.sol",
   "ast": {
-    "absolutePath": "/Users/richardbross/block-overflow/contracts/MenloFaucet.sol",
+    "absolutePath": "/Users/dave/Code/block-overflow/contracts/MenloFaucet.sol",
     "exportedSymbols": {
       "MenloFaucet": [
         516
@@ -167,7 +167,7 @@
         "id": 434,
         "nodeType": "ImportDirective",
         "scope": 517,
-        "sourceUnit": 2961,
+        "sourceUnit": 2958,
         "src": "627:46:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -181,10 +181,10 @@
               "id": 435,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1925,
+              "referencedDeclaration": 1922,
               "src": "700:7:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$1925",
+                "typeIdentifier": "t_contract$_Ownable_$1922",
                 "typeString": "contract Ownable"
               }
             },
@@ -199,10 +199,10 @@
               "id": 437,
               "name": "CanReclaimToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2010,
+              "referencedDeclaration": 2007,
               "src": "709:15:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_CanReclaimToken_$2010",
+                "typeIdentifier": "t_contract$_CanReclaimToken_$2007",
                 "typeString": "contract CanReclaimToken"
               }
             },
@@ -212,8 +212,8 @@
           }
         ],
         "contractDependencies": [
-          1925,
-          2010
+          1922,
+          2007
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -221,8 +221,8 @@
         "id": 516,
         "linearizedBaseContracts": [
           516,
-          2010,
-          1925
+          2007,
+          1922
         ],
         "name": "MenloFaucet",
         "nodeType": "ContractDefinition",
@@ -237,7 +237,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_MenloToken_$2918",
+              "typeIdentifier": "t_contract$_MenloToken_$2915",
               "typeString": "contract MenloToken"
             },
             "typeName": {
@@ -245,10 +245,10 @@
               "id": 439,
               "name": "MenloToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2918,
+              "referencedDeclaration": 2915,
               "src": "732:10:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_MenloToken_$2918",
+                "typeIdentifier": "t_contract$_MenloToken_$2915",
                 "typeString": "contract MenloToken"
               }
             },
@@ -375,7 +375,7 @@
                       "referencedDeclaration": 440,
                       "src": "925:5:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2918",
+                        "typeIdentifier": "t_contract$_MenloToken_$2915",
                         "typeString": "contract MenloToken"
                       }
                     },
@@ -390,13 +390,13 @@
                       "referencedDeclaration": 450,
                       "src": "933:6:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2918",
+                        "typeIdentifier": "t_contract$_MenloToken_$2915",
                         "typeString": "contract MenloToken"
                       }
                     },
                     "src": "925:14:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2918",
+                      "typeIdentifier": "t_contract$_MenloToken_$2915",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -520,7 +520,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2918",
+                    "typeIdentifier": "t_contract$_MenloToken_$2915",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
@@ -528,10 +528,10 @@
                     "id": 449,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2918,
+                    "referencedDeclaration": 2915,
                     "src": "855:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2918",
+                      "typeIdentifier": "t_contract$_MenloToken_$2915",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -648,7 +648,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2975,
+                          "referencedDeclaration": 2972,
                           "src": "1063:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -749,7 +749,7 @@
                                     "name": "block",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 2965,
+                                    "referencedDeclaration": 2962,
                                     "src": "1102:5:1",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_magic_block",
@@ -796,7 +796,7 @@
                                       "name": "msg",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 2975,
+                                      "referencedDeclaration": 2972,
                                       "src": "1129:3:1",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_magic_message",
@@ -889,10 +889,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              2978,
-                              2979
+                              2975,
+                              2976
                             ],
-                            "referencedDeclaration": 2979,
+                            "referencedDeclaration": 2976,
                             "src": "1094:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -952,7 +952,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2975,
+                          "referencedDeclaration": 2972,
                           "src": "1222:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -994,7 +994,7 @@
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2965,
+                        "referencedDeclaration": 2962,
                         "src": "1236:5:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
@@ -1037,7 +1037,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2975,
+                          "referencedDeclaration": 2972,
                           "src": "1276:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1092,7 +1092,7 @@
                         "referencedDeclaration": 440,
                         "src": "1261:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2918",
+                          "typeIdentifier": "t_contract$_MenloToken_$2915",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -1103,7 +1103,7 @@
                       "lValueRequested": false,
                       "memberName": "transfer",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2563,
+                      "referencedDeclaration": 2560,
                       "src": "1261:14:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -1216,7 +1216,7 @@
     "src": "602:724:1"
   },
   "legacyAST": {
-    "absolutePath": "/Users/richardbross/block-overflow/contracts/MenloFaucet.sol",
+    "absolutePath": "/Users/dave/Code/block-overflow/contracts/MenloFaucet.sol",
     "exportedSymbols": {
       "MenloFaucet": [
         516
@@ -1242,7 +1242,7 @@
         "id": 434,
         "nodeType": "ImportDirective",
         "scope": 517,
-        "sourceUnit": 2961,
+        "sourceUnit": 2958,
         "src": "627:46:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1256,10 +1256,10 @@
               "id": 435,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 1925,
+              "referencedDeclaration": 1922,
               "src": "700:7:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$1925",
+                "typeIdentifier": "t_contract$_Ownable_$1922",
                 "typeString": "contract Ownable"
               }
             },
@@ -1274,10 +1274,10 @@
               "id": 437,
               "name": "CanReclaimToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2010,
+              "referencedDeclaration": 2007,
               "src": "709:15:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_CanReclaimToken_$2010",
+                "typeIdentifier": "t_contract$_CanReclaimToken_$2007",
                 "typeString": "contract CanReclaimToken"
               }
             },
@@ -1287,8 +1287,8 @@
           }
         ],
         "contractDependencies": [
-          1925,
-          2010
+          1922,
+          2007
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -1296,8 +1296,8 @@
         "id": 516,
         "linearizedBaseContracts": [
           516,
-          2010,
-          1925
+          2007,
+          1922
         ],
         "name": "MenloFaucet",
         "nodeType": "ContractDefinition",
@@ -1312,7 +1312,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_MenloToken_$2918",
+              "typeIdentifier": "t_contract$_MenloToken_$2915",
               "typeString": "contract MenloToken"
             },
             "typeName": {
@@ -1320,10 +1320,10 @@
               "id": 439,
               "name": "MenloToken",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 2918,
+              "referencedDeclaration": 2915,
               "src": "732:10:1",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_MenloToken_$2918",
+                "typeIdentifier": "t_contract$_MenloToken_$2915",
                 "typeString": "contract MenloToken"
               }
             },
@@ -1450,7 +1450,7 @@
                       "referencedDeclaration": 440,
                       "src": "925:5:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2918",
+                        "typeIdentifier": "t_contract$_MenloToken_$2915",
                         "typeString": "contract MenloToken"
                       }
                     },
@@ -1465,13 +1465,13 @@
                       "referencedDeclaration": 450,
                       "src": "933:6:1",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_MenloToken_$2918",
+                        "typeIdentifier": "t_contract$_MenloToken_$2915",
                         "typeString": "contract MenloToken"
                       }
                     },
                     "src": "925:14:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2918",
+                      "typeIdentifier": "t_contract$_MenloToken_$2915",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -1595,7 +1595,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2918",
+                    "typeIdentifier": "t_contract$_MenloToken_$2915",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
@@ -1603,10 +1603,10 @@
                     "id": 449,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2918,
+                    "referencedDeclaration": 2915,
                     "src": "855:10:1",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2918",
+                      "typeIdentifier": "t_contract$_MenloToken_$2915",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -1723,7 +1723,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2975,
+                          "referencedDeclaration": 2972,
                           "src": "1063:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1824,7 +1824,7 @@
                                     "name": "block",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 2965,
+                                    "referencedDeclaration": 2962,
                                     "src": "1102:5:1",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_magic_block",
@@ -1871,7 +1871,7 @@
                                       "name": "msg",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 2975,
+                                      "referencedDeclaration": 2972,
                                       "src": "1129:3:1",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_magic_message",
@@ -1964,10 +1964,10 @@
                             "name": "require",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [
-                              2978,
-                              2979
+                              2975,
+                              2976
                             ],
-                            "referencedDeclaration": 2979,
+                            "referencedDeclaration": 2976,
                             "src": "1094:7:1",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2027,7 +2027,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2975,
+                          "referencedDeclaration": 2972,
                           "src": "1222:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -2069,7 +2069,7 @@
                         "name": "block",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2965,
+                        "referencedDeclaration": 2962,
                         "src": "1236:5:1",
                         "typeDescriptions": {
                           "typeIdentifier": "t_magic_block",
@@ -2112,7 +2112,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2975,
+                          "referencedDeclaration": 2972,
                           "src": "1276:3:1",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -2167,7 +2167,7 @@
                         "referencedDeclaration": 440,
                         "src": "1261:5:1",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_MenloToken_$2918",
+                          "typeIdentifier": "t_contract$_MenloToken_$2915",
                           "typeString": "contract MenloToken"
                         }
                       },
@@ -2178,7 +2178,7 @@
                       "lValueRequested": false,
                       "memberName": "transfer",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 2563,
+                      "referencedDeclaration": 2560,
                       "src": "1261:14:1",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
@@ -2294,7 +2294,14 @@
     "name": "solc",
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "42": {
+      "events": {},
+      "links": {},
+      "address": "0x8bdf5c9547a9769bc0915c1851ccef916fd59c39",
+      "transactionHash": "0xf62b0521c0fe9b70277daba0f94415fadf979f5d91528cf2c970a038509f055f"
+    }
+  },
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-02T20:40:53.416Z"
+  "updatedAt": "2018-10-03T03:08:41.229Z"
 }

@@ -225,7 +225,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         return (
             <AnimateHeight
                 duration={500}
-                height={howToHeight} // see props documentation bellow
+                height={howToHeight}>
             >
                 <div className="game-token shadow-sm">
                     <div className="container">

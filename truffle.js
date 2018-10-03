@@ -1,4 +1,3 @@
-require('babel-register');
 require('babel-polyfill');
 const readline = require('readline');
 const fs = require('fs')

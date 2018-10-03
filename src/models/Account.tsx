@@ -22,7 +22,7 @@ import Blockies from 'react-blockies'
 import ethUtil from 'ethereumjs-util'
 import axios from 'axios'
 
-import web3 from './web3_override'
+import web3 from './Web3'
 import { MenloToken } from '../contracts/MenloToken'
 import { QPromise } from '../utils/QPromise'
 
@@ -150,7 +150,7 @@ export class Account extends AccountModel implements AccountService {
         try {
             if (reload) {
                 // Easy way out for now
-                window.location.reload()
+                // window.location.reload()
             }
 
             this.address = address

@@ -16,7 +16,7 @@
 
 import * as React from 'react'
 
-import web3 from './web3_override'
+import web3 from './Web3'
 import TruffleContract from 'truffle-contract'
 import BigNumber from 'bignumber.js'
 
@@ -136,7 +136,7 @@ export class Topics extends TopicsModel implements TopicsService {
     }
 
     public get latestTopics() : Topic[] {
-        return this.topics.sort((a, b) => { return b.date - a.date })
+        return this.topics.filter(t => t.title.trim().length > 4).sort((a, b) => { return b.date - a.date })
     }
 
     public topicOffset(id : string) {
@@ -177,9 +177,9 @@ export class Topics extends TopicsModel implements TopicsService {
         const contract = this.contract!;
 
         try {
-            const md: [BigNumber, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress)
+            const md: [string, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress)
             topic.metadata = {
-                messageHash: HashUtils.solidityHashToCid(md[0].toString(16)),
+                messageHash: HashUtils.solidityHashToCid(md[0]),
                 isClosed:    md[1],
                 payout:      md[2].toNumber(),
                 votes:       md[3].toNumber(),
