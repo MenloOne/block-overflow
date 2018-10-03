@@ -73,16 +73,21 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         }
 
         QuestionsPage.topics.setCallback(this.topicsChanged)
+        this.prepTopics(props)
     }
 
-    get topics() : Topics {
-        return QuestionsPage.topics
+    async prepTopics(props: QuestionsPageProps) {
+        this.topics.setAccount(props.acct.svc)
     }
 
     componentWillReceiveProps(newProps: QuestionsPageProps) {
         if (newProps.acct.model !== this.props.acct.model) {
-            this.topics.setAccount(this.props.acct.svc)
+            this.prepTopics(newProps)
         }
+    }
+
+    get topics() : Topics {
+        return QuestionsPage.topics
     }
 
     async topicsChanged(_topic: Topic) {
