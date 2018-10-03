@@ -59,6 +59,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
 
     state : MessageViewState
     bodyElement : any
+    commentMaxHeight: Number
 
     constructor(props: MessageViewProps) {
         super(props)
@@ -75,13 +76,15 @@ export default class AnswerView extends React.Component<MessageViewProps> {
         this.submitComment = this.submitComment.bind(this)
         this.upvote = this.upvote.bind(this)
         this.downvote = this.downvote.bind(this)
+
+        this.commentMaxHeight = 210;
     }
 
     toggle = () => {
         const { height } = this.state;
 
         this.setState({
-            height: height === 200 ? 'auto' : 200,
+            height: height === this.commentMaxHeight ? 'auto' : this.commentMaxHeight,
         });
     };
 
@@ -89,7 +92,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
         this.props.forum.svc.subscribeMessages(this.props.message.id, this.refreshMessages.bind(this))
 
         this.setState({
-            height: this.bodyElement.clientHeight > 200 ? 200 : 'auto',
+            height: this.bodyElement.clientHeight > this.commentMaxHeight ? this.commentMaxHeight : 'auto',
             originalHeight: this.bodyElement.clientHeight
         })
     }
@@ -247,12 +250,12 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                             <MarkdownRenderer markdown={message.body}/>
                         </div>
                     </AnimateHeight>
-                    {this.state.originalHeight > 200 && this.state.height !== 'auto' &&
+                    {this.state.originalHeight > this.commentMaxHeight && this.state.height !== 'auto' &&
                     <button className="comments-readmore" onClick={ () => this.toggle() }>
                         Read More
                     </button>
                     }
-                    {this.state.originalHeight > 200 && this.state.height === 'auto' &&
+                    {this.state.originalHeight > this.commentMaxHeight && this.state.height === 'auto' &&
                     <button className="comments-readmore" onClick={ () => this.toggle() }>
                         Collapse Comment
                     </button>

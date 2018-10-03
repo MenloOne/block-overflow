@@ -1075,14 +1075,28 @@ span.location {
 }
 
 button.comments-readmore {
-    border: none;
     font-family: Titillium;
-    background: none;
-    padding: 0;
     color: #1944a5;
-    /* font-weight: 600; */
     font-style: italic;
-    font-size: 1.1rem;
+    display: block;
+    width: 100%;
+    background: #fdfdfd;
+    border: 1px solid #e7ecf7;
+    border-radius: 0 0 6px 6px;
+    padding: .5rem;
+    font-size: 14px;
+}
+
+.editor-preview-side {
+    top: 45px !important;
+}
+
+.CodeMirror-fullscreen {
+    border-right: none;
+}
+
+.CodeMirror-fullscreen, .editor-toolbar.fullscreen {
+    margin-top: 46px;
 }
 
 .left-side .top-users {
@@ -2202,7 +2216,7 @@ table.stats tr td:nth-child(2) {
     padding: .75rem .5rem;
     display: flex;
 }
-.rah-static {
+.comments div[class*=rah-] {
     background: #0942ab12;
     padding: 1rem;
     margin-top: 1rem;

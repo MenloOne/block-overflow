@@ -52,6 +52,18 @@ pre {
     padding: 1rem;
 }
 
+p > code {
+    display: inline;
+    font-size: 12px;
+    line-height: .8rem;
+    color: #666b75;
+    background: #fdfdfd;
+    max-height: none;
+    border: 1px solid #f2f5fa;
+    border-radius: 6px;
+    padding: .3rem;
+}
+
 .question {
     .user-img {
         width: 60px;
