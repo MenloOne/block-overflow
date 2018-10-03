@@ -327,7 +327,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                 </div>
 
                                 <div className="col-md-4">
-                                    {this.renderUserStats()}
+                                    {/* {this.renderUserStats()} */}
 
                                     <div className="right-side-box">
                                         <div className="green-bg">
