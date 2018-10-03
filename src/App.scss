@@ -2211,6 +2211,10 @@ table.stats tr td:nth-child(2) {
     }
 }
 
+.col-12 > .borderis.message:last-child {
+    border: none;
+}
+
 .comments li.borderis {
     position: relative;
     padding: .75rem .5rem;
