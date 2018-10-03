@@ -257,8 +257,9 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                         Collapse Comment
                     </button>
                     }
-                    <div className="comments-votes">
-                        <span>{ this.renderVotes() }</span>
+                    {this.state.children.length > 0 && 
+                    <div className="comments-votes"> 
+                        { this.renderVotes() }
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
                         <span >
                                 <a onClick={this.upvote}   disabled={this.props.message.upvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
@@ -293,6 +294,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                         </span>
                         }
                     </div>
+                    }
                     <ul>
                         {this.state.showReplies && this.renderReplies()}
                     </ul>

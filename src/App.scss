@@ -135,8 +135,6 @@ body.fixed-nav {
 
 .votes-indicator {
     display: inline-block !important;
-    position: relative;
-    top: 7px;
 }
 
 #mainNav .navbar-collapse .navbar-nav > .nav-item.dropdown.show > .nav-link:after {
@@ -767,7 +765,7 @@ a#messagesDropdown {
 }
 
 .Question-stats {
-    padding-left: 77px !important;
+    padding-left: 90px !important;
     background: #F2F5FA;
     padding: .33rem;
     display: flex;
@@ -782,7 +780,7 @@ a#messagesDropdown {
 }
 
 .Question-wrapper {
-    padding-left: 77px !important;
+    padding-left: 90px !important;
 }
 
 .townhall .small-heading {
@@ -1823,8 +1821,8 @@ span.sold {
 }
 
 .comments .content {
-    display: inline-block;
     vertical-align: top;
+    width: 100%;
 }
 
 .question a {
@@ -1935,7 +1933,12 @@ span.tag {
 
 .comments-votes {
     font-size: 1em;
-    margin: 0.5em 0;
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    border: 1px solid #e7ecf7;
+    background: #eff2f7;
+    border-top: none;
 }
 
 .comments-review a > span i {
@@ -2182,13 +2185,32 @@ table.stats tr td:nth-child(2) {
     border-bottom: 1px solid #ececed;
 }
 
+.comments li.borderis.message {
+    border-bottom: 1px solid #e7ecf7;
+    p {
+        margin: 0;
+    }
+    .content ul  {
+        border: 1px solid #e7ecf7;
+        border-top: none;
+        border-bottom: none;
+    }
+}
+
 .comments li.borderis {
     position: relative;
-    padding: 1rem 0;
+    padding: .75rem .5rem;
+    display: flex;
+}
+.rah-static {
+    background: #0942ab12;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 6px 6px 0 0;
 }
 
 .comments .message-wrapper {
-    padding: 0 0 0 77px;
+    padding: 0 77px;
 }
 
 /*********** Discover Page **************/
@@ -2461,10 +2483,6 @@ table.stats tr td:nth-child(2) {
     }
 }
 
-.QuestionHeader-logoWrapper {
-    padding-right: 1rem;
-}
-
 .QuestionHeader .time-watch div {
     font-size: 25px;
     line-height: 15px;
@@ -2487,6 +2505,13 @@ table.stats tr td:nth-child(2) {
     color: #6B768E;
     font-weight: 600;
     margin-right: 2rem;
+}
+
+.Question-permalink {
+    padding-top: 1rem;
+    border-top: 1px solid #002c841f;
+    width: 100%;
+    display: block;
 }
 
 .Question-upvote {

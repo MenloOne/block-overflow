@@ -37,6 +37,19 @@ a[disabled], a[disabled]:hover {
     padding-bottom: 1em;
 }
 
+.question {
+    padding: 5px 7px;
+}
+
+.question {
+    padding: 5px 7px;
+}
+
+.comments .row:nth-child(even) .question {
+    background: #f0f4ff;
+    border-radius: 6px;
+}
+
 .question .tag-name {
   line-height: initial;
 }

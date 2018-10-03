@@ -40,6 +40,18 @@ a[disabled], a[disabled]:hover {
     }
 }
 
+pre {
+    display: block;
+    font-size: 12px;
+    line-height: .8rem;
+    color: #666b75;
+    background: #fdfdfd;
+    max-height: none;
+    border: 1px solid #f2f5fa;
+    border-radius: 6px;
+    padding: 1rem;
+}
+
 .question {
     .user-img {
         width: 60px;
@@ -78,7 +90,7 @@ a[disabled], a[disabled]:hover {
 
 .tag-name-wrapper {
     display: inline-block;
-    background: #f0f4ff;
+    background: #0345f91a;
     padding: 0 .2rem;
     border: 1px solid #ececed;
     border-radius: 3px;

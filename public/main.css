@@ -2,7 +2,3 @@ html, body {
   height: 100%;
   overflow: hidden;
 }
-
-pre {
-    line-height: 1.1rem;
-}
