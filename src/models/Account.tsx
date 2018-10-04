@@ -118,7 +118,7 @@ export class Account extends AccountModel implements AccountService {
         if (window.ethereum) {
             try {
                 // Request account access if needed
-                console.log('Calling Ethereum enable')
+                console.log('Calling ethereum enable')
                 await window.ethereum.enable();
             } catch (error) {
                 // User denied account access...
@@ -176,7 +176,7 @@ export class Account extends AccountModel implements AccountService {
                 this.token = await MenloToken.createAndValidate(web3, tokenAddress)
             }
 
-            this.getBalance()
+            this.refreshBalance(0)
             this.status = MetamaskStatus.Ok
 
             this.onStateChange()
@@ -202,13 +202,13 @@ export class Account extends AccountModel implements AccountService {
         return this.balance
     }
 
-    async refreshBalance() : Promise<void> {
+    async refreshBalance(wait: number = 3000) : Promise<void> {
         await this.ready
 
         setTimeout(async () => {
             await this.getBalance()
             this.onStateChange()
-        }, 3000 )
+        }, wait )
     }
 
     async contractError(e : Error) {
