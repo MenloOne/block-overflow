@@ -54,7 +54,7 @@ export default class Topic extends IPFSTopic {
 
     async claimWinnings() {
         const forum = new Forum(this.forumAddress)
-        await forum.setAccount(this.topics.account!)
+        await forum.setAccount(this.topics.acctSvc!)
         await forum.lottery.claimWinnings()
     }
 }

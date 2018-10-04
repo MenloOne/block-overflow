@@ -60,7 +60,8 @@ export class Topics extends TopicsModel {
 
     private actions: { newTopic }
 
-    public  account: Account | null
+    private account: string | null
+    public  acctSvc: Account | null
     private remoteStorage: RemoteIPFSStorage
     private topicsCallback: TopicsCallback | null
 
@@ -86,25 +87,22 @@ export class Topics extends TopicsModel {
     }
 
     async setAccount(acct : Account) {
-        if (acct.address === null) {
-            return
-        }
-
-        if (this.account && acct.address === this.account.address ) {
+        if (acct.address === this.account || acct.address === null) {
             return
         }
 
         try {
-            this.account = acct
+            this.account = acct.address
+            this.acctSvc = acct
 
             const tokenContract = TruffleContract(TokenContract)
             await tokenContract.setProvider(web3.currentProvider)
-            tokenContract.defaults({ from: this.account.address })
+            tokenContract.defaults({ from: this.account })
             this.tokenContractJS = await tokenContract.deployed()
 
             const topicsContract = TruffleContract(TopicsContract)
             await topicsContract.setProvider(web3.currentProvider)
-            topicsContract.defaults({ from: this.account.address })
+            topicsContract.defaults({ from: this.account })
             const topicAddress = (await topicsContract.deployed()).address
             this.contract = await MenloTopics.createAndValidate(web3, topicAddress)
 
@@ -190,8 +188,7 @@ export class Topics extends TopicsModel {
 
             topic.endTime *= 1000 // Convert to Milliseconds
             topic.isAnswered = (topic.winner !== topic.author)
-            topic.iWon = (topic.winner === this.account!.address)
-            topic.isClaimed = ((await this.tokenContractJS.balanceOf(topic.forumAddress)).toNumber() === 0)
+            topic.iWon = (topic.winner === this.account)
 
             topic.error  = null
             topic.filled = true
@@ -244,7 +241,7 @@ export class Topics extends TopicsModel {
         const ipfsTopic : IPFSTopic = {
             version: 1,
             offset: this.topicHashes.length,
-            author: this.account!.address!,
+            author: this.account!,
             date: Date.now(),
             title,
             body,
