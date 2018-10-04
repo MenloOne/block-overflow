@@ -59,11 +59,12 @@ a[disabled], a[disabled]:hover {
         flex-direction: column;
         vertical-align: top;
 
-        span {
+        .subtitle {
             font-size: 0.7em;
         }
 
         .closed {
+            font-size: 0.7em;
             font-size: 1em;
             line-height: 2.7em;
         }

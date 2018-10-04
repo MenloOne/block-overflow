@@ -79,13 +79,33 @@ class QuestionView extends React.Component<TopicViewProps> {
         return this.messageStatus() === 'pending'
     }
 
+    async clickClaimTokens() {
+        await this.props.topic.claimWinnings()
+    }
+
     renderClosed() {
         if (!this.props.topic.isAnswered && this.props.topic.metadata!.isClosed) {
-            return <span className='closed'>NO ANSWER</span>
+            return (
+                <span>
+                    <span className='closed'>NO ANSWER</span>
+                    {
+                        this.props.topic.iWon && !this.props.topic.isClaimed &&
+                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>RECLAIM TOKENS</a>
+                    }
+                </span>
+            )
         }
 
         if (this.props.topic.iWon) {
-            return <span className='closed'>YOU WON!</span>
+            return (
+                <span>
+                    <span className='closed'>YOU WON!</span>
+                    {
+                        this.props.topic.iWon && !this.props.topic.isClaimed &&
+                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
+                    }
+                </span>
+            )
         }
 
         return <span className='closed'>CLOSED</span>
@@ -122,11 +142,11 @@ class QuestionView extends React.Component<TopicViewProps> {
                     </div>
                     <div className='stats'>
                         { topic.totalAnswers }
-                        <span>ANSWERS</span>
+                        <span className='subtitle'>ANSWERS</span>
                     </div>
                     <div className='stats'>
                         { topic.winningVotes }
-                        <span>VOTES</span>
+                        <span className='subtitle'>VOTES</span>
                     </div>
                     <div className='stats stats-timer'>
                         <CountdownTimer date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>

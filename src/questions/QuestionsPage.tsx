@@ -244,7 +244,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                             </div>
                             <div className="">
                                 <p>Block Overflow is a question and answer site for blockchain programmers and other people from the Menlo One community where users get paid in ONE tokens for providing correct answers.</p>
-                                <div className="btn-wrapper">
+                                <div className="btn-wrapper" style={{display: 'none'}}>
                                     <a className="btn btn-big btn-green" onClick={this.clickSignIn}>Sign In</a>
                                     <a className="btn btn-big btn-grey" onClick={this.clickCloseInstructions}>Close  </a>
                                 </div>

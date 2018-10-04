@@ -60,7 +60,7 @@ export class Topics extends TopicsModel {
 
     private actions: { newTopic }
 
-    private account: string | null
+    public  account: Account | null
     private remoteStorage: RemoteIPFSStorage
     private topicsCallback: TopicsCallback | null
 
@@ -86,21 +86,21 @@ export class Topics extends TopicsModel {
     }
 
     async setAccount(acct : Account) {
-        if (acct.address === this.account) {
+        if (this.account && acct.address === this.account.address) {
             return
         }
 
         try {
-            this.account = acct.address
+            this.account = acct
 
             const tokenContract = TruffleContract(TokenContract)
             await tokenContract.setProvider(web3.currentProvider)
-            tokenContract.defaults({ from: this.account })
+            tokenContract.defaults({ from: this.account.address })
             this.tokenContractJS = await tokenContract.deployed()
 
             const topicsContract = TruffleContract(TopicsContract)
             await topicsContract.setProvider(web3.currentProvider)
-            topicsContract.defaults({ from: this.account })
+            topicsContract.defaults({ from: this.account.address })
             const topicAddress = (await topicsContract.deployed()).address
             this.contract = await MenloTopics.createAndValidate(web3, topicAddress)
 
@@ -186,7 +186,8 @@ export class Topics extends TopicsModel {
 
             topic.endTime *= 1000 // Convert to Milliseconds
             topic.isAnswered = (topic.winner !== topic.author)
-            topic.iWon = (topic.winner === this.account)
+            topic.iWon = (topic.winner === this.account!.address)
+            topic.isClaimed = ((await this.tokenContractJS.balanceOf(topic.forumAddress)).toNumber() === 0)
 
             topic.error  = null
             topic.filled = true
@@ -239,7 +240,7 @@ export class Topics extends TopicsModel {
         const ipfsTopic : IPFSTopic = {
             version: 1,
             offset: this.topicHashes.length,
-            author: this.account!,
+            author: this.account!.address!,
             date: Date.now(),
             title,
             body,

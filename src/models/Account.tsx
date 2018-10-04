@@ -88,6 +88,7 @@ export class Account extends AccountModel implements AccountService {
 
     public setCallback(callback : AccountChangeCallback) {
         this.stateChangeCallback = callback
+        this.stateChangeCallback()
     }
 
     public async signIn() {

@@ -1,5 +1,6 @@
 import { Topics } from "./Topics";
 import {IPFSTopic} from "../storage/RemoteIPFSStorage";
+import { Forum } from './Forum'
 
 
 type TopicMetadata = {
@@ -24,6 +25,7 @@ export default class Topic extends IPFSTopic {
     public totalAnswers: number
     public winner: string
     public isAnswered: boolean
+    public isClaimed: boolean
     public iWon: boolean
 
     public filled: boolean
@@ -48,7 +50,12 @@ export default class Topic extends IPFSTopic {
 
     async refreshMetadata(address) {
         await this.topics.ready
+    }
 
+    async claimWinnings() {
+        const forum = new Forum(this.forumAddress)
+        await forum.setAccount(this.topics.account!)
+        await forum.lottery.claimWinnings()
     }
 }
 
