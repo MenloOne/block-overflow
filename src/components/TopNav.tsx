@@ -1,15 +1,15 @@
 import * as React from  'react'
 import BigNumber from 'bignumber.js'
+import Blockies from 'react-blockies'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
+import TruffleContract from 'truffle-contract'
+import MenloFaucetContract from '../artifacts/MenloFaucet.json'
+
 import web3 from '../models/Web3'
 import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 
-import TruffleContract from 'truffle-contract'
-
-const MenloFaucetContract = require('../artifacts/MenloFaucet.json')
+import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.scss'
-
 
 const logo = require('../images/logo.svg')
 
@@ -121,7 +121,9 @@ class TopNav extends React.Component<TopNavProps> {
                        aria-expanded="false">
 
                         <span className="user-img">
-                            {this.props.acct.model.avatar}
+                            { this.props.acct.model.address &&
+                                <Blockies seed={this.props.acct.model.address} size={7} />
+                            }
                         </span>
                         <span className="name">{ this.props.acct.model.address }</span>
 

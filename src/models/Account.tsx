@@ -18,7 +18,6 @@ import * as React from 'react'
 
 import BigNumber from 'bignumber.js'
 import TruffleContract from 'truffle-contract'
-import Blockies from 'react-blockies'
 import ethUtil from 'ethereumjs-util'
 import axios from 'axios'
 
@@ -41,7 +40,6 @@ export enum MetamaskStatus {
 export class AccountModel {
     public ready: any
     public address: string | null
-    public avatar: JSX.Element
     public balance: number
     public fullBalance: BigNumber
     public status: MetamaskStatus
@@ -72,7 +70,6 @@ export class Account extends AccountModel implements AccountService {
         this.ready = QPromise((res, rej) => this.signalReady = res)
         this.address = null
         this.balance = 0
-        this.avatar = <span></span>
         this.status = MetamaskStatus.Starting
         this.stateChangeCallback = null
 
@@ -118,6 +115,20 @@ export class Account extends AccountModel implements AccountService {
     }
 
     async checkMetamaskStatus() {
+        if (window.ethereum) {
+            try {
+                // Request account access if needed
+                console.log('Calling Ethereum enable')
+                await window.ethereum.enable();
+            } catch (error) {
+                // User denied account access...
+
+                this.status = MetamaskStatus.Error
+                this.error = 'Metamask access denied by user'
+            }
+
+        }
+
         web3.eth.getAccounts(async (err, accounts) => {
             if (err || !accounts || accounts.length === 0) {
                 this.status = MetamaskStatus.LoggedOut
@@ -165,10 +176,8 @@ export class Account extends AccountModel implements AccountService {
                 this.token = await MenloToken.createAndValidate(web3, tokenAddress)
             }
 
-            this.avatar  = <Blockies seed={address} size={7} />
             this.getBalance()
             this.status = MetamaskStatus.Ok
-            await this.getBalance()
 
             this.onStateChange()
 

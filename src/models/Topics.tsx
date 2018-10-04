@@ -130,7 +130,7 @@ export class Topics extends TopicsModel {
         await this.ready
         const topics = this.contract!
 
-        topics.NewTopicEvent({}).watch({}, async (error, result) => {
+        topics.NewTopicEvent({}).watch({fromBlock:0, toBlock:'latest'}, (error, result) => {
             if (error) {
                 console.error( error )
                 return
@@ -138,17 +138,20 @@ export class Topics extends TopicsModel {
 
             const forumAdddress = result.args._forum.toString()
 
-            if (typeof this.topicHashes[forumAdddress] === 'undefined') {
-                const offset = this.topicHashes.length
-                console.log(`[[ Topic ]] ( ${offset} ) ${forumAdddress}`)
-
-                this.topicOffsets[forumAdddress] = offset
-                this.topicHashes.push(forumAdddress)
-
-                const message = new Topic( this, forumAdddress, offset )
-                this.topics.push(message)
-                await this.fillTopic(message)
+            if (typeof this.topicHashes[forumAdddress] !== 'undefined') {
+                console.error('Received duplicate Topic! ', forumAdddress)
+                return
             }
+
+            const offset = this.topicHashes.length
+            console.log(`[[ Topic ]] ( ${offset} ) ${forumAdddress}`)
+
+            this.topicOffsets[forumAdddress] = offset
+            this.topicHashes.push(forumAdddress)
+
+            const message = new Topic( this, forumAdddress, offset )
+            this.topics.push(message)
+            this.fillTopic(message)
         })
     }
 
@@ -163,7 +166,7 @@ export class Topics extends TopicsModel {
                 isClosed:    md[1]
             }
 
-            console.log(`[[ Fill Topic ]] ( ${topic.offset} ) ${topic.metadata.messageHash}`)
+            // console.log(`[[ Fill Topic ]] ( ${topic.offset} ) ${topic.metadata.messageHash}`)
 
             const ipfsTopic = await this.remoteStorage.getMessage(topic.metadata.messageHash)
             Object.assign(topic, ipfsTopic)

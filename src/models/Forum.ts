@@ -177,6 +177,10 @@ export class Forum extends ForumModel implements Forum {
         }
     }
 
+    clearAccount() {
+        // TODO: Remove watchers
+    }
+
     topicOffset(id : string) {
         return this.topicOffsets[id]
     }
