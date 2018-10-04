@@ -154,6 +154,12 @@ export class Topics extends TopicsModel {
             const message = new Topic( this, forumAdddress, offset )
             this.topics.push(message)
             this.fillTopic(message)
+
+            this.filledTopicsCounter++;
+
+            if (this.filledTopicsCounter >= this.initialTopicCount) {
+                this.signalSynced()
+            }
         })
     }
 
@@ -175,21 +181,24 @@ export class Topics extends TopicsModel {
 
             // Grab data from the actual Forum contract
             const forumContract = await MenloForum.createAndValidate(web3, topic.forumAddress);
-            [topic.endTime, topic.winningVotes, topic.totalAnswers] = (await Promise.all([
+            [topic.endTime, topic.winningVotes, topic.totalAnswers, topic.pool] = (await Promise.all([
                 forumContract.endTimestamp,
                 forumContract.winningVotes,
-                forumContract.postCount
+                forumContract.postCount,
+                forumContract.pool
                 ])).map(bn => bn.toNumber());
             topic.totalAnswers -= 1;
+            topic.pool /= 10 ** 18;
 
-            [topic.winner] =  (await Promise.all([
+            [topic.winner] = (await Promise.all([
                 forumContract.winner
             ]));
 
             topic.endTime *= 1000 // Convert to Milliseconds
             topic.isAnswered = (topic.winner !== topic.author)
             topic.iWon = (topic.winner === this.account)
-            topic.isClaimed = ((await this.tokenContractJS.balanceOf(topic.forumAddress)).toNumber() === 0)
+            topic.bounty = (await this.tokenContractJS.balanceOf(topic.forumAddress)).toNumber() / 10 ** 18
+            topic.isClaimed = (topic.bounty === 0)
 
             topic.error  = null
             topic.filled = true
@@ -205,12 +214,6 @@ export class Topics extends TopicsModel {
             topic.body  = '...'
 
         } finally {
-            this.filledTopicsCounter++;
-
-            if (this.filledTopicsCounter >= this.initialTopicCount) {
-                this.signalSynced()
-            }
-
             this.onModifiedTopic(topic)
         }
     }

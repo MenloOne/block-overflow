@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React, { Fragment } from 'react'
 import Moment from 'react-moment'
 import Blockies from 'react-blockies'
 
@@ -151,6 +151,19 @@ class QuestionRow extends React.Component<TopicViewProps> {
                     <div className='stats'>
                         { topic.winningVotes }
                         <span className='subtitle'>VOTES</span>
+                    </div>
+                    <div className='stats'>
+                        { topic.bounty === 0 ?
+                            (<Fragment>
+                                { topic.pool.toFixed() }
+                                <span className='subtitle'>ONE PAID</span>
+                            </Fragment>)
+                            :
+                            (<Fragment>
+                                { topic.bounty.toFixed() }
+                                <span className='subtitle'>BOUNTY</span>
+                            </Fragment>)
+                        }
                     </div>
                     <div className='stats stats-timer'>
                         <CountdownTimer date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>

@@ -23,6 +23,8 @@ export default class Topic extends IPFSTopic {
     public endTime: number
     public winningVotes: number
     public totalAnswers: number
+    public bounty: number
+    public pool: number
     public winner: string
     public isAnswered: boolean
     public isClaimed: boolean
@@ -42,6 +44,8 @@ export default class Topic extends IPFSTopic {
         this.metadata = null
         this.filled = false
         this.body = 'Loading from IPFS...'
+
+        this.refresh = this.refresh.bind(this)
     }
 
     public get id(): string {
@@ -56,6 +60,12 @@ export default class Topic extends IPFSTopic {
         const forum = new Forum(this.forumAddress)
         await forum.setAccount(this.topics.acctSvc!)
         await forum.lottery.claimWinnings()
+
+        this.topics.acctSvc!.addBalanceCallback(this.refresh)
+    }
+
+    async refresh() {
+        await this.topics.fillTopic(this)
     }
 }
 

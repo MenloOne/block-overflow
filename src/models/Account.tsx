@@ -47,7 +47,7 @@ export class AccountModel {
 }
 
 export type AccountContext = { model: AccountModel, svc: Account }
-
+export type BasicCallback = () => void
 
 export interface AccountService {
     refreshBalance() : Promise<void>
@@ -63,6 +63,7 @@ export class Account extends AccountModel implements AccountService {
     private token : MenloToken
     private signalReady : () => void
     private stateChangeCallback : AccountChangeCallback | null
+    private balanceCallbacks: BasicCallback[] = []
 
     constructor() {
         super()
@@ -84,6 +85,10 @@ export class Account extends AccountModel implements AccountService {
 
         web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
         this.checkMetamaskStatus()
+    }
+
+    public addBalanceCallback(callback: BasicCallback) {
+        this.balanceCallbacks.push(callback)
     }
 
     public setCallback(callback : AccountChangeCallback) {
@@ -209,6 +214,11 @@ export class Account extends AccountModel implements AccountService {
         setTimeout(async () => {
             await this.getBalance()
             this.onStateChange()
+
+            let callback
+            while (callback = this.balanceCallbacks.pop()) {
+                await callback()
+            }
         }, wait )
     }
 
