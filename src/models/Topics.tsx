@@ -86,7 +86,11 @@ export class Topics extends TopicsModel {
     }
 
     async setAccount(acct : Account) {
-        if (this.account && (acct.address === this.account.address || acct.address === null)) {
+        if (acct.address === null) {
+            return
+        }
+
+        if (this.account && acct.address === this.account.address ) {
             return
         }
 
