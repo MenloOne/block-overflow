@@ -129,7 +129,7 @@ export class Account extends AccountModel implements AccountService {
             if (account0 !== this.address) {
 
                 if (this.status !== MetamaskStatus.Starting && this.status !== MetamaskStatus.Ok) {
-                    await this.refreshAccount( true, null)
+                    await this.refreshAccount( true, account0)
                     return
                 }
 
@@ -146,7 +146,7 @@ export class Account extends AccountModel implements AccountService {
     }
 
 
-    async refreshAccount(reload : boolean, address: string | null) {
+    async refreshAccount(reload : boolean, address: string) {
         try {
             if (reload) {
                 // Easy way out for now
