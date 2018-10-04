@@ -120,8 +120,8 @@ class QuestionForm extends React.Component<TopicFormProps> {
                 <div className="askquestion-button-wrapper">
                     <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question' />
                     <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                    {this.state.error && <p className="error new-message">{this.state.error}</p>}
                 </div>
-                {this.state.error && <p className="error new-message">{this.state.error}</p>}
             </form>
         )
     }
