@@ -55,7 +55,7 @@ interface MessageViewState {
     originalHeight: string | number
 }
 
-export default class AnswerView extends React.Component<MessageViewProps> {
+export default class AnswerRow extends React.Component<MessageViewProps> {
 
     state : MessageViewState
     bodyElement : any

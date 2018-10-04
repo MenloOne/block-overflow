@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 import { TopicsContext, withTopics } from "../models/Topics";
 
-import TopicView from './QuestionView'
+import TopicView from './QuestionRow'
 
 
 

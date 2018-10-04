@@ -41,7 +41,7 @@ interface TopicViewState {
 }
 
 
-class QuestionView extends React.Component<TopicViewProps> {
+class QuestionRow extends React.Component<TopicViewProps> {
 
     state : TopicViewState
 
@@ -161,4 +161,4 @@ class QuestionView extends React.Component<TopicViewProps> {
     }
 }
 
-export default withTopics(QuestionView)
+export default withTopics(QuestionRow)

@@ -11,7 +11,7 @@ import { CIDZero } from '../storage/HashUtils'
 
 import CountdownTimer from '../components/CountdownTimer'
 
-import AnswerView from './AnswerView'
+import AnswerRow from './AnswerRow'
 import AnswerForm from './AnswerForm'
 
 import '../App.scss'
@@ -187,10 +187,10 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <AnswerView key={m.id}
-                                    forum={this.props.forum}
-                                    message={m}
-                                    onChangeReplying={this.onChangeReplying}
+                        <AnswerRow key={m.id}
+                                   forum={this.props.forum}
+                                   message={m}
+                                   onChangeReplying={this.onChangeReplying}
                         />
                     </div>
                 </div>
