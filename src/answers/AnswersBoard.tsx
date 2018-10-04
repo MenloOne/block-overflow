@@ -213,9 +213,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             { this.props.forum.model.topic && this.props.forum.model.topic.title }
                         </h6>
                         <div className="tag-name-wrapper">
-                            <span className="tag-name-0x">0x</span>
                             <span className="tag-name">{this.props.forum.model.topic ? this.props.forum.model.topic.author : '...'}</span>
-                            <span className="tag-name-dots">…</span>
                         </div>
                         <span style={{ display: 'none' }}>?? points</span>
                         <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>

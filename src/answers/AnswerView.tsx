@@ -234,9 +234,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                 </div>
                 <div className="content">
                     <div className="tag-name-wrapper">
-                        <span className="tag-name-0x">0x</span>
                         <span className="tag-name">{message.author}</span>
-                        <span className="tag-name-dots">…</span>
                     </div>
                     <span className="points" style={{ display: 'none' }}>??? points </span>
                     <span className="time">
