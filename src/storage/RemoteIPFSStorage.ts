@@ -41,11 +41,12 @@ export class IPFSTopic {
 
 class RemoteIPFSStorage {
 
-    private ipfs : ipfs
+    private ipfs      : ipfs
+    private ipfsMenlo : ipfs
 
     constructor() {
         this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-        // this.ipfs = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
+        this.ipfsMenlo = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
     }
 
     async createMessage(message : IPFSMessage) : Promise<CID> {
@@ -55,6 +56,8 @@ class RemoteIPFSStorage {
         }
         const result = await this.ipfs.files.add([file], { pin: true })
         const hash = result[0].hash
+
+        await (this.ipfsMenlo as any).pin.add(hash)
 
         /*
         console.log(`Created ${hash}`)
@@ -87,6 +90,8 @@ class RemoteIPFSStorage {
         const result = await this.ipfs.files.add([file], { pin: true })
         const hash = result[0].hash
 
+        await (this.ipfsMenlo as any).pin.add(hash)
+
         /*
         console.log(`Created ${hash}`)
 
@@ -111,17 +116,20 @@ class RemoteIPFSStorage {
     }
 
     async getMessage<T>(hash : CID) : Promise<T> {
-        let tries = 3
+        let tries = 4
         let files : IPFSFile[] | null = null
+        let ipfs = this.ipfsMenlo
 
         do {
 
             try {
-                files = await PromiseTimeout(10000, this.ipfs.files.get(hash))
+                files = await PromiseTimeout(10000, ipfs.files.get(hash))
             } catch (e) {
                 if (tries-- === 0) {
                     throw (e)
                 }
+
+                ipfs = (ipfs === this.ipfsMenlo) ? this.ipfs : this.ipfsMenlo
             }
         } while (!files)
 
