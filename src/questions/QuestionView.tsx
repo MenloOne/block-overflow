@@ -50,6 +50,7 @@ class QuestionView extends React.Component<TopicViewProps> {
 
         this.onClickTopic = this.onClickTopic.bind(this)
         this.renderClosed = this.renderClosed.bind(this)
+        this.clickClaimTokens = this.clickClaimTokens.bind(this)
 
         this.state = {
             showReplyForm: false,
@@ -79,7 +80,8 @@ class QuestionView extends React.Component<TopicViewProps> {
         return this.messageStatus() === 'pending'
     }
 
-    async clickClaimTokens() {
+    async clickClaimTokens(e) {
+        e.stopPropagation();
         await this.props.topic.claimWinnings()
     }
 
@@ -87,10 +89,11 @@ class QuestionView extends React.Component<TopicViewProps> {
         if (!this.props.topic.isAnswered && this.props.topic.metadata!.isClosed) {
             return (
                 <span>
-                    <span className='closed'>NO ANSWER</span>
                     {
-                        this.props.topic.iWon && !this.props.topic.isClaimed &&
+                        this.props.topic.iWon && !this.props.topic.isClaimed ?
                         <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>RECLAIM TOKENS</a>
+                        :
+                        <span className='closed'>NO ANSWER</span>
                     }
                 </span>
             )
@@ -99,10 +102,11 @@ class QuestionView extends React.Component<TopicViewProps> {
         if (this.props.topic.iWon) {
             return (
                 <span>
-                    <span className='closed'>YOU WON!</span>
                     {
-                        this.props.topic.iWon && !this.props.topic.isClaimed &&
+                        this.props.topic.iWon && !this.props.topic.isClaimed ?
                         <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
+                        :
+                        <span className='closed'>YOU WON!</span>
                     }
                 </span>
             )

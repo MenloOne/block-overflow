@@ -189,6 +189,7 @@ export class Topics extends TopicsModel {
             topic.endTime *= 1000 // Convert to Milliseconds
             topic.isAnswered = (topic.winner !== topic.author)
             topic.iWon = (topic.winner === this.account)
+            topic.isClaimed = ((await this.tokenContractJS.balanceOf(topic.forumAddress)).toNumber() === 0)
 
             topic.error  = null
             topic.filled = true
