@@ -80,6 +80,12 @@ a[disabled], a[disabled]:hover {
     }
 }
 
+a.more-btn {
+    background-color: #fff !important;
+    width: 100%;
+    margin: 1em 0;
+}
+
 .comments .row:nth-child(odd) .question {
     background: #f0f4ff;
     border-radius: 6px;
@@ -111,4 +117,14 @@ a[disabled], a[disabled]:hover {
 .error .new-message {
     padding-top: 0;
     text-align: right;
+}
+
+input.search {
+    width: 100%;
+    border-radius: 0.2em;
+    margin: 0em 0 1.5em;
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    font-size: 1.1em;
+    outline: none;
 }

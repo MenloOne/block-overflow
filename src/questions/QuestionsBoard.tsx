@@ -28,6 +28,12 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
     
     constructor(props: any, context: any) {
         super(props, context)
+
+        this.clickNextPage = this.clickNextPage.bind(this)
+    }
+
+    clickNextPage() {
+        this.props.topics.svc.getNextPage()
     }
 
     renderMessagesFilterButton() {
@@ -55,8 +61,8 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
             </li>)
         }
 
-        const topics = this.props.topics.svc.latestTopics
-        return topics.filter(m => m.filled).map((m, index) => {
+        const topics = this.props.topics.model.topics
+        return topics.map((m, index) => {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
@@ -73,6 +79,12 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
             <div className="comments">
                 <ul>
                     { this.renderMessages() }
+                    {
+                        this.props.topics.model.topics.length < this.props.topics.model.total &&
+                        <div>
+                            <a onClick={ this.clickNextPage } className='btn big-btn more-btn'>SEE MORE...</a>
+                        </div>
+                    }
                 </ul>
             </div>
         )

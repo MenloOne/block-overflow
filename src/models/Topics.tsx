@@ -37,12 +37,14 @@ import { MenloForum } from '../contracts/MenloForum'
 
 export class TopicsModel {
     public topics: Topic[] = []
+    public query: string = ''
+    public total: number = 0
 }
 
 export type TopicsContext = { model: TopicsModel, svc: Topics }
 
 
-type TopicsCallback = (topic: Topic | null) => void
+type TopicsCallback = (topic?: Topic) => void
 const TOPIC_LENGTH : number = 24 * 60 * 60
 
 export class Topics extends TopicsModel {
@@ -51,6 +53,8 @@ export class Topics extends TopicsModel {
     public synced: any
 
     // Private
+
+    private allTopics: Topic[] = []
 
     private signalReady: () => void
     private signalSynced: () => void
@@ -70,6 +74,10 @@ export class Topics extends TopicsModel {
     private topicOffsets: Map<string, number> | {}
     private topicHashes: string[]
 
+    private queryRegExp: RegExp
+    private pageSize: number = 15
+    private pageLimit: number = this.pageSize
+
 
     constructor() {
         super()
@@ -84,6 +92,18 @@ export class Topics extends TopicsModel {
 
     public setCallback(callback : TopicsCallback) {
         this.topicsCallback = callback
+    }
+
+    public setFilter(query: string, filters?: { any }) {
+        this.query = query.toLowerCase()
+        const pattern = `(${this.query.toLowerCase().split(' ').filter(s => s.length > 0).map(s => `(?=.*${s})`).join('')})`
+        this.queryRegExp = RegExp(pattern)
+        this.onModifiedTopic()
+    }
+
+    public getNextPage() {
+        this.pageLimit += this.pageSize
+        this.onModifiedTopic()
     }
 
     async setAccount(acct : Account) {
@@ -121,7 +141,7 @@ export class Topics extends TopicsModel {
                 this.signalSynced()
             }
 
-            this.onModifiedTopic(null)
+            this.onModifiedTopic()
         } catch (e) {
             console.error(e)
             throw(e)
@@ -152,7 +172,7 @@ export class Topics extends TopicsModel {
             this.topicHashes.push(forumAdddress)
 
             const message = new Topic( this, forumAdddress, offset )
-            this.topics.push(message)
+            this.allTopics.push(message)
             this.fillTopic(message)
 
             this.filledTopicsCounter++;
@@ -219,15 +239,22 @@ export class Topics extends TopicsModel {
     }
 
 
-    onModifiedTopic(topic : Topic | null) {
+    onModifiedTopic(topic?: Topic) {
+
+        // Filter to search query/filters
+        let allTopics = this.allTopics
+        if (this.query.length > 0) {
+            allTopics = allTopics.filter(t => this.queryRegExp.test(t.title.toLowerCase()))
+        }
+        this.total  = allTopics.length
+
+        // Copy paged topics out to model
+        this.topics = allTopics.filter(m => m.filled).sort((a, b) => b.endTime - a.endTime).slice(0, this.pageLimit)
+
         // Send message back
         if (this.topicsCallback) {
             this.topicsCallback(topic)
         }
-    }
-
-    public get latestTopics() : Topic[] {
-        return this.topics.filter(t => !t.error).sort((a, b) => { return b.date - a.date })
     }
 
     public topicOffset(id : string) {
@@ -235,7 +262,7 @@ export class Topics extends TopicsModel {
     }
 
     public getTopic(id : string) : Topic {
-        return this.topics[this.topicOffset(id)]
+        return this.allTopics[this.topicOffset(id)]
     }
 
     async createTopic(title: string, body: string, bounty: number) : Promise<object> {

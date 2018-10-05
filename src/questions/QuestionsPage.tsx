@@ -44,6 +44,7 @@ class QuestionsPageProps {
 
 class QuestionsPageState {
     topics: TopicsContext
+    searchQuery: string
     howToHeight: string | number
     showCompose: boolean
     showInstructions: boolean
@@ -64,12 +65,14 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         this.onCancelQuestion = this.onCancelQuestion.bind(this)
         this.clickCloseInstructions = this.clickCloseInstructions.bind(this)
         this.clickSignIn = this.clickSignIn.bind(this)
+        this.onChangeSearch = this.onChangeSearch.bind(this)
 
         this.state = {
             howToHeight: 'auto',
             showCompose: false,
             showInstructions: true,
-            topics: { model: Object.assign({}, this.topics), svc: this.topics }
+            topics: { model: Object.assign({}, this.topics), svc: this.topics },
+            searchQuery: '',
         }
 
         QuestionsPage.topics.setCallback(this.topicsChanged)
@@ -84,6 +87,12 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         if (newProps.acct.model !== this.props.acct.model) {
             this.prepTopics(newProps)
         }
+    }
+
+    onChangeSearch(evt) {
+        const query = evt.target.value
+        this.setState({ searchQuery: query })
+        this.topics.setFilter(query)
     }
 
     get topics() : Topics {
@@ -328,6 +337,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                         <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion}/>
                                     }
                                     <div className='left-side-wrapper left-side'>
+                                        <input className='search' placeholder='Search...' value={ this.state.searchQuery } onChange={ this.onChangeSearch }/>
                                         <QuestionsBoard />
                                     </div>
                                 </div>

@@ -5,7 +5,7 @@ module.exports = (deployer, network) => {
 
     const asyncDeploy = async () => {
         try {
-            console.log('Deploying topics')
+            console.log('Deploying allTopics')
             await deployer.deploy(MenloTopics, MenloToken.address, 5 * 10 ** 18)
 
         } catch (e) {
