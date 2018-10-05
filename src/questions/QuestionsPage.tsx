@@ -247,7 +247,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                 <img className="hero-logo" src={BlockOverflowIcon} />
                                 <div className="hero-logo-text-wrapper">
                                     <h1>Block Overflow</h1>
-                                    <h3>Share Knowlege,<br />Earn Tokens</h3>
+                                    <h3>Share Knowledge,<br />Earn Tokens</h3>
                                     <h4>Built with Menlo One</h4>
                                 </div>
                             </div>
