@@ -17,6 +17,7 @@
 
 import React from 'react'
 import { withAcct } from '../models/Account'
+import utils from '../utils'
 import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
 
@@ -55,6 +56,9 @@ class AnswerForm extends React.Component {
     }
 
     onChange(value) {
+        if (this.textarea && this.textarea.scrollHeight < utils.getViewport().h*.8) {
+            this.textarea.style.height = this.textarea.scrollHeight + 'px';   
+        }
         this.setState({ message: value })
     }
 
@@ -76,6 +80,7 @@ class AnswerForm extends React.Component {
                             value={this.state.message}
                             rows={ 1 }
                             autoFocus={true}
+                            ref={(ref) => this.textarea = ref}
                         />
                         <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Vote' />
                     </div>

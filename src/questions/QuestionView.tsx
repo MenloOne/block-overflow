@@ -21,7 +21,7 @@ import Blockies from 'react-blockies'
 
 import { TopicsContext, withTopics } from "../models/Topics";
 import Topic from "../models/Topic";
-import CountdownTimer from '../components/CountdownTimer'
+// import CountdownTimer from '../components/CountdownTimer'
 
 import '../App.scss'
 import './Questions.scss'
@@ -107,9 +107,9 @@ class QuestionView extends React.Component<TopicViewProps> {
                             <Moment fromNow>{topic.date}</Moment>
                         </div>
                     </div>
-                    <div className='stats'>
+                    {/* <div className='stats'>
                         <CountdownTimer date={Date.now() + (Math.random() * 1000000) } />
-                    </div>
+                    </div> */}
                 </a>
             </li>
         )
