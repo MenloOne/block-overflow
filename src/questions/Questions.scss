@@ -66,8 +66,13 @@ a[disabled], a[disabled]:hover {
 
         .closed {
             font-size: 0.7em;
-            font-size: 1em;
-            line-height: 2.7em;
+            font-size: .8rem;
+            line-height: 2.7rem;
+            background: #abb1be;
+            color: white;
+            padding: .2rem 1rem;
+            border-radius: 5px;
+            display: inline;
         }
 
         .btn-claim {
@@ -78,6 +83,7 @@ a[disabled], a[disabled]:hover {
 
     .stats-timer {
         min-width: 10em;
+        display: block;
     }
 }
 
