@@ -43,8 +43,6 @@ class App extends React.Component {
         this.state = {
             account: { model: Object.assign({}, this.account), svc: this.account },
         }
-
-        this.account.setCallback(this.accountChanged)
     }
 
     async accountChanged() {
@@ -54,6 +52,8 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        this.account.setCallback(this.accountChanged)
+
         history.listen(this.renderLocation)   // render subsequent URLs
         this.renderLocation(history.location, 'REPLACE')
     }

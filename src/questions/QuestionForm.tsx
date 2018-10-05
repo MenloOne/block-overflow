@@ -104,16 +104,22 @@ class QuestionForm extends React.Component<TopicFormProps> {
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                <div>Bounty</div>
-                <input className='field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty}/>
-                <div>Question</div>
-                <input className="field" id="" value={this.state.title} onChange={this.onChangeTitle} />
+                <div className='row'>
+                    <div className='col-12 col-md-10'>
+                        <div>Question</div>
+                        <input className="field" id="" value={this.state.title} onChange={this.onChangeTitle} autoFocus={true} />
+                    </div>
+                    <div className='col-12 col-md-2'>
+                        <div>Bounty</div>
+                        <input className='field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} />
+                    </div>
+                </div>
                 <div>Details</div>
                 <SimpleMDE
                     onChange={this.onChange}
                     value={this.state.message}
                     options={{
-                        autofocus: true,
+                        autofocus: false,
                         spellChecker: false,
                     }}
                 />

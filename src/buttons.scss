@@ -1,12 +1,13 @@
 a, input {
   &.btn {
+    outline: none;
+    line-height: 3em;
     border-radius: 3px;
     font-family: 'Titillium web', 'Helvetica Neue';
     font-size: 13px;
     font-weight: bold;
     font-style: normal;
     font-stretch: normal;
-    line-height: normal;
     letter-spacing: normal;
     text-align: center;
     border: solid 1px #eaeaea !important;
