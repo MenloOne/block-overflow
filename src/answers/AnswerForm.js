@@ -34,6 +34,12 @@ class AnswerForm extends React.Component {
         this.onChange = this.onChange.bind(this)
         this.onCancel = this.onCancel.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+
+        this.updateTextareaHeight = this.updateTextareaHeight.bind(this);
+    }
+
+    componentDidMount() {
+        this.updateTextareaHeight();
     }
 
     async onSubmit(event) {
@@ -56,10 +62,14 @@ class AnswerForm extends React.Component {
     }
 
     onChange(value) {
-        if (this.textarea && this.textarea.scrollHeight < utils.getViewport().h*.8) {
+        this.updateTextareaHeight();
+        this.setState({ message: value })
+    }
+
+    updateTextareaHeight() {
+        if (this.textarea && this.textarea.scrollHeight < utils.getViewport().h * .8) {
             this.textarea.style.height = this.textarea.scrollHeight + 2 + 'px'; // +2 for border
         }
-        this.setState({ message: value })
     }
 
     onCancel() {
