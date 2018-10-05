@@ -93,8 +93,12 @@ a.more-btn {
     margin: 1em 0;
 }
 
-.comments .row:nth-child(odd) .question {
-    background: #f0f4ff;
+.comments .question {
+    transition: all .15s ease-out;
+}
+
+.comments .question:hover {
+    background: #FBFBFB;
     border-radius: 6px;
 }
 
