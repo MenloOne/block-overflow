@@ -91,7 +91,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                 <span>
                     {
                         this.props.topic.iWon && !this.props.topic.isClaimed ?
-                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>RECLAIM TOKENS</a>
+                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
                         :
                         <span className='closed'>NO ANSWER</span>
                     }

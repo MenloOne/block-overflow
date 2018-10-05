@@ -230,7 +230,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 <p>QUESTION CLOSED</p>
                                 {
                                     this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner === this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&
-                                    <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>RECLAIM TOKENS</a>
+                                    <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
                                 }
                                 {
                                     this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner !== this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&
