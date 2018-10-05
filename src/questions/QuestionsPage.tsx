@@ -133,7 +133,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                 </div>
                 <div className="block-padding">
                     <div className="moreinfo-btns-wrapper">
-                        <a href="http://menlo.one" target="_blank">
+                        <a href="https://menloone.docsend.com/view/zgf6d4e" target="_blank">
                             <div className="moreinfo-btn">
                                 <img src={paper} className="icon-paper" />
                                 <div className="moreinfo-btn-textwrapper">
