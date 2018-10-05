@@ -210,6 +210,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                     </div>
                     <div className="content">
                         <MarkdownRenderer markdown={message.body}/>
+                        <span><Moment fromNow>{message.date}</Moment></span>
                     </div>
                 </li>
             )
