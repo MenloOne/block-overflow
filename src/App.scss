@@ -2168,6 +2168,9 @@ table.stats tr td:nth-child(2) {
 
 .comments li.borderis.message {
     border-bottom: 1px solid #e7ecf7;
+    .tag-name {
+        width: 36px;
+    }
     p {
         margin: 0;
     }
@@ -2460,6 +2463,9 @@ table.stats tr td:nth-child(2) {
 
     .QuestionHeader-textWrapper span {
         font-size: .8rem;
+        &.tag-name {
+            width: 42px;
+        }
     }
 
 .QuestionHeader-countdown {

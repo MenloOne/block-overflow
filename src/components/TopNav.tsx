@@ -11,7 +11,7 @@ import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.scss'
 
-const logo = require('../images/logo.svg')
+const logo = require('../images/BlockOverflow-logo.svg')
 
 
 interface TopNavProps {
@@ -142,7 +142,7 @@ class TopNav extends React.Component<TopNavProps> {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
                 <div className="container">
-                    <a className="navbar-brand" href="index.html">
+                    <a className="navbar-brand" href="/">
                         <img src={logo} title="Menlo One" alt="Menlo One"/>
                     </a>
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
