@@ -137,7 +137,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                             <div className="moreinfo-btn">
                                 <img src={paper} className="icon-paper" />
                                 <div className="moreinfo-btn-textwrapper">
-                                    <span>White Paper</span>
+                                    <span>Whitepaper</span>
                                 </div>
                                 <img src={arrowRight} className="arrow-right" />
                             </div>

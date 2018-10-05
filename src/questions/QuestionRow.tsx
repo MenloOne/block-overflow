@@ -112,7 +112,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
             )
         }
 
-        return <span className='closed'>CLOSED</span>
+        return <span className='closed'>ANSWERED!</span>
     }
 
     render() {
