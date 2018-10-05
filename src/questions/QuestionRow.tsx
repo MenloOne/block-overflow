@@ -23,6 +23,8 @@ import { TopicsContext, withTopics } from "../models/Topics";
 import Topic from "../models/Topic";
 import CountdownTimer from '../components/CountdownTimer'
 
+import utils from '../utils'
+
 import '../App.scss'
 import './Questions.scss'
 
@@ -155,12 +157,12 @@ class QuestionRow extends React.Component<TopicViewProps> {
                     <div className='stats'>
                         { topic.bounty === 0 ?
                             (<Fragment>
-                                { topic.pool.toFixed() }
+                                { utils.formatNumber(topic.pool.toFixed()) }
                                 <span className='subtitle'>ONE PAID</span>
                             </Fragment>)
                             :
                             (<Fragment>
-                                { topic.bounty.toFixed() }
+                                { utils.formatNumber(topic.bounty.toFixed()) }
                                 <span className='subtitle'>BOUNTY</span>
                             </Fragment>)
                         }
