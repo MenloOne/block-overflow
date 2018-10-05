@@ -147,11 +147,11 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         </div>
                     </div>
                     <div className='stats'>
-                        { topic.totalAnswers }
+                        {utils.formatNumber(topic.totalAnswers) }
                         <span className='subtitle'>ANSWERS</span>
                     </div>
                     <div className='stats'>
-                        { topic.winningVotes }
+                        {utils.formatNumber(topic.winningVotes) }
                         <span className='subtitle'>VOTES</span>
                     </div>
                     <div className='stats'>
