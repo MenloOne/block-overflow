@@ -11,15 +11,13 @@ import { CIDZero } from '../storage/HashUtils'
 
 import CountdownTimer from '../components/CountdownTimer'
 
+import utils from '../utils'
+
 import AnswerRow from './AnswerRow'
 import AnswerForm from './AnswerForm'
 
 import '../App.scss'
 import './Answers.scss'
-
-function formatNumber(num) {
-    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
-}
 
 interface MessageBoardProps {
     acct: AccountContext,
@@ -246,17 +244,17 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                 </div>
                 <div className="Question-stats">
                     <div className="stat">
-                        <div className="number-circle"><span>{ formatNumber(this.props.forum.model.lottery.pool.toFixed(0)) }</span></div>
+                        <div className="number-circle"><span>{ utils.formatNumber(this.props.forum.model.lottery.pool.toFixed(0)) }</span></div>
                         <div className="stat-label-wrapper">
                             <span>Payout for Winning Answer</span>
-                            <span>{formatNumber(this.props.forum.model.lottery.pool.toFixed(0)) } ONE Tokens</span>
+                            <span>{utils.formatNumber(this.props.forum.model.lottery.pool.toFixed(0)) } ONE Tokens</span>
                         </div>
                     </div>
                     <div className="stat">
-                        <div className="number-circle"><span>{ formatNumber(this.state.messages.length) }</span></div>
+                        <div className="number-circle"><span>{ utils.formatNumber(this.state.messages.length) }</span></div>
                         <div className="stat-label-wrapper">
                             <span>Activity</span>
-                            <span>{formatNumber(this.state.messages.length) } Answer{ this.state.messages.length > 1 ? 's' : '' }</span>
+                            <span>{utils.formatNumber(this.state.messages.length) } Answer{ this.state.messages.length > 1 ? 's' : '' }</span>
                         </div>
                     </div>
                     <div className="stat">
@@ -264,9 +262,9 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             <span>Total Votes</span>
                             <span>
                                 <i className="fa fa-fw fa-thumbs-up"></i>
-                                {this.props.forum.model.lottery.winningVotes && formatNumber(this.props.forum.model.lottery.winningVotes) }
+                                {this.props.forum.model.lottery.winningVotes && utils.formatNumber(this.props.forum.model.lottery.winningVotes) }
                                 <i className="fa fa-fw fa-thumbs-down"></i>
-                                {this.props.forum.model.lottery.winningOffset && formatNumber(this.props.forum.model.lottery.winningOffset) }
+                                {this.props.forum.model.lottery.winningOffset && utils.formatNumber(this.props.forum.model.lottery.winningOffset) }
                             </span>
                         </div>
                     </div>
