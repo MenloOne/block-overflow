@@ -82,8 +82,6 @@ class QuestionView extends React.Component<TopicViewProps> {
 
     render() {
         const topic = this.props.topic
-
-        console.log(topic);
         
 
         return (
@@ -97,7 +95,7 @@ class QuestionView extends React.Component<TopicViewProps> {
                             {topic.title}
                         </span>
                         <div>
-                            {topic && topic.author && <AddressTag address={topic.author} />}
+                            {topic && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
                             <span>
                                 <span className="points" style={{ display: 'none' }}>??? points </span>
                             </span>

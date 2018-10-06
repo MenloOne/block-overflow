@@ -95,9 +95,9 @@ class QuestionRow extends React.Component<TopicViewProps> {
                 <span>
                     {
                         this.props.topic.iWon && !this.props.topic.isClaimed ?
-                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
+                        <a className="btn main-btn btn-claim" onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
                         :
-                        <span className='closed'>NO ANSWER</span>
+                        <span className="closed">NO ANSWER</span>
                     }
                 </span>
             )
@@ -108,24 +108,24 @@ class QuestionRow extends React.Component<TopicViewProps> {
                 <span>
                     {
                         this.props.topic.iWon && !this.props.topic.isClaimed ?
-                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
+                        <a className="btn main-btn btn-claim" onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
                         :
-                        <span className='closed'>YOU WON!</span>
+                        <span className="closed">YOU WON!</span>
                     }
                 </span>
             )
         }
 
-        return <span className='closed'>ANSWERED!</span>
+        return <span className="closed">ANSWERED!</span>
     }
 
     render() {
         const topic = this.props.topic
 
         return (
-            <li className='question'>
+            <li className="question">
                 <a onClick={ this.onClickTopic } >
-                    <div className='user-img'>
+                    <div className="user-img">
                         <Blockies size={12} scale={4} seed={topic.author}/>
                     </div>
                     <div className="content">
@@ -137,35 +137,35 @@ class QuestionRow extends React.Component<TopicViewProps> {
                             }
                         </span>
                         <div>
-                            {topic && topic.author && <AddressTag address={topic.author} />}
+                            {topic && topic.author && <AddressTag link={false} copy={false} address={topic.author} />}
                             <span>
                                 <span className="points" style={{ display: 'none' }}>??? points </span>
                             </span>
                             <Moment fromNow>{topic.date}</Moment>
                         </div>
                     </div>
-                    <div className='stats'>
+                    <div className="stats">
                         {utils.formatNumber(topic.totalAnswers) }
-                        <span className='subtitle'>ANSWERS</span>
+                        <span className="subtitle">ANSWERS</span>
                     </div>
-                    <div className='stats'>
+                    <div className="stats">
                         {utils.formatNumber(topic.winningVotes) }
-                        <span className='subtitle'>VOTES</span>
+                        <span className="subtitle">VOTES</span>
                     </div>
-                    <div className='stats'>
+                    <div className="stats">
                         { topic.bounty === 0 ?
                             (<Fragment>
                                 { utils.formatNumber(topic.pool.toFixed()) }
-                                <span className='subtitle'>ONE PAID</span>
+                                <span className="subtitle">ONE PAID</span>
                             </Fragment>)
                             :
                             (<Fragment>
                                 { utils.formatNumber(topic.bounty.toFixed()) }
-                                <span className='subtitle'>BOUNTY</span>
+                                <span className="subtitle">BOUNTY</span>
                             </Fragment>)
                         }
                     </div>
-                    <div className='stats stats-timer'>
+                    <div className="stats stats-timer">
                         <CountdownTimer date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
                     </div>
                 </a>

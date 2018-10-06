@@ -46,7 +46,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
         this.claimWinnings = this.claimWinnings.bind(this)
         this.refreshLotteries = this.refreshLotteries.bind(this)
         this.refreshMessages = this.refreshMessages.bind(this)
-        this.clickAnswer = this.clickAnswer.bind(this)
         this.clickClaimTokens = this.clickClaimTokens.bind(this)
 
         this.state = {
@@ -86,10 +85,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
             this.unsubscribe(this.props.forum.svc)
             this.updateForum(newProps.forum)
         }
-    }
-
-    clickAnswer() {
-
     }
 
     async clickClaimTokens() {
@@ -209,7 +204,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                     <a href="/">Topics</a>
                     {this.props.forum.model.topic && this.props.forum.model.topic.title && <span> &bull; </span>}
                     {this.props.forum.model.topic && this.props.forum.model.topic.title && <span>{this.props.forum.model.topic.title}</span>}
-                    {this.props.forum.model.topic && this.props.forum.model.topic.title && <AddressTag etherscanTab="tokentxns" address={this.props.forum.model.contractAddress} />}
+                    {this.props.forum.model.topic && this.props.forum.model.topic.title && <AddressTag link={true} etherscanTab="tokentxns" address={this.props.forum.model.contractAddress} />}
                 </p>
                 <div className="left-side">
                     <div className="QuestionHeader">
@@ -219,7 +214,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             </span>
                         </div>
                         <div className="QuestionHeader-textWrapper">
-                            {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag address={this.props.forum.model.topic.author} />}
+                            {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag link={true} copy={true} address={this.props.forum.model.topic.author} />}
                             <h6>
                                 {this.props.forum.model.topic && this.props.forum.model.topic.title}
                             </h6>

@@ -47,7 +47,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
     renderMessages() {
         if (this.props.topics.model.topics.length === 0 && this.props.acct.model.status !== MetamaskStatus.Ok) {
             return (<li className=''>
-                <div style={{ paddingBottom: '3em' }}>
+                <div style={{ padding: '2em' }}>
                     Loading Questions...
                 </div>
             </li>)
@@ -55,8 +55,8 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
 
         if (this.props.topics.model.topics.length === 0) {
             return (<li className=''>
-                <div style={{ paddingBottom: '3em' }}>
-                    Be the first to ask a question...
+                <div style={{ padding: '2em' }}>
+                    Loading...
                 </div>
             </li>)
         }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard'
 import ReactTooltip from 'react-tooltip'
 
 import web3 from '../models/Web3'
@@ -11,10 +10,13 @@ import './AddressTag.scss'
 class AddressTagProps {
     address: String;
     etherscanTab?: String;
+    link?: boolean;
+    copy?: boolean;
 }
 
 interface AddressTagState {
-    commandDown: boolean
+    commandDown: boolean;
+    url?: string;
 }
 
 export default class AddressTag extends Component<AddressTagProps> {
@@ -25,40 +27,51 @@ export default class AddressTag extends Component<AddressTagProps> {
         super(props, context)
 
         this.state = {
-            commandDown: false,
+            commandDown: false
         }
 
-        this.onCopy = this.onCopy.bind(this);
-        this.onKeyPressed = this.onKeyPressed.bind(this);
+        this.onKeyPressedDown = this.onKeyPressedDown.bind(this);
+        this.onKeyPressedUp = this.onKeyPressedUp.bind(this);
     }
 
     componentWillMount() {
-        document.addEventListener("keydown", this.onKeyPressed.bind(this));
-        document.addEventListener("keyup", this.onKeyPressed.bind(this));
+        this.getUrl().then((url) => {
+            this.setState({ url })
+        });
+
+        document.addEventListener("keydown", this.onKeyPressedDown.bind(this));
+        document.addEventListener("keyup", this.onKeyPressedUp.bind(this));
     }
 
     componentWillUnmount() {
-        document.removeEventListener("keydown", this.onKeyPressed.bind(this));
-        document.removeEventListener("keyup", this.onKeyPressed.bind(this));
+        document.removeEventListener("keydown", this.onKeyPressedDown.bind(this));
+        document.removeEventListener("keyup", this.onKeyPressedUp.bind(this));
     }
 
-    onKeyPressed(e) {
+    onKeyPressedDown(e) {
         if (e.keyCode === 91) {
-            const opposite = !Object.assign({}, this.state).commandDown;
             this.setState({
-                commandDown: opposite
+                commandDown: true
             })
         }
     }
 
-    onCopy() {
+    onKeyPressedUp(e) {
+        if (e.keyCode === 91) {
+            this.setState({
+                commandDown: false
+            })
+        }
+    }
 
-        if (this.state.commandDown) {
+    getUrl() {
+
+        let url = ''
+
+        return new Promise((resolve, reject) => {
 
             web3.version.getNetwork((err, netId) => {
-
                 const { address, etherscanTab } = this.props;
-                let url;
                 const targetId = etherscanTab ? `#${etherscanTab}` : '';
 
                 switch (netId) {
@@ -68,35 +81,73 @@ export default class AddressTag extends Component<AddressTagProps> {
                     default:
                         url = 'https://etherscan.io'
                 }
-                
-                
-                window.open(`${url}/address/${address}${targetId}`, '_blank');
-                localStorage.setItem('ctrlClick', `${Date.now()}`)
+
+                resolve(`${url}/address/${address}${targetId}`);
             })
+        })
+
+    }
+
+    onClick(e) {
+
+        if (this.props.link === false) {
+            e.preventDefault(true)
+            return;
         }
+        
+        if (this.state.commandDown && this.props.copy !== false) {
+            this.copyTextToClipboard(this.props.address)
+            e.preventDefault(true)
+            return
+        }
+    }
+
+    copyTextToClipboard(text) {
+
+        const textField = document.createElement('textarea')
+        textField.innerText = text
+        document.body.appendChild(textField)
+        textField.select()
+        document.execCommand('copy')
+        textField.remove()
+
+        localStorage.setItem('Tooltip-CtrlClickToCopy', `${Date.now()}`)
+
     }
 
     render() {
         const { address } = this.props;
 
         const actionKey = utils.isMacintosh() ? 'Cmd' : 'Ctrl'
+        
+        const { url } = this.state
 
-        return (
-            <CopyToClipboard text={address} onCopy={this.onCopy.bind(this)}>
+        const renderBody = () => {
+            return (
                 <span className="AddressTag-container">
                     <div className="AddressTag-wrapper">
                         <span className="AddressTag-name-0x">0x</span>
                         <span className="AddressTag-name">{address ? address.slice(2, address.length) : ''}</span>
                         <span className="AddressTag-name-dots">…</span>
                     </div>
-                    {!localStorage.getItem('ctrlClick') && (
+                    {!localStorage.getItem('Tooltip-CtrlClickToCopy') && (
                         <span>
-                            <i className="Tooltip-icon" data-tip={`${actionKey}+Click to open in Etherscan`}>?</i>
+                            <i className="Tooltip-icon" data-tip={`${actionKey}+Click to Copy`}>?</i>
                             <ReactTooltip />
                         </span>
                     )}
                 </span>
-            </CopyToClipboard>
+            )
+        }
+
+        return this.props.link ? (
+            <a href={url} target="_blank" onClick={(e) => this.onClick(e)}>
+                {renderBody()}
+            </a>
+        ) : (
+            <a onClick={(e) => this.onClick(e)}>
+                {renderBody()}
+            </a>
         )
     }
 }
