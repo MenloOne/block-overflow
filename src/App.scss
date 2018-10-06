@@ -1828,7 +1828,7 @@ span.sold {
     font-family: monospace;
 }
 
-.comments .tag-name-dots, .comments .tag-name-0x {
+.comments .AddressTag-name-dots, .comments .AddressTag-name-0x {
     color: #bbb;
     width: auto;
 }
@@ -2159,7 +2159,6 @@ table.stats tr td:nth-child(2) {
     font-family: Open Sans;
 }
 
-
 .comments .message-wrapper:nth-child(even) {
     background: #ecf3ff;
     border-top: 1px solid #ececed;
@@ -2168,7 +2167,7 @@ table.stats tr td:nth-child(2) {
 
 .comments li.borderis.message {
     border-bottom: 1px solid #e7ecf7;
-    .tag-name {
+    .AddressTag-name {
         width: 36px;
     }
     p {
@@ -2463,7 +2462,7 @@ table.stats tr td:nth-child(2) {
 
     .QuestionHeader-textWrapper span {
         font-size: .8rem;
-        &.tag-name {
+        &.AddressTag-name {
             width: 42px;
         }
     }

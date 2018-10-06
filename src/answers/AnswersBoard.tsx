@@ -10,6 +10,8 @@ import Lottery from '../models/Lottery'
 import { CIDZero } from '../storage/HashUtils'
 
 import CountdownTimer from '../components/CountdownTimer'
+import AddressTag from '../components/AddressTag'
+
 
 import utils from '../utils'
 
@@ -215,11 +217,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                         <h6>
                             { this.props.forum.model.topic && this.props.forum.model.topic.title }
                         </h6>
-                        <div className="tag-name-wrapper">
-                            <span className="tag-name-0x">0x</span>
-                            <span className="tag-name">{this.props.forum.model.topic ? this.props.forum.model.topic.author.slice(2, this.props.forum.model.topic.author.length) : ''}</span>
-                            <span className="tag-name-dots">…</span>
-                        </div>
+                        {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag address={this.props.forum.model.topic.author} />}
                         <span style={{ display: 'none' }}>?? points</span>
                         <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>
                     </div>
@@ -238,7 +236,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 }
                             </span>
                         }
-                        {this.state.lottery &&
+                        {this.state.lottery && this.state.lottery.endTime &&
                         <CountdownTimer date={new Date(this.state.lottery.endTime)}/>}
                     </div>
                 </div>

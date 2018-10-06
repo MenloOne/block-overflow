@@ -24,6 +24,8 @@ import MarkdownRenderer from 'react-markdown-renderer';
 import Message from '../models/Message'
 import { ForumContext } from '../models/Forum'
 
+import AddressTag from '../components/AddressTag';
+
 import MessageForm from './AnswerForm'
 
 import '../App.scss'
@@ -234,11 +236,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                     }
                 </div>
                 <div className="content">
-                    <div className="tag-name-wrapper">
-                        <span className="tag-name-0x">0x</span>
-                        <span className="tag-name">{message ? message.author.slice(2, message.author.length) : ''}</span>
-                        <span className="tag-name-dots">…</span>
-                    </div>
+                    {message && message.author && <AddressTag address={message.author} /> }
                     <span className="points" style={{ display: 'none' }}>??? points </span>
                     <span className="time">
                         <Moment fromNow>{message.date}</Moment>

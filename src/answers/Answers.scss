@@ -93,12 +93,12 @@ p > code {
     padding-bottom: 1em;
 }
 
-.comments .tag-name .time {
+.comments .AddressTag-name .time {
     color: #bdbdbd;
     padding-left: 1em;
 }
 
-.comments .tag-name span.points {
+.comments .AddressTag-name span.points {
     color: #2c3035;
     padding-left: 1em;
 }
@@ -115,48 +115,4 @@ p > code {
 .alias-wrapper {
     display: inline-flex;
     align-items: center;
-}
-
-.tag-name-wrapper {
-    display: inline-block;
-    background: #0345f91a;
-    padding: 0 .2rem;
-    border: 1px solid #ececed;
-    border-radius: 3px;
-    margin-right: 0.5rem;
-    line-height: 0;
-}
-
-.tag-name,
-.tag-name-0x,
-.tag-name-dots {
-    font-size: 9px;
-    font-style: normal;
-    font-stretch: normal;
-    letter-spacing: .04rem;
-    line-height: 1rem;
-    color: #bbb;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    text-overflow: clip;
-    width: 37px;
-    display: inline-flex;
-    overflow: hidden;
-    font-family: monospace;
-}
-
-.tag-name-dots  {
-    user-select: none;
-}
-
-.tag-name {
-    color: #18af41;
-}
-
-.Page-permalink .tag-name {
-    color: #1944a5;
-}
-
-.tag-name-dots, .tag-name-0x {
-    width: auto;
 }

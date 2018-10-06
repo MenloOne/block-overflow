@@ -22,6 +22,7 @@ import Blockies from 'react-blockies'
 import { TopicsContext, withTopics } from "../models/Topics";
 import Topic from "../models/Topic";
 // import CountdownTimer from '../components/CountdownTimer'
+import AddressTag from '../components/AddressTag'
 
 import '../App.scss'
 import './Questions.scss'
@@ -96,11 +97,7 @@ class QuestionView extends React.Component<TopicViewProps> {
                             {topic.title}
                         </span>
                         <div>
-                            <div className="tag-name-wrapper">
-                                <span className="tag-name-0x">0x</span>
-                                <span className="tag-name">{topic ? topic.author.slice(2, topic.author.length) : ''}</span>
-                                <span className="tag-name-dots">…</span>
-                            </div>
+                            {topic && topic.author && <AddressTag address={topic.author} />}
                             <span>
                                 <span className="points" style={{ display: 'none' }}>??? points </span>
                             </span>
