@@ -1065,7 +1065,20 @@ span.location {
     border: 1px solid #dfe6f9;
     justify-content: center;
     align-items: center;
+    align-self: flex-start;
     display: flex;
+}
+
+.question .user-img {
+    margin-right: 0.66rem;
+}
+
+nav .user-img {
+    margin-right: 0.33rem;
+}
+
+.user-img {
+    
 }
 
 .game-action-wrapper .text-center * {
@@ -1800,7 +1813,7 @@ span.sold {
 
 .question a {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .question .content {
@@ -2440,6 +2453,11 @@ table.stats tr td:nth-child(2) {
 .__react_component_tooltip {
     padding: 2px 9px;
     line-height: 1.6rem;
+}
+.question {
+    .AddressTag-wrapper {
+        margin-right: 0.33rem;
+    }
 }
 
 .QuestionHeader {

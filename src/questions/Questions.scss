@@ -58,6 +58,7 @@ a[disabled], a[disabled]:hover {
         -ms-flex-direction: column;
         flex-direction: column;
         vertical-align: top;
+        align-self: center;
 
         .subtitle {
             font-size: 0.66rem;
