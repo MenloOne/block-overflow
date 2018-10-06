@@ -83,7 +83,7 @@ export default class AddressTag extends Component<AddressTagProps> {
 
         return (
             <CopyToClipboard text={address} onCopy={this.onCopy.bind(this)}>
-                <span>
+                <span className="AddressTag-container">
                     <div className="AddressTag-wrapper">
                         <span className="AddressTag-name-0x">0x</span>
                         <span className="AddressTag-name">{address ? address.slice(2, address.length) : ''}</span>
