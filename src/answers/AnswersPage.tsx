@@ -28,8 +28,6 @@ class AnswersPage extends React.Component<ForumProps> {
     constructor(props : ForumProps, context) {
         super(props, context)
 
-        this.goBack = this.goBack.bind(this)
-
         this.forum = new Forum(props.params.address)
 
         this.state = {
@@ -54,10 +52,6 @@ class AnswersPage extends React.Component<ForumProps> {
         this.updateForum(nextProps)
     }
 
-    goBack() {
-        history.push('/')
-    }
-
     async updateForum(nextProps : ForumProps) {
         if (nextProps.params.address !== this.props.params.address) {
             this.forum = new Forum(nextProps.params.address)
@@ -78,10 +72,6 @@ class AnswersPage extends React.Component<ForumProps> {
                     <div className="container">
                         <div className="row">
                             <div className="col-12">
-                                <p>
-                                    <a onClick={ this.goBack }>&laquo; Back to Topics</a>
-                                </p>
-
                                 <AnswersBoard forum={ this.state.forum }/>
                             </div>
                         </div>

@@ -1920,6 +1920,7 @@ span.tag {
     border: 1px solid #e7ecf7;
     background: #eff2f7;
     border-top: none;
+    margin-top: 1rem;
 }
 
 .comments-review a > span i {
@@ -2456,7 +2457,6 @@ table.stats tr td:nth-child(2) {
     h6 {
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 75%;
     }
 }
 

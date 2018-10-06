@@ -6,7 +6,8 @@ import web3 from '../models/Web3'
 import './AddressTag.scss'
 
 class AddressTagProps {
-    address: String
+    address: String;
+    etherscanTab?: String;
 }
 
 interface AddressTagState {
@@ -40,7 +41,6 @@ export default class AddressTag extends Component<AddressTagProps> {
 
     onKeyPressed(e) {
         if (e.keyCode === 91) {
-            console.log(123123123)
             const opposite = !Object.assign({}, this.state).commandDown;
             this.setState({
                 commandDown: opposite
@@ -54,9 +54,10 @@ export default class AddressTag extends Component<AddressTagProps> {
 
             web3.version.getNetwork((err, netId) => {
 
-                const { address } = this.props;
+                const { address, etherscanTab } = this.props;
                 let url;
-                
+                const targetId = etherscanTab ? `#${etherscanTab}` : '';
+
                 switch (netId) {
                     case "42":
                         url = 'https://kovan.etherscan.io'
@@ -66,7 +67,7 @@ export default class AddressTag extends Component<AddressTagProps> {
                 }
                 
                 
-                window.open(`${url}/address/${address}`, '_blank');
+                window.open(`${url}/address/${address}${targetId}`, '_blank');
             })
         }
     }

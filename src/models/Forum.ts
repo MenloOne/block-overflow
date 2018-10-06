@@ -41,7 +41,8 @@ export class ForumModel {
     public topic: IPFSTopic
     public lottery: Lottery
     public messages: MessagesGraph
-    public lotteryLength : number
+    public lotteryLength: number
+    public contractAddress: string
 }
 
 
