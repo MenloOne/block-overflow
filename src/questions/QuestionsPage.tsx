@@ -336,8 +336,10 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                         this.state.showCompose &&
                                         <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion}/>
                                     }
-                                    <div className='left-side-wrapper left-side'>
-                                        <input className='search' placeholder='Search...' value={ this.state.searchQuery } onChange={ this.onChangeSearch }/>
+                                    <div className='left-side'>
+                                        <div className="left-side-wrapper">
+                                            <input className='search' placeholder='Search...' value={this.state.searchQuery} onChange={this.onChangeSearch} />
+                                        </div>
                                         <QuestionsBoard />
                                     </div>
                                 </div>

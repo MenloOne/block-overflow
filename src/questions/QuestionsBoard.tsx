@@ -81,7 +81,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
                     { this.renderMessages() }
                     {
                         this.props.topics.model.topics.length < this.props.topics.model.total &&
-                        <div>
+                        <div className="left-side-wrapper">
                             <a onClick={ this.clickNextPage } className='btn big-btn more-btn'>SEE MORE...</a>
                         </div>
                     }
