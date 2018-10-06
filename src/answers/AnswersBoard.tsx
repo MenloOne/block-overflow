@@ -219,10 +219,10 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             </span>
                         </div>
                         <div className="QuestionHeader-textWrapper">
+                            {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag address={this.props.forum.model.topic.author} />}
                             <h6>
                                 {this.props.forum.model.topic && this.props.forum.model.topic.title}
                             </h6>
-                            {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag address={this.props.forum.model.topic.author} />}
                             <span style={{ display: 'none' }}>?? points</span>
                             <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>
                         </div>

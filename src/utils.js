@@ -11,4 +11,14 @@ utils.getViewport = function getViewport() {
     return {w, h} 
 }
 
+
+
+utils.isMacintosh = function isMacintosh() {
+    return navigator.platform.indexOf('Mac') > -1
+}
+
+utils.isWindows = function isWindows() {
+    return navigator.platform.indexOf('Win') > -1
+}
+
 export default utils

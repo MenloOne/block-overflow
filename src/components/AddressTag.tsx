@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import ReactTooltip from 'react-tooltip'
 
 import web3 from '../models/Web3'
+
+import utils from '../utils'
 
 import './AddressTag.scss'
 
@@ -68,19 +71,31 @@ export default class AddressTag extends Component<AddressTagProps> {
                 
                 
                 window.open(`${url}/address/${address}${targetId}`, '_blank');
+                localStorage.setItem('ctrlClick', `${Date.now()}`)
             })
         }
     }
 
     render() {
         const { address } = this.props;
+
+        const actionKey = utils.isMacintosh() ? 'Cmd' : 'Ctrl'
+
         return (
             <CopyToClipboard text={address} onCopy={this.onCopy.bind(this)}>
-                <div className="AddressTag-wrapper">
-                    <span className="AddressTag-name-0x">0x</span>
-                    <span className="AddressTag-name">{address ? address.slice(2, address.length) : ''}</span>
-                    <span className="AddressTag-name-dots">…</span>
-                </div>
+                <span>
+                    <div className="AddressTag-wrapper">
+                        <span className="AddressTag-name-0x">0x</span>
+                        <span className="AddressTag-name">{address ? address.slice(2, address.length) : ''}</span>
+                        <span className="AddressTag-name-dots">…</span>
+                    </div>
+                    {!localStorage.getItem('ctrlClick') && (
+                        <span>
+                            <i className="Tooltip-icon" data-tip={`${actionKey}+Click to open in Etherscan`}>?</i>
+                            <ReactTooltip />
+                        </span>
+                    )}
+                </span>
             </CopyToClipboard>
         )
     }
