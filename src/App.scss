@@ -2179,6 +2179,9 @@ table.stats tr td:nth-child(2) {
 
 .comments li.borderis.message {
     border-bottom: 1px solid #e7ecf7;
+    .user-img {
+        margin-right: 1rem;
+    }
     .AddressTag-name {
         width: 36px;
     }
