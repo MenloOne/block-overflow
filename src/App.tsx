@@ -115,7 +115,8 @@ class App extends React.Component {
 
         switch (web3.version.network) {
             case "1":
-                return; // Main Net
+                network = "the Mainnet";
+                break;
             case "2":
                 network = "the Morden";
                 break;
@@ -127,13 +128,13 @@ class App extends React.Component {
                 break;
             case "42":
                 network = "the Kovan";
-                break;
+                return
             default:
                 network = "an unknown";
                 break;
         }
 
-        toast(`Oops, looks like you’re on ${network} Network, Please switch to the Main Net`)
+        toast(`Oops, looks like you’re on ${network} Network, please switch to the Kovan Network`)
         
     }
 

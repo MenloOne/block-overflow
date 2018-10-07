@@ -188,16 +188,7 @@ export class Topics extends TopicsModel {
         const contract = this.contract!;
 
         try {
-            const md: [string, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress)
-            topic.metadata = {
-                messageHash: HashUtils.solidityHashToCid(md[0]),
-                isClosed:    md[1]
-            }
-
             // console.log(`[[ Fill Topic ]] ( ${topic.offset} ) ${topic.metadata.messageHash}`)
-
-            const ipfsTopic = await this.remoteStorage.getMessage(topic.metadata.messageHash)
-            Object.assign(topic, ipfsTopic)
 
             // Grab data from the actual Forum contract
             const forumContract = await MenloForum.createAndValidate(web3, topic.forumAddress);
@@ -209,6 +200,15 @@ export class Topics extends TopicsModel {
                 ])).map(bn => bn.toNumber());
             topic.totalAnswers -= 1;
             topic.pool /= 10 ** 18;
+
+            const md: [string, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress);
+            topic.metadata = {
+                messageHash: HashUtils.solidityHashToCid(md[0]),
+                isClosed:    (topic.endTime < (new Date()).getTime())
+            };
+
+            const ipfsTopic = await this.remoteStorage.getMessage(topic.metadata.messageHash);
+            Object.assign(topic, ipfsTopic);
 
             [topic.winner] = (await Promise.all([
                 forumContract.winner

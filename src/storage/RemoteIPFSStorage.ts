@@ -123,8 +123,10 @@ class RemoteIPFSStorage {
         do {
 
             try {
-                files = await PromiseTimeout(10000, ipfs.files.get(hash))
+                files = await PromiseTimeout(5000, ipfs.files.get(hash))
             } catch (e) {
+                console.error(e)
+
                 if (tries-- === 0) {
                     throw (e)
                 }
