@@ -1,6 +1,7 @@
 import * as React from  'react'
 import BigNumber from 'bignumber.js'
 import Blockies from 'react-blockies'
+import { ToastContainer } from 'react-toastify';
 
 import TruffleContract from 'truffle-contract'
 import MenloFaucetContract from '../artifacts/MenloFaucet.json'
@@ -10,6 +11,7 @@ import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.scss'
+
 
 const logo = require('../images/BlockOverflow-logo.svg')
 
@@ -140,27 +142,30 @@ class TopNav extends React.Component<TopNavProps> {
 
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-                <div className="container">
-                    <a className="navbar-brand" href="/">
-                        <img src={logo} title="Menlo One" alt="Menlo One"/>
-                    </a>
-                    <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            <div className="nav-wrapper">
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+                    <div className="container">
+                        <a className="navbar-brand" href="/">
+                            <img src={logo} title="Menlo One" alt="Menlo One" />
+                        </a>
+                        <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                             data-target="#navbarResponsive"
                             aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarResponsive">
-                        <ul className="navbar-nav main ml-auto" style={{ display: 'none' }}>
-                            <li className="nav-item"><a href="/" title="Discover">Discover</a></li>
-                            <li className="nav-item"><a href="/guild/" title="Guilds">Guilds</a></li>
-                            <li className="nav-item"><a href="/wallet/" title="Wallet">Wallet</a></li>
-                        </ul>
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarResponsive">
+                            <ul className="navbar-nav main ml-auto" style={{ display: 'none' }}>
+                                <li className="nav-item"><a href="/" title="Discover">Discover</a></li>
+                                <li className="nav-item"><a href="/guild/" title="Guilds">Guilds</a></li>
+                                <li className="nav-item"><a href="/wallet/" title="Wallet">Wallet</a></li>
+                            </ul>
 
-                        { this.renderAccountStatus() }
+                            {this.renderAccountStatus()}
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+                <ToastContainer />
+            </div>
         )
     }
 }

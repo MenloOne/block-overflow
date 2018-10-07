@@ -2604,7 +2604,32 @@ table.stats tr td:nth-child(2) {
     background:red;
 }
 
+.Toastify__toast {
+    width: 100vw;
+    background: #E8EEFF;
+    color: #2E4168;
+    display: flex;
+    padding: 1rem .5rem;
+    align-items: center;
+}
 
+.Toastify__toast-body {
+    flex: 1;
+    text-align: center;
+}
+
+.Toastify__close-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
 @media (min-width: 768px) {
 }

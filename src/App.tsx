@@ -1,5 +1,10 @@
 import * as React from 'react'
 import * as History from 'history'
+import { toast } from 'react-toastify';
+
+
+import web3 from './models/Web3'
+
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { Account, AccountContext, AccountCtxtComponent } from './models/Account'
@@ -56,6 +61,9 @@ class App extends React.Component {
 
         history.listen(this.renderLocation)   // render subsequent URLs
         this.renderLocation(history.location, 'REPLACE')
+
+        this.checkNetwork();
+
     }
 
     renderComponent(component : any) {
@@ -99,6 +107,35 @@ class App extends React.Component {
         { path: '/privacy', action: () => <TopicsPage /> }
     ];
 
+
+
+    checkNetwork() {
+
+        let network;
+
+        switch (web3.version.network) {
+            case "1":
+                return; // Main Net
+            case "2":
+                network = "the Morden";
+                break;
+            case "3":
+                network = "the Ropsten";
+                break;
+            case "4":
+                network = "the Rinkeby";
+                break;
+            case "42":
+                network = "the Kovan";
+                break;
+            default:
+                network = "an unknown";
+                break;
+        }
+
+        toast(`Oops, looks like you’re on ${network} Network, Please switch to the Main Net`)
+        
+    }
 
     render() {
         return (
