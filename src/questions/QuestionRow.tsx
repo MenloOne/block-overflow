@@ -31,7 +31,7 @@ import '../App.scss'
 import './Questions.scss'
 
 
-import { history } from '../router'
+// import { history } from '../router'
 
 interface TopicViewProps {
     topic: Topic,
@@ -52,7 +52,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
     constructor(props) {
         super(props)
 
-        this.onClickTopic = this.onClickTopic.bind(this)
+        // this.onClickTopic = this.onClickTopic.bind(this)
         this.renderClosed = this.renderClosed.bind(this)
         this.clickClaimTokens = this.clickClaimTokens.bind(this)
 
@@ -69,7 +69,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
     }
 
     onClickTopic() {
-        history.push(`/topic/${ this.props.topic.forumAddress }`)
+        // history.push(`/topic/${ this.props.topic.forumAddress }`)
     }
 
     messageStatus() {
@@ -124,7 +124,10 @@ class QuestionRow extends React.Component<TopicViewProps> {
 
         return (
             <li className="question">
-                <a onClick={ this.onClickTopic } >
+                <a
+                    onClick={ this.onClickTopic }
+                    href={`/topic/${this.props.topic.forumAddress}`}
+                >
                     <div className="user-img">
                         <Blockies size={12} scale={4} seed={topic.author}/>
                     </div>

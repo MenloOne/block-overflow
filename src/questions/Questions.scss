@@ -39,6 +39,12 @@ a[disabled], a[disabled]:hover {
 
 .question {
     padding: 10px 14px;
+    a:hover {
+        text-decoration: none;
+    }
+    .title {
+        color: #2c3035;
+    }
     .stats {
         font-family: "Titillium web";
         min-width: 4em;
