@@ -89,7 +89,8 @@ class QuestionForm extends React.Component<TopicFormProps> {
             })
         } catch (e) {
             toast(e.message, {
-                autoClose: 4000
+                autoClose: 4000,
+                toastId: 13
             })
             this.setState({
                 submitting: false,
