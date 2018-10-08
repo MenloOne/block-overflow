@@ -122,8 +122,8 @@ export default class AddressTag extends Component<AddressTagProps> {
         
         const { url } = this.state
 
-        const renderBody = () => {
-            return (
+        return (
+            <a className="AddressTag-link" href={this.props.link ? url : ''} disabled={!this.props.copy && !this.props.link} target="_blank" onClick={(e) => this.onClick(e)}>
                 <span className="AddressTag-container">
                     <div className="AddressTag-wrapper">
                         <span className="AddressTag-name-0x">0x</span>
@@ -137,16 +137,6 @@ export default class AddressTag extends Component<AddressTagProps> {
                         </span>
                     )}
                 </span>
-            )
-        }
-
-        return this.props.link ? (
-            <a href={url} target="_blank" onClick={(e) => this.onClick(e)}>
-                {renderBody()}
-            </a>
-        ) : (
-            <a onClick={(e) => this.onClick(e)}>
-                {renderBody()}
             </a>
         )
     }

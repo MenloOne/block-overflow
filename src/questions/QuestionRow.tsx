@@ -138,8 +138,8 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         </span>
                         <div>
                             {topic && topic.author && <AddressTag link={false} copy={false} address={topic.author} />}
-                            <span>
-                                <span className="points" style={{ display: 'none' }}>??? points </span>
+                            <span style={{ display: 'none' }}>
+                                <span className="points">??? points </span>
                             </span>
                             <Moment fromNow>{topic.date}</Moment>
                         </div>
