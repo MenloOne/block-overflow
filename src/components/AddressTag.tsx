@@ -132,7 +132,7 @@ export default class AddressTag extends Component<AddressTagProps> {
                     </div>
                     {!localStorage.getItem('Tooltip-CtrlClickToCopy') && (
                         <span>
-                            <i className="Tooltip-icon" data-tip={`${actionKey}+Click to Copy`}>?</i>
+                            { this.props.copy && <i className="Tooltip-icon" data-tip={`${actionKey}+Click to Copy`}>?</i> }
                             <ReactTooltip />
                         </span>
                     )}
