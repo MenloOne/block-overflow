@@ -76,7 +76,7 @@ class QuestionForm extends React.Component<TopicFormProps> {
 
         try {
 
-            if (!this.state.title || !this.state.message) {
+            if (!this.state.title || !this.state.message || !this.state.bounty) {
                 throw new Error('Please fill out all of the fields.');
             }
 
