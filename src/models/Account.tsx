@@ -15,6 +15,7 @@
  */
 
 import * as React from 'react'
+import { toast } from 'react-toastify';
 
 import BigNumber from 'bignumber.js'
 import TruffleContract from 'truffle-contract'
@@ -212,7 +213,15 @@ export class Account extends AccountModel implements AccountService {
         await this.ready
 
         setTimeout(async () => {
-            await this.getBalance()
+            const bal = await this.getBalance()
+            
+            if (bal === 0) {
+                toast('You have zero ONE tokens, use the ONE faucet to obtain some!', {
+                    autoClose: false,
+                    toastId: 0
+                })
+            }
+            
             this.onStateChange()
 
             let callback
