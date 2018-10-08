@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as History from 'history'
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 
 import web3 from './models/Web3'
@@ -134,7 +135,9 @@ class App extends React.Component {
                 break;
         }
 
-        toast(`Oops, looks like you’re on ${network} Network, please switch to the Kovan Network`)
+        toast(`Oops, looks like you’re on ${network} Network, please switch to the Kovan Network`, {
+            autoClose: false
+        })
         
     }
 

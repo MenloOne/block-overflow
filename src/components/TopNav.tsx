@@ -1,7 +1,7 @@
 import * as React from  'react'
 import BigNumber from 'bignumber.js'
 import Blockies from 'react-blockies'
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 import TruffleContract from 'truffle-contract'
 import MenloFaucetContract from '../artifacts/MenloFaucet.json'
@@ -142,8 +142,8 @@ class TopNav extends React.Component<TopNavProps> {
 
     render() {
         return (
-            <div className="nav-wrapper">
-                <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+            <div className="nav-wrapper fixed-top">
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav">
                     <div className="container">
                         <a className="navbar-brand" href="/">
                             <img src={logo} title="Menlo One" alt="Menlo One" />
@@ -164,7 +164,7 @@ class TopNav extends React.Component<TopNavProps> {
                         </div>
                     </div>
                 </nav>
-                <ToastContainer />
+                <ToastContainer position={toast.POSITION.TOP_CENTER} />
             </div>
         )
     }

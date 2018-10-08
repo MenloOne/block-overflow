@@ -16,6 +16,7 @@
  */
 
 import React from 'react'
+import { toast } from 'react-toastify';
 import { withAcct } from '../models/Account'
 import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
@@ -69,10 +70,16 @@ class QuestionForm extends React.Component<TopicFormProps> {
     }
 
     async onSubmit(event) {
+        
         event.preventDefault()
         this.setState({ submitting: true })
 
         try {
+
+            if (!this.state.title || !this.state.message) {
+                throw new Error('Please fill out all of the fields.');
+            }
+
             await this.props.onSubmit(this.state.title, this.state.message, parseInt(this.state.bounty, 10))
             this.setState({
                 title: '',
@@ -81,8 +88,10 @@ class QuestionForm extends React.Component<TopicFormProps> {
                 error: null
             })
         } catch (e) {
+            toast(e.message, {
+                autoClose: 4000
+            })
             this.setState({
-                error: e.message,
                 submitting: false,
             })
         }
@@ -126,7 +135,6 @@ class QuestionForm extends React.Component<TopicFormProps> {
                 <div className="askquestion-button-wrapper">
                     <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question' />
                     <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
-                    {this.state.error && <p className="error new-message">{this.state.error}</p>}
                 </div>
             </form>
         )

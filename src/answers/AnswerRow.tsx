@@ -259,42 +259,44 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                         Collapse Comment
                     </button>
                     }
-                    <div className="comments-votes">
-                        { this.renderVotes() }
-                        { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
-                        <span >
-                                <a onClick={this.upvote}   disabled={this.props.message.upvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
-                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}>
-                                    <span className="Question-downvote">
-                                        <img src={voteTriangle} className="icon-downvote" />
-                                        Downvote
+                    {(this.props.message && this.props.message.votes) ? (
+                        <div className="comments-votes">
+                            { this.renderVotes() }
+                            { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
+                            <span >
+                                    <a onClick={this.upvote}   disabled={this.props.message.upvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
+                                    <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}>
+                                        <span className="Question-downvote">
+                                            <img src={voteTriangle} className="icon-downvote" />
+                                            Downvote
+                                        </span>
+                                    </a>
+                                </span>
+                            }
+                            { (this.state.children.length > 0 || message.parent === CIDZero) &&
+                            <span className='item'>
+                                <a style={{display: 'none'}}>
+                                    <span className="Question-permalink">
+                                        Permalink
                                     </span>
                                 </a>
-                            </span>
-                        }
-                        { (this.state.children.length > 0 || message.parent === CIDZero) &&
-                        <span className='item'>
-                            <a style={{display: 'none'}}>
-                                <span className="Question-permalink">
-                                    Permalink
+                                <a style={{display: 'none'}}>
+                                    <span className="Question-report">
+                                        Report
+                                    </span>
+                                </a>
+                                {this.state.children.length > 0 &&
+                                <span>
+                                    {this.state.showReplies &&
+                                    <a className="hideReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide Comments </em></a>}
+                                    {!this.state.showReplies &&
+                                    <a className="showReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show Comments</em> ({message.children.length})</a>}
                                 </span>
-                            </a>
-                            <a style={{display: 'none'}}>
-                                <span className="Question-report">
-                                    Report
-                                </span>
-                            </a>
-                            {this.state.children.length > 0 &&
-                            <span>
-                                {this.state.showReplies &&
-                                <a className="hideReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide Comments </em></a>}
-                                {!this.state.showReplies &&
-                                <a className="showReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show Comments</em> ({message.children.length})</a>}
+                                }
                             </span>
                             }
-                        </span>
-                        }
-                    </div>
+                        </div>
+                    ) : null}
                     <ul>
                         {this.state.showReplies && this.renderReplies()}
                     </ul>

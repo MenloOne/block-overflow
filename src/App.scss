@@ -3,7 +3,6 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 @import './buttons.scss';
 
-
 html {
     position: relative;
     min-height: 100%;
@@ -693,6 +692,10 @@ i.fa.fa-circle:before {
     justify-content: center;
     display: flex;
     align-items: center;
+}
+
+nav {
+    z-index: 10000;
 }
 
 a#messagesDropdown {
@@ -1810,6 +1813,11 @@ span.sold {
     font-size: 9px;
 }
 
+// .Toastify {
+//     position: fixed;
+//     top: 46px;
+//     z-index: 99999;
+// }
 
 .question > a {
     display: flex;
@@ -2608,30 +2616,45 @@ table.stats tr td:nth-child(2) {
 }
 
 .Toastify__toast {
+    padding: 1rem;
+    line-height: 1.4rem;
+    font-size: .9rem;
+}
+
+.Toastify__toast-container--top-center {
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+.Toastify__toast-container {
+    z-index: 9999;
+    padding: 0;
     width: 100vw;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff;
+    position: relative;
+}
+
+.Toastify__toast {
+    padding: 1rem;
+    line-height: 1.4rem;
+    font-size: .9rem;
     background: #E8EEFF;
     color: #2E4168;
-    display: flex;
-    padding: 1rem .5rem;
-    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
 }
 
-.Toastify__toast-body {
-    flex: 1;
-    text-align: center;
-}
-
-.Toastify__close-button {
-    background: none;
-    border: none;
-    padding: 0;
+.comments .more-btn {
     margin: 0;
-    height: 40px;
-    width: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+}
+
+.Toastify__progress-bar {
+    z-index: 0;
 }
 
 @media (min-width: 768px) {
