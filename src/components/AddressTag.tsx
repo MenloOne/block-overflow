@@ -122,22 +122,29 @@ export default class AddressTag extends Component<AddressTagProps> {
         
         const { url } = this.state
 
-        return (
+        const renderContents = () => (
+            <span className="AddressTag-container">
+                <div className="AddressTag-wrapper">
+                    <span className="AddressTag-name-0x">0x</span>
+                    <span className="AddressTag-name">{address ? address.slice(2, address.length) : ''}</span>
+                    <span className="AddressTag-name-dots">…</span>
+                </div>
+                {!localStorage.getItem('Tooltip-CtrlClickToCopy') && (
+                    <span>
+                        {this.props.copy && <i className="Tooltip-icon" data-tip={`${actionKey}+Click to Copy`}>?</i>}
+                        <ReactTooltip />
+                    </span>
+                )}
+            </span>)
+
+        return this.props.link ? (
             <a className="AddressTag-link" href={this.props.link ? url : ''} disabled={!this.props.copy && !this.props.link} target="_blank" onClick={(e) => this.onClick(e)}>
-                <span className="AddressTag-container">
-                    <div className="AddressTag-wrapper">
-                        <span className="AddressTag-name-0x">0x</span>
-                        <span className="AddressTag-name">{address ? address.slice(2, address.length) : ''}</span>
-                        <span className="AddressTag-name-dots">…</span>
-                    </div>
-                    {!localStorage.getItem('Tooltip-CtrlClickToCopy') && (
-                        <span>
-                            { this.props.copy && <i className="Tooltip-icon" data-tip={`${actionKey}+Click to Copy`}>?</i> }
-                            <ReactTooltip />
-                        </span>
-                    )}
-                </span>
+                {renderContents()}
             </a>
+        ) : (
+            <button className="btn-blank AddressTag-link" disabled={!this.props.copy && !this.props.link} onClick={(e) => this.onClick(e)}>
+                {renderContents()}
+            </button>
         )
     }
 }
