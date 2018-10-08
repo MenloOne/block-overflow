@@ -114,6 +114,14 @@ class App extends React.Component {
 
         let network;
 
+        if (!web3) {
+            toast('The MetaMask is required when using dApps. Please download the MetaMask browser extension and log in.', {
+                autoClose: false,
+                closeButton: false
+            })
+            return;
+        }
+
         switch (web3.version.network) {
             case "1":
                 network = "the Mainnet";
