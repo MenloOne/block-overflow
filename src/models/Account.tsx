@@ -144,6 +144,26 @@ export class Account extends AccountModel implements AccountService {
             }
 
             const account0 = accounts[0].toLowerCase()
+
+            web3.eth.getBalance(account0, (err, balance) => {
+
+                if (err) {
+                    toast(err.message)
+                }
+
+                const ethBalance = web3.fromWei(balance.toNumber(), "ether");
+
+                // console.log(ethBalance, `You have ${ethBalance} ETH in this wallet. Please add more.`);
+                
+                if (ethBalance === 0 || ethBalance === "0") {
+                    toast(`You have ${ethBalance} ETH in this wallet. Please add more.`, {
+                        autoClose: false,
+                        toastId: 1,
+                        closeButton: false
+                    })
+                }
+            });
+
             if (account0 !== this.address) {
 
                 if (this.status !== MetamaskStatus.Starting && this.status !== MetamaskStatus.Ok) {
@@ -218,7 +238,8 @@ export class Account extends AccountModel implements AccountService {
             if (bal === 0) {
                 toast('You have zero ONE tokens, use the ONE faucet to obtain some!', {
                     autoClose: false,
-                    toastId: 0
+                    toastId: 0,
+                    closeButton: false
                 })
             }
             
