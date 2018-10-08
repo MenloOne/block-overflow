@@ -44,7 +44,7 @@ class TopNav extends React.Component<TopNavProps> {
 
             this.props.acct.svc.refreshBalance()
         } catch (e) {
-            window.alert( e )
+            toast(e)
         }
     }
 
