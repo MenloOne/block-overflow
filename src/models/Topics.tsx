@@ -15,6 +15,7 @@
  */
 
 import * as React from 'react'
+import { toast } from 'react-toastify'
 
 import web3 from './Web3'
 import TruffleContract from 'truffle-contract'
@@ -281,6 +282,11 @@ export class Topics extends TopicsModel {
         let ipfsHash
 
         try {
+
+            if (!ipfsTopic.title || !ipfsTopic.body || !bounty) {
+                throw new Error('Please fill out all of the fields.');
+            }
+
             // Create message and pin it to remote IPFS
             ipfsHash = await this.remoteStorage.createTopic(ipfsTopic)
 
@@ -304,7 +310,19 @@ export class Topics extends TopicsModel {
                 this.remoteStorage.unpin(ipfsHash)
             }
 
+            let msg = e.message
+            let timeout = 4000
+
+            if (e.message === "Error: MetaMask Tx Signature: User denied transaction signature.") {
+                msg = "You cancelled the MetaMask transaction."
+                timeout = 1500
+            }
+
             console.error(e)
+            toast(msg, {
+                autoClose: timeout,
+                toastId: 123
+            })
             throw e
         }
     }
