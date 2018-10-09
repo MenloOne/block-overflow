@@ -24,10 +24,14 @@
     }
     &-wrapper {
         display: inline-block;
-        background: #F0F4FF;
+        background: #f0f4ff;
         padding: .05rem .25rem;
         border-radius: 3px;
         line-height: 0;
+        transition: .1s all ease-out;
+        &:hover {
+            background: #e0e5f3;
+        }
     }
     &-name {
         color: #6B768E;
