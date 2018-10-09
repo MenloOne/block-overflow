@@ -7,7 +7,7 @@ import TruffleContract from 'truffle-contract'
 import MenloFaucetContract from '../artifacts/MenloFaucet.json'
 
 import web3 from '../models/Web3'
-import { AccountContext, MetamaskStatus, NetworkName, withAcct } from '../models/Account'
+import { AccountContext, MetamaskStatus, NetworkName, ToastType, withAcct } from '../models/Account'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.scss'
@@ -60,7 +60,11 @@ class TopNav extends React.Component<TopNavProps> {
 
             this.props.acct.svc.refreshBalance()
         } catch (e) {
-            toast(e)
+            toast(e, {
+                toastId: ToastType.Account,
+                autoClose: false,
+                closeButton: false
+            })
         }
     }
 
@@ -110,6 +114,7 @@ class TopNav extends React.Component<TopNavProps> {
 
         if (this.props.acct.model.status === MetamaskStatus.LoggedOut) {
             toast('You must first sign into Metamask to take part in discussions.', {
+                toastId: ToastType.Account,
                 autoClose: false,
                 closeButton: false
             })
@@ -125,6 +130,7 @@ class TopNav extends React.Component<TopNavProps> {
 
         if (this.props.acct.model.status === MetamaskStatus.Uninstalled) {
             toast('Unsupported Browser: Please use Chrome or Brave with the MetaMask browser extension to log in.', {
+                toastId: ToastType.Account,
                 autoClose: false,
                 closeButton: false
             })
@@ -140,6 +146,7 @@ class TopNav extends React.Component<TopNavProps> {
 
         if (this.props.acct.model.status === MetamaskStatus.InvalidNetwork) {
             toast(`Oops, you’re on the ${this.props.acct.model.networkName} Network.  Please switch to the ${NetworkName.Kovan} Network.`, {
+                toastId: ToastType.Account,
                 autoClose: false,
                 closeButton: false
             })
@@ -154,6 +161,7 @@ class TopNav extends React.Component<TopNavProps> {
         }
         if (this.props.acct.model.status === MetamaskStatus.Error) {
             toast(this.props.acct.model.error, {
+                toastId: ToastType.Account,
                 autoClose: false,
                 closeButton: false
             })

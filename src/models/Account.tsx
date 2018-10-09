@@ -29,6 +29,11 @@ import TokenContractJSON from 'menlo-token/build/contracts/MenloToken.json'
 import config from '../config'
 
 
+export enum ToastType {
+    Account,
+    Balance
+}
+
 
 export enum MetamaskStatus {
     Starting = 'starting',
@@ -178,6 +183,8 @@ export class Account extends AccountModel implements AccountService {
 
 
     async refreshAccount(reload : boolean, address: string) {
+        toast.dismiss()
+
         this.setNetworkName()
 
         if (this.networkName !== NetworkName.Kovan) {
@@ -190,7 +197,8 @@ export class Account extends AccountModel implements AccountService {
         try {
             if (reload) {
                 // Easy way out for now
-                // window.location.reload()
+                // TODO: Make all modules refresh all acct based state when setAccount() is called
+                window.location.reload()
             }
 
             this.address = address
@@ -251,6 +259,8 @@ export class Account extends AccountModel implements AccountService {
             await this.ready
         }
 
+        toast.dismiss(ToastType.Balance)
+
         this.oneBalance = (await this.token.balanceOf(this.address as string)).div( 10 ** 18 ).toNumber()
         web3.eth.getBalance(this.address as string, (err, balance) => {
             if (err) {
@@ -262,14 +272,14 @@ export class Account extends AccountModel implements AccountService {
             if (this.ethBalance === 0) {
                 toast(`Note you have no ETH in this wallet.`, {
                     autoClose: false,
-                    toastId: 1,
+                    toastId: ToastType.Balance,
                     closeButton: false
                 })
             } else
             if (this.oneBalance === 0) {
                 toast('You have no ONE tokens, use the ONE faucet to obtain some!', {
                     autoClose: false,
-                    toastId: 0,
+                    toastId: ToastType.Balance,
                     closeButton: false
                 })
             }
