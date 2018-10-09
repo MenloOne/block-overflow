@@ -1,10 +1,9 @@
 import * as React from 'react'
 import * as History from 'history'
-import { toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.min.css';
 
 
-import web3 from './models/Web3'
 
 
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -35,7 +34,6 @@ interface AppState {
 class App extends React.Component {
 
     state   : AppState
-
     account : Account
 
     constructor(props: any, context: any) {
@@ -62,9 +60,6 @@ class App extends React.Component {
 
         history.listen(this.renderLocation)   // render subsequent URLs
         this.renderLocation(history.location, 'REPLACE')
-
-        this.checkNetwork();
-
     }
 
     renderComponent(component : any) {
@@ -107,47 +102,6 @@ class App extends React.Component {
         { path: '/topic/:address(.+)', action: (params) => <ForumPage { ...params }/> },
         { path: '/privacy', action: () => <TopicsPage /> }
     ];
-
-
-
-    checkNetwork() {
-
-        let network;
-
-        if (!web3) {
-            toast('The MetaMask is required when using dApps. Please download the MetaMask browser extension and log in.', {
-                autoClose: false,
-                closeButton: false
-            })
-            return;
-        }
-
-        switch (web3.version.network) {
-            case "1":
-                network = "the Mainnet";
-                break;
-            case "2":
-                network = "the Morden";
-                break;
-            case "3":
-                network = "the Ropsten";
-                break;
-            case "4":
-                network = "the Rinkeby";
-                break;
-            case "42":
-                network = "the Kovan";
-                return
-            default:
-                network = "an unknown";
-                break;
-        }
-
-        toast(`Oops, looks like you’re on ${network} Network, please switch to the Kovan Network`, {
-            autoClose: false
-        })
-        
-    }
 
     render() {
         return (

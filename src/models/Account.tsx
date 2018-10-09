@@ -15,9 +15,8 @@
  */
 
 import * as React from 'react'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
-import BigNumber from 'bignumber.js'
 import TruffleContract from 'truffle-contract'
 import ethUtil from 'ethereumjs-util'
 import axios from 'axios'
@@ -30,21 +29,34 @@ import TokenContractJSON from 'menlo-token/build/contracts/MenloToken.json'
 import config from '../config'
 
 
+
 export enum MetamaskStatus {
     Starting = 'starting',
     Uninstalled = 'uninstalled',
+    InvalidNetwork = 'network',
     LoggedOut = 'logged out',
     Ok = 'ok',
     Error = 'error'
 }
 
+export enum NetworkName {
+    Mainnet = 'Mainnet',
+    Morden = 'Morden',
+    Ropsten = 'Ropsten',
+    Rinkeby = 'Rinkeby',
+    Kovan = 'Kovan',
+    Unknown = 'unknown',
+}
+
+
 export class AccountModel {
     public ready: any
     public address: string | null
-    public balance: number
-    public fullBalance: BigNumber
+    public oneBalance: number
+    public ethBalance: number
     public status: MetamaskStatus
     public error: string | null
+    public networkName: NetworkName = NetworkName.Unknown
 }
 
 export type AccountContext = { model: AccountModel, svc: Account }
@@ -71,7 +83,7 @@ export class Account extends AccountModel implements AccountService {
 
         this.ready = QPromise((res, rej) => this.signalReady = res)
         this.address = null
-        this.balance = 0
+        this.oneBalance = 0
         this.status = MetamaskStatus.Starting
         this.stateChangeCallback = null
 
@@ -145,25 +157,6 @@ export class Account extends AccountModel implements AccountService {
 
             const account0 = accounts[0].toLowerCase()
 
-            web3.eth.getBalance(account0, (err, balance) => {
-
-                if (err) {
-                    toast(err.message)
-                }
-
-                const ethBalance = web3.fromWei(balance.toNumber(), "ether");
-
-                // console.log(ethBalance, `You have ${ethBalance} ETH in this wallet. Please add more.`);
-                
-                if (ethBalance === 0 || ethBalance === "0") {
-                    toast(`You have ${ethBalance} ETH in this wallet. Please add more.`, {
-                        autoClose: false,
-                        toastId: 1,
-                        closeButton: false
-                    })
-                }
-            });
-
             if (account0 !== this.address) {
 
                 if (this.status !== MetamaskStatus.Starting && this.status !== MetamaskStatus.Ok) {
@@ -185,6 +178,15 @@ export class Account extends AccountModel implements AccountService {
 
 
     async refreshAccount(reload : boolean, address: string) {
+        this.setNetworkName()
+
+        if (this.networkName !== NetworkName.Kovan) {
+            this.status = MetamaskStatus.InvalidNetwork
+            this.onStateChange()
+            return
+        }
+
+
         try {
             if (reload) {
                 // Easy way out for now
@@ -203,7 +205,8 @@ export class Account extends AccountModel implements AccountService {
                 this.token = await MenloToken.createAndValidate(web3, tokenAddress)
             }
 
-            this.refreshBalance(0)
+            await this.getBalance(true)
+
             this.status = MetamaskStatus.Ok
 
             this.onStateChange()
@@ -219,14 +222,60 @@ export class Account extends AccountModel implements AccountService {
             this.onStateChange()
         }
     }
+    
+    setNetworkName() {
+        switch (web3.version.network) {
+            case '1':
+                this.networkName = NetworkName.Mainnet
+                break;
+            case '2':
+                this.networkName = NetworkName.Morden
+                break;
+            case '3':
+                this.networkName = NetworkName.Ropsten
+                break;
+            case '4':
+                this.networkName = NetworkName.Rinkeby
+                break;
+            case '42':
+                this.networkName = NetworkName.Kovan
+                return
+            default:
+                this.networkName = NetworkName.Unknown
+                break;
+        }
+    }
 
-    async getBalance() : Promise<number> {
-        await this.ready
+    async getBalance(force: boolean = false) : Promise<number> {
+        if (!force) {
+            await this.ready
+        }
 
-        this.fullBalance = await this.token.balanceOf(this.address as string)
-        this.balance     = this.fullBalance.div( 10 ** 18 ).toNumber()
+        this.oneBalance = (await this.token.balanceOf(this.address as string)).div( 10 ** 18 ).toNumber()
+        web3.eth.getBalance(this.address as string, (err, balance) => {
+            if (err) {
+                throw (err)
+            }
 
-        return this.balance
+            this.ethBalance = balance.div(10 ** 18).toNumber()
+
+            if (this.ethBalance === 0) {
+                toast(`Note you have no ETH in this wallet.`, {
+                    autoClose: false,
+                    toastId: 1,
+                    closeButton: false
+                })
+            } else
+            if (this.oneBalance === 0) {
+                toast('You have no ONE tokens, use the ONE faucet to obtain some!', {
+                    autoClose: false,
+                    toastId: 0,
+                    closeButton: false
+                })
+            }
+        })
+
+        return this.oneBalance
     }
 
     async refreshBalance(wait: number = 3000) : Promise<void> {
@@ -236,11 +285,6 @@ export class Account extends AccountModel implements AccountService {
             const bal = await this.getBalance()
             
             if (bal === 0) {
-                toast('You have zero ONE tokens, use the ONE faucet to obtain some!', {
-                    autoClose: false,
-                    toastId: 0,
-                    closeButton: false
-                })
             }
             
             this.onStateChange()

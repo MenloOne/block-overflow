@@ -65,8 +65,6 @@ export default class CountdownTimer extends Component<CountdownTimerProps> {
     }
 
     render() {
-        console.log(this.props.date);
-        
         return (
             <Countdown date={this.props.date} zeroPadLength={2} renderer={ this.props.compact ? this.renderInlineLayout : this.renderBlockLayout } />
         )

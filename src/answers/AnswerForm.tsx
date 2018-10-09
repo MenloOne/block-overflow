@@ -22,20 +22,37 @@ import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
 
 
-class AnswerForm extends React.Component {
-    state = {
-        message: '',
-        submitting: false
-    }
+class AnswerFormProps {
+    rows: number
+    icon: string
+    onSubmit: (message: string) => void
+    onCancel?: () => void
+}
 
-    constructor(props) {
-        super(props)
+
+class AnswerFormState {
+    error: string | null
+    message: string
+    submitting: boolean
+}
+
+class AnswerForm extends React.Component<AnswerFormProps> {
+    textarea: HTMLTextAreaElement | null
+    state: AnswerFormState
+
+    constructor(props: AnswerFormProps, context) {
+        super(props, context)
 
         this.onChange = this.onChange.bind(this)
-        this.onCancel = this.onCancel.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
 
         this.updateTextareaHeight = this.updateTextareaHeight.bind(this);
+
+        this.state = {
+            error: null,
+            message: '',
+            submitting: false
+        }
     }
 
     componentDidMount() {
@@ -68,18 +85,14 @@ class AnswerForm extends React.Component {
 
     updateTextareaHeight() {
         if (this.textarea && this.textarea.scrollHeight < utils.getViewport().h * .8) {
-            this.textarea.style.height = this.textarea.scrollHeight + 2 + 'px'; // +2 for border
+            this.textarea.style.height = `${this.textarea.scrollHeight + 2}px`; // +2 for border
         }
-    }
-
-    onCancel() {
-        this.setState({ message: '' })
     }
 
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                { this.props.rows == 1 &&
+                { this.props.rows === 1 &&
                     <div>
                         { this.props.icon &&
                         <span className='comment-indicator'><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
@@ -109,7 +122,7 @@ class AnswerForm extends React.Component {
                         <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Answer' />
                     </div>
                 }
-                <a href="" className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                { this.props.onCancel ? <a className="btn cancel-btn" onClick={this.props.onCancel}>Cancel</a> : null }
                 {this.state.error && <p className="error new-message">{this.state.error}</p>}
             </form>
         )

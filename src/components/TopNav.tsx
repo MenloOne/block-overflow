@@ -7,7 +7,7 @@ import TruffleContract from 'truffle-contract'
 import MenloFaucetContract from '../artifacts/MenloFaucet.json'
 
 import web3 from '../models/Web3'
-import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
+import { AccountContext, MetamaskStatus, NetworkName, withAcct } from '../models/Account'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.scss'
@@ -65,7 +65,7 @@ class TopNav extends React.Component<TopNavProps> {
     }
 
     renderONE() {
-        const one = this.props.acct.model.balance
+        const one = this.props.acct.model.oneBalance
 
         if (one < 5) {
             return (
@@ -109,30 +109,59 @@ class TopNav extends React.Component<TopNavProps> {
         console.log( 'STATUS: ', this.props.acct.model.status )
 
         if (this.props.acct.model.status === MetamaskStatus.LoggedOut) {
+            toast('You must first sign into Metamask to take part in discussions.', {
+                autoClose: false,
+                closeButton: false
+            })
+
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
-                        <span className="token-one">YOU MUST SIGN INTO METAMASK TO TAKE PART IN DISCUSSIONS</span>
+                        <span className="token-one">Not logged in</span>
                     </li>
                 </ul>
             )
         }
 
         if (this.props.acct.model.status === MetamaskStatus.Uninstalled) {
+            toast('Unsupported Browser: Please use Chrome or Brave with the MetaMask browser extension to log in.', {
+                autoClose: false,
+                closeButton: false
+            })
+
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
-                        <span className="token-one">Unsupported Browser: Please try Chrome or Brave with the MetaMask extension</span>
+                        <span className="token-one">No Metamask Extension</span>
                     </li>
                 </ul>
             )
         }
 
-        if (this.props.acct.model.status === MetamaskStatus.Error) {
+        if (this.props.acct.model.status === MetamaskStatus.InvalidNetwork) {
+            toast(`Oops, you’re on the ${this.props.acct.model.networkName} Network.  Please switch to the ${NetworkName.Kovan} Network.`, {
+                autoClose: false,
+                closeButton: false
+            })
+
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
-                        <span className="token-one">{ this.props.acct.model.error }</span>
+                        <span className="token-one">Wrong Network</span>
+                    </li>
+                </ul>
+            )
+        }
+        if (this.props.acct.model.status === MetamaskStatus.Error) {
+            toast(this.props.acct.model.error, {
+                autoClose: false,
+                closeButton: false
+            })
+
+            return (
+                <ul className="navbar-nav ml-auto">
+                    <li className="nav-item token-number">
+                        <span className="token-one">Blockchain Network Error</span>
                     </li>
                 </ul>
             )
@@ -142,7 +171,7 @@ class TopNav extends React.Component<TopNavProps> {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
-                        <span className="token-one">...</span>
+                        <span className="token-one">Connecting...</span>
                     </li>
                 </ul>
             )
