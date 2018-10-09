@@ -269,7 +269,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                         Collapse Comment
                     </button>
                     }
-                    <div className="comments-votes">
+                    {(!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled() || this.state.children.length > 0) && <div className="comments-votes">
                         { this.renderVotes() }
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
                         <span >
@@ -305,6 +305,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                         </span>
                         }
                     </div>
+                    }
                     <ul>
                         {this.state.showReplies && this.renderReplies()}
                     </ul>
