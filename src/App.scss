@@ -607,11 +607,13 @@ i.fa.fa-circle:before {
     display: none;
 }
 
-#mainNav span.name {
+#mainNav a.name {
     display: inline-block;
     max-width: 150px;
     text-overflow: ellipsis;
     overflow: hidden;
+    text-decoration: none;
+    color: white;
 }
 
 #mainNav a#messagesDropdown {

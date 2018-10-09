@@ -17,14 +17,30 @@ const logo = require('../images/BlockOverflow-logo.svg')
 
 
 interface TopNavProps {
-    acct: AccountContext
+    acct: AccountContext;
+}
+
+interface TopNavState {
+    url?: string;
 }
 
 class TopNav extends React.Component<TopNavProps> {
 
+    state: TopNavState
+
     constructor(props, context) {
         super(props, context)
         this.onGetTokens = this.onGetTokens.bind(this)
+
+        this.state = {
+            url: ''
+        }
+    }
+
+    componentWillMount() {
+        this.getUrl().then((url) => {
+            this.setState({ url })
+        });
     }
 
     async onGetTokens() {
@@ -65,6 +81,28 @@ class TopNav extends React.Component<TopNavProps> {
                 <span className="token-one">&nbsp;ONE</span>
             </li>
         )
+    }
+
+    getUrl() {
+
+        let url = ''
+
+        return new Promise((resolve, reject) => {
+
+            web3.version.getNetwork((err, netId) => {
+
+                switch (netId) {
+                    case "42":
+                        url = 'https://kovan.etherscan.io'
+                        break
+                    default:
+                        url = 'https://etherscan.io'
+                }
+
+                resolve(`${url}/address/${this.props.acct.model.address}`);
+            })
+        })
+
     }
 
     renderAccountStatus() {
@@ -127,7 +165,7 @@ class TopNav extends React.Component<TopNavProps> {
                                 <Blockies seed={this.props.acct.model.address} size={7} />
                             }
                         </span>
-                        <span className="name">{ this.props.acct.model.address }</span>
+                        <a target="_blank" href={this.state.url} className="name">{ this.props.acct.model.address }</a>
 
                         { false &&
                         <span className="avatar-indicator text-primary d-none d-lg-blocka">
