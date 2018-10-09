@@ -262,8 +262,12 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 <span>
                                     <i className="fa fa-fw fa-thumbs-up"></i>
                                     {this.props.forum.model.lottery.winningVotes && utils.formatNumber(this.props.forum.model.lottery.winningVotes)}
-                                    <i className="fa fa-fw fa-thumbs-down"></i>
-                                    {this.props.forum.model.lottery.winningOffset && utils.formatNumber(this.props.forum.model.lottery.winningOffset)}
+                                    {false &&
+                                        <span>
+                                            <i className="fa fa-fw fa-thumbs-down"></i>
+                                            {this.props.forum.model.lottery.winningOffset && utils.formatNumber(this.props.forum.model.lottery.winningOffset)}
+                                        </span>
+                                    }
                                 </span>
                             </div>
                         </div>
