@@ -144,7 +144,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                             <span style={{ display: 'none' }}>
                                 <span className="points">??? points </span>
                             </span>
-                            <Moment fromNow>{topic.date}</Moment>
+                            {topic && topic.date && <Moment fromNow>{topic.date}</Moment>}
                         </div>
                     </div>
                     <div className="stats">
@@ -169,7 +169,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         }
                     </div>
                     <div className="stats stats-timer">
-                        <CountdownTimer date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
+                        <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
                     </div>
                 </a>
             </li>

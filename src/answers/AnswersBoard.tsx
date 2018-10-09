@@ -219,7 +219,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 {this.props.forum.model.topic && this.props.forum.model.topic.title}
                             </h6>
                             <span style={{ display: 'none' }}>?? points</span>
-                            <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>
+                            {this.props.forum.model.topic && <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>}
                         </div>
                         <div className="QuestionHeader-countdown">
                             {
@@ -236,8 +236,9 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                     }
                                 </span>
                             }
-                            {this.state.lottery && this.state.lottery.endTime &&
-                                <CountdownTimer date={new Date(this.state.lottery.endTime)} />}
+                            {(this.state.lottery && this.state.lottery.endTime && this.state.lottery.endTime !== 0) ?
+                                (<CountdownTimer date={new Date(this.state.lottery.endTime)} />) : (<span>Loading...</span>)
+                            }
                         </div>
                     </div>
                     <div className="Question-stats">
