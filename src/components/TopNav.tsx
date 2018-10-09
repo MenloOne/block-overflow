@@ -84,7 +84,7 @@ class TopNav extends React.Component<TopNavProps> {
             return (
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item token-number">
-                        <span className="token-one">YOU MUST USE CHROME WITH THE METAMASK EXTENSION TO TAKER PART IN DISCUSSIONS</span>
+                        <span className="token-one">Unsupported Browser: Please try Chrome or Brave with the MetaMask extension</span>
                     </li>
                 </ul>
             )
