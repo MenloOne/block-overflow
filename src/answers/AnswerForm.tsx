@@ -16,6 +16,7 @@
  */
 
 import React from 'react'
+import { toast } from 'react-toastify'
 import { withAcct } from '../models/Account'
 import utils from '../utils'
 import SimpleMDE from 'react-simplemde-editor';
@@ -71,10 +72,23 @@ class AnswerForm extends React.Component<AnswerFormProps> {
                 error: null
             })
         } catch (e) {
-            this.setState({
-                error: e.message,
-                submitting: false,
+
+            let msg = e.message
+            let timeout = 4000
+
+            if (e.message === "Error: MetaMask Tx Signature: User denied transaction signature.") {
+                msg = "You cancelled the MetaMask transaction."
+                timeout = 1500
+            }
+
+            toast(msg, {
+                autoClose: timeout,
+                toastId: 2
             })
+
+            console.error(e)
+
+            throw e
         }
     }
 
@@ -123,7 +137,6 @@ class AnswerForm extends React.Component<AnswerFormProps> {
                     </div>
                 }
                 { this.props.onCancel ? <a className="btn cancel-btn" onClick={this.props.onCancel}>Cancel</a> : null }
-                {this.state.error && <p className="error new-message">{this.state.error}</p>}
             </form>
         )
     }

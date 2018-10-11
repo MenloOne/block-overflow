@@ -126,37 +126,43 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
 
     async submitComment(_body) {
 
-        let body = _body.trim()
-        if (body.length === 0) {
-            body = null
-        }
+        try {
 
-        if ( this.state.commentFormState === CommentFormState.OpenForUpvote) {
-            await this.props.forum.svc.upvoteAndComment(this.props.message.id, body)
-        } else {
-            await this.props.forum.svc.downvoteAndComment(this.props.message.id, body)
-        }
+            let body = _body.trim()
+            if (body.length === 0) {
+                body = null
+            }
 
-        this.setState({
-            commentFormState: CommentFormState.Closed
-        })
-        /*
+            if (this.state.commentFormState === CommentFormState.OpenForUpvote) {
+                await this.props.forum.svc.upvoteAndComment(this.props.message.id, body)
+            } else {
+                await this.props.forum.svc.downvoteAndComment(this.props.message.id, body)
+            }
 
-        const child = (
-            <Topic key={message.id}
-                     message={message}
-                     forumService={this.props.forum}/>
-        )
+            this.setState({
+                commentFormState: CommentFormState.Closed
+            })
+            /*
+    
+            const child = (
+                <Topic key={message.id}
+                         message={message}
+                         forumService={this.props.forum}/>
+            )
+    
+            this.showReplies(true)
+            this.setState({
+                children: [...this.state.children, child],
+                showCommentForm: false
+            })
+             */
 
-        this.showReplies(true)
-        this.setState({
-            children: [...this.state.children, child],
-            showCommentForm: false
-        })
-         */
-
-        if (this.props.onChangeReplying) {
-            this.props.onChangeReplying(false)
+            if (this.props.onChangeReplying) {
+                this.props.onChangeReplying(false)
+            }
+            
+        } catch (error) {
+            throw error
         }
     }
 

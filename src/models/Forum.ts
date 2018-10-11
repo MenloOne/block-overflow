@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { toast } from 'react-toastify'
+
 import web3 from './Web3'
 import TruffleContract from 'truffle-contract'
 
@@ -487,6 +489,7 @@ export class Forum extends ForumModel implements Forum {
         let ipfsHash
 
         try {
+
             // Create message and pin it to remote IPFS
             ipfsHash = await this.remoteStorage.createMessage(ipfsMessage)
 
@@ -506,13 +509,28 @@ export class Forum extends ForumModel implements Forum {
                 ...ipfsMessage
             }
         } catch (e) {
+
+            let msg = e.message
+            let timeout = 4000
+
             if (ipfsHash) {
                 // Failed - unpin it from ipfs.menlo.one
                 // this.localStorage.rm(ipfsHash)
                 this.remoteStorage.unpin(ipfsHash)
             }
 
+            if (e.message === "Error: MetaMask Tx Signature: User denied transaction signature.") {
+                msg = "You cancelled the MetaMask transaction."
+                timeout = 1500
+            }
+
+            toast(msg, {
+                autoClose: timeout,
+                toastId: 2
+            })
+
             console.error(e)
+            
             throw e
         }
     }
