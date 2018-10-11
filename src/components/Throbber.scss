@@ -1,0 +1,60 @@
+.AddressTag {
+    &-link {
+        display: inline-block;
+    }
+    &-container {
+        margin-right: .33rem;
+    }
+    &-name,
+    &-name-0x,
+    &-name-dots {
+        font-size: 9px;
+        font-style: normal;
+        font-stretch: normal;
+        letter-spacing: .04rem;
+        line-height: 1rem;
+        color: #bbb;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        text-overflow: clip;
+        width: 36px;
+        display: inline-flex;
+        overflow: hidden;
+        font-family: monospace;
+    }
+    &-wrapper {
+        display: inline-block;
+        background: #f0f4ff;
+        padding: .05rem .25rem;
+        border-radius: 3px;
+        line-height: 0;
+        transition: .1s all ease-out;
+        &:hover {
+            background: #e0e5f3;
+        }
+    }
+    &-name {
+        color: #6B768E;
+    }
+    &-name-dots {
+        user-select: none;
+    }
+    &-name-dots, &-name-0x {
+        width: auto;
+    }
+}
+
+.Page-permalink {
+    font-size: .85rem;
+    color: #969696;
+}
+
+.Page-permalink .AddressTag-wrapper {
+    color: #1944a5;
+    vertical-align: middle;
+    margin: 0 0 0 .33rem;
+}
+
+.Page-permalink .AddressTag-name {
+    color: #1944a5;
+}

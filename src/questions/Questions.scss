@@ -70,7 +70,7 @@ a[disabled], a[disabled]:hover {
             letter-spacing: .02rem;
         }
 
-        .closed {
+        .closed, .claim {
             font-size: 0.7em;
             font-size: .8rem;
             line-height: 2.7rem;
@@ -81,9 +81,9 @@ a[disabled], a[disabled]:hover {
             display: inline;
         }
 
-        .btn-claim {
-            width: auto;
-            margin: 0;
+        .claim {
+            background: #0033a0;
+            color: white;
         }
     }
 
