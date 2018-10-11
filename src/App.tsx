@@ -110,6 +110,7 @@ class App extends React.Component {
                 { this.state.component }
                 { this.props.children }
                 <Footer />
+                <div className="mobile-mask">Please use a Desktop computer to access this dApp.</div>
             </AccountCtxtComponent.Provider>
         )
     }

@@ -2663,7 +2663,32 @@ table.stats tr td:nth-child(2) {
     z-index: 0;
 }
 
+.mobile-mask {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999999;
+    padding: 2rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+body {
+    overflow: hidden;
+}
+
 @media (min-width: 768px) {
+    .mobile-mask {
+        display: none;
+    }
+    body {
+        overflow: initial;
+    }
 }
 
 
