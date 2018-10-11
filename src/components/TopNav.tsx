@@ -87,11 +87,15 @@ class TopNav extends React.Component<TopNavProps> {
         )
     }
 
-    getUrl() {
+    async getUrl() : Promise<string> {
 
         let url = ''
 
-        return new Promise((resolve, reject) => {
+        if (!web3 || !web3.version) {
+            return 'https://etherscan.io'
+        }
+
+        return new Promise<string>((resolve, reject) => {
 
             web3.version.getNetwork((err, netId) => {
 

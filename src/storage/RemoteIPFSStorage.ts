@@ -16,8 +16,8 @@
  */
 
 import ipfsAPI from 'ipfs-api'
-import PromiseTimeout  from '../utils/PromiseTimeout'
 import { CID, IPFSFile } from 'ipfs'
+import PromiseRaceSuccess from '../utils/PromiseRaceSuccess'
 
 
 export class IPFSMessage {
@@ -41,8 +41,8 @@ export class IPFSTopic {
 
 class RemoteIPFSStorage {
 
-    private ipfs      : ipfs
-    private ipfsMenlo : ipfs
+    private readonly ipfs      : ipfs
+    private readonly ipfsMenlo : ipfs
 
     constructor() {
         this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
@@ -54,7 +54,10 @@ class RemoteIPFSStorage {
             path: `/${message.topic}/${message.offset}.json`,
             content: Buffer.from(JSON.stringify(message))
         }
-        const result = await this.ipfs.files.add([file], { pin: true })
+        const result = await new PromiseRaceSuccess().timeout(10000, [
+            this.ipfs.files.add([file], { pin: true }),
+            this.ipfsMenlo.files.add([file], { pin: true })
+        ])
         const hash = result[0].hash
 
         await (this.ipfsMenlo as any).pin.add(hash)
@@ -87,7 +90,10 @@ class RemoteIPFSStorage {
             path: `/${topic.offset}/Topic.json`,
             content: Buffer.from(JSON.stringify(topic))
         }
-        const result = await this.ipfs.files.add([file], { pin: true })
+        const result = await new PromiseRaceSuccess().timeout(5000, [
+            this.ipfs.files.add([file], { pin: true }),
+            this.ipfsMenlo.files.add([file], { pin: true })
+        ])
         const hash = result[0].hash
 
         await (this.ipfsMenlo as any).pin.add(hash)
@@ -118,20 +124,20 @@ class RemoteIPFSStorage {
     async getMessage<T>(hash : CID) : Promise<T> {
         let tries = 4
         let files : IPFSFile[] | null = null
-        let ipfs = this.ipfsMenlo
 
         do {
 
             try {
-                files = await PromiseTimeout(5000, ipfs.files.get(hash))
+                files = await new PromiseRaceSuccess().timeout(5000, [
+                    this.ipfs.files.get(hash),
+                    this.ipfsMenlo.files.get(hash)
+                ])
             } catch (e) {
                 console.error(e)
 
                 if (tries-- === 0) {
                     throw (e)
                 }
-
-                ipfs = (ipfs === this.ipfsMenlo) ? this.ipfs : this.ipfsMenlo
             }
         } while (!files)
 
