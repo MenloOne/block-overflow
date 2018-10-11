@@ -159,7 +159,11 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         { topic.bounty === 0 ?
                             (<Fragment>
                                 { utils.formatNumber(topic.pool.toFixed()) }
-                                <span className="subtitle">ONE PAID</span>
+                                {!this.props.topic.isAnswered ? (
+                                    <span className="subtitle">BOUNTY</span>
+                                ) : (
+                                    <span className="subtitle">ONE PAID</span>
+                                )}
                             </Fragment>)
                             :
                             (<Fragment>
