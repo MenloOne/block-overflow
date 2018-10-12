@@ -28,12 +28,12 @@ import { QPromise } from '../utils/QPromise'
 
 import TokenContract   from 'menlo-token/build/contracts/MenloToken.json'
 import TopicsContract  from '../artifacts/MenloTopics.json'
-import { MenloTopics } from '../contracts/MenloTopics'
+import { MenloTopics } from '../contracts.CN/MenloTopics'
 // import { MenloToken } from '../contracts/MenloToken'
 
 import { Account } from './Account'
 import Topic from './Topic'
-import { MenloForum } from '../contracts/MenloForum'
+import { MenloForum } from '../contracts.CN/MenloForum'
 
 
 export class TopicsModel {
