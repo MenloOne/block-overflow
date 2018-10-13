@@ -75,6 +75,9 @@ export default class AddressTag extends Component<AddressTagProps> {
                 const targetId = etherscanTab ? `#${etherscanTab}` : '';
 
                 switch (netId) {
+                    case "4":
+                        url = 'https://rinkeby.etherscan.io'
+                        break
                     case "42":
                         url = 'https://kovan.etherscan.io'
                         break

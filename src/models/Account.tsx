@@ -187,7 +187,7 @@ export class Account extends AccountModel implements AccountService {
 
         this.setNetworkName()
 
-        if (this.networkName !== NetworkName.Kovan) {
+        if (this.networkName !== NetworkName.Kovan && this.networkName !== NetworkName.Rinkeby) {
             this.status = MetamaskStatus.InvalidNetwork
             this.onStateChange()
             return

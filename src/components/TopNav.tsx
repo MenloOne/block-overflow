@@ -74,7 +74,7 @@ class TopNav extends React.Component<TopNavProps> {
         if (one < 5) {
             return (
                 <li className="nav-item token-number">
-                    <button className='btn faucet-btn' onClick={ this.onGetTokens }>GET ONE TOKENS FROM KOVAN FAUCET</button>
+                    <button className='btn faucet-btn' onClick={ this.onGetTokens }>GET ONE TOKENS FROM TEST FAUCET</button>
                 </li>
             )
         }
@@ -100,6 +100,9 @@ class TopNav extends React.Component<TopNavProps> {
             web3.version.getNetwork((err, netId) => {
 
                 switch (netId) {
+                    case '4':
+                        url = 'https://rinkeby.etherscan.io'
+                        break
                     case "42":
                         url = 'https://kovan.etherscan.io'
                         break
@@ -149,7 +152,7 @@ class TopNav extends React.Component<TopNavProps> {
         }
 
         if (this.props.acct.model.status === MetamaskStatus.InvalidNetwork) {
-            toast(`Oops, you’re on the ${this.props.acct.model.networkName} Network.  Please switch to the ${NetworkName.Kovan} Network.`, {
+            toast(`Oops, you’re on the ${this.props.acct.model.networkName} Network.  Please switch to the ${NetworkName.Kovan} or ${NetworkName.Rinkeby} Networks.`, {
                 toastId: ToastType.Account,
                 autoClose: false,
                 closeButton: false

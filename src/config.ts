@@ -3,11 +3,11 @@ class Config {
 
     constructor() {
         if (process.env.NODE_ENV === 'production') {
-            this.contentNodeUrl = 'https://node.menlo.one'
+            this.contentNodeUrl = 'https://node.menlo.one/v0'
             return
         }
 
-        this.contentNodeUrl = 'http://localhost:3030'
+        this.contentNodeUrl = 'http://localhost:3030/v0'
     }
 }
 

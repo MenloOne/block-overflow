@@ -22,7 +22,7 @@ export class MenloForum extends CNContract {
             this.forum = new MenloForumWeb3(web3, address!)
         }
 
-        this.cnUrl = `${config.contentNodeUrl}/forum`
+        this.cnUrl = `${config.contentNodeUrl}/forum/${address}`
     }
 
     static async createAndValidate(web3: any, address: string | BigNumber): Promise<MenloForum> {
