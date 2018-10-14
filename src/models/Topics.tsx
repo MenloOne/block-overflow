@@ -134,7 +134,7 @@ export class Topics extends TopicsModel {
             this.onModifiedTopic()
         } catch (e) {
             console.error(e)
-            throw(e)
+            // throw(e)
         }
     }
 
