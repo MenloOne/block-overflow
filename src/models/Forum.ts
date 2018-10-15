@@ -17,7 +17,6 @@
 import { toast } from 'react-toastify'
 
 import web3 from './Web3'
-import TruffleContract from 'truffle-contract'
 
 import MessagesGraph from './MessageGraph'
 
@@ -26,7 +25,6 @@ import HashUtils, { CIDZero, SolidityHash, solidityHashToCid, SolidityHashZero }
 
 import { QPromise } from '../utils/QPromise'
 
-import TokenContract  from 'menlo-token/build/contracts/MenloToken.json'
 import { MenloForum } from '../contracts/MenloForum'
 import { MenloToken } from '../contracts/MenloToken'
 
@@ -120,11 +118,7 @@ export class Forum extends ForumModel implements Forum {
             this.acct = acct
             this.account = acct.address
 
-            const tokenContract = TruffleContract(TokenContract)
-            await tokenContract.setProvider(web3.currentProvider)
-            tokenContract.defaults({ from: this.account })
-            this.tokenContractJS = await tokenContract.deployed()
-            this.tokenContract = new MenloToken(web3, this.tokenContractJS.address)
+            this.tokenContract = new MenloToken(web3, this.acct.contractAddresses.MenloToken)
 
             this.filledMessagesCounter = 0
             this.topicOffsets = {}

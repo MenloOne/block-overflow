@@ -3,8 +3,7 @@ import BigNumber from 'bignumber.js'
 import Blockies from 'react-blockies'
 import { ToastContainer, toast } from 'react-toastify';
 
-import TruffleContract from 'truffle-contract'
-import MenloFaucetContract from '../artifacts/MenloFaucet.json'
+import { MenloFaucet } from '../contracts/MenloFaucet'
 
 import web3 from '../models/Web3'
 import { AccountContext, MetamaskStatus, NetworkName, ToastType, withAcct } from '../models/Account'
@@ -49,14 +48,8 @@ class TopNav extends React.Component<TopNavProps> {
         }
 
         try {
-            const faucetContract = TruffleContract(MenloFaucetContract)
-            faucetContract.defaults({
-                from: this.props.acct.model.address
-            })
-            faucetContract.setProvider(web3.currentProvider)
-
-            const faucet = await faucetContract.deployed()
-            await faucet.drip()
+            const faucet = await MenloFaucet.createAndValidate(web3, this.props.acct.model.contractAddresses.MenloFaucet)
+            await faucet.dripTx().send({})
 
             this.props.acct.svc.refreshBalance()
         } catch (e) {
@@ -74,7 +67,7 @@ class TopNav extends React.Component<TopNavProps> {
         if (one < 5) {
             return (
                 <li className="nav-item token-number">
-                    <button className='btn faucet-btn' onClick={ this.onGetTokens }>GET ONE TOKENS FROM KOVAN FAUCET</button>
+                    <button className='btn faucet-btn' onClick={ this.onGetTokens }>GET ONE TOKENS FROM TEST FAUCET</button>
                 </li>
             )
         }
@@ -87,15 +80,22 @@ class TopNav extends React.Component<TopNavProps> {
         )
     }
 
-    getUrl() {
+    async getUrl() : Promise<string> {
 
         let url = ''
 
-        return new Promise((resolve, reject) => {
+        if (!web3 || !web3.version) {
+            return 'https://etherscan.io'
+        }
+
+        return new Promise<string>((resolve, reject) => {
 
             web3.version.getNetwork((err, netId) => {
 
                 switch (netId) {
+                    case '4':
+                        url = 'https://rinkeby.etherscan.io'
+                        break
                     case "42":
                         url = 'https://kovan.etherscan.io'
                         break
@@ -145,7 +145,7 @@ class TopNav extends React.Component<TopNavProps> {
         }
 
         if (this.props.acct.model.status === MetamaskStatus.InvalidNetwork) {
-            toast(`Oops, you’re on the ${this.props.acct.model.networkName} Network.  Please switch to the ${NetworkName.Kovan} Network.`, {
+            toast(`Oops, you’re on the ${this.props.acct.model.networkName} Network.  Please switch to the ${NetworkName.Kovan} or ${NetworkName.Rinkeby} Network.`, {
                 toastId: ToastType.Account,
                 autoClose: false,
                 closeButton: false

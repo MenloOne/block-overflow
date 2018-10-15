@@ -17,7 +17,6 @@
 import * as React from 'react'
 import { toast } from 'react-toastify'
 
-import TruffleContract from 'truffle-contract'
 import ethUtil from 'ethereumjs-util'
 import axios from 'axios'
 
@@ -25,9 +24,8 @@ import web3 from './Web3'
 import { MenloToken } from '../contracts/MenloToken'
 import { QPromise } from '../utils/QPromise'
 
-import TokenContractJSON from 'menlo-token/build/contracts/MenloToken.json'
 import config from '../config'
-
+import { networks, ContractAddresses } from './networks'
 
 export enum ToastType {
     Account,
@@ -62,6 +60,7 @@ export class AccountModel {
     public status: MetamaskStatus
     public error: string | null
     public networkName: NetworkName = NetworkName.Unknown
+    public contractAddresses : ContractAddresses
 }
 
 export type AccountContext = { model: AccountModel, svc: Account }
@@ -99,6 +98,7 @@ export class Account extends AccountModel implements AccountService {
             return
         }
 
+        this.setNetwork()
         this.onStateChange()
 
         web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
@@ -153,6 +153,7 @@ export class Account extends AccountModel implements AccountService {
 
         }
 
+        this.setNetwork()
         web3.eth.getAccounts(async (err, accounts) => {
             if (err || !accounts || accounts.length === 0) {
                 this.status = MetamaskStatus.LoggedOut
@@ -185,9 +186,7 @@ export class Account extends AccountModel implements AccountService {
     async refreshAccount(reload : boolean, address: string) {
         toast.dismiss()
 
-        this.setNetworkName()
-
-        if (this.networkName !== NetworkName.Kovan) {
+        if (this.networkName !== NetworkName.Kovan && this.networkName !== NetworkName.Rinkeby) {
             this.status = MetamaskStatus.InvalidNetwork
             this.onStateChange()
             return
@@ -204,13 +203,7 @@ export class Account extends AccountModel implements AccountService {
             this.address = address
 
             if (!this.token) {
-                const TokenContract = await TruffleContract(TokenContractJSON)
-
-                await TokenContract.setProvider(web3.currentProvider)
-                TokenContract.defaults({ from: this.address })
-
-                const tokenAddress = (await TokenContract.deployed()).address
-                this.token = await MenloToken.createAndValidate(web3, tokenAddress)
+                this.token = await MenloToken.createAndValidate(web3, this.contractAddresses.MenloToken)
             }
 
             await this.getBalance(true)
@@ -231,7 +224,9 @@ export class Account extends AccountModel implements AccountService {
         }
     }
     
-    setNetworkName() {
+    setNetwork() {
+        this.contractAddresses = networks[web3.version.network]
+
         switch (web3.version.network) {
             case '1':
                 this.networkName = NetworkName.Mainnet
