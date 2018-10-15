@@ -53,9 +53,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity^0.4.19;\n\nimport \"menlo-token/contracts/MenloToken.sol\";\n\n// assumption: token upgrades through DappHub, such as https://etherscan.io/address/0x642ae78fafbb8032da552d619ad43f1d81e4dd7c#code\n// assumption: token upgrades are 1:1\ninterface Redeemer {\n    function redeem() external;\n    function undo() external;\n    function to() external view returns (MenloToken);\n    function from() external view returns (MenloToken);\n}\n",
-  "sourcePath": "/Users/dave/Code/block-overflow/contracts/Redeemer.sol",
+  "sourcePath": "/Users/richardbross/block-overflow/contracts/Redeemer.sol",
   "ast": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/Redeemer.sol",
+    "absolutePath": "/Users/richardbross/block-overflow/contracts/Redeemer.sol",
     "exportedSymbols": {
       "Redeemer": [
         1747
@@ -281,7 +281,7 @@
     "src": "0:438:5"
   },
   "legacyAST": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/Redeemer.sol",
+    "absolutePath": "/Users/richardbross/block-overflow/contracts/Redeemer.sol",
     "exportedSymbols": {
       "Redeemer": [
         1747
@@ -512,5 +512,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-14T01:36:43.899Z"
+  "updatedAt": "2018-10-15T04:38:44.303Z"
 }

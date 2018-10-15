@@ -65,14 +65,14 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820c18d1e43f3211076c3fcf4bfbfe0213e5143089838079d8874190acf41780c080029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820c18d1e43f3211076c3fcf4bfbfe0213e5143089838079d8874190acf41780c080029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582086bf9e137fe30b6f21a0f9f4dd874493a6fac3f5fdc8746710a7da0b0d213e3f0029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582086bf9e137fe30b6f21a0f9f4dd874493a6fac3f5fdc8746710a7da0b0d213e3f0029",
   "sourceMap": "730:231:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;730:231:2;;;;;;;",
   "deployedSourceMap": "730:231:2:-;;;;;",
   "source": "/*\n    Copyright 2018 Menlo, Inc.\n\n    Licensed under the Apache License, Version 2.0 (the “License”);\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an “AS IS” BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\n\npragma solidity^0.4.13;\n\nimport \"menlo-token/contracts/MenloToken.sol\";\nimport \"./BytesDecode.sol\";\nimport \"./Redeemer.sol\";\n\n\ncontract MenloForumEvents {\n    event Answer(bytes32 _contentHash);\n    event Comment(bytes32 _parentHash, bytes32 _contentHash);\n    event Payout(address _user, uint256 _tokens);\n    event Vote(uint32 _offset, int32 _direction);\n}\n\n\ninterface MenloForumCallback {\n    function onForumClosed(address _forum, uint256 _tokens, int32 _votes, address _winner) external;\n}\n\n\ncontract MenloForum is MenloTokenReceiver, MenloForumEvents, BytesDecode, Ownable, CanReclaimToken {\n\n    uint public constant ACTION_POST     = 1;\n    uint public constant ACTION_UPVOTE   = 2;\n    uint public constant ACTION_DOWNVOTE = 3;\n\n    MenloForumCallback callback;\n\n    bytes32 public topicHash;\n    address public author;\n    uint256 public voteCost;\n    uint256 public postCost;\n\n    uint256 public endTimestamp;\n    uint256 public epochLength;\n\n    mapping(uint32 => int32) public votes;\n    mapping(uint32 => mapping(address => int8)) public voters;\n    address[] public posters;\n    bytes32[] public messages;\n\n    int32   public winningVotes;\n    uint32  public winningOffset;\n    bool    private closed;\n    uint256 public pool;\n\n\n    constructor(MenloToken _token, MenloForumCallback _callback, address _author, bytes32 _topicHash, uint256 _bounty, uint256 _postCost, uint256 _voteCost, uint256 _epochLength) public MenloTokenReceiver(_token) {\n\n        // Push 0 so empty memory (0) doesn't overlap with a voter\n        posters.push(0);\n        emit Answer(0);\n\n        // no author for root post 0\n        callback = _callback;\n        author = _author;\n        topicHash = _topicHash;\n        voteCost = _voteCost;\n        postCost = _postCost;\n        epochLength = _epochLength;\n        endTimestamp = now + epochLength;\n        pool = _bounty;\n    }\n\n    function getVoters(uint32 i, address user) public view returns (int8) {\n        return voters[i][user];\n    }\n\n    function postCount() public view returns (uint256) {\n        return posters.length;\n    }\n\n    function votesCount() public view returns (uint256) {\n        return posters.length;\n    }\n\n    function claimed() external view returns (bool) {\n        return token.balanceOf(this) == 0 && pool != 0;\n    }\n\n    function winner() public view returns (address) {\n        if (winningOffset == 0) {\n            return author;\n        }\n\n        return posters[winningOffset];\n    }\n\n\n\n    function vote(address _voter, uint32 _offset, int8 _direction) internal {\n        int8 priorVote = voters[_offset][_voter];\n\n        require (priorVote != _direction, \"Can't vote for same comment more than 1 time\");\n\n        votes[_offset] += _direction;\n        voters[_offset][_voter] = priorVote + _direction;\n        endTimestamp = now + epochLength;\n\n        emit Vote(_offset, _direction);\n\n        if (votes[_offset] > winningVotes) {\n            winningVotes = votes[_offset];\n            winningOffset = _offset;\n            return;\n        }\n\n        if (votes[_offset] == winningVotes && _offset < winningOffset) {\n            winningVotes = votes[_offset];\n            winningOffset = _offset;\n            return;\n        }\n    }\n\n    function pushMessage(bytes32 _message, address _poster) internal {\n        messages.push(_message);\n        posters.push(_poster);\n    }\n\n    function upvoteAndComment(address _voter, uint32 _offset, bytes32 _parentHash, bytes32 _contentHash) internal {\n        vote(_voter, _offset, 1);\n        if (_contentHash != 0) {\n            post(_voter, _parentHash, _contentHash);\n        }\n    }\n\n    function downvoteAndComment(address _voter, uint32 _offset, bytes32 _parentHash, bytes32 _contentHash) internal {\n        vote(_voter, _offset, -1);\n        if (_contentHash != 0) {\n            post(_voter, _parentHash, _contentHash);\n        }\n    }\n\n    function post(address _poster, bytes32 _parentHash, bytes32 _contentHash) internal {\n        endTimestamp = now + epochLength;\n\n        if (_parentHash != 0) {\n            emit Comment(_parentHash, _contentHash);\n            return;\n        }\n\n        emit Answer(_contentHash);\n        voters[uint32(posters.length)][_poster] = 1;\n        pushMessage(_contentHash, _poster);\n    }\n\n    function closeForum() internal returns (bool) {\n        if (closed) {\n            return true;\n        }\n\n        if (now < endTimestamp) {\n            return false;\n        }\n\n        if (winner() == author) {\n            callback.onForumClosed(this, pool, 0, 0);\n        } else {\n            callback.onForumClosed(this, pool, winningVotes, winner());\n        }\n\n        closed = true;\n        return true;\n    }\n\n    modifier forumOpen() {\n        require(!closeForum(), \"Forum is closed\");\n        _;\n    }\n\n    modifier forumClosed() {\n        require(closeForum(), \"Forum is open\");\n        _;\n    }\n\n    function usesONE(uint256 _value, uint256 _cost) internal pure returns (bool) {\n        return (_value >= _cost);\n    }\n\n    function claim() forumClosed external {\n        require(closeForum(), \"Forum not closed\");\n        require(msg.sender == winner(), \"Only winner can claim\");\n        require(pool > 0, \"No tokens left to claim\");\n\n        token.transfer(msg.sender, pool);\n        emit Payout(msg.sender, pool);\n    }\n\n    function onTokenReceived(\n        address _from,\n        uint256 _value,\n        uint256 _action,\n        bytes _data\n    ) public onlyTokenContract forumOpen returns(bytes4) {\n\n        uint offset;\n        uint i;\n\n        pool = token.balanceOf(this);\n\n        if (_action == ACTION_UPVOTE) {\n            require(usesONE(_value, voteCost), \"Voting tokens sent != cost\");\n\n            (offset, i)      = decodeUint(_data, 1);\n            (parentHash, i)  = decodeBytes32(_data, i);\n            (contentHash, i) = decodeBytes32(_data, i);\n\n            upvoteAndComment(_from, uint32(offset), parentHash, contentHash);\n            return ONE_RECEIVED;\n        }\n\n        if (_action == ACTION_DOWNVOTE) {\n            require(usesONE(_value, voteCost), \"Voting tokens sent != cost\");\n\n            (offset, i)      = decodeUint(_data, 1);\n            (parentHash, i)  = decodeBytes32(_data, i);\n            (contentHash, i) = decodeBytes32(_data, i);\n\n            downvoteAndComment(_from, uint32(offset), parentHash, contentHash);\n            return ONE_RECEIVED;\n        }\n\n        if (_action == ACTION_POST) {\n            require(usesONE(_value, postCost), \"Posting tokens sent != cost\");\n\n            bytes32 parentHash;\n            bytes32 contentHash;\n\n            (parentHash, i)  = decodeBytes32(_data, 1);\n            (contentHash, i) = decodeBytes32(_data, i);\n\n            post(_from, parentHash, contentHash);\n            return ONE_RECEIVED;\n        }\n\n        return 0;\n    }\n\n    //\n    // This exists purely for the case where Menlo ONE tokens need upgrading\n    //\n\n    function redeem(Redeemer _redeemer) external onlyOwner returns (MenloToken) {\n        require(_redeemer.from() == token);\n\n        token.approve(_redeemer, token.balanceOf(this));\n        _redeemer.redeem();\n        MenloToken to = _redeemer.to();\n        token = to;\n        return to;\n    }\n\n    function undo(Redeemer _redeemer) external onlyOwner returns (MenloToken) {\n        require(_redeemer.to() == token);\n\n        token.approve(_redeemer, token.balanceOf(this));\n        _redeemer.undo();\n        MenloToken from = _redeemer.from();\n        token = from;\n        return from;\n    }\n}\n",
-  "sourcePath": "/Users/dave/Code/block-overflow/contracts/MenloForum.sol",
+  "sourcePath": "/Users/richardbross/block-overflow/contracts/MenloForum.sol",
   "ast": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/MenloForum.sol",
+    "absolutePath": "/Users/richardbross/block-overflow/contracts/MenloForum.sol",
     "exportedSymbols": {
       "MenloForum": [
         1365
@@ -110,7 +110,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/dave/Code/block-overflow/contracts/BytesDecode.sol",
+        "absolutePath": "/Users/richardbross/block-overflow/contracts/BytesDecode.sol",
         "file": "./BytesDecode.sol",
         "id": 520,
         "nodeType": "ImportDirective",
@@ -121,7 +121,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/dave/Code/block-overflow/contracts/Redeemer.sol",
+        "absolutePath": "/Users/richardbross/block-overflow/contracts/Redeemer.sol",
         "file": "./Redeemer.sol",
         "id": 521,
         "nodeType": "ImportDirective",
@@ -11020,7 +11020,7 @@
     "src": "603:7476:2"
   },
   "legacyAST": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/MenloForum.sol",
+    "absolutePath": "/Users/richardbross/block-overflow/contracts/MenloForum.sol",
     "exportedSymbols": {
       "MenloForum": [
         1365
@@ -11058,7 +11058,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/dave/Code/block-overflow/contracts/BytesDecode.sol",
+        "absolutePath": "/Users/richardbross/block-overflow/contracts/BytesDecode.sol",
         "file": "./BytesDecode.sol",
         "id": 520,
         "nodeType": "ImportDirective",
@@ -11069,7 +11069,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/dave/Code/block-overflow/contracts/Redeemer.sol",
+        "absolutePath": "/Users/richardbross/block-overflow/contracts/Redeemer.sol",
         "file": "./Redeemer.sol",
         "id": 521,
         "nodeType": "ImportDirective",
@@ -21973,5 +21973,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-14T01:36:43.858Z"
+  "updatedAt": "2018-10-15T04:38:44.234Z"
 }

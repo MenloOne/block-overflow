@@ -14,14 +14,14 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582036e091cc15cfb38b87c74fa56fe64ad27e840c08a1a18756a0671f39cecc678d0029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582036e091cc15cfb38b87c74fa56fe64ad27e840c08a1a18756a0671f39cecc678d0029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a723058202294fba772f2e18e3c7f5bb431747a158ac8230380f05dd4278b4aad36c6f7480029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a723058202294fba772f2e18e3c7f5bb431747a158ac8230380f05dd4278b4aad36c6f7480029",
   "sourceMap": "657:65:3:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;657:65:3;;;;;;;",
   "deployedSourceMap": "657:65:3:-;;;;;",
   "source": "/*\n    Copyright 2018 Menlo, Inc.\n\n    Licensed under the Apache License, Version 2.0 (the “License”);\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an “AS IS” BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\npragma solidity^0.4.24;\n\n\nimport \"./MenloForum.sol\";\n\n\ncontract MenloTopicEvents {\n    event NewTopic(address _forum);\n}\n\n\ncontract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents, BytesDecode, Ownable, CanReclaimToken {\n    struct ForumMetadata {\n        bytes32 topicHash;\n        bool    closed;\n        uint256 payout;\n        int32   votes;\n        address winner;\n    }\n    uint public constant ACTION_NEWTOPIC = 1;\n\n    mapping(address => string) public alias;\n    mapping(address => uint256) public reputation;\n    mapping(address => ForumMetadata) public forums;\n\n    uint32  public topicsCount;\n    uint256 public topicCost;\n\n\n    constructor(MenloToken _token, uint256 _topicCost) public MenloTokenReceiver(_token) {\n        topicCost = _topicCost;\n    }\n\n    function getToken() public view returns (address) {\n        return token;\n    }\n\n    function setAlias(string _alias) public {\n        alias[msg.sender] = _alias;\n    }\n\n    modifier isForum() {\n        require(forums[msg.sender].topicHash != 0, \"Sender must be forum\");\n        _;\n    }\n\n    function addReputation(address _user, uint _rep) public isForum {\n        reputation[_user] += _rep;\n    }\n\n    function usesONE(uint256 _value, uint256 _cost) internal pure returns (bool) {\n        return (_cost <= _value);\n    }\n\n    function createForum(address _from, bytes32 _topicHash, uint256 _bounty, uint256 _length) public {\n        MenloForum forum = new MenloForum( token, this, _from, _topicHash, _bounty, 5 * 10**18, 0, _length);\n        token.transfer(address(forum), _bounty);\n        forums[address(forum)] = ForumMetadata(_topicHash,false,0,0,address(0));\n        topicsCount += 1;\n        emit NewTopic( address(forum) );\n    }\n\n    function onTokenReceived(\n        address _from,\n        uint256 _value,\n        uint256 _action,\n        bytes _data\n    ) public onlyTokenContract returns(bytes4) {\n        uint i;\n\n        if (_action == ACTION_NEWTOPIC) {\n            require(usesONE(_value, topicCost), \"New topic tokens sent < cost\");\n\n            bytes32 topicHash;\n            uint256 length;\n\n            (topicHash, i) = decodeBytes32(_data, 1);\n            (length, i)    = decodeUint(_data, i);\n\n            createForum(_from, topicHash, _value, length);\n            return ONE_RECEIVED;\n        }\n\n        return 0;\n    }\n\n    function onForumClosed(address _forum, uint256 _tokens, int32 _votes, address _winner) public {\n        forums[_forum].closed = true;\n        forums[_forum].payout = _tokens;\n        forums[_forum].votes  = _votes;\n        forums[_forum].winner = _winner;\n    }\n}",
-  "sourcePath": "/Users/dave/Code/block-overflow/contracts/MenloTopics.sol",
+  "sourcePath": "/Users/richardbross/block-overflow/contracts/MenloTopics.sol",
   "ast": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/MenloTopics.sol",
+    "absolutePath": "/Users/richardbross/block-overflow/contracts/MenloTopics.sol",
     "exportedSymbols": {
       "MenloTopicEvents": [
         1373
@@ -45,7 +45,7 @@
         "src": "602:23:3"
       },
       {
-        "absolutePath": "/Users/dave/Code/block-overflow/contracts/MenloForum.sol",
+        "absolutePath": "/Users/richardbross/block-overflow/contracts/MenloForum.sol",
         "file": "./MenloForum.sol",
         "id": 1368,
         "nodeType": "ImportDirective",
@@ -3976,7 +3976,7 @@
     "src": "602:2609:3"
   },
   "legacyAST": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/MenloTopics.sol",
+    "absolutePath": "/Users/richardbross/block-overflow/contracts/MenloTopics.sol",
     "exportedSymbols": {
       "MenloTopicEvents": [
         1373
@@ -4000,7 +4000,7 @@
         "src": "602:23:3"
       },
       {
-        "absolutePath": "/Users/dave/Code/block-overflow/contracts/MenloForum.sol",
+        "absolutePath": "/Users/richardbross/block-overflow/contracts/MenloForum.sol",
         "file": "./MenloForum.sol",
         "id": 1368,
         "nodeType": "ImportDirective",
@@ -7936,5 +7936,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-14T01:36:43.785Z"
+  "updatedAt": "2018-10-15T04:38:44.252Z"
 }

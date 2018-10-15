@@ -1,14 +1,14 @@
 {
   "contractName": "BytesDecode",
   "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582066004cadf797b979eed78ecede5a3dc43e2fb2bcd49c9a857f6530315e09faf00029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582066004cadf797b979eed78ecede5a3dc43e2fb2bcd49c9a857f6530315e09faf00029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820c8ce14fcd29111129ba781f0c3ad17408238a4b102f654ad5635829621b72b0b0029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820c8ce14fcd29111129ba781f0c3ad17408238a4b102f654ad5635829621b72b0b0029",
   "sourceMap": "628:2343:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;628:2343:0;;;;;;;",
   "deployedSourceMap": "628:2343:0:-;;;;;",
   "source": "/*\n    Copyright 2018 Menlo, Inc.\n\n    Licensed under the Apache License, Version 2.0 (the “License”);\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an “AS IS” BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\npragma solidity^0.4.24;\n\n\ncontract BytesDecode {\n\n    function decodeUint(bytes b, uint index) internal pure returns (uint256 result, uint i) {\n        uint c = 0;\n\n        require(uint(b[index++]) == 34, \"Expected \\\" for var\"); // \"\n\n        for (i = index; i < b.length && uint(b[i]) != 34; i++) {\n            c = uint(b[i]);\n            if (c >= 48 && c <= 57) {\n                result = result * 10 + (c - 48);\n            }\n        }\n        i += 2;\n    }\n\n    function decodeAddress(bytes b, uint index) internal pure returns (address result, uint i) {\n        uint c = 0;\n        uint256 r = 0;\n\n        require(b.length - index > 3, \"Expected \\\"0x for var\");\n        require(uint(b[index++]) == 34, \"Expected \\\" for var\");  // \"\n        require(uint(b[index++]) == 48, \"Expected 0 for var\");  // 0\n        require(uint(b[index++]) == 120, \"Expected x for var\"); // x\n\n        for (i = index; i < b.length && uint(b[i]) != 34; i++) {\n            c = uint(b[i]);\n\n            if (c >= 48 && c <= 57) {\n                r = r * 16 + (c - 48);\n            } else\n                if (c >= 65 && c <= 70) {\n                    r = r * 16 + (c - 65 + 10);\n                } else\n                    if (c >= 97 && c <= 102) {\n                        r = r * 16 + (c - 97 + 10);\n                    }\n        }\n        i += 2;\n\n        result = address(r);\n    }\n\n    function decodeBytes32(bytes b, uint index) internal pure returns (bytes32 result, uint i) {\n        uint r = 0;\n        uint c = 0;\n        bytes32 b32;\n\n        require(b.length - index > 3, \"Expected \\\"0x for var\");\n        require(uint(b[index++]) == 34, \"Expected \\\" for var\");  // \"\n        require(uint(b[index++]) == 48, \"Expected 0 for var\");  // 0\n        require(uint(b[index++]) == 120, \"Expected x for var\"); // x\n\n        for (i = index; i < b.length && uint(b[i]) != 34; i++) {\n            c = uint(b[i]);\n\n            if (c >= 48 && c <= 57) {\n                c = c - 48;\n            } else\n                if (c >= 65 && c <= 70) {\n                    c = c - 65 + 10;\n                } else\n                    if (c >= 97 && c <= 102) {\n                        c = c - 97 + 10;\n                    }\n\n            require (r <= 63, \"byte32 can't be longer than 32 bytes\");\n            b32 |= bytes32(c & 0xF) << ((63-r++) * 4);\n        }\n        i += 2;\n\n        result = b32;\n    }\n}",
-  "sourcePath": "/Users/dave/Code/block-overflow/contracts/BytesDecode.sol",
+  "sourcePath": "/Users/richardbross/block-overflow/contracts/BytesDecode.sol",
   "ast": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/BytesDecode.sol",
+    "absolutePath": "/Users/richardbross/block-overflow/contracts/BytesDecode.sol",
     "exportedSymbols": {
       "BytesDecode": [
         431
@@ -6347,7 +6347,7 @@
     "src": "602:2369:0"
   },
   "legacyAST": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/BytesDecode.sol",
+    "absolutePath": "/Users/richardbross/block-overflow/contracts/BytesDecode.sol",
     "exportedSymbols": {
       "BytesDecode": [
         431
@@ -12691,5 +12691,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-14T01:36:43.775Z"
+  "updatedAt": "2018-10-15T04:38:44.176Z"
 }
