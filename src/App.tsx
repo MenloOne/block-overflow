@@ -13,6 +13,8 @@ import { resolve, history } from './router'
 import TopicsPage from './questions/QuestionsPage'
 import ForumPage from './answers/AnswersPage'
 
+import MetamaskModal from './components/MetamaskModal'
+
 import "./App.scss"
 
 
@@ -111,6 +113,7 @@ class App extends React.Component {
                 { this.props.children }
                 <Footer />
                 <div className="mobile-mask">Please use a Desktop computer to access this dApp.</div>
+                {MetamaskModal}
             </AccountCtxtComponent.Provider>
         )
     }
