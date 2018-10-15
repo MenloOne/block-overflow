@@ -66,6 +66,14 @@ module.exports = {
             gas: 6000000,
             gasPrice: 10000000000
         },
+        rinkeby: {
+            provider: function() {
+                return noncedWallet(new HDWalletProvider(getPrivKeys('rinkeby'), 'https://rinkeby.infura.io/v3/1b81fcc6e29d459ca28861e0901aba99'))
+            },
+            network_id: 4,
+            gas: 6000000,
+            gasPrice: 10000000000
+        },
         develop: {
             host: '127.0.0.1',
             port: 9545,

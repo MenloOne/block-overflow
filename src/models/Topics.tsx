@@ -18,7 +18,6 @@ import * as React from 'react'
 import { toast } from 'react-toastify'
 
 import web3 from './Web3'
-import TruffleContract from 'truffle-contract'
 import BigNumber from 'bignumber.js'
 
 import RemoteIPFSStorage, { IPFSTopic } from '../storage/RemoteIPFSStorage'
@@ -26,8 +25,6 @@ import HashUtils from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
-import TokenContract   from 'menlo-token/build/contracts/MenloToken.json'
-import TopicsContract  from '../artifacts/MenloTopics.json'
 import { MenloTopics } from '../contracts.CN/MenloTopics'
 // import { MenloToken } from '../contracts/MenloToken'
 
@@ -60,7 +57,7 @@ export class Topics extends TopicsModel {
     private signalReady: () => void
     private signalSynced: () => void
 
-    private tokenContractJS: any
+    private tokenContract: MenloToken
     private contract: MenloTopics | null
 
     private actions: { newTopic }
@@ -116,16 +113,8 @@ export class Topics extends TopicsModel {
             this.account = acct.address
             this.acctSvc = acct
 
-            const tokenContract = TruffleContract(TokenContract)
-            await tokenContract.setProvider(web3.currentProvider)
-            tokenContract.defaults({ from: this.account })
-            this.tokenContractJS = await tokenContract.deployed()
-
-            const topicsContract = TruffleContract(TopicsContract)
-            await topicsContract.setProvider(web3.currentProvider)
-            topicsContract.defaults({ from: this.account })
-            const topicAddress = (await topicsContract.deployed()).address
-            this.contract = await MenloTopics.createAndValidate(web3, topicAddress)
+            this.tokenContract = await MenloToken.createAndValidate(web3, this.acctSvc.contractAddresses.MenloToken)
+            this.contract = await MenloTopics.createAndValidate(web3, this.acctSvc.contractAddresses.MenloTopics)
 
             this.topicOffsets = {}
             this.topicHashes = []
@@ -145,7 +134,7 @@ export class Topics extends TopicsModel {
             this.onModifiedTopic()
         } catch (e) {
             console.error(e)
-            throw(e)
+            // throw(e)
         }
     }
 
@@ -218,7 +207,7 @@ export class Topics extends TopicsModel {
             topic.endTime *= 1000 // Convert to Milliseconds
             topic.isAnswered = (topic.winner !== topic.author)
             topic.iWon = (topic.winner === this.account)
-            topic.bounty = (await this.tokenContractJS.balanceOf(topic.forumAddress)).toNumber() / 10 ** 18
+            topic.bounty = (await this.tokenContract.balanceOf(topic.forumAddress)).toNumber() / 10 ** 18
             topic.isClaimed = (topic.bounty === 0)
 
             topic.error  = null
@@ -293,10 +282,8 @@ export class Topics extends TopicsModel {
             const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
 
             // Send it to Blockchain
-            console.log('token ', this.tokenContractJS.address, ' topic ', contract.address, ' bounty ', bounty * 10 ** 18, ' action ', this.actions.newTopic)
-
-            const data : [string, string] = [hashSolidity.toString(), TOPIC_LENGTH.toString()]
-            const result = await this.tokenContractJS.transferAndCall(contract.address, bounty * 10 ** 18, this.actions.newTopic, data)
+            const data : string[] = [hashSolidity.toString(), TOPIC_LENGTH.toString()]
+            const result = await this.tokenContract.transferAndCallTx(contract.address, bounty * 10 ** 18, this.actions.newTopic, data).send({})
             console.log(result)
 
             return {

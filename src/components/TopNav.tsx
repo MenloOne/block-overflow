@@ -3,8 +3,7 @@ import BigNumber from 'bignumber.js'
 import Blockies from 'react-blockies'
 import { ToastContainer, toast } from 'react-toastify';
 
-import TruffleContract from 'truffle-contract'
-import MenloFaucetContract from '../artifacts/MenloFaucet.json'
+import { MenloFaucet } from '../contracts/MenloFaucet'
 
 import web3 from '../models/Web3'
 import { AccountContext, MetamaskStatus, NetworkName, ToastType, withAcct } from '../models/Account'
@@ -49,14 +48,8 @@ class TopNav extends React.Component<TopNavProps> {
         }
 
         try {
-            const faucetContract = TruffleContract(MenloFaucetContract)
-            faucetContract.defaults({
-                from: this.props.acct.model.address
-            })
-            faucetContract.setProvider(web3.currentProvider)
-
-            const faucet = await faucetContract.deployed()
-            await faucet.drip()
+            const faucet = await MenloFaucet.createAndValidate(web3, this.props.acct.model.contractAddresses.MenloFaucet)
+            await faucet.dripTx().send({})
 
             this.props.acct.svc.refreshBalance()
         } catch (e) {

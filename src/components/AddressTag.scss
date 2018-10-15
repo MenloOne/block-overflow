@@ -29,9 +29,6 @@
         border-radius: 3px;
         line-height: 0;
         transition: .1s all ease-out;
-        &:hover {
-            background: #e0e5f3;
-        }
     }
     &-name {
         color: #6B768E;
@@ -42,6 +39,10 @@
     &-name-dots, &-name-0x {
         width: auto;
     }
+}
+
+a.AddressTag-link .AddressTag-wrapper:hover {
+    background: #e0e5f3;
 }
 
 .Page-permalink {
