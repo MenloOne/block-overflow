@@ -124,14 +124,14 @@ class QuestionRow extends React.Component<TopicViewProps> {
 
         return (
             <li className="question">
-                <a
-                    onClick={ this.onClickTopic }
-                    href={`/topic/${this.props.topic.forumAddress}`}
-                >
-                    <div className="user-img">
-                        <Blockies size={12} scale={4} seed={topic.author}/>
-                    </div>
-                    <div className="content">
+                <div className="user-img">
+                    <Blockies size={12} scale={4} seed={topic.author}/>
+                </div>
+                <div className="content">
+                    <a
+                        onClick={this.onClickTopic}
+                        href={`/topic/${this.props.topic.forumAddress}`}
+                    >
                         <span className="title">
                             { (topic.title && topic.title.length > 4) ?
                                 topic.title
@@ -139,43 +139,43 @@ class QuestionRow extends React.Component<TopicViewProps> {
                                 topic.body.substr(0, 100)
                             }
                         </span>
-                        <div>
-                            {topic && topic.author && <AddressTag link={false} copy={false} address={topic.author} />}
-                            <span style={{ display: 'none' }}>
-                                <span className="points">??? points </span>
-                            </span>
-                            {topic && topic.date && <Moment fromNow>{topic.date}</Moment>}
-                        </div>
+                    </a>
+                    <div>
+                        {topic && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
+                        <span style={{ display: 'none' }}>
+                            <span className="points">??? points </span>
+                        </span>
+                        {topic && topic.date && <Moment fromNow>{topic.date}</Moment>}
                     </div>
-                    <div className="stats">
-                        {utils.formatNumber(topic.totalAnswers) }
-                        <span className="subtitle">ANSWERS</span>
-                    </div>
-                    <div className="stats">
-                        {utils.formatNumber(topic.winningVotes) }
-                        <span className="subtitle">VOTES</span>
-                    </div>
-                    <div className="stats">
-                        { topic.bounty === 0 ?
-                            (<Fragment>
-                                { utils.formatNumber(topic.pool.toFixed()) }
-                                {!this.props.topic.isAnswered ? (
-                                    <span className="subtitle">BOUNTY</span>
-                                ) : (
-                                    <span className="subtitle">ONE PAID</span>
-                                )}
-                            </Fragment>)
-                            :
-                            (<Fragment>
-                                { utils.formatNumber(topic.bounty.toFixed()) }
+                </div>
+                <div className="stats">
+                    {utils.formatNumber(topic.totalAnswers) }
+                    <span className="subtitle">ANSWERS</span>
+                </div>
+                <div className="stats">
+                    {utils.formatNumber(topic.winningVotes) }
+                    <span className="subtitle">VOTES</span>
+                </div>
+                <div className="stats">
+                    { topic.bounty === 0 ?
+                        (<Fragment>
+                            { utils.formatNumber(topic.pool.toFixed()) }
+                            {!this.props.topic.isAnswered ? (
                                 <span className="subtitle">BOUNTY</span>
-                            </Fragment>)
-                        }
-                    </div>
-                    <div className="stats stats-timer">
-                        <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
-                    </div>
-                </a>
+                            ) : (
+                                <span className="subtitle">ONE PAID</span>
+                            )}
+                        </Fragment>)
+                        :
+                        (<Fragment>
+                            { utils.formatNumber(topic.bounty.toFixed()) }
+                            <span className="subtitle">BOUNTY</span>
+                        </Fragment>)
+                    }
+                </div>
+                <div className="stats stats-timer">
+                    <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
+                </div>
             </li>
         )
     }

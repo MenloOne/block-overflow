@@ -39,9 +39,7 @@ a[disabled], a[disabled]:hover {
 
 .question {
     padding: 10px 14px;
-    a:hover {
-        text-decoration: none;
-    }
+    display: flex;
     .title {
         color: #2c3035;
     }
