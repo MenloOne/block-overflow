@@ -1,13 +1,11 @@
-import * as React from 'react'
+import React, { Component } from 'react'
 import * as History from 'history'
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
-
-
-
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { Account, AccountContext, AccountCtxtComponent } from './models/Account'
+import { Account, AccountContext, AccountCtxtComponent, withAcct } from './models/Account'
+
 import { resolve, history } from './router'
 
 import TopicsPage from './questions/QuestionsPage'
@@ -32,8 +30,12 @@ interface AppState {
     component?: React.Component
 }
 
+interface AppProps {
+    acct: AccountContext;
+}
 
-class App extends React.Component {
+
+class App extends Component<AppProps> {
 
     state   : AppState
     account : Account
@@ -113,10 +115,10 @@ class App extends React.Component {
                 { this.props.children }
                 <Footer />
                 <div className="mobile-mask">Please use a Desktop computer to access this dApp.</div>
-                {MetamaskModal}
+                <MetamaskModal acct={this.state.account} />
             </AccountCtxtComponent.Provider>
         )
     }
 }
 
-export default App
+export default withAcct(App)
