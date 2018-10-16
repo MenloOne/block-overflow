@@ -240,6 +240,9 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
 
         const message = this.props.message
 
+        console.log(this.props.message.downvoteDisabled(), this.state.commentFormState !== CommentFormState.Closed);
+        
+
         return (
             <li className="borderis message">
                 {
@@ -279,8 +282,10 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                         { this.renderVotes() }
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
                         <span >
-                                <a onClick={this.upvote} disabled={this.props.message.upvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
-                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}>
+                                <a onClick={this.upvote} disabled={this.props.message.upvoteDisabled()}>
+                                    <span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span>
+                                </a>
+                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled()}>
                                     <span className="Question-downvote">
                                         <img src={voteTriangle} className="icon-downvote" />
                                         Downvote
