@@ -49,7 +49,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
         if (this.props.topics.model.topics.length === 0 && this.props.acct.model.status !== MetamaskStatus.Ok) {
             return (<li className=''>
                 <div style={{ textAlign: 'center', padding: '2em' }}>
-                    <Loader /><br />Connecting...
+                    <Loader size={100} /><br />Connecting...
                 </div>
             </li>)
         }
@@ -57,7 +57,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
         if (this.props.topics.model.topics.length === 0) {
             return (<li className=''>
                 <div style={{ textAlign: 'center', padding: '2em' }}>
-                    <Loader /><br />Loading...
+                    <Loader size={100} /><br />Loading...
                 </div>
             </li>)
         }

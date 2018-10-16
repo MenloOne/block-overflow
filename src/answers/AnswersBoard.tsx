@@ -10,6 +10,7 @@ import Lottery from '../models/Lottery'
 import { CIDZero } from '../storage/HashUtils'
 
 import CountdownTimer from '../components/CountdownTimer'
+import Loader from '../components/Loader'
 import AddressTag from '../components/AddressTag'
 
 
@@ -155,7 +156,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
             return (
                 <li className='borderis message'>
                     <div style={{ paddingBottom: '3em' }}>
-                        Loading Answers...
+                        <Loader size={22} />
                     </div>
                 </li>)
         }
@@ -195,6 +196,60 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
         })
     }
 
+    renderStats() {
+
+        if (!this.props.forum.model.lottery.pool) {
+            return (
+
+                <div className="Question-stats">
+                    <div className="stat">
+                        <Loader size={22}  style={{margin: '.2rem 0'}} />
+                    </div>
+                    <div className="stat">
+                        <Loader size={22}  style={{margin: '.2rem 0'}} />
+                    </div>
+                    <div className="stat">
+                        <Loader size={22}  style={{margin: '.2rem 0'}} />
+                    </div>
+                </div>
+            )
+        }
+        
+        return (
+            <div className="Question-stats">
+                <div className="stat">
+                    <div className="number-circle"><span>{utils.formatNumber(this.props.forum.model.lottery.pool.toFixed(0))}</span></div>
+                    <div className="stat-label-wrapper">
+                        <span>Payout for Winning Answer</span>
+                        <span>{utils.formatNumber(this.props.forum.model.lottery.pool.toFixed(0))} ONE Tokens</span>
+                    </div>
+                </div>
+                <div className="stat">
+                    <div className="number-circle"><span>{utils.formatNumber(this.state.messages.length)}</span></div>
+                    <div className="stat-label-wrapper">
+                        <span>Activity</span>
+                        <span>{utils.formatNumber(this.state.messages.length)} Answer{this.state.messages.length > 1 ? 's' : ''}</span>
+                    </div>
+                </div>
+                <div className="stat">
+                    <div className="stat-label-wrapper">
+                        <span>Total Votes</span>
+                        <span>
+                            <i className="fa fa-fw fa-thumbs-up"></i>
+                            {this.props.forum.model.lottery.winningVotes && utils.formatNumber(this.props.forum.model.lottery.winningVotes)}
+                            {false &&
+                                <span>
+                                    <i className="fa fa-fw fa-thumbs-down"></i>
+                                    {this.props.forum.model.lottery.winningOffset && utils.formatNumber(this.props.forum.model.lottery.winningOffset)}
+                                </span>
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     render() {
         
         return (
@@ -214,13 +269,21 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             </span>
                         </div>
                         <div className="QuestionHeader-textWrapper">
-                            {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag link={true} copy={true} address={this.props.forum.model.topic.author} />}
-                            <h6>
-                                {this.props.forum.model.topic && this.props.forum.model.topic.title}
-                            </h6>
-                            <span style={{ display: 'none' }}>?? points</span>
-                            {this.props.forum.model.topic && <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>}
-                        </div>
+                        {
+                            this.props.forum.model.topic ? (
+                                    <div>
+                                        {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag link={true} copy={true} address={this.props.forum.model.topic.author} />}
+                                        <h6>
+                                            {this.props.forum.model.topic && this.props.forum.model.topic.title}
+                                        </h6>
+                                        <span style={{ display: 'none' }}>?? points</span>
+                                        {this.props.forum.model.topic && <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>}
+                                    </div>
+                                
+                            ) : (
+                                <Loader size={22} style={{ margin: '0 1rem 0 0' }} />
+                            )
+                        }</div>
                         <div className="QuestionHeader-countdown">
                             {
                                 this.props.forum.model.lottery.hasEnded &&
@@ -237,57 +300,27 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 </span>
                             }
                             {(this.state.lottery && this.state.lottery.endTime && this.state.lottery.endTime !== 0) ?
-                                (<CountdownTimer date={new Date(this.state.lottery.endTime)} />) : (<span>Loading...</span>)
+                                (<CountdownTimer date={new Date(this.state.lottery.endTime)} />) : (<Loader size={22} style={{ margin: '0 1rem 0 0' }} />)
                             }
                         </div>
                     </div>
-                    <div className="Question-stats">
-                        <div className="stat">
-                            <div className="number-circle"><span>{utils.formatNumber(this.props.forum.model.lottery.pool.toFixed(0))}</span></div>
-                            <div className="stat-label-wrapper">
-                                <span>Payout for Winning Answer</span>
-                                <span>{utils.formatNumber(this.props.forum.model.lottery.pool.toFixed(0))} ONE Tokens</span>
-                            </div>
-                        </div>
-                        <div className="stat">
-                            <div className="number-circle"><span>{utils.formatNumber(this.state.messages.length)}</span></div>
-                            <div className="stat-label-wrapper">
-                                <span>Activity</span>
-                                <span>{utils.formatNumber(this.state.messages.length)} Answer{this.state.messages.length > 1 ? 's' : ''}</span>
-                            </div>
-                        </div>
-                        <div className="stat">
-                            <div className="stat-label-wrapper">
-                                <span>Total Votes</span>
-                                <span>
-                                    <i className="fa fa-fw fa-thumbs-up"></i>
-                                    {this.props.forum.model.lottery.winningVotes && utils.formatNumber(this.props.forum.model.lottery.winningVotes)}
-                                    {false &&
-                                        <span>
-                                            <i className="fa fa-fw fa-thumbs-down"></i>
-                                            {this.props.forum.model.lottery.winningOffset && utils.formatNumber(this.props.forum.model.lottery.winningOffset)}
-                                        </span>
-                                    }
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    {this.renderStats()}
                     <div className="Question-wrapper left-side-wrapper">
                         <span className="small-heading">Question</span>
-                        {this.props.forum.model.topic ? <MarkDown markdown={this.props.forum.model.topic.body} /> : '...'}
+                        {this.props.forum.model.topic && this.props.forum.model.topic.body ? <MarkDown markdown={this.props.forum.model.topic.body} /> : <Loader size={22} style={{marginBottom: '1rem'}} />}
                         <p className="Question-actionWrapper">
                             {
                                 !this.props.forum.model.lottery.hasEnded &&
                                 <a href='#answerForm'>
                                     <span className="Question-reply">
                                         Answer
-                                </span>
+                                    </span>
                                 </a>
                             }
                             <a href="">
                                 <span className="Question-permalink">
                                     Permalink
-                            </span>
+                                </span>
                             </a>
                             <a href="">
                             </a>

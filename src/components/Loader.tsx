@@ -5,7 +5,9 @@ import { withAcct, AccountContext } from '../models/Account'
 import './Loader.scss'
 
 class LoaderProps {
-    acct: AccountContext
+    acct: AccountContext;
+    size?: number;
+    style?: object;
 }
 
 interface LoaderState {
@@ -22,7 +24,7 @@ class Loader extends Component<LoaderProps> {
     }
     render() {
         return  (
-            <div className="Loader">
+            <div className="Loader" style={Object.assign({}, this.props.style, {height: this.props.size, width: this.props.size})}>
                 <div></div>
                 <div></div>
                 <div></div>
