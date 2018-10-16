@@ -548,7 +548,12 @@ i.fa.fa-circle {
 
 .votes-indicator .circle,
 .comment-indicator {
-    background-color: #1944a5;
+    &.up {
+        background-color: #1944a5;
+    }
+    &.down {
+        background-color: #ca1515;
+    }
     font-family: 'Titillium web', 'Helvetica Neue';
     font-weight: 900;
     font-style: normal;

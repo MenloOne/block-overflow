@@ -110,7 +110,7 @@ class AnswerForm extends React.Component<AnswerFormProps> {
                 { this.props.rows === 1 &&
                     <div>
                         { this.props.icon &&
-                        <span className='comment-indicator'><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
+                        <span className={`comment-indicator  ${ this.props.icon.split('-')[2] }`}><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
                         }
                         <textarea
                             className='field'
