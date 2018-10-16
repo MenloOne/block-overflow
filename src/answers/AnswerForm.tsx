@@ -21,6 +21,7 @@ import { withAcct } from '../models/Account'
 import utils from '../utils'
 import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
+import MetamaskModal from 'src/components/MetamaskModal';
 
 
 class AnswerFormProps {
@@ -137,6 +138,7 @@ class AnswerForm extends React.Component<AnswerFormProps> {
                     </div>
                 }
                 { this.props.onCancel ? <a className="btn cancel-btn" onClick={this.props.onCancel}>Cancel</a> : null }
+                {this.state.submitting && <MetamaskModal />}
             </form>
         )
     }

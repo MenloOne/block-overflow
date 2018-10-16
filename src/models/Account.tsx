@@ -329,7 +329,13 @@ export function withAcct(Component) {
         // Notice that we pass through any additional props as well
         return (
             <AccountCtxtComponent.Consumer>
-                {(account: Account) => <Component { ...props } acct={ account }/>}
+                {(account: Account) => {
+                    return (
+                        <div>
+                            <Component {...props} acct={account} />
+                        </div>
+                    )
+                }}
             </AccountCtxtComponent.Consumer>
         )
     }

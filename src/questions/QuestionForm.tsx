@@ -20,6 +20,7 @@ import { withAcct } from '../models/Account'
 import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
 
+import MetamaskModal from 'src/components/MetamaskModal';
 
 class TopicFormProps {
     onSubmit: (title: string, body: string, tokenBounty: number) => void
@@ -127,6 +128,7 @@ class QuestionForm extends React.Component<TopicFormProps> {
                     <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question' />
                     <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
                 </div>
+                {this.state.submitting && <MetamaskModal />}
             </form>
         )
     }

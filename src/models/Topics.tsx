@@ -32,7 +32,6 @@ import { Account } from './Account'
 import Topic from './Topic'
 import { MenloForum } from '../contracts/MenloForum'
 
-
 export class TopicsModel {
     public topics: Topic[] = []
     public query: string = ''
@@ -77,6 +76,8 @@ export class Topics extends TopicsModel {
     private pageLimit: number = this.pageSize
 
 
+    public showMetamaskModal: boolean | false;
+
     constructor() {
         super()
 
@@ -86,6 +87,11 @@ export class Topics extends TopicsModel {
         this.remoteStorage = new RemoteIPFSStorage()
         this.account = null
         this.topicsCallback = null
+
+
+        web3.currentProvider.publicConfigStore.on('update', (asd) => {
+            this.showMetamaskModal = true;
+        });
     }
 
     public setCallback(callback : TopicsCallback) {
@@ -301,6 +307,7 @@ export class Topics extends TopicsModel {
             let timeout = 4000
 
             if (e.message === "Error: MetaMask Tx Signature: User denied transaction signature.") {
+                this.showMetamaskModal = false;
                 msg = "You cancelled the MetaMask transaction."
                 timeout = 1500
             }
@@ -327,7 +334,11 @@ export function withTopics(Component) {
         // Notice that we pass through any additional props as well
         return (
             <TopicsCtxtComponent.Consumer>
-                {(topics: Topics) => <Component { ...props } topics={ topics }/>}
+                {(topics: Topics) => (
+                    <div>
+                        <Component {...props} topics={topics} />
+                    </div>
+                )}
             </TopicsCtxtComponent.Consumer>
         )
     }

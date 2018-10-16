@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { AccountContext } from '../models/Account'
+import { withAcct, AccountContext } from '../models/Account'
 
 const metamaskLogo = require('../images/metamask-logo.png')
 
@@ -42,30 +42,20 @@ class MetamaskModal extends Component<MetamaskModalProps> {
     }
 
     render() {
-        return this.props.acct.model.status === "logged out" || this.props.acct.model.status === "uninstalled" ? (
+        return  (
             <div className="MetamaskModal-container">
                 <div className="MetamaskModal-wrapper">
                     <img className="MetamaskModal-logo" src={metamaskLogo} alt=""/>
-                    {this.props.acct.model.status === "logged out" ? (
-                        <div>
-                            <h4>Sign into MetaMask</h4>
-                            <p>
-                                You are logged out.
-                            </p>
-                        </div>
-                    ) : null}
-                    {this.props.acct.model.status === "uninstalled" ? (
-                        <div>
-                            <h4>Open in Chrome and install MetaMask</h4>
-                            <p>
-                                You can <a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en">install MetaMask</a> from the Chrome Browser Extensions store!
-                            </p>
-                        </div>
-                    ) : null}
+                    <div>
+                        <h4>Confirm MetaMask</h4>
+                        <p>
+                            MetaMask will open momentarily.
+                        </p>
+                    </div>
                 </div>
             </div>
-        ) : null
+        )
     }
 }
 
-export default MetamaskModal
+export default withAcct(MetamaskModal)
