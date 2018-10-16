@@ -42,10 +42,6 @@ class MetamaskModal extends Component<MetamaskModalProps> {
     }
 
     render() {
-
-        console.log(this.props, this.state);
-        
-
         return this.props.acct.model.status === "logged out" || this.props.acct.model.status === "uninstalled" ? (
             <div className="MetamaskModal-container">
                 <div className="MetamaskModal-wrapper">
