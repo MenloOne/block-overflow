@@ -5,6 +5,7 @@ import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 import { TopicsContext, withTopics } from "../models/Topics";
 
 import TopicView from './QuestionRow'
+import Loader from '../components/Loader'
 
 
 
@@ -47,16 +48,16 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
     renderMessages() {
         if (this.props.topics.model.topics.length === 0 && this.props.acct.model.status !== MetamaskStatus.Ok) {
             return (<li className=''>
-                <div style={{ padding: '2em' }}>
-                    Loading Questions...
+                <div style={{ textAlign: 'center', padding: '2em' }}>
+                    <Loader /><br />Connecting...
                 </div>
             </li>)
         }
 
         if (this.props.topics.model.topics.length === 0) {
             return (<li className=''>
-                <div style={{ padding: '2em' }}>
-                    Loading...
+                <div style={{ textAlign: 'center', padding: '2em' }}>
+                    <Loader /><br />Loading...
                 </div>
             </li>)
         }
