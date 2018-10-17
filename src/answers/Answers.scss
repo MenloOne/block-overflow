@@ -33,10 +33,29 @@ a[disabled], a[disabled]:hover {
     cursor: pointer;
 }
 
-.QuestionHeader {
+.Question-payout {
+    font-size: 2.5rem;
+    font-family: monospace;
+    line-height: 1.5rem;
+    color: #60b91c;
+}
+
+.Question-urgency .time-watch div {
+    line-height: 1rem;
+}
+
+.left-side .QuestionHeader {
     .user-img {
-        width: 48px;
-        height: 48px;
+        width: 30px;
+        height: 30px;
+        margin-right: .5rem;
+    }
+    &-annotation {
+        font-size: .6rem;
+        padding: .1rem .3rem;
+        background: #eff0f1;
+        border-radius: 5px;
+        margin-left: .5rem;
     }
 }
 

@@ -121,7 +121,6 @@ class QuestionRow extends React.Component<TopicViewProps> {
 
     render() {
         const topic = this.props.topic
-
         return (
             <li className="question">
                 <div className="user-img">

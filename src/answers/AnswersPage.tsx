@@ -2,10 +2,15 @@ import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import TopNav from '../components/TopNav'
+import Loader from '../components/Loader'
+import AddressTag from '../components/AddressTag'
+
 import AnswersBoard from './AnswersBoard'
 import { Forum, ForumContext } from '../models/Forum'
 import { AccountContext, withAcct } from "../models/Account";
 import { history } from '../router'
+
+import utils from '../utils'
 
 import '../App.scss'
 
@@ -64,6 +69,8 @@ class AnswersPage extends React.Component<ForumProps> {
     }
 
     render() {
+        
+
         return (
             <div>
                 <TopNav/>
@@ -72,7 +79,41 @@ class AnswersPage extends React.Component<ForumProps> {
                     <div className="container">
                         <div className="row">
                             <div className="col-12">
-                                <AnswersBoard forum={ this.state.forum }/>
+                                <p className="Page-permalink">
+                                    <a href="/">Topics</a>
+                                    {this.state.forum.model.topic && this.state.forum.model.topic.title && <span> &bull; </span>}
+                                    {this.state.forum.model.topic && this.state.forum.model.topic.title && <span>{this.state.forum.model.topic.title}</span>}
+                                    {this.state.forum.model.topic && this.state.forum.model.topic.title && <AddressTag link={true} etherscanTab="tokentxns" address={this.state.forum.model.contractAddress} />}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-8">
+                                <AnswersBoard forum={this.state.forum} />
+                            </div>
+                            <div className="col-4">
+                                {this.state.forum.model.lottery.winningVotes ? <div className="stat">
+                                    <div className="stat-label-wrapper">
+                                        <span className="number-circle">
+                                            {this.state.forum.model.lottery.winningVotes ? utils.formatNumber(this.state.forum.model.lottery.winningVotes) : 0}
+                                        </span>
+                                        <span>Total Votes</span>
+                                        {/* {false &&
+                                            <span>
+                                                <i className="fa fa-fw fa-thumbs-down"></i>
+                                                {this.state.forum.model.lottery.winningOffset && utils.formatNumber(this.state.forum.model.lottery.winningOffset)}
+                                            </span>
+                                        } */}
+                                    </div>
+                                </div> : null}
+                                {this.state.forum.model.messages.messages[0].children.length ? <div className="stat">
+                                    <div className="stat-label-wrapper">
+                                        <span className="number-circle">
+                                            {this.state.forum.model.messages.messages[0].children.length}
+                                        </span>
+                                        <span>Total Answers</span>
+                                    </div>
+                                </div> : <Loader />}
                             </div>
                         </div>
                     </div>

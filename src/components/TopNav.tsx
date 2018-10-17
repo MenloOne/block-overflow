@@ -110,7 +110,7 @@ class TopNav extends React.Component<TopNavProps> {
     }
 
     renderAccountStatus() {
-        console.log( 'STATUS: ', this.props.acct.model.status )
+        // console.log( 'STATUS: ', this.props.acct.model.status )
 
         if (this.props.acct.model.status === MetamaskStatus.LoggedOut) {
             toast('You must first sign into Metamask to take part in discussions.', {

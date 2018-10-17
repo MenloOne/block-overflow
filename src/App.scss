@@ -774,7 +774,6 @@ a#messagesDropdown {
 }
 
 .Question-stats {
-    padding-left: 77px !important;
     background: #F2F5FA;
     padding: .33rem;
     display: flex;
@@ -788,16 +787,37 @@ a#messagesDropdown {
     padding: 0 !important;
 }
 
-.Question-wrapper {
-    padding-left: 77px !important;
+.left-side {
+    .Question-wrapper {
+        .Question-urgency {
+            display: flex;
+            justify-content: center;
+            & > div {
+                padding: 0 1.5rem;
+                margin: 1.5rem 0;
+                align-items: center;
+                text-align: center;
+                border-right: 1px solid #efefef;
+            }
+            & > div:last-child {
+                border: none;
+            }
+        }
+        p {
+            font-size: 15px;
+        }
+        .Question-countdownWrapper {
+            text-align: center;
+        }
+        span.small-subtitle {
+            font-size: 9px;
+            line-height: 1.7rem;
+        }
+    }
 }
 
 .townhall .small-heading {
     line-height: 0;
-}
-
-.townhall .message-wrapper {
-
 }
 
 .token-one {
@@ -1029,7 +1049,7 @@ span.location {
 
 .content-wrapper {
     clear: both;
-    background-color: #f9f9f9;
+    background-color: #fbfbfb;
 }
 
 .content-wrapper .container {
@@ -1054,14 +1074,11 @@ span.location {
     margin: 0;
 }
 
-.left-side-wrapper {
-    padding: 2em 0;
-}
-
 .left-side h6 {
-    color: #2E4168;
-    font-size: 1.7rem;
-    margin: 0;
+    font-size: 1.8rem;
+    font-family: "Open Sans";
+    font-weight: 500;
+    margin-bottom: 1rem;
 }
 
 .user-img {
@@ -1859,7 +1876,7 @@ span.sold {
     width: auto;
 }
 
-.question time, .message time, .QuestionHeader-textWrapper time {
+.question time, .message time, .QuestionHeader time {
     font-size: 11px;
     font-style: normal;
     font-stretch: normal;
@@ -1910,7 +1927,7 @@ span.tag {
 }
 
 .reply-form {
-    margin-right: 3em;
+    margin: 0 .5rem 0 3rem;
 }
 
 .comments .tag-name .btn {
@@ -2228,7 +2245,7 @@ table.stats tr td:nth-child(2) {
 }
 
 .comments .message-wrapper {
-    padding: 2em 77px;
+    padding: 2rem;
     overflow: hidden;
 }
 
@@ -2333,6 +2350,7 @@ table.stats tr td:nth-child(2) {
     align-items: center;
     width: 100%;
     float: left;
+    margin-bottom: 1rem;
 }
 
 .user-stats .stat {
@@ -2395,13 +2413,16 @@ table.stats tr td:nth-child(2) {
 }
 
 .stat-label-wrapper {
-    display: flex;
-    flex-direction: column;
     font-size: 11px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .stat-label-wrapper span:nth-child(1) {
     color: #40609A;
+    color: white;
     font-weight: 600;
 }
 
@@ -2475,8 +2496,8 @@ table.stats tr td:nth-child(2) {
 
 .QuestionHeader {
     display: flex;
-    align-items: center;
-    padding: .8rem;
+    align-items: baseline;
+    padding: 1.8rem 1.8rem 2rem;
 
     .AddressTag-container {
         margin-bottom: 0.33rem;
@@ -2587,6 +2608,11 @@ table.stats tr td:nth-child(2) {
 
 }
 .Question-permalink {
+    margin-left: .5rem;
+    font-size: 11px;
+    color: rgb(156, 161, 170);
+    font-weight: 600;
+    padding-right: 1em;
 
 }
 .Question-report {

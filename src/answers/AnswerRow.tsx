@@ -239,10 +239,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
         const { height } = this.state;
 
         const message = this.props.message
-
-        console.log(this.props.message.downvoteDisabled(), this.state.commentFormState !== CommentFormState.Closed);
         
-
         return (
             <li className="borderis message">
                 {
