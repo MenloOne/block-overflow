@@ -73,13 +73,13 @@ export class Forum extends ForumModel implements Forum {
     public synced: any
 
     public tokenContract: MenloToken | null
-    private tokenContractJS: any
+    // private tokenContractJS: any
 
     public contractAddress: string
     public contract: MenloForum | null
 
     private acct: Account
-    private actions: { post, upvote, downvote }
+    // private actions: { post, upvote, downvote }
 
     public account: string | null
     public remoteStorage: RemoteIPFSStorage
@@ -132,14 +132,14 @@ export class Forum extends ForumModel implements Forum {
             this.contract = await MenloForum.createAndValidate(web3, this.contractAddress)
 
             const hash : SolidityHash = (await this.contract.topicHash).toString()
-            this.topic = await this.remoteStorage.getMessage<IPFSTopic>(HashUtils.solidityHashToCid(hash))
-            const [post, upvote, downvote] = (await Promise.all([
-                this.contract.ACTION_POST,
-                this.contract.ACTION_UPVOTE,
-                this.contract.ACTION_DOWNVOTE
-            ])).map(bn => bn.toNumber());
+            this.topic = await this.remoteStorage.getMessage<IPFSTopic>(HashUtils.solidityHashToCid(hash));
+            // const [post, upvote, downvote] = (await Promise.all([
+            //     this.contract.ACTION_POST,
+            //     this.contract.ACTION_UPVOTE,
+            //     this.contract.ACTION_DOWNVOTE
+            // ])).map(bn => bn.toNumber());
 
-            this.actions = { post, upvote, downvote };
+            // this.actions = { post, upvote, downvote };
 
             [this.initialSyncEpoch, this.lotteryLength, this.postCost, this.voteCost] = (await Promise.all([
                 this.contract.postCount,
@@ -219,9 +219,9 @@ export class Forum extends ForumModel implements Forum {
             }
 
             const offset    = result.args._offset as number
-            const direction = result.args._direction as number
+            // const direction = result.args._direction as number
 
-            console.log(`[[ Vote ]] ( ${offset} ) > ${direction}` )
+            // console.log(`[[ Vote ]] ( ${offset} ) > ${direction}` )
 
             const message = this.messages.get(this.topicHashes[offset])
             if (message) {
@@ -248,7 +248,7 @@ export class Forum extends ForumModel implements Forum {
             const messageID : CID = solidityHashToCid(messageHash)
 
             if (messageID === CIDZero) {
-                console.log(`[[ Answer ]] ${messageHash}`)
+                // console.log(`[[ Answer ]] ${messageHash}`)
 
                 // Probably 0x0 > 0x0 which Solidity adds to make life simple
                 this.topicOffsets[messageID] = this.topicHashes.length
@@ -258,7 +258,7 @@ export class Forum extends ForumModel implements Forum {
 
             if (typeof this.topicOffsets[messageID] === 'undefined') {
                 const offset = this.topicHashes.length
-                console.log(`[[ Answer ]] ( ${offset} ) ${messageHash}`)
+                // console.log(`[[ Answer ]] ( ${offset} ) ${messageHash}`)
 
                 this.topicOffsets[messageID] = offset
                 this.topicHashes.push(messageID)
@@ -288,7 +288,7 @@ export class Forum extends ForumModel implements Forum {
             const parentID  = HashUtils.solidityHashToCid(parentHash)
             const messageID = HashUtils.solidityHashToCid(messageHash)
 
-            console.log(`[[ Comment ]] ${parentID} > ${messageID}`)
+            // console.log(`[[ Comment ]] ${parentID} > ${messageID}`)
             const message = new Message( this, messageID, parentID, -1 )
 
             this.messages.add(message)
@@ -316,7 +316,6 @@ export class Forum extends ForumModel implements Forum {
 
             message.filled = true
         } catch (e) {
-            console.log('Error with Message ', message, ' Error ', e)
 
             if (!message.error) {
                 setTimeout(() => { this.fillMessage(message.id) }, 100)
@@ -416,14 +415,14 @@ export class Forum extends ForumModel implements Forum {
     async voteAndComment(id : CID, direction: number, body: string | null) {
         await this.ready
 
-        const action = (direction > 0) ? this.actions.upvote : this.actions.downvote
+        // const action = (direction > 0) ? this.actions.upvote : this.actions.downvote
 
         if (!body) {
             // Send it to Blockchain
-            const data: [string, SolidityHash, SolidityHash] = [this.topicOffset(id).toString(), SolidityHashZero, SolidityHashZero]
-            const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
+            // const data: [string, SolidityHash, SolidityHash] = [this.topicOffset(id).toString(), SolidityHashZero, SolidityHashZero]
+            // const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
             // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
-            console.log(result)
+            // console.log(result)
             return null
         }
 
@@ -446,10 +445,10 @@ export class Forum extends ForumModel implements Forum {
             ipfsHash = await this.remoteStorage.createMessage(ipfsMessage)
 
             // Send it to Blockchain
-            const data : [string, SolidityHash, SolidityHash] = [this.topicOffset(id).toString(), HashUtils.cidToSolidityHash(parentID), HashUtils.cidToSolidityHash(ipfsHash)]
-            const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
+            // const data : [string, SolidityHash, SolidityHash] = [this.topicOffset(id).toString(), HashUtils.cidToSolidityHash(parentID), HashUtils.cidToSolidityHash(ipfsHash)]
+            // const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
             // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
-            console.log(result)
+            // console.log(result)
 
             return {
                 id: ipfsHash,
@@ -487,16 +486,16 @@ export class Forum extends ForumModel implements Forum {
             // Create message and pin it to remote IPFS
             ipfsHash = await this.remoteStorage.createMessage(ipfsMessage)
 
-            const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
+            // const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
             let parentHashSolidity = ipfsMessage.parent
             if (parentHashSolidity !== SolidityHashZero) {
                 parentHashSolidity = HashUtils.cidToSolidityHash(parentHashSolidity)
             }
 
             // Send it to Blockchain
-            const data : string[] = [parentHashSolidity, hashSolidity]
-            const result = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.postCost, this.actions.post, data).send({})
-            console.log(result)
+            // const data : string[] = [parentHashSolidity, hashSolidity]
+            // const result = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.postCost, this.actions.post, data).send({})
+            // console.log(result)
 
             return {
                 id: ipfsHash,

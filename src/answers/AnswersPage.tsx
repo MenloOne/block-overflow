@@ -70,8 +70,6 @@ class AnswersPage extends React.Component<ForumProps> {
 
     render() {
         
-        console.log(this.state.forum.model.messages.messages);
-        
 
         return (
             <div>
@@ -108,7 +106,8 @@ class AnswersPage extends React.Component<ForumProps> {
                                         } */}
                                     </div>
                                 </div> : null}
-                                {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat">
+                                {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? 
+                                    <div className="stat">
                                     <div className="stat-label-wrapper">
                                         <span className="number-circle">
                                             {this.state.forum.model.messages.messages[0].children.length}
