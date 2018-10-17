@@ -7,7 +7,7 @@ import AddressTag from '../components/AddressTag'
 
 import AnswersBoard from './AnswersBoard'
 import { Forum, ForumContext } from '../models/Forum'
-import { AccountContext, withAcct } from "../models/Account";
+import { AccountContext, withAcct, MetamaskStatus } from "../models/Account";
 import { history } from '../router'
 
 import utils from '../utils'
@@ -70,6 +70,8 @@ class AnswersPage extends React.Component<ForumProps> {
 
     render() {
         
+        console.log(this.state.forum.model.messages.messages);
+        
 
         return (
             <div>
@@ -106,7 +108,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                         } */}
                                     </div>
                                 </div> : null}
-                                {this.state.forum.model.messages.messages[0].children.length ? <div className="stat">
+                                {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat">
                                     <div className="stat-label-wrapper">
                                         <span className="number-circle">
                                             {this.state.forum.model.messages.messages[0].children.length}

@@ -197,11 +197,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
     }
 
     render() {
-
-        if (this.state.lottery) {
-            console.log(this.state.lottery.claimed);
-        }
-        
         
         return (
             <div>
