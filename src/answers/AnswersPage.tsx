@@ -1,4 +1,6 @@
 import * as React from 'react'
+import Moment from 'react-moment'
+import moment from 'moment'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import TopNav from '../components/TopNav'
@@ -113,8 +115,21 @@ class AnswersPage extends React.Component<ForumProps> {
 
     render() {
 
-        console.log(this.state.lottery, this.state.lottery ? this.state.lottery.pool : null);
-        
+        let hours;
+
+        hours = false;
+
+        if (this.state.lottery) {
+
+            const end = moment(this.state.lottery.endTime)
+            const now = moment(Date.now())
+
+            const duration = moment.duration(now.diff(end));
+            hours = duration.asHours().toFixed(0);
+            
+        }
+
+        console.log(this.state.lottery, this.state.lottery ? this.state.lottery.pool : null)
 
         return (
             <div>
@@ -148,27 +163,45 @@ class AnswersPage extends React.Component<ForumProps> {
                                                 <span className="number-circle">
                                                     {this.state.forum.model.messages.messages[0].children.length}
                                                 </span>
-                                                <span>Total Answers</span>
+                                                <div className="stat-labels">
+                                                    <span>Total Answers</span>
+                                                </div>
                                             </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
+
+                                        {this.state.lottery && this.state.lottery.pool.toFixed(0) !== "0" ? (<div className="stat">
+                                                <div className="stat-label-wrapper">
+                                                    <span className="number-circle">
+                                                        {utils.formatNumber(this.state.lottery.pool.toFixed(0))}
+                                                    </span>
+                                                    <div className="stat-labels">
+                                                        {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && <span>ONE rewarded</span>}
+                                                        {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && !this.state.lottery.claimed ? <span>to be claimed</span> : null}
+                                                        {/* <span>($11 USD)</span> */}
+                                                    </div>
+                                                </div>
+                                        </div>) : (<div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>)}
                                         {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
                                                     {this.state.lottery && this.state.lottery.winningVotes ? utils.formatNumber(this.state.lottery.winningVotes) : 0}
                                                 </span>
-                                                <span>Total Votes</span>
+                                                <div className="stat-labels">
+                                                    <span>Winning Votes</span>
+                                                </div>
                                             </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
-                                        <div className="stat">
-                                            {this.state.lottery && this.state.lottery.pool.toFixed(0) !== "0" ? (
+                                        {this.state.lottery && this.state.lottery.endTime ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
-                                                    {utils.formatNumber(this.state.lottery.pool.toFixed(0))}
+                                                    {hours}
                                                 </span>
-                                                {this.state.lottery && this.state.lottery.endTime < Date.now()  && this.state.lottery && this.state.lottery.claimed && <span>ONE rewarded</span>}
-                                                {this.state.lottery && this.state.lottery.endTime < Date.now()  && this.state.lottery && !this.state.lottery.claimed ? <span>to be claimed</span> : null}
-                                            </div>) : (<div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>)}
-                                        </div>
+                                                <span className="stat-labels">
+                                                    <span>Question Age (hours)</span>
+                                                    <span><Moment format="MMM D, YYYY h:MMa">{this.state.lottery.endTime}</Moment></span>
+                                                </span>
+                                            </div>
+                                        </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
                                     </div>
                                 </div>
                                 <Sidebar />

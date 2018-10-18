@@ -2424,18 +2424,23 @@ table.stats tr td:nth-child(2) {
     justify-content: center;
 }
 
-.stat-label-wrapper span:nth-child(1) {
-    color: #40609A;
+.stat-label-wrapper > span:nth-child(1) {
     color: white;
     font-weight: 600;
 }
 
-.stat-label-wrapper span:nth-child(2) {
+.stat-labels span:nth-child(1) {
+    font-weight: 600;
+}
+
+
+.stat-labels span:nth-child(2) {
     color: #154DCA;
 }
 
-.stat:nth-child(3) .stat-label-wrapper span:nth-child(2) {
-    color: #6B768E;
+.stat-labels {
+    display: flex;
+    flex-direction: column;
 }
 
 .stat:nth-child(3) .stat-label-wrapper .fa-thumbs-up {
