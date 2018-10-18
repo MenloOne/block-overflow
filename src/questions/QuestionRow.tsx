@@ -67,6 +67,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
     }
 
     componentDidMount() {
+        
     }
 
     componentWillUnmount() {
@@ -91,6 +92,11 @@ class QuestionRow extends React.Component<TopicViewProps> {
     async clickClaimTokens(e) {
         e.stopPropagation()
         this.setState({showMetamaskModal: true})
+
+        setTimeout(() => {
+            this.setState({ showMetamaskModal: false })
+        }, 6000)
+
         try {
             await this.props.topic.claimWinnings()
         } catch (error) {
@@ -186,7 +192,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                 <div className="stats stats-timer">
                     <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
                 </div>
-                { this.state.showMetamaskModal ? <MetamaskModal /> : null }
+                {this.state.showMetamaskModal ? <MetamaskModal /> : null }
             </li>
         )
     }

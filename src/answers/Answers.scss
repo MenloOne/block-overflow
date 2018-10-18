@@ -53,6 +53,10 @@ a[disabled], a[disabled]:hover {
     text-transform: capitalize;
     display: inline !important;
 }
+.col-4.sidebar {
+    display: flex;
+    flex-direction: column;
+}
 .left-side .QuestionHeader {
     .user-img {
         width: 30px;

@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import TopNav from '../components/TopNav'
 import Loader from '../components/Loader'
 import AddressTag from '../components/AddressTag'
+import Sidebar from '../components/Sidebar'
 
 import AnswersBoard from './AnswersBoard'
 import { Forum, ForumContext } from '../models/Forum'
@@ -91,7 +92,7 @@ class AnswersPage extends React.Component<ForumProps> {
                             <div className="col-8">
                                 <AnswersBoard forum={this.state.forum} />
                             </div>
-                            <div className="col-4">
+                            <div className="col-4 sidebar">
                                 {this.state.forum.model.lottery.winningVotes ? <div className="stat">
                                     <div className="stat-label-wrapper">
                                         <span className="number-circle">
@@ -115,6 +116,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                         <span>Total Answers</span>
                                     </div>
                                 </div> : <Loader />}
+                                <Sidebar />
                             </div>
                         </div>
                     </div>
