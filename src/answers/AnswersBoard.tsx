@@ -31,6 +31,7 @@ interface MessageBoardState {
     messages: any[],
     topFive: boolean,
     isCommenting: boolean,
+    url?: string,
     lottery?: Lottery,
     topicAvatar: Element | null
 }
@@ -61,6 +62,12 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
 
     componentWillMount() {
         this.subscribe(this.props.forum.svc)
+    }
+
+    componentDidMount() {
+        utils.getUrl({ address: this.props.forum.model.contractAddress}).then((url) => {
+            this.setState({ url })
+        });
     }
 
     componentWillUnmount() {
@@ -198,6 +205,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
 
     render() {
         
+        
         return (
             <div>
                 <div className="left-side">
@@ -227,6 +235,16 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                         <a href="">
                             <span className="Question-permalink">
                                 Permalink
+                            </span>
+                        </a>
+                        {/* <a href={''}>
+                            <span className="Question-ipfsSource">
+                                IPFS Source
+                            </span>
+                        </a> */}
+                        <a target="_blank" href={this.state.url}>
+                            <span className="Question-ethereumTx">
+                                Ethereum Tx
                             </span>
                         </a>
                     </div>

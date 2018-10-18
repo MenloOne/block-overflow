@@ -1878,12 +1878,12 @@ span.sold {
 }
 
 .question time, .message time, .QuestionHeader time {
-    font-size: 11px;
+    font-size: 12px;
     font-style: normal;
+    font-weight: 600;
     font-stretch: normal;
     letter-spacing: .02rem;
-    font-style: italic;
-    color: #a5a5a5;
+    color: #696d75;
     margin-bottom: 0;
     padding-bottom: 0;
     -o-text-overflow: ellipsis;
@@ -2595,7 +2595,6 @@ table.stats tr td:nth-child(2) {
     font-size: 12px;
     color: #6B768E;
     font-weight: 600;
-    padding-right: 1em;
 }
 
 .game-detail-wrapper .btn {
@@ -2614,14 +2613,6 @@ table.stats tr td:nth-child(2) {
 
 }
 .Question-reply {
-
-}
-.Question-permalink {
-    margin-left: .5rem;
-    font-size: 11px;
-    color: rgb(156, 161, 170);
-    font-weight: 600;
-    padding-right: 1em;
 
 }
 .Question-report {

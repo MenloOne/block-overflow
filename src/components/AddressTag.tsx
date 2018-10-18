@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import ReactTooltip from 'react-tooltip'
 
-import web3 from '../models/Web3'
-
 import utils from '../utils'
 
 import './AddressTag.scss'
@@ -35,7 +33,7 @@ export default class AddressTag extends Component<AddressTagProps> {
     }
 
     componentWillMount() {
-        this.getUrl().then((url) => {
+        utils.getUrl(this.props).then((url) => {
             this.setState({ url })
         });
 
@@ -62,30 +60,6 @@ export default class AddressTag extends Component<AddressTagProps> {
                 commandDown: false
             })
         }
-    }
-
-    getUrl() {
-
-        let url = ''
-
-        return new Promise((resolve, reject) => {
-
-            web3.version.getNetwork((err, netId) => {
-                const { address, etherscanTab } = this.props;
-                const targetId = etherscanTab ? `#${etherscanTab}` : '';
-
-                switch (netId) {
-                    case "42":
-                        url = 'https://kovan.etherscan.io'
-                        break
-                    default:
-                        url = 'https://etherscan.io'
-                }
-
-                resolve(`${url}/address/${address}${targetId}`);
-            })
-        })
-
     }
 
     onClick(e) {
