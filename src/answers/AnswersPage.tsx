@@ -125,8 +125,6 @@ class AnswersPage extends React.Component<ForumProps> {
             const duration = moment.duration(now.diff(end));
             hours = duration.asHours().toFixed(0);
         }
-
-        console.log(this.state.forum.model.lottery.endTime);
         
 
         return (

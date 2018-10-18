@@ -205,10 +205,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
 
     render() {
         
-        if (this.props.forum.model.lottery) {
-            console.log(this.props.forum.model.lottery.endTime);   
-        }
-        
         return (
             <div>
                 <div className="left-side">
