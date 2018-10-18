@@ -93,29 +93,37 @@ class AnswersPage extends React.Component<ForumProps> {
                                 <AnswersBoard forum={this.state.forum} />
                             </div>
                             <div className="col-4 sidebar">
-                                {this.state.forum.model.lottery.winningVotes ? <div className="stat">
-                                    <div className="stat-label-wrapper">
-                                        <span className="number-circle">
-                                            {this.state.forum.model.lottery.winningVotes ? utils.formatNumber(this.state.forum.model.lottery.winningVotes) : 0}
-                                        </span>
-                                        <span>Total Votes</span>
-                                        {/* {false &&
+
+                                <div className="user-stats right-side-box white-bg">
+                                    <div className="block-header">
+                                        <h4>Thread Metrics</h4>
+                                    </div>
+                                    <div className="block-padding">
+                                        {this.state.forum.model.lottery.winningVotes ? <div className="stat">
+                                            <div className="stat-label-wrapper">
+                                                <span className="number-circle">
+                                                    {this.state.forum.model.lottery.winningVotes ? utils.formatNumber(this.state.forum.model.lottery.winningVotes) : 0}
+                                                </span>
+                                                <span>Total Votes</span>
+                                                {/* {false &&
                                             <span>
                                                 <i className="fa fa-fw fa-thumbs-down"></i>
                                                 {this.state.forum.model.lottery.winningOffset && utils.formatNumber(this.state.forum.model.lottery.winningOffset)}
                                             </span>
                                         } */}
+                                            </div>
+                                        </div> : null}
+                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ?
+                                            <div className="stat">
+                                                <div className="stat-label-wrapper">
+                                                    <span className="number-circle">
+                                                        {this.state.forum.model.messages.messages[0].children.length}
+                                                    </span>
+                                                    <span>Total Answers</span>
+                                                </div>
+                                            </div> : <Loader />}
                                     </div>
-                                </div> : null}
-                                {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? 
-                                    <div className="stat">
-                                    <div className="stat-label-wrapper">
-                                        <span className="number-circle">
-                                            {this.state.forum.model.messages.messages[0].children.length}
-                                        </span>
-                                        <span>Total Answers</span>
-                                    </div>
-                                </div> : <Loader />}
+                                </div>
                                 <Sidebar />
                             </div>
                         </div>
