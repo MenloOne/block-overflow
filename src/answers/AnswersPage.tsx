@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import TopNav from '../components/TopNav'
 import Loader from '../components/Loader'
-import AddressTag from '../components/AddressTag'
 import Sidebar from '../components/Sidebar'
 
 import AnswersBoard from './AnswersBoard'
@@ -143,7 +142,6 @@ class AnswersPage extends React.Component<ForumProps> {
                                     <a href="/">Topics</a>
                                     {this.state.forum.model.topic && this.state.forum.model.topic.title && <span> &bull; </span>}
                                     {this.state.forum.model.topic && this.state.forum.model.topic.title && <span>{this.state.forum.model.topic.title}</span>}
-                                    {this.state.forum.model.topic && this.state.forum.model.topic.title && <AddressTag link={true} etherscanTab="tokentxns" address={this.state.forum.model.contractAddress} />}
                                 </p>
                             </div>
                         </div>
