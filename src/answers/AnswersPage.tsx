@@ -117,18 +117,17 @@ class AnswersPage extends React.Component<ForumProps> {
         let hours;
 
         hours = false;
-
-        if (this.state.lottery) {
-
-            const end = moment(this.state.lottery.endTime)
+        
+        if (this.state.forum.model.lottery && this.state.forum.model.lottery.endTime && this.state.forum.model.lottery.endTime !== 0) {
+            const end = moment(this.state.forum.model.lottery.endTime)
             const now = moment(Date.now())
 
             const duration = moment.duration(now.diff(end));
             hours = duration.asHours().toFixed(0);
-            
         }
 
-        console.log(this.state.lottery, this.state.lottery ? this.state.lottery.pool : null)
+        console.log(this.state.forum.model.lottery.endTime);
+        
 
         return (
             <div>
@@ -178,7 +177,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                                         {/* <span>($11 USD)</span> */}
                                                     </div>
                                                 </div>
-                                        </div>) : (<div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>)}
+                                        </div>) : (<div className="stat"><div className="stat-label-wrapper"></div></div>)}
                                         {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
@@ -199,7 +198,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                                     <span><Moment format="MMM D, YYYY h:MMa">{this.state.lottery.endTime}</Moment></span>
                                                 </span>
                                             </div>
-                                        </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
+                                        </div> : <div className="stat"><div className="stat-label-wrapper"></div></div>}
                                     </div>
                                 </div>
                                 <Sidebar />
