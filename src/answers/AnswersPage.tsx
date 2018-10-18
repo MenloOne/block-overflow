@@ -11,6 +11,9 @@ import { Forum, ForumContext } from '../models/Forum'
 import { AccountContext, withAcct, MetamaskStatus } from "../models/Account";
 import { history } from '../router'
 
+import Lottery from '../models/Lottery'
+import { CIDZero } from '../storage/HashUtils'
+
 import utils from '../utils'
 
 import '../App.scss'
@@ -23,6 +26,7 @@ interface ForumProps {
 
 interface ForumState {
     forum: ForumContext
+    lottery?: Lottery,
 }
 
 
@@ -39,9 +43,46 @@ class AnswersPage extends React.Component<ForumProps> {
         this.state = {
             forum: { model: this.forum, svc: this.forum}
         }
-        
+
+        this.refreshLotteries = this.refreshLotteries.bind(this)
+        this.refreshMessages = this.refreshMessages.bind(this)
+
         this.prepForum(props)
+
+        this.updateForum(props)
     }
+
+    componentWillMount() {
+        this.subscribe(this.state.forum.svc)
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe(this.state.forum.svc)
+    }
+
+    subscribe(forum: Forum) {
+        forum.subscribeMessages(CIDZero, this.refreshMessages)
+        this.refreshMessages()
+
+        forum.subscribeLotteries(this.refreshLotteries)
+        this.refreshLotteries()
+    }
+
+    unsubscribe(forum: Forum) {
+        forum.subscribeMessages(CIDZero, null)
+        forum.subscribeLotteries(null)
+    }
+
+    async refreshMessages() {
+        const messages = await this.state.forum.svc.getChildrenMessages(CIDZero)
+        this.setState({ messages })
+    }
+
+    async refreshLotteries() {
+        const lottery = await this.state.forum.model.lottery
+        this.setState({ lottery })
+    }
+
 
     async prepForum(props: ForumProps) {
         try {
@@ -58,7 +99,8 @@ class AnswersPage extends React.Component<ForumProps> {
         this.updateForum(nextProps)
     }
 
-    async updateForum(nextProps : ForumProps) {
+    async updateForum(nextProps: ForumProps) {
+
         if (nextProps.params.address !== this.props.params.address) {
             this.forum = new Forum(nextProps.params.address)
             this.prepForum(nextProps)
@@ -70,6 +112,8 @@ class AnswersPage extends React.Component<ForumProps> {
     }
 
     render() {
+
+        console.log(this.state.lottery, this.state.lottery ? this.state.lottery.pool : null);
         
 
         return (
@@ -99,29 +143,32 @@ class AnswersPage extends React.Component<ForumProps> {
                                         <h4>Thread Metrics</h4>
                                     </div>
                                     <div className="block-padding">
-                                        {this.state.forum.model.lottery.winningVotes ? <div className="stat">
+
+                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat"><div className="stat-label-wrapper">
+                                                <span className="number-circle">
+                                                    {this.state.forum.model.messages.messages[0].children.length}
+                                                </span>
+                                                <span>Total Answers</span>
+                                            </div>
+                                        </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
+                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
-                                                    {this.state.forum.model.lottery.winningVotes ? utils.formatNumber(this.state.forum.model.lottery.winningVotes) : 0}
+                                                    {this.state.lottery && this.state.lottery.winningVotes ? utils.formatNumber(this.state.lottery.winningVotes) : 0}
                                                 </span>
                                                 <span>Total Votes</span>
-                                                {/* {false &&
-                                            <span>
-                                                <i className="fa fa-fw fa-thumbs-down"></i>
-                                                {this.state.forum.model.lottery.winningOffset && utils.formatNumber(this.state.forum.model.lottery.winningOffset)}
-                                            </span>
-                                        } */}
                                             </div>
-                                        </div> : null}
-                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ?
-                                            <div className="stat">
-                                                <div className="stat-label-wrapper">
-                                                    <span className="number-circle">
-                                                        {this.state.forum.model.messages.messages[0].children.length}
-                                                    </span>
-                                                    <span>Total Answers</span>
-                                                </div>
-                                            </div> : <Loader />}
+                                        </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
+                                        <div className="stat">
+                                            {this.state.lottery && this.state.lottery.pool.toFixed(0) !== "0" ? (
+                                            <div className="stat-label-wrapper">
+                                                <span className="number-circle">
+                                                    {utils.formatNumber(this.state.lottery.pool.toFixed(0))}
+                                                </span>
+                                                {this.state.lottery && this.state.lottery.endTime < Date.now()  && this.state.lottery && this.state.lottery.claimed && <span>ONE rewarded</span>}
+                                                {this.state.lottery && this.state.lottery.endTime < Date.now()  && this.state.lottery && !this.state.lottery.claimed ? <span>to be claimed</span> : null}
+                                            </div>) : (<div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>)}
+                                        </div>
                                     </div>
                                 </div>
                                 <Sidebar />

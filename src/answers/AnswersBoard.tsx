@@ -230,7 +230,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             </span>
                         </a>
                     </div>
-                    {/* {this.renderStats()} */}
                     <div className="Question-wrapper left-side-wrapper">
                         {
                             this.props.forum.model.topic ? (
