@@ -48,6 +48,22 @@ a[disabled], a[disabled]:hover {
     }
 }
 
+.text-center {
+    text-align: center !important;
+}
+
+.mb-1 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 2rem !important;
+}
+
+.btn-instructions {
+    width: 100% !important;
+}
+
 .question {
     padding: 10px 14px;
     display: flex;

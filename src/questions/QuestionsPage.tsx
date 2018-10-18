@@ -32,7 +32,7 @@ class QuestionsPageProps {
 class QuestionsPageState {
     topics: TopicsContext
     searchQuery: string
-    howToHeight: string | number
+    howToHeight: string | number | undefined
     showCompose: boolean
     showInstructions: boolean
 }
@@ -55,7 +55,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         this.onChangeSearch = this.onChangeSearch.bind(this)
 
         this.state = {
-            howToHeight: 'auto',
+            howToHeight: localStorage.getItem('HowTo-Toggle') || 'auto',
             showCompose: false,
             showInstructions: true,
             topics: { model: Object.assign({}, this.topics), svc: this.topics },
@@ -161,8 +161,28 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         )
     }
 
+
+    toggleHowTo = () => {
+        const { howToHeight } = this.state;
+        const newHeight = howToHeight === "0" ? 'auto' : '0';
+
+        console.log(123, howToHeight, howToHeight === '0' );
+        
+
+        localStorage.setItem('HowTo-Toggle', newHeight)
+
+        this.setState({
+            howToHeight: newHeight
+        });
+    };
+
+
     renderInstructions() {
         const { howToHeight } = this.state;
+
+        if (localStorage.getItem('HowTo-Toggle') && howToHeight === 0) {
+            return null;
+        }
 
         return (
             <AnimateHeight
@@ -182,9 +202,8 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                             </div>
                             <div className="">
                                 <p>Block Overflow is a question and answer site for blockchain programmers and other people from the Menlo One community where users get paid in ONE tokens for providing correct answers.</p>
-                                <div className="btn-wrapper" style={{display: 'none'}}>
-                                    <a className="btn btn-big btn-green" onClick={this.clickSignIn}>Sign In</a>
-                                    <a className="btn btn-big btn-grey" onClick={this.clickCloseInstructions}>Close  </a>
+                                <div className="btn-wrapper">
+                                    <a className="btn btn-big btn-grey" onClick={this.toggleHowTo}>Close</a>
                                 </div>
                             </div>
                         </div>
@@ -275,6 +294,11 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
 
                                 <div className="col-md-4">
                                     {/* {this.renderUserStats()} */}
+                                    {(this.state.howToHeight === '0') && (
+                                        <a href="#" onClick={this.toggleHowTo} className="btn-instructions btn btn-green text-center mb-2">
+                                            Show Instructions
+                                        </a>
+                                    )}
                                     <Sidebar />
 
                                     {/* <div className="token-metrics right-side-box white-bg">
