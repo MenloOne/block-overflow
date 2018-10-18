@@ -1321,6 +1321,7 @@ body {
 
 .block-padding {
     padding: 30px 32px;
+    overflow: hidden;
 }
 
 .block-header h4 {
@@ -2355,6 +2356,9 @@ table.stats tr td:nth-child(2) {
 
 .user-stats .stat {
     margin-bottom: 1rem;
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .number-circle {
