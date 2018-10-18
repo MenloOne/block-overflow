@@ -22,6 +22,8 @@ import Blockies from 'react-blockies'
 import { TopicsContext, withTopics } from "../models/Topics";
 import Topic from "../models/Topic";
 import CountdownTimer from '../components/CountdownTimer'
+
+import MetamaskModal from '../components/MetamaskModal';
 import AddressTag from '../components/AddressTag'
 
 
@@ -42,6 +44,7 @@ interface TopicViewProps {
 interface TopicViewState {
     showReplyForm: boolean,
     showReplies: boolean,
+    showMetamaskModal: boolean,
 }
 
 
@@ -58,7 +61,8 @@ class QuestionRow extends React.Component<TopicViewProps> {
 
         this.state = {
             showReplyForm: false,
-            showReplies: true
+            showReplies: true,
+            showMetamaskModal: false
         }
     }
 
@@ -85,8 +89,15 @@ class QuestionRow extends React.Component<TopicViewProps> {
     }
 
     async clickClaimTokens(e) {
-        e.stopPropagation();
-        await this.props.topic.claimWinnings()
+        e.stopPropagation()
+        this.setState({showMetamaskModal: true})
+        try {
+            await this.props.topic.claimWinnings()
+        } catch (error) {
+            this.setState({ showMetamaskModal: false })
+            return
+        }
+        this.setState({ showMetamaskModal: false })
     }
 
     renderClosed() {
@@ -175,6 +186,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                 <div className="stats stats-timer">
                     <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
                 </div>
+                { this.state.showMetamaskModal ? <MetamaskModal /> : null }
             </li>
         )
     }

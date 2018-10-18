@@ -208,14 +208,14 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                         {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag link={true} copy={true} address={this.props.forum.model.topic.author} />}
                         <span style={{ display: 'none' }}>?? points</span>
                         {this.props.forum.model.topic && <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>}
-                        <div className="QuestionHeader-countdown">
+                        <div>
                             {
                                 this.props.forum.model.lottery.hasEnded &&
                                 <span>
-                                    <p className="QuestionHeader-annotation">QUESTION CLOSED</p>
+                                    <span className="QuestionHeader-annotation">QUESTION CLOSED</span>
                                     {
                                         this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner === this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&
-                                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
+                                        <a className='main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
                                     }
                                     {
                                         this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner !== this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&

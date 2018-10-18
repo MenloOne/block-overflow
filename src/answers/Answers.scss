@@ -43,7 +43,16 @@ a[disabled], a[disabled]:hover {
 .Question-urgency .time-watch div {
     line-height: 1rem;
 }
-
+.btn-claim {
+    padding: .2rem .4rem !important;
+    display: inline;
+    font-size: .65rem;
+    font-weight: 600;
+    margin-left: .5rem;
+    border-radius: 4px;
+    text-transform: capitalize;
+    display: inline !important;
+}
 .left-side .QuestionHeader {
     .user-img {
         width: 30px;
@@ -51,8 +60,8 @@ a[disabled], a[disabled]:hover {
         margin-right: .5rem;
     }
     &-annotation {
-        font-size: .6rem;
-        padding: .1rem .3rem;
+        font-size: .65rem;
+        padding: .2rem .4rem !important;
         background: #eff0f1;
         border-radius: 5px;
         margin-left: .5rem;

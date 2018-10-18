@@ -99,6 +99,7 @@ export default class Lottery {
         await this.forum.ready
 
         try {
+            
             await this.forum.contract!.claimTx().send({})
         } catch (e) {
             console.error(e)
