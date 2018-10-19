@@ -45,6 +45,7 @@ interface TopicViewState {
     showReplyForm: boolean,
     showReplies: boolean,
     showMetamaskModal: boolean,
+    new: boolean,
 }
 
 
@@ -62,12 +63,15 @@ class QuestionRow extends React.Component<TopicViewProps> {
         this.state = {
             showReplyForm: false,
             showReplies: true,
-            showMetamaskModal: false
+            showMetamaskModal: false,
+            new: true
         }
     }
 
     componentDidMount() {
-        
+        setTimeout(() => {
+            this.setState({ new: false })
+        }, 200);
     }
 
     componentWillUnmount() {
@@ -139,7 +143,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
     render() {
         const topic = this.props.topic
         return (
-            <li className="question">
+            <li className={`question ${this.state.new ? 'fresh' : null}`}>
                 <div className="user-img">
                     <Blockies size={12} scale={4} seed={topic.author}/>
                 </div>

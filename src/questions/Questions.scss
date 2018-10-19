@@ -70,11 +70,13 @@ a[disabled], a[disabled]:hover {
 
 .col-4.offset-4 > span {
     margin-right: 0.5rem;
+    font-weight: 600;
 }
 
 .col-4.offset-4 {
     display: flex;
     align-items: baseline;
+    font-family: Titillium;
 }
 
 .question {
@@ -138,12 +140,16 @@ a.more-btn {
 }
 
 .comments .question {
-    transition: all .15s ease-out;
+    transition: all .25s ease-out;
 }
+
+.comments .question.fresh {
+    background: #e0eaff;
+}
+
 
 .comments .question:hover {
     background: #FBFBFB;
-    border-radius: 6px;
 }
 
 .question .tag-name {
