@@ -59,13 +59,24 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
 
                 return top2.totalAnswers - top.totalAnswers;
             }); 
-        } },
-        { name: 'No Answers', fn: (topics) => {
-            return topics.filter((top) => {
+        }
+        },
+        {
+            name: 'Highest Stakes', fn: (topics) => {
+                return topics.sort((top, top2) => {
 
-                return top.totalAnswers === 0;
-            });
-        } }];
+                    return top2.pool - top.pool;
+                });
+            }
+        },
+        {
+            name: 'No Answers', fn: (topics) => {
+                return topics.filter((top) => {
+
+                    return top.totalAnswers === 0;
+                });
+            }
+        }];
 
     constructor(props: QuestionsPageProps, context) {
         super(props, context)
