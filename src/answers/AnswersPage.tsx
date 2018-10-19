@@ -110,6 +110,10 @@ class AnswersPage extends React.Component<ForumProps> {
         if (nextProps.acct.model.address !== this.props.acct.model.address) {
             this.prepForum(nextProps)
         }
+
+        await this.state.forum.svc.ready
+        this.subscribe(this.state.forum.svc)
+
     }
 
     render() {
@@ -118,12 +122,12 @@ class AnswersPage extends React.Component<ForumProps> {
 
         hours = false;
         
-        if (this.state.forum.model.lottery && this.state.forum.model.lottery.endTime && this.state.forum.model.lottery.endTime !== 0) {
-            const end = moment(this.state.forum.model.lottery.endTime)
+        if (this.state.forum.model.topic && this.state.forum.model.topic.date && this.state.forum.model.topic.date !== 0) {
+            const end = moment(this.state.forum.model.topic.date)
             const now = moment(Date.now())
 
             const duration = moment.duration(now.diff(end));
-            hours = duration.asHours().toFixed(0);
+            hours = duration.asHours() < 0 ? (duration.asHours() * -1).toFixed(0) : duration.asHours().toFixed(0);
         }
 
         return (
@@ -164,19 +168,20 @@ class AnswersPage extends React.Component<ForumProps> {
                                             </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
 
-                                        {this.state.lottery && this.state.lottery.pool.toFixed(0) !== "0" ? (<div className="stat">
+                                        {(this.state.lottery && this.state.lottery.pool !== 0 && this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? (<div className="stat">
                                                 <div className="stat-label-wrapper">
                                                     <span className="number-circle">
                                                         {utils.formatNumber(this.state.lottery.pool.toFixed(0))}
                                                     </span>
                                                     <div className="stat-labels">
-                                                    {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && (this.state.lottery.author !== this.state.lottery.winner) && <span>ONE rewarded</span>}
-                                                    {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && (this.state.lottery.author === this.state.lottery.winner) && <span>ONE reclaimed</span>}
+                                                        {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && (this.state.lottery.author !== this.state.lottery.winner) && <span>ONE rewarded</span>}
+                                                        {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && (this.state.lottery.author === this.state.lottery.winner) && <span>ONE reclaimed</span>}
                                                         {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && !this.state.lottery.claimed ? <span>to be claimed</span> : null}
+                                                        {this.state.lottery && this.state.lottery.endTime > Date.now() && this.state.lottery && !this.state.lottery.claimed ? <span>ONE bounty</span> : null}
                                                         {/* <span>($11 USD)</span> */}
                                                     </div>
                                                 </div>
-                                        </div>) : (<div className="stat"><div className="stat-label-wrapper"></div></div>)}
+                                        </div>) : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
                                         {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
@@ -187,7 +192,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                                 </div>
                                             </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
-                                        {this.state.lottery && this.state.lottery.endTime ? <div className="stat">
+                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) && this.state.lottery && this.state.lottery.endTime ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
                                                     {hours}
@@ -195,12 +200,9 @@ class AnswersPage extends React.Component<ForumProps> {
                                                 <span className="stat-labels">
                                                     <span>Question Age (hours)</span>
                                                     <span> <Moment format="MMM D, YYYY h:MMa">{this.state.forum.model.topic ? this.state.forum.model.topic.date : ''}</Moment></span>
-
-                                                    {/* 1539919384000 */}
-                                                    {/* 1539832975499 */}
                                                 </span>
                                             </div>
-                                        </div> : <div className="stat"><div className="stat-label-wrapper"></div></div>}
+                                        </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
                                     </div>
                                 </div>
                                 <Sidebar />
