@@ -22,6 +22,8 @@ import AnswerForm from './AnswerForm'
 import '../App.scss'
 import './Answers.scss'
 
+// const ONElogo = require('../images/menlo/menlo-one-logo-dark.svg')
+
 interface MessageBoardProps {
     acct: AccountContext,
     forum: ForumContext
@@ -204,7 +206,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
     }
 
     render() {
-        
+
         return (
             <div>
                 <div className="left-side">
@@ -264,8 +266,10 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 {!this.props.forum.model.lottery.hasEnded && <span><span className="small-subtitle">BOUNTY</span><br /></span>}
                                 {this.props.forum.model.lottery.pool ? (<span className="Question-payout">
                                     {utils.formatNumber(this.props.forum.model.lottery.pool.toFixed(0))} ONE
+                                    {/* <span className="one-icon"><img src={ONElogo} alt="" /></span> */}
                                 </span>) : (<Loader size={22} />)}
-                                {this.props.forum.model.lottery.hasEnded && this.state.lottery && this.state.lottery.claimed && <span><br /><span className="small-subtitle">REWARDED TO WINNER</span></span>}
+                                {this.props.forum.model.lottery.hasEnded && this.state.lottery && this.state.lottery.claimed && (this.props.forum.model.lottery.author !== this.props.forum.model.lottery.winner) && <span><br /><span className="small-subtitle">REWARDED TO WINNER</span></span>}
+                                {this.props.forum.model.lottery.hasEnded && this.state.lottery && this.state.lottery.claimed && (this.props.forum.model.lottery.author === this.props.forum.model.lottery.winner) && <span><br /><span className="small-subtitle">BOUNTY RECLAIMED BY AUTHOR</span></span>}
                                 {this.props.forum.model.lottery.hasEnded && this.state.lottery && !this.state.lottery.claimed ? <span><br /><span className="small-subtitle">TO BE CLAIMED</span></span> : null}
                             </div>
                             {(this.state.lottery && this.state.lottery.endTime && this.state.lottery.endTime !== 0 && this.state.lottery.endTime > Date.now()) ?

@@ -139,6 +139,21 @@ p > code {
     color: red;
 }
 
+.one-icon {
+    display: inline;
+    img {
+        height: inherit;
+        font-size: inherit;
+        display: inline;
+    }
+}
+
+.Question-payout img {
+    height: 19px;
+    vertical-align: baseline;
+    margin-left: 4px;
+}
+
 .error .new-message {
     padding-top: 0;
     text-align: right;

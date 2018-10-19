@@ -125,9 +125,12 @@ class AnswersPage extends React.Component<ForumProps> {
             const duration = moment.duration(now.diff(end));
             hours = duration.asHours().toFixed(0);
         }
-        
+
+
+        console.log(this.state);
 
         return (
+            
             <div>
                 <TopNav/>
 
@@ -170,7 +173,8 @@ class AnswersPage extends React.Component<ForumProps> {
                                                         {utils.formatNumber(this.state.lottery.pool.toFixed(0))}
                                                     </span>
                                                     <div className="stat-labels">
-                                                        {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && <span>ONE rewarded</span>}
+                                                    {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && (this.state.lottery.author !== this.state.lottery.winner) && <span>ONE rewarded</span>}
+                                                    {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && (this.state.lottery.author === this.state.lottery.winner) && <span>ONE reclaimed</span>}
                                                         {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && !this.state.lottery.claimed ? <span>to be claimed</span> : null}
                                                         {/* <span>($11 USD)</span> */}
                                                     </div>
@@ -193,7 +197,10 @@ class AnswersPage extends React.Component<ForumProps> {
                                                 </span>
                                                 <span className="stat-labels">
                                                     <span>Question Age (hours)</span>
-                                                    <span><Moment format="MMM D, YYYY h:MMa">{this.state.lottery.endTime}</Moment></span>
+                                                    <span> <Moment format="MMM D, YYYY h:MMa">{this.state.forum.model.topic ? this.state.forum.model.topic.date : ''}</Moment></span>
+
+                                                    {/* 1539919384000 */}
+                                                    {/* 1539832975499 */}
                                                 </span>
                                             </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"></div></div>}
