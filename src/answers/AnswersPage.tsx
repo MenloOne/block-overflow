@@ -111,8 +111,10 @@ class AnswersPage extends React.Component<ForumProps> {
             this.prepForum(nextProps)
         }
 
-        await this.state.forum.svc.ready
-        this.subscribe(this.state.forum.svc)
+        if (!this.state.forum.model.lottery.hasEnded) {
+            await this.state.forum.svc.ready
+            this.subscribe(this.state.forum.svc)   
+        }
 
     }
 
