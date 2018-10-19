@@ -222,6 +222,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 this.props.forum.model.lottery.hasEnded &&
                                 <span>
                                     <span className="QuestionHeader-annotation">QUESTION CLOSED</span>
+                                    {!this.state.messages.length && <span className="QuestionHeader-annotation">NO ANSWER</span>}
                                     {
                                         this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner === this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&
                                         <a className='main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
