@@ -1,6 +1,8 @@
 import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AnimateHeight from 'react-animate-height'
+import Dropdown from 'react-dropdown'
+import 'react-dropdown/style.css'
 
 import { AccountContext, withAcct } from '../models/Account'
 import { Topics, TopicsContext, TopicsCtxtComponent } from '../models/Topics'
@@ -35,13 +37,35 @@ class QuestionsPageState {
     howToHeight: string | number | undefined
     showCompose: boolean
     showInstructions: boolean
+    activeFilter: Function;
 }
 
 
 class QuestionsPage extends React.Component<QuestionsPageProps> {
 
-    static topics : Topics = new Topics()
+    static topics: Topics = new Topics()
+
     state : QuestionsPageState
+    filters: { name: string; fn: Function }[] = [
+        { name: 'Most Recent', fn: (topics) => {
+            return topics.sort((top, top2) => {
+                console.log(top);
+                
+                return top2.date - top.date;
+            }); 
+        } },
+        { name: 'Most Active', fn: (topics) => {
+            return topics.sort((top, top2) => {
+
+                return top2.totalAnswers - top.totalAnswers;
+            }); 
+        } },
+        { name: 'No Answers', fn: (topics) => {
+            return topics.filter((top) => {
+
+                return top.totalAnswers === 0;
+            });
+        } }];
 
     constructor(props: QuestionsPageProps, context) {
         super(props, context)
@@ -53,6 +77,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         this.clickCloseInstructions = this.clickCloseInstructions.bind(this)
         this.clickSignIn = this.clickSignIn.bind(this)
         this.onChangeSearch = this.onChangeSearch.bind(this)
+        this._onSelect = this._onSelect.bind(this)
 
         this.state = {
             howToHeight: localStorage.getItem('HowTo-Toggle') || 'auto',
@@ -60,6 +85,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
             showInstructions: true,
             topics: { model: Object.assign({}, this.topics), svc: this.topics },
             searchQuery: '',
+            activeFilter: this.filters[0].fn
         }
 
         QuestionsPage.topics.setCallback(this.topicsChanged)
@@ -264,11 +290,24 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         )
     }
 
+    _onSelect(newOption) {
+        this.setState({ activeFilter: this.filters.filter((filters) => {
+            return filters.name === newOption.value
+        })[0].fn})
+    }
+
+    getFilter() {
+        
+        return this.state.activeFilter
+    }
+
     render() {
         return (
             <TopicsCtxtComponent.Provider value={this.state.topics}>
                 <div>
-                    <TopNav/>
+                    <TopNav>
+                        <li className="nav-item"><a onClick={this.toggleHowTo} title="Guilds">How-To</a></li>
+                    </TopNav>
 
                     { this.renderInstructions() }
 
@@ -276,9 +315,16 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-8">
-                                    {
-                                        !this.state.showCompose &&
-                                        <a className='btn btn-big ask-btn' onClick={ this.clickAsk }>Ask a Question</a>
+                                    { !this.state.showCompose &&
+                                        <div className="row">
+                                            <div className="col-4">
+                                                    <a className='btn ask-btn' onClick={this.clickAsk}>Ask a Question</a>
+                                            </div>
+                                            <div className="col-4 offset-4">
+                                                <span>Sort By:</span>
+                                            <Dropdown options={this.filters.map((f) => { return f.name })} onChange={this._onSelect} value={this.filters[0].name} placeholder="Select an option" />
+                                            </div>
+                                        </div>
                                     }
                                     {
                                         this.state.showCompose &&
@@ -288,7 +334,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                         <div className="left-side-wrapper">
                                             <input className='search' placeholder='Search...' value={this.state.searchQuery} onChange={this.onChangeSearch} />
                                         </div>
-                                        <QuestionsBoard />
+                                        <QuestionsBoard filter={this.getFilter()} />
                                     </div>
                                 </div>
 

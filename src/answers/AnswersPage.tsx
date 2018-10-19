@@ -126,9 +126,6 @@ class AnswersPage extends React.Component<ForumProps> {
             hours = duration.asHours().toFixed(0);
         }
 
-
-        console.log(this.state);
-
         return (
             
             <div>

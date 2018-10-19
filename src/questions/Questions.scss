@@ -64,6 +64,19 @@ a[disabled], a[disabled]:hover {
     width: 100% !important;
 }
 
+.col-4.offset-4 > div {
+    flex: 1;
+}
+
+.col-4.offset-4 > span {
+    margin-right: 0.5rem;
+}
+
+.col-4.offset-4 {
+    display: flex;
+    align-items: baseline;
+}
+
 .question {
     padding: 10px 14px;
     display: flex;
