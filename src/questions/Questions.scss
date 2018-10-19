@@ -79,6 +79,31 @@ a[disabled], a[disabled]:hover {
     font-family: Titillium;
 }
 
+.QuestionForm {
+        font-family: Titillium;
+    h2 {
+        margin-top: 2rem;
+    }
+    .bounty.field {
+        display: inline;
+        width: 3.3rem;
+        text-align: center;
+    }
+    p {
+        text-align: center;
+        span {
+            color: green;
+            input {
+            color: green;
+            }
+            strong {
+                color: black;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
 .question {
     padding: 10px 14px;
     display: flex;

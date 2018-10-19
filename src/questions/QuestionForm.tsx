@@ -16,15 +16,18 @@
  */
 
 import React from 'react'
-import { withAcct } from '../models/Account'
+import BigNumber from 'bignumber.js'
+
+import { AccountContext, withAcct } from '../models/Account'
 import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
 
 import MetamaskModal from 'src/components/MetamaskModal';
 
 class TopicFormProps {
-    onSubmit: (title: string, body: string, tokenBounty: number) => void
-    onCancel: () => void
+    onSubmit: (title: string, body: string, tokenBounty: number) => void;
+    onCancel: () => void;
+    acct: AccountContext;
 }
 
 const MIN_BOUNTY = 10
@@ -104,31 +107,40 @@ class QuestionForm extends React.Component<TopicFormProps> {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit}>
-                <div className='row'>
-                    <div className='col-12 col-md-10'>
-                        <div>Question</div>
-                        <input className="field" id="" value={this.state.title} onChange={this.onChangeTitle} autoFocus={true} />
+            <form className="QuestionForm left-side" onSubmit={this.onSubmit}>
+                <div className="left-side-wrapper">
+                    <div className="row">
+                        <div className="col-12">
+                            <h2 className="text-center">
+                                Ask A Question
+                            </h2>
+                            <p>
+                                <span><strong>Bounty for Answers:</strong> <input className='bounty field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} /> ONE</span><br />
+                                <span><strong>Your current balance:</strong> {new BigNumber(this.props.acct.model.oneBalance).toFormat(0)} ONE</span>
+                            </p>
+                        </div>
                     </div>
-                    <div className='col-12 col-md-2'>
-                        <div>Bounty</div>
-                        <input className='field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} />
+                    <div className='row'>
+                        <div className='col-12'>
+                            <div>Question</div>
+                            <input className="field" id="" value={this.state.title} onChange={this.onChangeTitle} autoFocus={true} />
+                        </div>
                     </div>
+                    <div>Details</div>
+                    <SimpleMDE
+                        onChange={this.onChange}
+                        value={this.state.message}
+                        options={{
+                            autofocus: false,
+                            spellChecker: false,
+                        }}
+                    />
+                    <div className="askquestion-button-wrapper">
+                        <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question' />
+                        <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                    </div>
+                    {this.state.submitting && <MetamaskModal />}
                 </div>
-                <div>Details</div>
-                <SimpleMDE
-                    onChange={this.onChange}
-                    value={this.state.message}
-                    options={{
-                        autofocus: false,
-                        spellChecker: false,
-                    }}
-                />
-                <div className="askquestion-button-wrapper">
-                    <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question' />
-                    <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
-                </div>
-                {this.state.submitting && <MetamaskModal />}
             </form>
         )
     }

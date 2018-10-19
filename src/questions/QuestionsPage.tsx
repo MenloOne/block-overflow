@@ -326,16 +326,16 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                             </div>
                                         </div>
                                     }
-                                    {
-                                        this.state.showCompose &&
-                                        <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion}/>
-                                    }
                                     <div className='left-side'>
                                         <div className="left-side-wrapper">
                                             <input className='search' placeholder='Search...' value={this.state.searchQuery} onChange={this.onChangeSearch} />
                                         </div>
                                         <QuestionsBoard filter={this.getFilter()} />
                                     </div>
+                                    {
+                                        this.state.showCompose &&
+                                        <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion} />
+                                    }
                                 </div>
 
                                 <div className="col-md-4">
