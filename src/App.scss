@@ -621,7 +621,7 @@ i.fa.fa-circle:before {
     color: white;
 }
 
-#mainNav a#messagesDropdown {
+#mainNav #messagesDropdown {
     font-family: 'Titillium web', 'Helvetica Neue';
     font-size: 15px;
     font-weight: 300;
@@ -704,7 +704,7 @@ nav {
     z-index: 10000;
 }
 
-a#messagesDropdown {
+#messagesDropdown {
     display: flex;
     align-items: center;
 }

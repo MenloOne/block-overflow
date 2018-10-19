@@ -191,7 +191,7 @@ class TopNav extends React.Component<TopNavProps> {
                 { this.renderONE() }
 
                 <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle mr-lg-2"
+                    <div className="nav-link dropdown-toggle mr-lg-2"
                        id="messagesDropdown"
 
                        data-toggle="dropdown"
@@ -210,7 +210,7 @@ class TopNav extends React.Component<TopNavProps> {
                             <i className="fa fa-fw fa-circle">3</i>
                         </span>
                         }
-                    </a>
+                    </div>
                 </li>
             </ul>
         )
