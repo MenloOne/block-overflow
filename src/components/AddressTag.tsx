@@ -114,8 +114,6 @@ export default class AddressTag extends Component<AddressTagProps> {
 
     render() {
         const { address } = this.props;
-
-        const actionKey = utils.isMacintosh() ? 'Cmd' : 'Ctrl'
         
         const { url, statusTip } = this.state
 
@@ -127,24 +125,6 @@ export default class AddressTag extends Component<AddressTagProps> {
                     <span className="AddressTag-name-dots">…</span>
                     <ReactTooltip effect="solid" delayHide={1000} placement='top' event={'focus'} eventOff={'focus'} />
                 </div>
-                {(!localStorage.getItem('Tooltip-ClickToCopy') && !localStorage.getItem('Tooltip-CtrlClickToCopy')) && (
-                    <span>
-                        {this.props.copy && <i className="Tooltip-icon" data-tip={`Click to view on Etherscan, ${actionKey}+Click to Copy`}>?</i>}
-                        <ReactTooltip />
-                    </span>
-                )}
-                {(localStorage.getItem('Tooltip-ClickToCopy') && !localStorage.getItem('Tooltip-CtrlClickToCopy')) && (
-                    <span>
-                        {this.props.copy && <i className="Tooltip-icon" data-tip={`${actionKey}+Click to copy ethereum address`}>?</i>}
-                        <ReactTooltip />
-                    </span>
-                )}
-                {(!localStorage.getItem('Tooltip-ClickToCopy') && localStorage.getItem('Tooltip-CtrlClickToCopy')) && (
-                    <span>
-                        {this.props.copy && <i className="Tooltip-icon" data-tip={`Click to view on Etherscan`}>?</i>}
-                        <ReactTooltip />
-                    </span>
-                )}
             </span>)
 
         return this.props.link ? (
