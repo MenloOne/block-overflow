@@ -93,7 +93,7 @@ class Sidebar extends React.Component<SidebarProps> {
         return (
             <div>
                 <div className="right-side-box">
-                    <div className="green-bg">
+                    <div>
                         <div className="block-header">
                             <h4>ONE Token Metrics</h4>
                         </div>
