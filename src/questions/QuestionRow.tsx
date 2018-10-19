@@ -145,7 +145,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
         return (
             <li className={`question ${this.state.new ? 'fresh' : null}`}>
                 <div className="user-img">
-                    <Blockies size={12} scale={4} seed={topic.author}/>
+                    <Blockies size={9} scale={4} seed={topic.author}/>
                 </div>
                 <div className="content">
                     <a
