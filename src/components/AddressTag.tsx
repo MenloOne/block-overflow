@@ -89,15 +89,15 @@ export default class AddressTag extends Component<AddressTagProps> {
 
     onClick(e) {
 
-        localStorage.setItem('Tooltip-ClickToCopy', `${Date.now()}`)
-        
         if (this.state.commandDown && this.props.copy !== false) {
+            localStorage.setItem('Tooltip-CtrlClickToCopy', `${Date.now()}`)
             this.copyTextToClipboard(this.props.address)
             e.preventDefault(true)
             return
         } else {
             window.focus();
             e.stopPropagation();
+            localStorage.setItem('Tooltip-ClickToCopy', `${Date.now()}`)
         }
     }
 
@@ -127,9 +127,21 @@ export default class AddressTag extends Component<AddressTagProps> {
                     <span className="AddressTag-name-dots">…</span>
                     <ReactTooltip effect="solid" delayHide={1000} placement='top' event={'focus'} eventOff={'focus'} />
                 </div>
-                {!localStorage.getItem('Tooltip-ClickToCopy') && (
+                {(!localStorage.getItem('Tooltip-ClickToCopy') && !localStorage.getItem('Tooltip-CtrlClickToCopy')) && (
                     <span>
                         {this.props.copy && <i className="Tooltip-icon" data-tip={`Click to view on Etherscan, ${actionKey}+Click to Copy`}>?</i>}
+                        <ReactTooltip />
+                    </span>
+                )}
+                {(localStorage.getItem('Tooltip-ClickToCopy') && !localStorage.getItem('Tooltip-CtrlClickToCopy')) && (
+                    <span>
+                        {this.props.copy && <i className="Tooltip-icon" data-tip={`${actionKey}+Click to copy ethereum address`}>?</i>}
+                        <ReactTooltip />
+                    </span>
+                )}
+                {(!localStorage.getItem('Tooltip-ClickToCopy') && localStorage.getItem('Tooltip-CtrlClickToCopy')) && (
+                    <span>
+                        {this.props.copy && <i className="Tooltip-icon" data-tip={`Click to view on Etherscan`}>?</i>}
                         <ReactTooltip />
                     </span>
                 )}
