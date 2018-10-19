@@ -2173,8 +2173,8 @@ table.stats {
 }
 
 table.stats tr {
-    line-height: 2rem;
-    font-size: 14px;
+    line-height: 1.4rem;
+    font-size: .8rem;
 }
 
 .content-node a, .content-node a:hover {
@@ -2196,6 +2196,8 @@ table.stats tr td:nth-child(1) {
 table.stats tr td:nth-child(2) {
     color: #2E4168;
     font-family: Open Sans;
+    text-align: right;
+    font-weight: 600;
 }
 
 .comments .message-wrapper:nth-child(even) {
