@@ -229,7 +229,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                             <div className="">
                                 <p>Block Overflow is a question and answer site for blockchain programmers and other people from the Menlo One community where users get paid in ONE tokens for providing correct answers.</p>
                                 <div className="btn-wrapper">
-                                    <a className="btn btn-big btn-grey" onClick={this.toggleHowTo}>Close</a>
+                                    <a className="btn btn-grey" onClick={this.toggleHowTo}>Close</a>
                                 </div>
                             </div>
                         </div>
@@ -306,7 +306,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
             <TopicsCtxtComponent.Provider value={this.state.topics}>
                 <div>
                     <TopNav>
-                        <li className="nav-item"><a onClick={this.toggleHowTo} title="Guilds">How-To</a></li>
+                        <li className="nav-item"><a onClick={this.toggleHowTo} title="Guilds">Info</a></li>
                     </TopNav>
 
                     { this.renderInstructions() }
