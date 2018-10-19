@@ -87,7 +87,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
                     {
                         this.props.topics.model.topics.length < this.props.topics.model.total &&
                         <div className="left-side-wrapper">
-                            <a onClick={ this.clickNextPage } className='btn big-btn more-btn'>SEE MORE...</a>
+                            <a onClick={ this.clickNextPage } className='btn big-btn more-btn'>Load More...</a>
                         </div>
                     }
                 </ul>
