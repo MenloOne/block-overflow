@@ -33,7 +33,6 @@ async function resolve(routes, context) {
         }
         const result = await route.action({ ...context, params });
         if (result) {
-            window.scrollTo(0, 0)
             return result;
         }
     }
