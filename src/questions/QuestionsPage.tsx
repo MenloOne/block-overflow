@@ -18,7 +18,7 @@ import TopicForm from './QuestionForm'
 import '../App.scss'
 import Topic from '../models/Topic'
 
-const BlockOverflowIcon = require('../images/BlockOverflow-icon.svg')
+const BlockOverflowIcon = require('../images/menlo-logo.svg')
 const how1 = require('../images/how-1.svg')
 const how2 = require('../images/how-2.svg')
 const how3 = require('../images/how-3.svg')
