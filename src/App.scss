@@ -912,14 +912,23 @@ img.hero-logo {
 
 .hero-logo-text-wrapper h3 {
     font-size: 1.7rem;
-    color: #9B9B9B;
+    color: #18AF41;
     font-family: "TiTillium web";
 }
 
+.menloOneLogo {
+    -webkit-mask:  url(./images/menlo/menlo-one-logo.svg) no-repeat 50% 50%;
+    mask: url(./images/menlo/menlo-one-logo.svg) no-repeat 50% 50%;
+    background-color: #0942AA;
+    height: 1.1rem;
+    width: 130px;
+    display: inline-block;
+}
+
 .hero-logo-text-wrapper h4 {
-    color: #4A90E2;
+    color: #0942AA;
     margin-top: 1rem;
-    font-size: 1.3rem;
+    font-size: .9rem;
     font-family: "TiTillium web";
 }
 

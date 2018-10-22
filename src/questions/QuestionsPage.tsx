@@ -234,7 +234,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                 <div className="hero-logo-text-wrapper">
                                     <h1>Block Overflow</h1>
                                     <h3>Share Knowledge,<br />Earn Tokens</h3>
-                                    <h4>Built with Menlo One</h4>
+                                    <h4>Built with <span className="menloOneLogo" /></h4>
                                 </div>
                             </div>
                             <div className="">
@@ -302,7 +302,14 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
     }
 
     _onSelect(newOption) {
-        this.setState({ activeFilter: this.filters.filter((filters) => filters.name === newOption.value)[0].fn})
+        this.setState({ activeFilter: this.filters.filter((filters) => {
+            return filters.name === newOption.value
+        })[0].fn})
+    }
+
+    getFilter() {
+        
+        return this.state.activeFilter
     }
 
     render() {
@@ -323,18 +330,16 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                         <div className="col-4">
                                                 <a className='btn ask-btn' onClick={this.clickAsk}>Ask a Question</a>
                                         </div>
-                                        <div style={{ display: 'none' }}>
-                                            <div className="col-4 offset-4">
-                                                <span>Sort By:</span>
-                                            <Dropdown options={this.filters.map((f) => { return f.name })} onChange={this._onSelect} value={this.filters[0].name} placeholder="Select an option" />
-                                            </div>
+                                        <div className="col-4 offset-4">
+                                            <span>Sort By:</span>
+                                        <Dropdown options={this.filters.map((f) => { return f.name })} onChange={this._onSelect} value={this.filters[0].name} placeholder="Select an option" />
                                         </div>
                                     </div>
                                     <div className='left-side'>
                                         <div className="left-side-wrapper">
                                             <input className='search' placeholder='Search...' value={this.state.searchQuery} onChange={this.onChangeSearch} />
                                         </div>
-                                        <QuestionsBoard />
+                                        <QuestionsBoard filter={this.getFilter()} />
                                     </div>
                                     {
                                         this.state.showCompose &&
@@ -345,7 +350,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                 <div className="col-md-4">
                                     {/* {this.renderUserStats()} */}
                                     {(this.state.howToHeight === '0') && (
-                                        <a href="#" onClick={this.toggleHowTo} className="btn-instructions btn btn-green text-center mb-1">
+                                        <a href="#" onClick={this.toggleHowTo} className="btn-instructions btn btn-green text-center mb-2">
                                             Show Instructions
                                         </a>
                                     )}
