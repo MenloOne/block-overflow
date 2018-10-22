@@ -14,8 +14,7 @@ import '../App.scss'
 
 interface TopicBoardProps {
     acct: AccountContext,
-    topics: TopicsContext,
-    filter: Function
+    topics: TopicsContext
 }
 
 interface TopicBoardState {
@@ -63,7 +62,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
             </li>)
         }
 
-        const topics = this.props.filter(this.props.topics.model.topics)
+        const topics = this.props.topics.model.topics
 
         return topics.map((m, index) => {
             return (
@@ -78,7 +77,6 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
 
 
     render() {
-        
 
         return (
             <div className="comments">
