@@ -326,7 +326,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-8">
-                                    <div className="row">
+                                    <div className="list-actions row">
                                         <div className="col-4">
                                                 <a className='btn ask-btn' onClick={this.clickAsk}>Ask a Question</a>
                                         </div>

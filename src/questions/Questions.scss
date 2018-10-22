@@ -105,8 +105,16 @@ a[disabled], a[disabled]:hover {
     }
 }
 
+.list-actions {
+    align-items: center;
+    margin-bottom: 2rem;
+    .btn {
+        margin: 0;
+    }
+}
+
 .question {
-    padding: 10px 14px;
+    padding: 1.5rem 1rem;
     display: flex;
     .title {
         color: #2c3035;

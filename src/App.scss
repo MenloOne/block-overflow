@@ -30,7 +30,7 @@ body.fixed-nav {
 
 .content-wrapper {
     min-height: calc(100vh - 56px);
-    padding-top: 1rem;
+    padding-top: 3.5rem;
 }
 
 .scroll-to-top {
@@ -1880,11 +1880,11 @@ span.sold {
 }
 
 .question time, .message time, .QuestionHeader time {
-    font-size: 12px;
+    font-size: 11px;
     font-style: normal;
     font-weight: 600;
     font-stretch: normal;
-    letter-spacing: .02rem;
+    letter-spacing: .005rem;
     color: #696d75;
     margin-bottom: 0;
     padding-bottom: 0;
