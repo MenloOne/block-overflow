@@ -67,6 +67,7 @@ class App extends React.Component {
 
         console.log(`Setting component to ${component.type.name}`)
         this.setState({ component })
+        window.setTimeout(() => window.scrollTo(0, 0), 200)
     }
 
     async renderLocation(location : History.Location, action: History.Action) {

@@ -3,6 +3,7 @@ import Moment from 'react-moment'
 import moment from 'moment'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+import A from '../components/A'
 import TopNav from '../components/TopNav'
 import Loader from '../components/Loader'
 import Sidebar from '../components/Sidebar'
@@ -142,7 +143,7 @@ class AnswersPage extends React.Component<ForumProps> {
                         <div className="row">
                             <div className="col-12">
                                 <p className="Page-permalink">
-                                    <a href="/">Topics</a>
+                                    <A href='/'>Topics</A>
                                     {this.state.forum.model.topic && this.state.forum.model.topic.title && <span> &bull; </span>}
                                     {this.state.forum.model.topic && this.state.forum.model.topic.title && <span>{this.state.forum.model.topic.title}</span>}
                                 </p>

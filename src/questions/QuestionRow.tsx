@@ -25,6 +25,7 @@ import CountdownTimer from '../components/CountdownTimer'
 
 import MetamaskModal from '../components/MetamaskModal';
 import AddressTag from '../components/AddressTag'
+import A from '../components/A'
 
 
 import utils from '../utils'
@@ -33,7 +34,6 @@ import '../App.scss'
 import './Questions.scss'
 
 
-// import { history } from '../router'
 
 interface TopicViewProps {
     topic: Topic,
@@ -56,7 +56,6 @@ class QuestionRow extends React.Component<TopicViewProps> {
     constructor(props) {
         super(props)
 
-        // this.onClickTopic = this.onClickTopic.bind(this)
         this.renderClosed = this.renderClosed.bind(this)
         this.clickClaimTokens = this.clickClaimTokens.bind(this)
 
@@ -75,10 +74,6 @@ class QuestionRow extends React.Component<TopicViewProps> {
     }
 
     componentWillUnmount() {
-    }
-
-    onClickTopic() {
-        // history.push(`/topic/${ this.props.topic.forumAddress }`)
     }
 
     messageStatus() {
@@ -148,10 +143,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                     <Blockies size={9} scale={4} seed={topic.author}/>
                 </div>
                 <div className="content">
-                    <a
-                        onClick={this.onClickTopic}
-                        href={`/topic/${this.props.topic.forumAddress}`}
-                    >
+                    <A href={`/topic/${ this.props.topic.forumAddress }`}>
                         <span className="title">
                             { (topic.title && topic.title.length > 4) ?
                                 topic.title
@@ -159,7 +151,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                                 topic.body.substr(0, 100)
                             }
                         </span>
-                    </a>
+                    </A>
                     <div>
                         {topic && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
                         <span style={{ display: 'none' }}>
