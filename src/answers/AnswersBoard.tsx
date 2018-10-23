@@ -264,7 +264,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
 
                         <div className="Question-urgency">
                             <div>
-                                {!this.props.forum.model.lottery.hasEnded && <span><span className="small-subtitle">BOUNTY</span><br /></span>}
+                                {!this.props.forum.model.lottery.hasEnded && <span><span className="small-subtitle">Reward to Winner</span><br /></span>}
                                 {this.props.forum.model.lottery.pool ? (<span className="Question-payout">
                                     {utils.formatNumber(this.props.forum.model.lottery.pool.toFixed(0))} ONE
                                     {/* <span className="one-icon"><img src={ONElogo} alt="" /></span> */}
@@ -284,19 +284,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             ) : (null)
                             }
                         </div>
-
-                        <p className="Question-actionWrapper">
-                            {
-                                !this.props.forum.model.lottery.hasEnded &&
-                                <a href='#answerForm'>
-                                    <span className="Question-reply">
-                                        Answer
-                                    </span>
-                                </a>
-                            }
-                            <a href="">
-                            </a>
-                        </p>
                     </div>
                     <div className="left-side-wrapper townhall">
                         <div className="comments">

@@ -3,12 +3,13 @@
     display: flex;
     align-items: baseline;
     justify-content: center;
+    margin-top: .25rem;
 
     div {
-        font-family: monospace;
+        font-family: Inconsolata;
         color: #6B768E;
         line-height: 40px;
-        font-weight: normal;
+        font-weight: 600;
         font-style: normal;
         font-stretch: normal;
         line-height: 2rem;
@@ -31,12 +32,12 @@
             font-weight: 400;
             font-style: normal;
             font-stretch: normal;
-            line-height: 1.5rem;
+            line-height: 2rem;
             letter-spacing: normal;
             text-align: center;
             color: #a1aecb;
             display: block;
-            font-size: .6rem;
+            font-size: .7rem;
         }
     }
 }

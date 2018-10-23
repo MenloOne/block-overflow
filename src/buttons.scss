@@ -47,7 +47,7 @@ a, input {
       border: none !important;
       color: #154dca !important;
       &:hover {
-        background: #f7f7f7 !important;
+        background: #ececed !important;
       }
     }
 
@@ -99,6 +99,7 @@ a, input {
     margin-left: 19px;
     padding-left: 2rem;
     padding-right: 2rem;
+    margin: 0;
   }
 
   &.submit-btn[disabled] {

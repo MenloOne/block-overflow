@@ -8,7 +8,7 @@
     &-name,
     &-name-0x,
     &-name-dots {
-        font-size: 9px;
+        font-size: 12px;
         font-style: normal;
         font-stretch: normal;
         letter-spacing: .04rem;
@@ -17,10 +17,10 @@
         margin-bottom: 0;
         padding-bottom: 0;
         text-overflow: clip;
-        width: 36px;
+        width: 40px;
         display: inline-flex;
         overflow: hidden;
-        font-family: monospace;
+        font-family: Inconsolata;
     }
     &-wrapper {
         display: inline-block;

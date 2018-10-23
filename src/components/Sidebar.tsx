@@ -51,7 +51,7 @@ class Sidebar extends React.Component<SidebarProps> {
                         </a>
                         <a href="http://menlo.one" target="_blank">
                             <div className="moreinfo-btn">
-                                <img src={globe} className="icon-globe" />
+                                <img src={globe} className="icon-tab" />
                                 <div className="moreinfo-btn-textwrapper">
                                     <span>Website</span>
                                     <span>http://menlo.one</span>
@@ -118,14 +118,6 @@ class Sidebar extends React.Component<SidebarProps> {
                                     </tr>
                                     <tr>
                                         <td>
-                                            Volume (24h)
-                                                            </td>
-                                        <td>
-                                            N/A
-                                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
                                             Market Cap
                                                             </td>
                                         <td>
@@ -163,7 +155,7 @@ class Sidebar extends React.Component<SidebarProps> {
                                 </a>
                                 <a href="https://www.bitmart.com" target="_blank">
                                     <div className="moreinfo-btn">
-                                        <img src={bitmart} className="icon-globe" />
+                                        <img src={bitmart} className="icon-tab" />
                                         <div className="moreinfo-btn-textwrapper">
                                             <span>Bitmart</span>
                                             <span>https://www.bitmart.com</span>
@@ -173,7 +165,7 @@ class Sidebar extends React.Component<SidebarProps> {
                                 </a>
                                 <a href="http://shapeshift.io" target="_blank">
                                     <div className="moreinfo-btn">
-                                        <img src={shapeshift} className="icon-globe" />
+                                        <img src={shapeshift} className="icon-tab" />
                                         <div className="moreinfo-btn-textwrapper">
                                             <span>ShapeShift</span>
                                             <span>http://shapeshift.io</span>
@@ -183,7 +175,7 @@ class Sidebar extends React.Component<SidebarProps> {
                                 </a>
                                 <a href="https://metalpay.com" target="_blank">
                                     <div className="moreinfo-btn">
-                                        <img src={metal} className="icon-globe" />
+                                        <img src={metal} className="icon-tab" />
                                         <div className="moreinfo-btn-textwrapper">
                                             <span>Metal Pay</span>
                                             <span>https://metalpay.com</span>

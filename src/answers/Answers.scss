@@ -33,10 +33,23 @@ a[disabled], a[disabled]:hover {
     cursor: pointer;
 }
 
+.editor-toolbar {
+    a.fa.fa-question-circle, a.fa-arrows-alt, a.fa-columns, a.fa-eye, i:nth-of-type(3), i:nth-of-type(4) {
+        display: none;
+    }
+}
+.CodeMirror, .editor-toolbar {
+    border-color: #ececed;
+}
+
+.editor-statusbar {
+    display: none;
+}
+
 .Question-payout {
     font-size: 2.5rem;
-    font-family: monospace;
-    line-height: 1.5rem;
+    font-family: Inconsolata;
+    line-height: 2.4rem;
     color: #60b91c;
 }
 
