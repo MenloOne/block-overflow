@@ -3,11 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 
-import { AccountContext, withAcct } from '../models/Account'
+import { AccountContext, withAcct, MetamaskStatus } from '../models/Account'
 import { Topics, TopicsContext, TopicsCtxtComponent } from '../models/Topics'
 
 import TopNav from '../components/TopNav'
 import Sidebar from '../components/Sidebar'
+import Loader from '../components/Loader'
 
 
 import QuestionsBoard from "./QuestionsBoard";
@@ -210,11 +211,21 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                 <div className="col-md-8">
                                     <div className="list-actions row">
                                         <div className="col-4">
-                                                <a className='btn ask-btn' onClick={this.clickAsk}>Ask a Question</a>
+                                            {
+                                                (this.state.showCompose && this.props.acct.model.status === MetamaskStatus.Ok) ? 
+                                                    <a className='btn ask-btn' onClick={this.clickAsk}>Ask a Question</a> :
+                                                    <Loader size={22} />
+                                            }
                                         </div>
                                         <div className="col-4 offset-4">
-                                            <span>Sort By:</span>
-                                        <Dropdown options={this.filters.map((f) => { return f.name })} onChange={this._onSelect} value={this.filters[0].name} placeholder="Select an option" />
+                                            {(this.state.topics.model.topics.length !== 0 && this.props.acct.model.status === MetamaskStatus.Ok) ?
+                                            <div>
+                                                <span>Sort By:</span>
+                                                <Dropdown options={this.filters.map((f) => { return f.name })} onChange={this._onSelect} value={this.filters[0].name} placeholder="Select an option" />
+                                                </div> : <div style={{
+                                                    textAlign: 'right',
+                                                    marginRight: '5px'}}><Loader size={22} /></div>
+                                        }
                                         </div>
                                     </div>
                                     <div className='left-side'>
@@ -224,8 +235,8 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                         <QuestionsBoard filter={this.getFilter()} />
                                     </div>
                                     {
-                                        this.state.showCompose &&
-                                        <TopicForm onSubmit={this.onSubmitQuestion} />
+                                        (this.state.showCompose && this.props.acct.model.status === MetamaskStatus.Ok) ?
+                                            <TopicForm onSubmit={this.onSubmitQuestion} /> : <div className='left-side'><div className="left-side-wrapper" style={{marginTop: '2rem', textAlign: 'center'}}><Loader /></div></div>
                                     }
                                 </div>
 

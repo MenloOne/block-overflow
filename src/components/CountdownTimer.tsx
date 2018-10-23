@@ -33,7 +33,6 @@ export default class CountdownTimer extends Component<CountdownTimerProps> {
                 )}
                 <span>{hours}h</span>
                 <span>{minutes}m</span>
-                <span>{seconds}s</span>
             </span>
         )
     }

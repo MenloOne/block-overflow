@@ -41,7 +41,6 @@ a[disabled], a[disabled]:hover {
 .CodeMirror, .editor-toolbar {
     border-color: #ececed;
 }
-
 .editor-statusbar {
     display: none;
 }
@@ -72,8 +71,8 @@ a[disabled], a[disabled]:hover {
 }
 .left-side .QuestionHeader {
     .user-img {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
         margin-right: .5rem;
     }
     &-annotation {
@@ -125,6 +124,21 @@ p > code {
     .user-img {
         width: 37px;
         height: 37px;
+    }
+}
+
+.reply-form {
+    display: flex;
+    flex-direction: row;
+    &> div:nth-child(1) {
+        padding: 2rem;
+    }
+    &> div:nth-child(2) {
+        flex: 1;
+    }
+    .user-img {
+        width: 32px;
+        height: 32px;
     }
 }
 

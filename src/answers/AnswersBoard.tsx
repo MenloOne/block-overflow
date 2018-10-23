@@ -296,6 +296,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                         <li>
                                             <a id='answerForm' />
                                             <div className='reply-form'>
+                                                <div>{this.props.acct.model && this.props.acct.model.address && <span className="user-img"><Blockies seed={this.props.acct.model.address} scale={4} /></span>}</div>
                                                 <AnswerForm onSubmit={this.onSubmitMessage} rows={10} />
                                             </div>
                                         </li>

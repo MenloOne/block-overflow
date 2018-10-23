@@ -119,10 +119,12 @@ a[disabled], a[disabled]:hover {
     .title {
         color: #2c3035;
     }
+    time {
+        color: #6B768E;
+    }
     .stats {
         font-family: "Titillium web";
         min-width: 4em;
-        border-left: 1px solid #f0f4ff;
         padding: 0 0.65em;
         color: #6B768E;
         font-weight: normal;
@@ -158,6 +160,12 @@ a[disabled], a[disabled]:hover {
         .claim {
             background: #0033a0;
             color: white;
+        }
+        .time-inline {
+            font-family: 'Inconsolata';
+            font-weight: 600;
+            font-size: 19px;
+            letter-spacing: .05rem;
         }
     }
 
