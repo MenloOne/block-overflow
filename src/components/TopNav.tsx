@@ -2,6 +2,7 @@ import * as React from  'react'
 import BigNumber from 'bignumber.js'
 import Blockies from 'react-blockies'
 import { ToastContainer, toast } from 'react-toastify';
+import AnimateHeight from 'react-animate-height'
 
 import { MenloFaucet } from '../contracts/MenloFaucet'
 
@@ -10,6 +11,14 @@ import { AccountContext, MetamaskStatus, NetworkName, ToastType, withAcct } from
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.scss'
+
+const BlockOverflowIcon = require('../images/menlo-logo.svg')
+const how1 = require('../images/how-1.svg')
+const how2 = require('../images/how-2.svg')
+const how3 = require('../images/how-3.svg')
+const how4 = require('../images/how-4.svg')
+const how5 = require('../images/how-5.svg')
+const how6 = require('../images/how-6.svg')
 
 
 const logo = require('../images/BlockOverflow-logo.svg')
@@ -22,6 +31,7 @@ interface TopNavProps {
 
 interface TopNavState {
     url?: string;
+    howToHeight: string | number | undefined;
 }
 
 class TopNav extends React.Component<TopNavProps> {
@@ -33,7 +43,8 @@ class TopNav extends React.Component<TopNavProps> {
         this.onGetTokens = this.onGetTokens.bind(this)
 
         this.state = {
-            url: ''
+            url: '',
+            howToHeight: localStorage.getItem('HowTo-Toggle') || 'auto',
         }
     }
 
@@ -78,6 +89,95 @@ class TopNav extends React.Component<TopNavProps> {
                 <span>{ new BigNumber(one).toFormat(0) }</span>
                 <span className="token-one">&nbsp;ONE</span>
             </li>
+        )
+    }
+
+
+    renderInstructions() {
+
+        const { howToHeight } = this.state;
+
+        if (localStorage.getItem('HowTo-Toggle') && howToHeight === 0) {
+            return null;
+        }
+
+        return (
+            <AnimateHeight
+                duration={500}
+                height={howToHeight}
+            >
+                <div className="game-token shadow-sm">
+                    <div className="container">
+                        <div className="col-md-5 game-detail-wrapper">
+                            <div className="hero-logo-wrapper">
+                                <img className="hero-logo" src={BlockOverflowIcon} />
+                                <div className="hero-logo-text-wrapper">
+                                    <h1>Block Overflow</h1>
+                                    <h3>Share Knowledge,<br />Earn Tokens</h3>
+                                    <h4>Built with <span className="menloOneLogo" /></h4>
+                                </div>
+                            </div>
+                            <div className="">
+                                <p>Block Overflow is a question and answer site for blockchain programmers and other people from the Menlo One community where users get paid in ONE tokens for providing correct answers.</p>
+                                <div className="btn-wrapper">
+                                    <a className="btn btn-grey" onClick={this.toggleHowTo}>Close</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="game-action-wrapper">
+                            <div className="row">
+                                <div className="col-12 text-center">
+                                    <h6>How Block Overflow Works</h6>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how1} />
+                                    <h4>Ask a question</h4>
+                                    <p>
+                                        Asking a question costs ONE tokens, which goes into a pool to pay the person with the best answer. Then, a 24 hour countdown timer starts.
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how2} />
+                                    <h4>Users post answers</h4>
+                                    <p>
+                                        When someone replies with an answer, they place ONE tokens into the pool too, in hopes they have the right answer.
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how3} />
+                                    <h4>The pool grows</h4>
+                                    <p>
+                                        With every answer the pool grows larger, and the 24 hour clock resets.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-4">
+                                    <img src={how4} />
+                                    <h4>Users vote on answers</h4>
+                                    <p>
+                                        Users vote on answers. They can leave a comments too. If the answer they voted on wins, they get Reputation points.
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how5} />
+                                    <h4>Top answers win tokens</h4>
+                                    <p>
+                                        When people stop providing answers, the most up-voted answer is the winner. All of the ONE tokens go to the winner.
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how6} />
+                                    <h4>Plus, totally decentralized</h4>
+                                    <p>
+                                        Furthermore, all of Block Overflow is decentralized. All of the data on this website was read from the blockchain.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </AnimateHeight>
         )
     }
 
@@ -216,6 +316,20 @@ class TopNav extends React.Component<TopNavProps> {
         )
     }
 
+    toggleHowTo = () => {
+        const { howToHeight } = this.state;
+        const newHeight = howToHeight === "0" ? 'auto' : '0';
+
+        console.log(123, howToHeight, howToHeight === '0');
+
+
+        localStorage.setItem('HowTo-Toggle', newHeight)
+
+        this.setState({
+            howToHeight: newHeight
+        });
+    };
+
     render() {
         return (
             <div className="nav-wrapper fixed-top">
@@ -231,6 +345,7 @@ class TopNav extends React.Component<TopNavProps> {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarResponsive">
                             <ul className="navbar-nav main ml-auto">
+                                <li className="nav-item"><a onClick={this.toggleHowTo} title="Guilds">Help</a></li>
                                 {/* <li className="nav-item"><a href="/" title="Discover">Discover</a></li>
                                 <li className="nav-item"><a href="/guild/" title="Guilds">Guilds</a></li>
                                 <li className="nav-item"><a href="/wallet/" title="Wallet">Wallet</a></li> */}
@@ -242,6 +357,9 @@ class TopNav extends React.Component<TopNavProps> {
                     </div>
                 </nav>
                 <ToastContainer position={toast.POSITION.TOP_CENTER} />
+
+
+                {this.renderInstructions()}
             </div>
         )
     }

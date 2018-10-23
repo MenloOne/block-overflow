@@ -2463,6 +2463,12 @@ table.stats tr td:nth-child(2) {
     margin-bottom: .33rem;
     border: 1px solid #ECECED;
     border-radius: .2rem;
+    &:hover {
+        background: #f7f7f7;
+    }
+}
+.moreinfo-btns-wrapper a {
+    text-decoration: none;
 }
 
 .moreinfo-btn-textwrapper {

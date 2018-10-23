@@ -33,11 +33,22 @@ a, input {
     &.btn-green {
       background: #6EB735 !important;
       color: white !important;
+      &:hover {
+        background-color: darken(#6EB735, 10%) !important;
+      }
     }
 
     &.btn-grey {
       background: #f3f3f3 !important;
       color: black !important;
+    }
+
+    &.more-btn {
+      border: none !important;
+      color: #154dca !important;
+      &:hover {
+        background: #f7f7f7 !important;
+      }
     }
 
     &.claim-btn {
@@ -74,6 +85,9 @@ a, input {
     border-color: #154dca !important;
     color: #ffffff !important;
     margin-bottom: 1rem;
+    &:hover {
+      background-color: darken(#154dca, 10%) !important;
+    }
   }
 
   &.ask-btn {
