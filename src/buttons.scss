@@ -114,6 +114,7 @@ a, input {
     float: right;
     width: 77px;
     display: inline-block;
+    margin-right: 1rem;
 
     &[disabled] {
       color: grey !important;

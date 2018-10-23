@@ -81,7 +81,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         this._onSelect = this._onSelect.bind(this)
 
         this.state = {
-            showCompose: false,
+            showCompose: true,
             showInstructions: true,
             topics: { model: Object.assign({}, this.topics), svc: this.topics },
             searchQuery: '',
@@ -225,7 +225,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                     </div>
                                     {
                                         this.state.showCompose &&
-                                        <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion} />
+                                        <TopicForm onSubmit={this.onSubmitQuestion} />
                                     }
                                 </div>
 

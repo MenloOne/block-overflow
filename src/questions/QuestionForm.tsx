@@ -137,7 +137,7 @@ class QuestionForm extends React.Component<TopicFormProps> {
                     />
                     <div className="askquestion-button-wrapper">
                         <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question' />
-                        <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
+                        {/* <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a> */}
                     </div>
                     {this.state.submitting && <MetamaskModal />}
                 </div>
