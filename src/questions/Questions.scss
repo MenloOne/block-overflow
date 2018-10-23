@@ -90,17 +90,17 @@ a[disabled], a[disabled]:hover {
         width: 3.3rem;
         text-align: center;
     }
-    p {
-        text-align: center;
-        span {
-            color: green;
-            input {
-            color: green;
-            }
-            strong {
-                color: black;
-                font-weight: 600;
-            }
+    table {
+        color: green;
+        td {
+            padding: .1rem .4rem;
+        }
+        input {
+        color: green;
+        }
+        strong {
+            color: black;
+            font-weight: 600;
         }
     }
 }
@@ -172,6 +172,12 @@ a[disabled], a[disabled]:hover {
     .stats-timer {
         min-width: 10em;
         display: block;
+    }
+}
+
+.QuestionForm-tableWrapper {
+    table {
+        margin: 0 auto;
     }
 }
 

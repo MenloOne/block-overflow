@@ -66,11 +66,11 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
 
         return topics.map((m, index) => {
             return (
-                <div key={index} className='row'>
+                <li key={index} className='row'>
                     <div className='col-12'>
                         <TopicView topic={m} />
                     </div>
-                </div>
+                </li>
             )
         })
     }
@@ -79,14 +79,16 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
     render() {
 
         return (
-            <div className="comments">
-                <ul>
+            <div className="QuestionList container">
+                <ul className="nolist">
                     { this.renderMessages() }
                     {
                         this.props.topics.model.topics.length < this.props.topics.model.total &&
-                        <div className="left-side-wrapper">
-                            <a onClick={ this.clickNextPage } className='btn big-btn more-btn'>Load More...</a>
-                        </div>
+                        <li>
+                            <div className="left-side-wrapper">
+                                <a onClick={this.clickNextPage} className='btn big-btn more-btn'>Load More...</a>
+                            </div>
+                        </li>
                     }
                 </ul>
             </div>

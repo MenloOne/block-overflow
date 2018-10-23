@@ -85,7 +85,7 @@ class QuestionView extends React.Component<TopicViewProps> {
         
 
         return (
-            <li className='question'>
+            <div className='question'>
                 <a
                     onClick={ this.onClickTopic }
                 >
@@ -108,7 +108,7 @@ class QuestionView extends React.Component<TopicViewProps> {
                         <CountdownTimer date={Date.now() + (Math.random() * 1000000) } />
                     </div> */}
                 </a>
-            </li>
+            </div>
         )
     }
 }

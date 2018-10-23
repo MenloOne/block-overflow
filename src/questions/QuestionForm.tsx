@@ -114,10 +114,26 @@ class QuestionForm extends React.Component<TopicFormProps> {
                             <h2 className="text-center">
                                 Ask A Question
                             </h2>
-                            <p>
-                                <span><strong>Bounty for Answers:</strong> <input className='bounty field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} /> ONE</span><br />
-                                <span><strong>Your current balance:</strong> {new BigNumber(this.props.acct.model.oneBalance).toFormat(0)} ONE</span>
-                            </p>
+                            <div className="QuestionForm-tableWrapper">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <span><strong>Bounty for Answers:</strong></span>
+                                        </td>
+                                        <td>
+                                            <span><input className='bounty field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} /> ONE</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span><strong>Your current balance:</strong></span>
+                                        </td>
+                                        <td>
+                                            <span>{new BigNumber(this.props.acct.model.oneBalance).toFormat(0)} ONE</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div className='row'>
