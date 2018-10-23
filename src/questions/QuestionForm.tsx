@@ -116,22 +116,24 @@ class QuestionForm extends React.Component<TopicFormProps> {
                             </h2>
                             <div className="QuestionForm-tableWrapper">
                                 <table>
-                                    <tr>
-                                        <td>
-                                            <span><strong>Bounty for Answers:</strong></span>
-                                        </td>
-                                        <td>
-                                            <span><input className='bounty field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} /> ONE</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span><strong>Your current balance:</strong></span>
-                                        </td>
-                                        <td>
-                                            <span>{new BigNumber(this.props.acct.model.oneBalance).toFormat(0)} ONE</span>
-                                        </td>
-                                    </tr>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span><strong>Bounty for Answers:</strong></span>
+                                            </td>
+                                            <td>
+                                                <span><input className='bounty field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} /> ONE</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <span><strong>Your current balance:</strong></span>
+                                            </td>
+                                            <td>
+                                                <span>{new BigNumber(this.props.acct.model.oneBalance).toFormat(0)} ONE</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

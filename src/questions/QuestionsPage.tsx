@@ -136,6 +136,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
 
     clickAsk() {
         this.setState({ showCompose: true })
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     renderUserStats() {

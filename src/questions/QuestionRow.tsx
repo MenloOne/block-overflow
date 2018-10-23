@@ -138,7 +138,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
     render() {
         const topic = this.props.topic
         return (
-            <li className={`question ${this.state.new ? 'fresh' : null}`}>
+            <div className={`question ${this.state.new ? 'fresh' : null}`}>
                 <div className="user-img">
                     <Blockies size={9} scale={4} seed={topic.author}/>
                 </div>
@@ -189,7 +189,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                     <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
                 </div>
                 {this.state.showMetamaskModal ? <MetamaskModal /> : null }
-            </li>
+            </div>
         )
     }
 }
