@@ -345,7 +345,7 @@ class TopNav extends React.Component<TopNavProps> {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarResponsive">
                             <ul className="navbar-nav main ml-auto">
-                                <li className="nav-item"><a onClick={this.toggleHowTo} title="Guilds">Help</a></li>
+                                <li className="nav-item"><a onClick={this.toggleHowTo}>Intro</a></li>
                                 {/* <li className="nav-item"><a href="/" title="Discover">Discover</a></li>
                                 <li className="nav-item"><a href="/guild/" title="Guilds">Guilds</a></li>
                                 <li className="nav-item"><a href="/wallet/" title="Wallet">Wallet</a></li> */}
@@ -357,8 +357,6 @@ class TopNav extends React.Component<TopNavProps> {
                     </div>
                 </nav>
                 <ToastContainer position={toast.POSITION.TOP_CENTER} />
-
-
                 {this.renderInstructions()}
             </div>
         )
