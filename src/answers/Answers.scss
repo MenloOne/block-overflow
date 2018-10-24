@@ -37,9 +37,18 @@ a[disabled], a[disabled]:hover {
     a.fa.fa-question-circle, a.fa-arrows-alt, a.fa-columns, a.fa-eye, i:nth-of-type(3), i:nth-of-type(4) {
         display: none;
     }
+    a {
+        color: #949494 !important;
+        opacity: 1 !important;
+    }
 }
+.editor-toolbar:hover, .editor-wrapper input.title:focus, .editor-wrapper input.title:hover {
+    opacity: 1;
+}
+
 .CodeMirror, .editor-toolbar {
     border-color: #ececed;
+    opacity: 1;
 }
 .editor-statusbar {
     display: none;

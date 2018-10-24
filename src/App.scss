@@ -3,6 +3,10 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 @import './buttons.scss';
 
+*:focus {
+    outline: none;
+}
+
 html {
     position: relative;
     min-height: 100%;
