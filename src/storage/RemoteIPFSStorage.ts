@@ -18,7 +18,7 @@
 import ipfsAPI from 'ipfs-api'
 import { CID, IPFSFile } from 'ipfs'
 import PromiseRaceSuccess from '../utils/PromiseRaceSuccess'
-import { IIPFSMessage, IIPFSTopic } from '../shared/BlockOverflow.cto'
+import { IIPFSMessage, IIPFSTopic } from '../ContentNode/BlockOverflow.cto'
 
 
 export class IPFSMessage implements IIPFSMessage {

@@ -81,7 +81,7 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
     async claimWinnings() {
         const forum = new Forum(this.forumAddress)
         await forum.setWeb3Account(this.topics.acctSvc!)
-        await forum.lottery.claimWinnings()
+        await forum.claimWinnings()
 
         this.topics.acctSvc!.addBalanceCallback(this.refresh)
     }

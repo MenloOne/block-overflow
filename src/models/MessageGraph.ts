@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import Message from './Message'
+import Message, { Message0 } from './Message'
 import { CID } from 'ipfs'
 import { CIDZero } from '../storage/HashUtils'
 
@@ -42,7 +42,7 @@ class MessageGraph {
             let parent = this.messages[parentID]
 
             if (!parent) {
-                parent = new Message(message.forum, parentID, CIDZero, -1)
+                parent = new Message(message.forum, Message0)
                 this.add(parent)
             }
 

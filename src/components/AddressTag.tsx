@@ -87,33 +87,6 @@ export default class AddressTag extends Component<AddressTagProps> {
         }
     }
 
-    getUrl() {
-
-        let url = ''
-
-        return new Promise((resolve, reject) => {
-
-            web3.version.getNetwork((err, netId) => {
-                const { address, etherscanTab } = this.props;
-                const targetId = etherscanTab ? `#${etherscanTab}` : '';
-
-                switch (netId) {
-                    case "4":
-                        url = 'https://rinkeby.etherscan.io'
-                        break
-                    case "42":
-                        url = 'https://kovan.etherscan.io'
-                        break
-                    default:
-                        url = 'https://etherscan.io'
-                }
-
-                resolve(`${url}/address/${address}${targetId}`);
-            })
-        })
-
-    }
-
     onClick(e) {
 
         if (this.state.commandDown && this.props.copy !== false) {

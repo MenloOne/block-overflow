@@ -106,7 +106,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
     }
 
     renderClosed() {
-        if (!this.props.topic.isAnswered && this.props.topic.metadata!.isClosed) {
+        if (!this.props.topic.isAnswered && this.props.topic.isClosed) {
             return (
                 <span>
                     {

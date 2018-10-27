@@ -38,11 +38,21 @@ type NewMessageCallback = () => void
 
 
 export class ForumModel {
-    public topic: IPFSTopic
-    public messages: MessagesGraph
-    public lotteryLength: number
-    public contractAddress: string
+    public  topic: IPFSTopic
+    public  messages: MessagesGraph
+    public  lotteryLength: number
+    public  contractAddress: string
     public  winningMessage: Message | null
+    public  hasEnded: boolean = false
+    public  claimed: boolean = false
+    public  iWon: boolean = false
+    public  winningVotes: number
+    public  winningOffset: number
+    public  winner: string | null
+    public  pool: number = 0
+    public  tokenBalance: number = 0
+    public  author: string = ''
+    public  endTimestamp: number = 0
 }
 
 
@@ -92,19 +102,7 @@ export class Forum extends ForumModel {
     public postCost : number
     public voteCost : number
     public postCount: number
-
-    public  endTimestamp: number = 0
     public  epochLength: number = 0
-    public  author: string = ''
-    public  pool: number = 0
-    public  tokenBalance: number = 0
-    public  hasEnded: boolean = false
-    public  claimed: boolean = false
-    public  iWon: boolean = false
-
-    public  winningVotes: number
-    public  winningOffset: number
-    public  winner: string | null
 
     
     constructor( forumAddress: string ) {
@@ -343,6 +341,20 @@ export class Forum extends ForumModel {
         })
     }
     */
+
+    async claimWinnings() {
+        await this.ready
+
+        try {
+
+            await this.contract!.claimTx().send({})
+        } catch (e) {
+            console.error(e)
+            throw (e)
+        }
+
+        this.refreshLottery()
+    }
 
     async fillMessage(id : string) {
         await this.ready;

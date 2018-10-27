@@ -127,6 +127,8 @@ export class Topics extends TopicsModel {
     }
 
     async setWeb3Account(acct : Account) {
+        this.queryCN()
+
         if (acct.address === this.account || acct.address === null) {
             return
         }
