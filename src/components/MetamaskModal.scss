@@ -1,0 +1,23 @@
+.MetamaskModal {
+    &-container {
+        position: fixed;
+        z-index: 9999999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:#ffffffdd;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+    &-wrapper {
+        background: white;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 10px 10px #0000001c;
+    }
+    &-logo {
+
+    }
+}

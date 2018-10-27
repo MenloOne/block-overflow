@@ -7,7 +7,7 @@ class Config {
             return
         }
 
-        this.contentNodeUrl = 'http://localhost:3030/v0'
+        this.contentNodeUrl = 'http://localhost:8080/v0'
     }
 }
 

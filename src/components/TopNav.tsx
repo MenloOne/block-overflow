@@ -17,6 +17,7 @@ const logo = require('../images/BlockOverflow-logo.svg')
 
 interface TopNavProps {
     acct: AccountContext;
+    children?: Element;
 }
 
 interface TopNavState {
@@ -110,7 +111,7 @@ class TopNav extends React.Component<TopNavProps> {
     }
 
     renderAccountStatus() {
-        console.log( 'STATUS: ', this.props.acct.model.status )
+        // console.log( 'STATUS: ', this.props.acct.model.status )
 
         if (this.props.acct.model.status === MetamaskStatus.LoggedOut) {
             toast('You must first sign into Metamask to take part in discussions.', {
@@ -190,7 +191,7 @@ class TopNav extends React.Component<TopNavProps> {
                 { this.renderONE() }
 
                 <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle mr-lg-2"
+                    <div className="nav-link dropdown-toggle mr-lg-2"
                        id="messagesDropdown"
 
                        data-toggle="dropdown"
@@ -209,7 +210,7 @@ class TopNav extends React.Component<TopNavProps> {
                             <i className="fa fa-fw fa-circle">3</i>
                         </span>
                         }
-                    </a>
+                    </div>
                 </li>
             </ul>
         )
@@ -229,10 +230,11 @@ class TopNav extends React.Component<TopNavProps> {
                             <span className="navbar-toggler-icon"></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarResponsive">
-                            <ul className="navbar-nav main ml-auto" style={{ display: 'none' }}>
-                                <li className="nav-item"><a href="/" title="Discover">Discover</a></li>
+                            <ul className="navbar-nav main ml-auto">
+                                {/* <li className="nav-item"><a href="/" title="Discover">Discover</a></li>
                                 <li className="nav-item"><a href="/guild/" title="Guilds">Guilds</a></li>
-                                <li className="nav-item"><a href="/wallet/" title="Wallet">Wallet</a></li>
+                                <li className="nav-item"><a href="/wallet/" title="Wallet">Wallet</a></li> */}
+                                {this.props.children}
                             </ul>
 
                             {this.renderAccountStatus()}

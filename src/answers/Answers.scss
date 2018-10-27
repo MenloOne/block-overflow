@@ -33,10 +33,42 @@ a[disabled], a[disabled]:hover {
     cursor: pointer;
 }
 
-.QuestionHeader {
+.Question-payout {
+    font-size: 2.5rem;
+    font-family: monospace;
+    line-height: 1.5rem;
+    color: #60b91c;
+}
+
+.Question-urgency .time-watch div {
+    line-height: 1rem;
+}
+.btn-claim {
+    padding: .2rem .4rem !important;
+    display: inline;
+    font-size: .65rem;
+    font-weight: 600;
+    margin-left: .5rem;
+    border-radius: 4px;
+    text-transform: capitalize;
+    display: inline !important;
+}
+.col-4.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+.left-side .QuestionHeader {
     .user-img {
-        width: 48px;
-        height: 48px;
+        width: 30px;
+        height: 30px;
+        margin-right: .5rem;
+    }
+    &-annotation {
+        font-size: .65rem;
+        padding: .2rem .4rem !important;
+        background: #eff0f1;
+        border-radius: 5px;
+        margin-left: .5rem;
     }
 }
 
@@ -78,8 +110,8 @@ p > code {
 
 .question {
     .user-img {
-        width: 48px;
-        height: 48px;
+        width: 37px;
+        height: 37px;
     }
 }
 
@@ -105,6 +137,21 @@ p > code {
 
 .error {
     color: red;
+}
+
+.one-icon {
+    display: inline;
+    img {
+        height: inherit;
+        font-size: inherit;
+        display: inline;
+    }
+}
+
+.Question-payout img {
+    height: 19px;
+    vertical-align: baseline;
+    margin-left: 4px;
 }
 
 .error .new-message {

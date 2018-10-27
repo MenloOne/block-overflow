@@ -196,7 +196,7 @@ export class Account extends AccountModel implements AccountService {
         try {
             if (reload) {
                 // Easy way out for now
-                // TODO: Make all modules refresh all acct based state when setAccount() is called
+                // TODO: Make all modules refresh all acct based state when setWeb3Account() is called
                 window.location.reload()
             }
 
@@ -329,7 +329,13 @@ export function withAcct(Component) {
         // Notice that we pass through any additional props as well
         return (
             <AccountCtxtComponent.Consumer>
-                {(account: Account) => <Component { ...props } acct={ account }/>}
+                {(account: Account) => {
+                    return (
+                        <div>
+                            <Component {...props} acct={account} />
+                        </div>
+                    )
+                }}
             </AccountCtxtComponent.Consumer>
         )
     }

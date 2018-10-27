@@ -20,23 +20,17 @@ import "./MenloForum.sol";
 
 
 contract MenloTopicEvents {
-    event NewTopic(address _forum);
+    event NewTopic(address _forum, bytes32 _topicHash);
+    event ClosedTopic(address _forum, uint256 _tokens, int32 _votes, address _winner);
 }
 
 
 contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents, BytesDecode, Ownable, CanReclaimToken {
-    struct ForumMetadata {
-        bytes32 topicHash;
-        bool    closed;
-        uint256 payout;
-        int32   votes;
-        address winner;
-    }
     uint public constant ACTION_NEWTOPIC = 1;
 
-    mapping(address => string) public alias;
+    mapping(address => string)  public alias;
     mapping(address => uint256) public reputation;
-    mapping(address => ForumMetadata) public forums;
+    mapping(address => bytes32) public forums;
 
     uint32  public topicsCount;
     uint256 public topicCost;
@@ -50,17 +44,9 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
         return token;
     }
 
-    function setAlias(string _alias) public {
-        alias[msg.sender] = _alias;
-    }
-
     modifier isForum() {
-        require(forums[msg.sender].topicHash != 0, "Sender must be forum");
+        require(forums[msg.sender] != 0, "Sender must be forum");
         _;
-    }
-
-    function addReputation(address _user, uint _rep) public isForum {
-        reputation[_user] += _rep;
     }
 
     function usesONE(uint256 _value, uint256 _cost) internal pure returns (bool) {
@@ -69,10 +55,10 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
 
     function createForum(address _from, bytes32 _topicHash, uint256 _bounty, uint256 _length) public {
         MenloForum forum = new MenloForum( token, this, _from, _topicHash, _bounty, 5 * 10**18, 0, _length);
-        token.transfer(address(forum), _bounty);
-        forums[address(forum)] = ForumMetadata(_topicHash,false,0,0,address(0));
+        forums[address(forum)] = _topicHash;
         topicsCount += 1;
-        emit NewTopic( address(forum) );
+        token.transfer(address(forum), _bounty);
+        emit NewTopic( address(forum), _topicHash );
     }
 
     function onTokenReceived(
@@ -99,10 +85,7 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
         return 0;
     }
 
-    function onForumClosed(address _forum, uint256 _tokens, int32 _votes, address _winner) public {
-        forums[_forum].closed = true;
-        forums[_forum].payout = _tokens;
-        forums[_forum].votes  = _votes;
-        forums[_forum].winner = _winner;
+    function onForumClosed(address _forum, uint256 _tokens, int32 _votes, address _winner) public isForum {
+        emit ClosedTopic(_forum, _tokens, _votes, _winner);
     }
 }

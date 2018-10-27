@@ -39,7 +39,7 @@ class AnswersPage extends React.Component<ForumProps> {
 
     async prepForum(props: ForumProps) {
         try {
-            await this.forum.setAccount(props.acct.svc)
+            await this.forum.setWeb3Account(props.acct.svc)
         } catch (e) {
             // If this fails we probably got a bad forum address
             console.log('Error setting up forum ', e)

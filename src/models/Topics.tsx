@@ -18,19 +18,18 @@ import * as React from 'react'
 import { toast } from 'react-toastify'
 
 import web3 from './Web3'
-import BigNumber from 'bignumber.js'
 
 import RemoteIPFSStorage, { IPFSTopic } from '../storage/RemoteIPFSStorage'
 import HashUtils from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
-import { MenloTopics } from '../contracts.CN/MenloTopics'
-// import { MenloToken } from '../contracts/MenloToken'
+import { MenloTopics } from '../contracts/MenloTopics'
+import { MenloToken } from '../contracts/MenloToken'
 
 import { Account } from './Account'
-import Topic from './Topic'
-import { MenloForum } from '../contracts.CN/MenloForum'
+import Topic  from './Topic'
+import { ContentNode } from '../ContentNode/BlockOverflow'
 
 
 export class TopicsModel {
@@ -38,6 +37,7 @@ export class TopicsModel {
     public query: string = ''
     public total: number = 0
 }
+
 
 export type TopicsContext = { model: TopicsModel, svc: Topics }
 
@@ -51,16 +51,11 @@ export class Topics extends TopicsModel {
     public synced: any
 
     // Private
-
-    private allTopics: Topic[] = []
-
     private signalReady: () => void
     private signalSynced: () => void
 
     private tokenContract: MenloToken
     private contract: MenloTopics | null
-
-    private actions: { newTopic }
 
     private account: string | null
     public  acctSvc: Account | null
@@ -69,12 +64,15 @@ export class Topics extends TopicsModel {
 
     private initialTopicCount: number
     private filledTopicsCounter: number = 0
-    private topicOffsets: Map<string, number> | {}
-    private topicHashes: string[]
 
-    private queryRegExp: RegExp
+    public  ACTION_NEWTOPIC: number
+    public  topicOffsets: Map<string, number> | {}
+    public  topicHashes: string[]
+
     private pageSize: number = 15
     private pageLimit: number = this.pageSize
+
+    private cn: ContentNode
 
 
     constructor() {
@@ -86,6 +84,8 @@ export class Topics extends TopicsModel {
         this.remoteStorage = new RemoteIPFSStorage()
         this.account = null
         this.topicsCallback = null
+
+        this.cn = new ContentNode()
     }
 
     public setCallback(callback : TopicsCallback) {
@@ -93,10 +93,7 @@ export class Topics extends TopicsModel {
     }
 
     public setFilter(query: string, filters?: { any }) {
-        this.query = query.toLowerCase()
-        const pattern = `(${this.query.toLowerCase().split(' ').filter(s => s.length > 0).map(s => `(?=.*${s})`).join('')})`
-        this.queryRegExp = RegExp(pattern)
-        this.onModifiedTopic()
+        this.queryCN(query)
     }
 
     public getNextPage() {
@@ -104,7 +101,32 @@ export class Topics extends TopicsModel {
         this.onModifiedTopic()
     }
 
-    async setAccount(acct : Account) {
+    async queryCN(query: string | null = null) {
+        const topics = await this.cn.getTopics(query, this.pageLimit)
+
+        this.ACTION_NEWTOPIC = topics.ACTION_NEWTOPIC
+        this.topicOffsets    = topics.topicOffsets
+        this.topicHashes     = topics.topicHashes
+        this.total           = topics.total
+        this.query           = topics.query
+        this.topics          = topics.topics.map(t => new Topic(this, t))
+
+        this.signalReady()
+
+        await Promise.all(this.topicHashes.map(async forumAddress => {
+            const offset = this.topicOffsets[forumAddress]
+            console.log(`[[ Existing Topic ]] ( ${offset} ) ${forumAddress}`)
+
+            this.filledTopicsCounter++;
+            if (this.filledTopicsCounter >= this.initialTopicCount) {
+                this.signalSynced()
+            }
+        }))
+
+        this.onModifiedTopic()
+    }
+
+    async setWeb3Account(acct : Account) {
         if (acct.address === this.account || acct.address === null) {
             return
         }
@@ -115,54 +137,40 @@ export class Topics extends TopicsModel {
 
             this.tokenContract = await MenloToken.createAndValidate(web3, this.acctSvc.contractAddresses.MenloToken)
             this.contract = await MenloTopics.createAndValidate(web3, this.acctSvc.contractAddresses.MenloTopics)
+            // this.watchForTopics()
 
-            this.topicOffsets = {}
-            this.topicHashes = []
-            this.initialTopicCount = (await this.contract.topicsCount).toNumber()
-
-            const newTopic = (await this.contract.ACTION_NEWTOPIC).toNumber()
-            this.actions = { newTopic }
-
-            this.watchForTopics()
-
-            this.signalReady()
-
-            if (this.initialTopicCount === 0) {
-                this.signalSynced()
-            }
-
-            this.onModifiedTopic()
         } catch (e) {
             console.error(e)
             // throw(e)
         }
     }
 
+    /*
     async watchForTopics() {
         await this.ready
         const topics = this.contract!
 
         topics.NewTopicEvent({}).watch({fromBlock:0, toBlock:'latest'}, (error, result) => {
             if (error) {
-                console.error( error )
+                console.error( `[[ Topic ERROR ]] ${error}` )
                 return
             }
 
             const forumAdddress = result.args._forum.toString()
 
-            if (typeof this.topicHashes[forumAdddress] !== 'undefined') {
+            if (typeof this.messageHashes[forumAdddress] !== 'undefined') {
                 console.error('Received duplicate Topic! ', forumAdddress)
                 return
             }
 
-            const offset = this.topicHashes.length
+            const offset = this.messageHashes.length
             console.log(`[[ Topic ]] ( ${offset} ) ${forumAdddress}`)
 
-            this.topicOffsets[forumAdddress] = offset
-            this.topicHashes.push(forumAdddress)
+            this.messageOffsets[forumAdddress] = offset
+            this.messageHashes.push(forumAdddress)
 
             const message = new Topic( this, forumAdddress, offset )
-            this.allTopics.push(message)
+            this.topics.push(message)
             this.fillTopic(message)
 
             this.filledTopicsCounter++;
@@ -172,74 +180,9 @@ export class Topics extends TopicsModel {
             }
         })
     }
-
-    async fillTopic(topic: Topic) {
-        await this.ready
-        const contract = this.contract!;
-
-        try {
-            // console.log(`[[ Fill Topic ]] ( ${topic.offset} ) ${topic.metadata.messageHash}`)
-
-            // Grab data from the actual Forum contract
-            const forumContract = await MenloForum.createAndValidate(web3, topic.forumAddress);
-            [topic.endTime, topic.winningVotes, topic.totalAnswers, topic.pool] = (await Promise.all([
-                forumContract.endTimestamp,
-                forumContract.winningVotes,
-                forumContract.postCount,
-                forumContract.pool
-                ])).map(bn => bn.toNumber());
-            topic.totalAnswers -= 1;
-            topic.pool /= 10 ** 18;
-
-            const md: [string, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress);
-            topic.metadata = {
-                messageHash: HashUtils.solidityHashToCid(md[0]),
-                isClosed:    (topic.endTime < (new Date()).getTime())
-            };
-
-            const ipfsTopic = await this.remoteStorage.getMessage(topic.metadata.messageHash);
-            Object.assign(topic, ipfsTopic);
-
-            [topic.winner] = (await Promise.all([
-                forumContract.winner
-            ]));
-
-            topic.endTime *= 1000 // Convert to Milliseconds
-            topic.isAnswered = (topic.winner !== topic.author)
-            topic.iWon = (topic.winner === this.account)
-            topic.bounty = (await this.tokenContract.balanceOf(topic.forumAddress)).toNumber() / 10 ** 18
-            topic.isClaimed = (topic.bounty === 0)
-
-            topic.error  = null
-            topic.filled = true
-        } catch (e) {
-            console.log('Error with Topic ', topic, ' Error ', e)
-
-            if (!topic.error) {
-                setTimeout(() => { this.fillTopic(topic) }, 100)
-            }
-
-            topic.error = e
-            topic.title = 'IPFS Retrieval Issue. Retrying...'
-            topic.body  = '...'
-
-        } finally {
-            this.onModifiedTopic(topic)
-        }
-    }
-
+*/
 
     onModifiedTopic(topic?: Topic) {
-
-        // Filter to search query/filters
-        let allTopics = this.allTopics
-        if (this.query.length > 0) {
-            allTopics = allTopics.filter(t => this.queryRegExp.test(t.title.toLowerCase()))
-        }
-        this.total  = allTopics.length
-
-        // Copy paged topics out to model
-        this.topics = allTopics.filter(m => m.filled).sort((a, b) => b.endTime - a.endTime).slice(0, this.pageLimit)
 
         // Send message back
         if (this.topicsCallback) {
@@ -252,7 +195,7 @@ export class Topics extends TopicsModel {
     }
 
     public getTopic(id : string) : Topic {
-        return this.allTopics[this.topicOffset(id)]
+        return this.topics[this.topicOffset(id)]
     }
 
     async createTopic(title: string, body: string, bounty: number) : Promise<object> {
@@ -283,7 +226,7 @@ export class Topics extends TopicsModel {
 
             // Send it to Blockchain
             const data : string[] = [hashSolidity.toString(), TOPIC_LENGTH.toString()]
-            const result = await this.tokenContract.transferAndCallTx(contract.address, bounty * 10 ** 18, this.actions.newTopic, data).send({})
+            const result = await this.tokenContract.transferAndCallTx(contract.address as string, bounty * 10 ** 18, this.ACTION_NEWTOPIC, data).send({})
             console.log(result)
 
             return {
@@ -327,7 +270,11 @@ export function withTopics(Component) {
         // Notice that we pass through any additional props as well
         return (
             <TopicsCtxtComponent.Consumer>
-                {(topics: Topics) => <Component { ...props } topics={ topics }/>}
+                {(topics: Topics) => (
+                    <div>
+                        <Component {...props} topics={topics} />
+                    </div>
+                )}
             </TopicsCtxtComponent.Consumer>
         )
     }

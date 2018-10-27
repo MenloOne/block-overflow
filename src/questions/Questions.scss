@@ -37,11 +37,77 @@ a[disabled], a[disabled]:hover {
     padding-bottom: 1em;
 }
 
+.QuestionHeader {
+    .Question-ipfsSource, 
+    .Question-ethereumTx, 
+    .Question-permalink {
+        margin-left: 1rem;
+        font-size: 11px;
+        color: rgb(156, 161, 170);
+        font-weight: 600;
+    }
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.mb-1 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 2rem !important;
+}
+
+.btn-instructions {
+    width: 100% !important;
+}
+
+.col-4.offset-4 > div {
+    flex: 1;
+}
+
+.col-4.offset-4 > span {
+    margin-right: 0.5rem;
+    font-weight: 600;
+}
+
+.col-4.offset-4 {
+    display: flex;
+    align-items: baseline;
+    font-family: "Titillium Web";
+}
+
+.QuestionForm {
+    font-family: "Titillium Web";
+
+    h2 {
+        margin-top: 2rem;
+    }
+    .bounty.field {
+        display: inline;
+        width: 3.3rem;
+        text-align: center;
+    }
+    p {
+        text-align: center;
+        span {
+            color: green;
+            input {
+            color: green;
+            }
+            strong {
+                color: black;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
 .question {
     padding: 10px 14px;
-    a:hover {
-        text-decoration: none;
-    }
+    display: flex;
     .title {
         color: #2c3035;
     }
@@ -100,12 +166,16 @@ a.more-btn {
 }
 
 .comments .question {
-    transition: all .15s ease-out;
+    transition: all .25s ease-out;
 }
+
+.comments .question.fresh {
+    background: #e0eaff;
+}
+
 
 .comments .question:hover {
     background: #FBFBFB;
-    border-radius: 6px;
 }
 
 .question .tag-name {
@@ -137,6 +207,7 @@ a.more-btn {
 }
 
 input.search {
+    margin-top: 2rem;
     width: 100%;
     border-radius: 0.2em;
     border: 1px solid #ddd;
@@ -146,5 +217,5 @@ input.search {
 }
 
 .left-side-wrapper {
-    padding: 2rem;
+    padding: 0 1.8rem 1.8rem;
 }

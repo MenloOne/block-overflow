@@ -11,7 +11,7 @@ interface NetworkAddresses {
 export const networks: NetworkAddresses = {
     4: {
         MenloToken:  '0xb3d076232556cf5246b550e46e8868c624690b02',
-        MenloTopics: '0xa7baeaf8e121784ed64bf3c3e1b6a96edd0f3ad2',
+        MenloTopics: '0xc5bc6ba8d92e486f42fdff5ff42797b026709c6e',
         MenloFaucet: '0x21f27028b06306a5aef98c8c47d0de5b913e197f',
     },
     42: {

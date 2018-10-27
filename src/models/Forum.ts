@@ -21,7 +21,7 @@ import web3 from './Web3'
 import MessagesGraph from './MessageGraph'
 
 import RemoteIPFSStorage, {IPFSMessage, IPFSTopic} from '../storage/RemoteIPFSStorage'
-import HashUtils, { CIDZero, SolidityHash, solidityHashToCid, SolidityHashZero } from '../storage/HashUtils'
+import HashUtils, { CIDZero, SolidityHash, SolidityHashZero } from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
@@ -29,9 +29,9 @@ import { MenloForum } from '../contracts/MenloForum'
 import { MenloToken } from '../contracts/MenloToken'
 
 import { Account } from './Account'
-import Lottery, { LotteriesCallback } from './Lottery'
-import Message from './Message'
+import Message, { Message0 } from './Message'
 import { CID } from 'ipfs'
+import { ContentNode } from '../ContentNode/BlockOverflow'
 
 
 type NewMessageCallback = () => void
@@ -39,17 +39,16 @@ type NewMessageCallback = () => void
 
 export class ForumModel {
     public topic: IPFSTopic
-    public lottery: Lottery
     public messages: MessagesGraph
     public lotteryLength: number
     public contractAddress: string
+    public  winningMessage: Message | null
 }
 
 
 export interface Forum {
     topicOffset(id : string)
     subscribeMessages(parentID : string, callback : NewMessageCallback | null)
-    subscribeLotteries(callback : LotteriesCallback | null)
     getMessage(id : string) : Message
     getChildrenMessages(id : string) : Promise<Message[]>
     upvoteAndComment(id : string, body: string | null)
@@ -58,20 +57,19 @@ export interface Forum {
 }
 
 export type ForumContext = { model: ForumModel, svc: Forum }
+export type LotteriesCallback = () => void
 
-
-export class Forum extends ForumModel implements Forum {
+export class Forum extends ForumModel {
 
     // Private
 
     private signalReady: () => void
-    private signalSynced: () => void
 
     // Public
 
     public ready: any
-    public synced: any
 
+    public cn: ContentNode
     public tokenContract: MenloToken | null
     private tokenContractJS: any
 
@@ -84,45 +82,93 @@ export class Forum extends ForumModel implements Forum {
     public account: string | null
     public remoteStorage: RemoteIPFSStorage
     public messagesCallbacks: Map<string, NewMessageCallback> | {}
+    public lotteriesCallback: LotteriesCallback | null
 
     public filledMessagesCounter: number
-    public topicOffsets: Map<CID, number> | {}
-    public topicHashes: string[]
+    public messageOffsets: Map<CID, number> | {}
+    public messageHashes: string[]
 
     public initialSyncEpoch : number
     public postCost : number
     public voteCost : number
+    public postCount: number
 
+    public  endTimestamp: number = 0
+    public  epochLength: number = 0
+    public  author: string = ''
+    public  pool: number = 0
+    public  tokenBalance: number = 0
+    public  hasEnded: boolean = false
+    public  claimed: boolean = false
+    public  iWon: boolean = false
 
+    public  winningVotes: number
+    public  winningOffset: number
+    public  winner: string | null
+
+    
     constructor( forumAddress: string ) {
         super()
 
         this.ready  = QPromise((resolve) => { this.signalReady = resolve })
-        this.synced = QPromise((resolve) => { this.signalSynced = resolve })
 
         this.contractAddress = forumAddress
-
-        this.remoteStorage = new RemoteIPFSStorage()
-        this.messages = new MessagesGraph(new Message(this, CIDZero, CIDZero, 0))
+        this.messages = new MessagesGraph(new Message(this, Message0))
         this.account = null;
         this.messagesCallbacks = {}
-        this.lottery = new Lottery(this)
+
+        this.remoteStorage = new RemoteIPFSStorage()
+        this.cn = new ContentNode()
+    }
+    
+    async queryCN() {
+        const forum = await this.cn.getForum(this.contractAddress, this.account)
+
+        this.voteCost        = forum.voteCost
+        this.postCost        = forum.postCost
+        this.epochLength     = forum.epochLength
+        this.postCount       = forum.postCount
+        this.messageHashes   = forum.messageHashes
+        this.messageOffsets  = forum.messageOffsets
+        this.endTimestamp    = forum.endTimestamp
+        this.author          = forum.author
+        this.pool            = forum.pool
+        this.tokenBalance    = forum.tokenBalance
+        this.hasEnded        = forum.hasEnded
+        this.claimed         = forum.claimed
+        this.winningVotes    = forum.winningVotes
+        this.winningOffset   = forum.winningOffset
+        this.winner          = forum.winner
+        
+        forum.messages.children.forEach(m => {
+            this.messages.add(new Message(this, m))
+        })
+
+        this.winningMessage  = this.winningOffset ? this.getMessage(this.messageOffsets[this.winningOffset]) : null
+
+        this.signalReady()
+        
+        this.messageHashes.forEach(id => {
+            const msg = this.messages.get(id)
+            this.onModifiedMessage(msg)
+        })
     }
 
-    async setAccount(acct : Account) {
+    async setWeb3Account(acct : Account) {
         if (acct.address === this.account) {
             return
         }
 
         try {
+
             this.acct = acct
             this.account = acct.address
 
             this.tokenContract = new MenloToken(web3, this.acct.contractAddresses.MenloToken)
 
             this.filledMessagesCounter = 0
-            this.topicOffsets = {}
-            this.topicHashes = []
+            this.messageOffsets = {}
+            this.messageHashes = []
 
             /*
             const forumContract = TruffleContract(ForumContract)
@@ -156,17 +202,15 @@ export class Forum extends ForumModel implements Forum {
             // this.voteGas = await this.tokenContract.transferAndCall.estimateGas(this.contract.address, 1 * 10**18, this.actions.upvote, ['0x0000000000000000000000000000000000000000000000000000000000000000'])
             // console.log(`postGas ${this.postGas}, voteGas ${this.voteGas}`)
 
+            /*
             this.watchForAnswers()
             this.watchForVotes()
             this.watchForComments()
             this.watchForPayouts()
+            */
 
-            this.lottery.refresh()
+            this.refreshBalances()
             this.signalReady()
-
-            if (this.initialSyncEpoch === 0) {
-                this.signalSynced()
-            }
 
         } catch (e) {
             console.error(e)
@@ -179,11 +223,12 @@ export class Forum extends ForumModel implements Forum {
     }
 
     topicOffset(id : string) {
-        return this.topicOffsets[id]
+        return this.messageOffsets[id]
     }
 
+    /*
     async watchForPayouts() {
-        await this.synced
+        await this.ready
         const forum = this.contract!
 
         forum.PayoutEvent({}).watch({}, (error, result) => {
@@ -199,17 +244,17 @@ export class Forum extends ForumModel implements Forum {
             console.log('[[ Payout ]] ', payout)
 
             if (payout.user.toLowerCase() === this.account) {
-                this.lottery.markClaimed()
-                this.lottery.refresh()
+                this.markClaimed()
+                this.refreshBalances()
             }
 
-            this.lottery.refresh()
+            this.refreshLottery()
             this.refreshBalances()
         })
     }
 
     async watchForVotes() {
-        await this.synced
+        await this.ready
         const forum = this.contract!
 
         forum.VoteEvent({}).watch({}, (error, result) => {
@@ -223,13 +268,13 @@ export class Forum extends ForumModel implements Forum {
 
             console.log(`[[ Vote ]] ( ${offset} ) > ${direction}` )
 
-            const message = this.messages.get(this.topicHashes[offset])
+            const message = this.messages.get(this.messageHashes[offset])
             if (message) {
                 this.updateVotesData(message, 0)
                 this.onModifiedMessage(message)
             }
 
-            this.lottery.refresh()
+            this.refreshLottery()
         })
     }
 
@@ -251,29 +296,29 @@ export class Forum extends ForumModel implements Forum {
                 console.log(`[[ Answer ]] ${messageHash}`)
 
                 // Probably 0x0 > 0x0 which Solidity adds to make life simple
-                this.topicOffsets[messageID] = this.topicHashes.length
-                this.topicHashes.push(messageID)
+                this.messageOffsets[messageID] = this.messageHashes.length
+                this.messageHashes.push(messageID)
                 return
             }
 
-            if (typeof this.topicOffsets[messageID] === 'undefined') {
-                const offset = this.topicHashes.length
+            if (typeof this.messageOffsets[messageID] === 'undefined') {
+                const offset = this.messageHashes.length
                 console.log(`[[ Answer ]] ( ${offset} ) ${messageHash}`)
 
-                this.topicOffsets[messageID] = offset
-                this.topicHashes.push(messageID)
+                this.messageOffsets[messageID] = offset
+                this.messageHashes.push(messageID)
                 const message = new Message( this, messageID, CIDZero, offset )
 
                 this.messages.add(message)
                 this.fillMessage(message.id)
 
-                this.lottery.refresh()
+                this.refreshLottery()
             }
         })
     }
 
     async watchForComments() {
-        await this.synced
+        await this.ready
         const forum = this.contract!
 
         forum.CommentEvent({}).watch({}, (error, result) => {
@@ -294,9 +339,10 @@ export class Forum extends ForumModel implements Forum {
             this.messages.add(message)
             this.fillMessage(message.id)
 
-            this.lottery.refresh()
+            this.refreshLottery()
         })
     }
+    */
 
     async fillMessage(id : string) {
         await this.ready;
@@ -332,10 +378,6 @@ export class Forum extends ForumModel implements Forum {
         } finally {
             this.filledMessagesCounter++;
 
-            if (this.filledMessagesCounter >= this.initialSyncEpoch) {
-                this.signalSynced()
-            }
-
             // console.log('onModified ',message)
             this.onModifiedMessage(message)
         }
@@ -346,7 +388,7 @@ export class Forum extends ForumModel implements Forum {
     }
 
     subscribeLotteries(callback : LotteriesCallback | null) {
-        this.lottery.subscribe(callback)
+        this.lotteriesCallback = callback
     }
 
     async updateVotesData(message : Message, delta : number) {
@@ -381,12 +423,15 @@ export class Forum extends ForumModel implements Forum {
         this.refreshBalances()
     }
 
-    get rewardPool() : number {
-        return this.lottery.pool / 10 ** 18
+    async refreshLottery() {
+        if (this.lotteriesCallback) {
+            this.lotteriesCallback()
+        }
     }
 
     async refreshBalances() {
         await this.ready
+        await this.refreshLottery()
         this.acct.refreshBalance()
     }
 
@@ -432,7 +477,7 @@ export class Forum extends ForumModel implements Forum {
         const ipfsMessage : IPFSMessage = {
             version: 1,
             topic: this.topic.offset,
-            offset: this.topicHashes.length,
+            offset: this.messageHashes.length,
             parent: parentID,
             author: this.account!,
             date: Date.now(),
@@ -473,7 +518,7 @@ export class Forum extends ForumModel implements Forum {
         const ipfsMessage : IPFSMessage = {
             version: 1,
             topic: this.topic.offset,
-            offset: this.topicHashes.length,
+            offset: this.messageHashes.length,
             parent: parentHash || CIDZero, // Do we need this since its in Topic?
             author: this.account!,
             date: Date.now(),

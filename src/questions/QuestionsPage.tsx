@@ -1,11 +1,15 @@
 import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AnimateHeight from 'react-animate-height'
+import Dropdown from 'react-dropdown'
+import 'react-dropdown/style.css'
 
 import { AccountContext, withAcct } from '../models/Account'
 import { Topics, TopicsContext, TopicsCtxtComponent } from '../models/Topics'
 
 import TopNav from '../components/TopNav'
+import Sidebar from '../components/Sidebar'
+
 
 import QuestionsBoard from "./QuestionsBoard";
 
@@ -14,28 +18,13 @@ import TopicForm from './QuestionForm'
 import '../App.scss'
 import Topic from '../models/Topic'
 
-
-
-const twitter  = require('../images/twitter.svg')
-const facebook = require('../images/facebook.svg')
-const github   = require('../images/github.svg')
-const telegram = require('../images/telegram.svg')
-
-const arrowRight = require('../images/arrow-right.svg')
-const globe      = require('../images/icon-globe.svg')
-const paper      = require('../images/icon-paper.svg')
-
-const bitmart = require('../images/bitmart.svg')
-const BlockOverflowIcon = require('../images/BlockOverflow-icon.svg')
+const BlockOverflowIcon = require('../images/menlo-logo.svg')
 const how1 = require('../images/how-1.svg')
 const how2 = require('../images/how-2.svg')
 const how3 = require('../images/how-3.svg')
 const how4 = require('../images/how-4.svg')
 const how5 = require('../images/how-5.svg')
 const how6 = require('../images/how-6.svg')
-const menlo = require('../images/menlo-logo.png')
-const metal = require('../images/metal-pay.svg')
-const shapeshift = require('../images/shapeshift.svg')
 
 
 class QuestionsPageProps {
@@ -45,16 +34,49 @@ class QuestionsPageProps {
 class QuestionsPageState {
     topics: TopicsContext
     searchQuery: string
-    howToHeight: string | number
+    howToHeight: string | number | undefined
     showCompose: boolean
     showInstructions: boolean
+    activeFilter: Function;
 }
 
 
 class QuestionsPage extends React.Component<QuestionsPageProps> {
 
-    static topics : Topics = new Topics()
+    static topics: Topics = new Topics()
+
     state : QuestionsPageState
+    filters: { name: string; fn: Function }[] = [
+        { name: 'Most Recent', fn: (topics) => {
+            return topics.sort((top, top2) => {
+                console.log(top);
+                
+                return top2.date - top.date;
+            }); 
+        } },
+        { name: 'Most Active', fn: (topics) => {
+            return topics.sort((top, top2) => {
+
+                return top2.totalAnswers - top.totalAnswers;
+            }); 
+        }
+        },
+        {
+            name: 'Highest Stakes', fn: (topics) => {
+                return topics.sort((top, top2) => {
+
+                    return top2.pool - top.pool;
+                });
+            }
+        },
+        {
+            name: 'No Answers', fn: (topics) => {
+                return topics.filter((top) => {
+
+                    return top.totalAnswers === 0;
+                });
+            }
+        }];
 
     constructor(props: QuestionsPageProps, context) {
         super(props, context)
@@ -66,13 +88,15 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         this.clickCloseInstructions = this.clickCloseInstructions.bind(this)
         this.clickSignIn = this.clickSignIn.bind(this)
         this.onChangeSearch = this.onChangeSearch.bind(this)
+        this._onSelect = this._onSelect.bind(this)
 
         this.state = {
-            howToHeight: 'auto',
+            howToHeight: localStorage.getItem('HowTo-Toggle') || 'auto',
             showCompose: false,
             showInstructions: true,
             topics: { model: Object.assign({}, this.topics), svc: this.topics },
             searchQuery: '',
+            activeFilter: this.filters[0].fn
         }
 
         QuestionsPage.topics.setCallback(this.topicsChanged)
@@ -80,7 +104,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
     }
 
     async prepTopics(props: QuestionsPageProps) {
-        this.topics.setAccount(props.acct.svc)
+        this.topics.setWeb3Account(props.acct.svc)
     }
 
     componentWillReceiveProps(newProps: QuestionsPageProps) {
@@ -122,64 +146,6 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
 
     clickAsk() {
         this.setState({ showCompose: true })
-    }
-
-
-    renderMoreInfo() {
-        return (
-            <div className="user-stats right-side-box white-bg">
-                <div className="block-header">
-                    <h4>More Info</h4>
-                </div>
-                <div className="block-padding">
-                    <div className="moreinfo-btns-wrapper">
-                        <a href="https://menloone.docsend.com/view/zgf6d4e" target="_blank">
-                            <div className="moreinfo-btn">
-                                <img src={paper} className="icon-paper" />
-                                <div className="moreinfo-btn-textwrapper">
-                                    <span>Whitepaper</span>
-                                </div>
-                                <img src={arrowRight} className="arrow-right" />
-                            </div>
-                        </a>
-                        <a href="http://menlo.one" target="_blank">
-                            <div className="moreinfo-btn">
-                                <img src={globe} className="icon-globe" />
-                                <div className="moreinfo-btn-textwrapper">
-                                    <span>Website</span>
-                                    <span>http://menlo.one</span>
-                                </div>
-                                <img src={arrowRight} className="arrow-right" />
-                            </div>
-                        </a>
-                    </div>
-                    <div className="moreinfo-social-wrapper">
-                        <ul>
-                            <li>
-                                <a href="https://twitter.com/menloone?lang=en" target="_blank">
-                                    <img src={twitter} alt="Menlo One Twitter" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.facebook.com/menloone/" target="_blank">
-                                    <img src={facebook} alt="Menlo One Facebook" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/MenloOne" target="_blank">
-                                    <img src={github} alt="Menlo One Github" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://t.me/Menloone" target="_blank">
-                                    <img src={telegram} alt="Menlo One Telegram" />
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        )
     }
 
     renderUserStats() {
@@ -232,8 +198,28 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         )
     }
 
+
+    toggleHowTo = () => {
+        const { howToHeight } = this.state;
+        const newHeight = howToHeight === "0" ? 'auto' : '0';
+
+        console.log(123, howToHeight, howToHeight === '0' );
+        
+
+        localStorage.setItem('HowTo-Toggle', newHeight)
+
+        this.setState({
+            howToHeight: newHeight
+        });
+    };
+
+
     renderInstructions() {
         const { howToHeight } = this.state;
+
+        if (localStorage.getItem('HowTo-Toggle') && howToHeight === 0) {
+            return null;
+        }
 
         return (
             <AnimateHeight
@@ -253,9 +239,8 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                             </div>
                             <div className="">
                                 <p>Block Overflow is a question and answer site for blockchain programmers and other people from the Menlo One community where users get paid in ONE tokens for providing correct answers.</p>
-                                <div className="btn-wrapper" style={{display: 'none'}}>
-                                    <a className="btn btn-big btn-green" onClick={this.clickSignIn}>Sign In</a>
-                                    <a className="btn btn-big btn-grey" onClick={this.clickCloseInstructions}>Close  </a>
+                                <div className="btn-wrapper">
+                                    <a className="btn btn-grey" onClick={this.toggleHowTo}>Close</a>
                                 </div>
                             </div>
                         </div>
@@ -316,11 +301,17 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         )
     }
 
+    _onSelect(newOption) {
+        this.setState({ activeFilter: this.filters.filter((filters) => filters.name === newOption.value)[0].fn})
+    }
+
     render() {
         return (
             <TopicsCtxtComponent.Provider value={this.state.topics}>
                 <div>
-                    <TopNav/>
+                    <TopNav>
+                        <li className="nav-item"><a onClick={this.toggleHowTo} title="Guilds">Info</a></li>
+                    </TopNav>
 
                     { this.renderInstructions() }
 
@@ -328,128 +319,37 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-8">
-                                    {
-                                        !this.state.showCompose &&
-                                        <a className='btn btn-big ask-btn' onClick={ this.clickAsk }>Ask a Question</a>
-                                    }
-                                    {
-                                        this.state.showCompose &&
-                                        <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion}/>
-                                    }
+                                    <div className="row">
+                                        <div className="col-4">
+                                                <a className='btn ask-btn' onClick={this.clickAsk}>Ask a Question</a>
+                                        </div>
+                                        <div style={{ display: 'none' }}>
+                                            <div className="col-4 offset-4">
+                                                <span>Sort By:</span>
+                                            <Dropdown options={this.filters.map((f) => { return f.name })} onChange={this._onSelect} value={this.filters[0].name} placeholder="Select an option" />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div className='left-side'>
                                         <div className="left-side-wrapper">
                                             <input className='search' placeholder='Search...' value={this.state.searchQuery} onChange={this.onChangeSearch} />
                                         </div>
                                         <QuestionsBoard />
                                     </div>
+                                    {
+                                        this.state.showCompose &&
+                                        <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion} />
+                                    }
                                 </div>
 
                                 <div className="col-md-4">
                                     {/* {this.renderUserStats()} */}
-
-                                    <div className="right-side-box">
-                                        <div className="green-bg">
-                                            <div className="block-header">
-                                                <h4>ONE Token Metrics</h4>
-                                            </div>
-                                            <div className="block-padding">
-                                                <table className="stats">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>
-                                                            Circulating Supply
-                                                        </td>
-                                                        <td>
-                                                            354,000,000
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Total Supply
-                                                        </td>
-                                                        <td>
-                                                            1,000,000,000 ONE
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Volume (24h)
-                                                        </td>
-                                                        <td>
-                                                            N/A
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Market Cap
-                                                        </td>
-                                                        <td>
-                                                            $16,000,000
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            Price
-                                                        </td>
-                                                        <td>
-                                                            $0.018083
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                        <div className="white-bg content-node">
-                                            <div className="block-header">
-                                                <h4>Buy ONE Token</h4>
-                                            </div>
-                                            <div className="block-padding">
-                                                <div className="moreinfo-btns-wrapper">
-                                                    <a href="http://menlo.one" target="_blank">
-                                                        <div className="moreinfo-btn">
-                                                            <img src={menlo} className="icon-paper" />
-                                                            <div className="moreinfo-btn-textwrapper">
-                                                                <span>Menlo One Token Sale</span>
-                                                                <span>https://tokensale.menlo.one</span>
-                                                            </div>
-                                                            <img src={arrowRight} className="arrow-right" />
-                                                        </div>
-                                                    </a>
-                                                    <a href="https://www.bitmart.com" target="_blank">
-                                                        <div className="moreinfo-btn">
-                                                            <img src={bitmart} className="icon-globe" />
-                                                            <div className="moreinfo-btn-textwrapper">
-                                                                <span>Bitmart</span>
-                                                                <span>https://www.bitmart.com</span>
-                                                            </div>
-                                                            <img src={arrowRight} className="arrow-right" />
-                                                        </div>
-                                                    </a>
-                                                    <a href="http://shapeshift.io" target="_blank">
-                                                        <div className="moreinfo-btn">
-                                                            <img src={shapeshift} className="icon-globe" />
-                                                            <div className="moreinfo-btn-textwrapper">
-                                                                <span>ShapeShift</span>
-                                                                <span>http://shapeshift.io</span>
-                                                            </div>
-                                                            <img src={arrowRight} className="arrow-right" />
-                                                        </div>
-                                                    </a>
-                                                    <a href="https://metalpay.com" target="_blank">
-                                                        <div className="moreinfo-btn">
-                                                            <img src={metal} className="icon-globe" />
-                                                            <div className="moreinfo-btn-textwrapper">
-                                                                <span>Metal Pay</span>
-                                                                <span>https://metalpay.com</span>
-                                                            </div>
-                                                            <img src={arrowRight} className="arrow-right" />
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {(this.state.howToHeight === '0') && (
+                                        <a href="#" onClick={this.toggleHowTo} className="btn-instructions btn btn-green text-center mb-1">
+                                            Show Instructions
+                                        </a>
+                                    )}
+                                    <Sidebar />
 
                                     {/* <div className="token-metrics right-side-box white-bg">
                                     <div className="block-header">
@@ -476,8 +376,6 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                                         </ul>
                                     </div>
                                 </div> */}
-
-                                    {this.renderMoreInfo()}
 
                                 </div>
                             </div>

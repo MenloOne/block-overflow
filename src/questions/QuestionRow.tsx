@@ -22,7 +22,10 @@ import Blockies from 'react-blockies'
 import { TopicsContext, withTopics } from "../models/Topics";
 import Topic from "../models/Topic";
 import CountdownTimer from '../components/CountdownTimer'
+
+import MetamaskModal from '../components/MetamaskModal';
 import AddressTag from '../components/AddressTag'
+import A from '../components/A'
 
 
 import utils from '../utils'
@@ -31,7 +34,6 @@ import '../App.scss'
 import './Questions.scss'
 
 
-// import { history } from '../router'
 
 interface TopicViewProps {
     topic: Topic,
@@ -42,6 +44,8 @@ interface TopicViewProps {
 interface TopicViewState {
     showReplyForm: boolean,
     showReplies: boolean,
+    showMetamaskModal: boolean,
+    new: boolean,
 }
 
 
@@ -52,24 +56,24 @@ class QuestionRow extends React.Component<TopicViewProps> {
     constructor(props) {
         super(props)
 
-        // this.onClickTopic = this.onClickTopic.bind(this)
         this.renderClosed = this.renderClosed.bind(this)
         this.clickClaimTokens = this.clickClaimTokens.bind(this)
 
         this.state = {
             showReplyForm: false,
-            showReplies: true
+            showReplies: true,
+            showMetamaskModal: false,
+            new: true
         }
     }
 
     componentDidMount() {
+        setTimeout(() => {
+            this.setState({ new: false })
+        }, 200);
     }
 
     componentWillUnmount() {
-    }
-
-    onClickTopic() {
-        // history.push(`/topic/${ this.props.topic.forumAddress }`)
     }
 
     messageStatus() {
@@ -85,8 +89,20 @@ class QuestionRow extends React.Component<TopicViewProps> {
     }
 
     async clickClaimTokens(e) {
-        e.stopPropagation();
-        await this.props.topic.claimWinnings()
+        e.stopPropagation()
+        this.setState({showMetamaskModal: true})
+
+        setTimeout(() => {
+            this.setState({ showMetamaskModal: false })
+        }, 6000)
+
+        try {
+            await this.props.topic.claimWinnings()
+        } catch (error) {
+            this.setState({ showMetamaskModal: false })
+            return
+        }
+        this.setState({ showMetamaskModal: false })
     }
 
     renderClosed() {
@@ -121,17 +137,13 @@ class QuestionRow extends React.Component<TopicViewProps> {
 
     render() {
         const topic = this.props.topic
-
         return (
-            <li className="question">
-                <a
-                    onClick={ this.onClickTopic }
-                    href={`/topic/${this.props.topic.forumAddress}`}
-                >
-                    <div className="user-img">
-                        <Blockies size={12} scale={4} seed={topic.author}/>
-                    </div>
-                    <div className="content">
+            <li className={`question ${this.state.new ? 'fresh' : null}`}>
+                <div className="user-img">
+                    <Blockies size={9} scale={4} seed={topic.author}/>
+                </div>
+                <div className="content">
+                    <A href={`/topic/${ this.props.topic.forumAddress }`}>
                         <span className="title">
                             { (topic.title && topic.title.length > 4) ?
                                 topic.title
@@ -139,43 +151,44 @@ class QuestionRow extends React.Component<TopicViewProps> {
                                 topic.body.substr(0, 100)
                             }
                         </span>
-                        <div>
-                            {topic && topic.author && <AddressTag link={false} copy={false} address={topic.author} />}
-                            <span style={{ display: 'none' }}>
-                                <span className="points">??? points </span>
-                            </span>
-                            {topic && topic.date && <Moment fromNow>{topic.date}</Moment>}
-                        </div>
+                    </A>
+                    <div>
+                        {topic && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
+                        <span style={{ display: 'none' }}>
+                            <span className="points">??? points </span>
+                        </span>
+                        {topic && topic.date && <Moment fromNow>{topic.date}</Moment>}
                     </div>
-                    <div className="stats">
-                        {utils.formatNumber(topic.totalAnswers) }
-                        <span className="subtitle">ANSWERS</span>
-                    </div>
-                    <div className="stats">
-                        {utils.formatNumber(topic.winningVotes) }
-                        <span className="subtitle">VOTES</span>
-                    </div>
-                    <div className="stats">
-                        { topic.bounty === 0 ?
-                            (<Fragment>
-                                { utils.formatNumber(topic.pool.toFixed()) }
-                                {!this.props.topic.isAnswered ? (
-                                    <span className="subtitle">BOUNTY</span>
-                                ) : (
-                                    <span className="subtitle">ONE PAID</span>
-                                )}
-                            </Fragment>)
-                            :
-                            (<Fragment>
-                                { utils.formatNumber(topic.bounty.toFixed()) }
+                </div>
+                <div className="stats">
+                    {utils.formatNumber(topic.totalAnswers) }
+                    <span className="subtitle">ANSWERS</span>
+                </div>
+                <div className="stats">
+                    {utils.formatNumber(topic.winningVotes) }
+                    <span className="subtitle">VOTES</span>
+                </div>
+                <div className="stats">
+                    { topic.bounty === 0 ?
+                        (<Fragment>
+                            { utils.formatNumber(topic.pool.toFixed()) }
+                            {!this.props.topic.isAnswered ? (
                                 <span className="subtitle">BOUNTY</span>
-                            </Fragment>)
-                        }
-                    </div>
-                    <div className="stats stats-timer">
-                        <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
-                    </div>
-                </a>
+                            ) : (
+                                <span className="subtitle">ONE PAID</span>
+                            )}
+                        </Fragment>)
+                        :
+                        (<Fragment>
+                            { utils.formatNumber(topic.bounty.toFixed()) }
+                            <span className="subtitle">BOUNTY</span>
+                        </Fragment>)
+                    }
+                </div>
+                <div className="stats stats-timer">
+                    <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
+                </div>
+                {this.state.showMetamaskModal ? <MetamaskModal /> : null }
             </li>
         )
     }

@@ -21,6 +21,7 @@ import { withAcct } from '../models/Account'
 import utils from '../utils'
 import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
+import MetamaskModal from 'src/components/MetamaskModal';
 
 
 class AnswerFormProps {
@@ -109,7 +110,7 @@ class AnswerForm extends React.Component<AnswerFormProps> {
                 { this.props.rows === 1 &&
                     <div>
                         { this.props.icon &&
-                        <span className='comment-indicator'><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
+                        <span className={`comment-indicator  ${ this.props.icon.split('-')[2] }`}><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
                         }
                         <textarea
                             className='field'
@@ -137,6 +138,7 @@ class AnswerForm extends React.Component<AnswerFormProps> {
                     </div>
                 }
                 { this.props.onCancel ? <a className="btn cancel-btn" onClick={this.props.onCancel}>Cancel</a> : null }
+                {this.state.submitting && <MetamaskModal />}
             </form>
         )
     }

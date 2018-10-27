@@ -5,6 +5,7 @@ import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 import { TopicsContext, withTopics } from "../models/Topics";
 
 import TopicView from './QuestionRow'
+import Loader from '../components/Loader'
 
 
 
@@ -47,21 +48,22 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
     renderMessages() {
         if (this.props.topics.model.topics.length === 0 && this.props.acct.model.status !== MetamaskStatus.Ok) {
             return (<li className=''>
-                <div style={{ padding: '2em' }}>
-                    Loading Questions...
+                <div style={{ textAlign: 'center', padding: '2em' }}>
+                    <Loader /><br />Connecting...
                 </div>
             </li>)
         }
 
         if (this.props.topics.model.topics.length === 0) {
             return (<li className=''>
-                <div style={{ padding: '2em' }}>
-                    Loading...
+                <div style={{ textAlign: 'center', padding: '2em' }}>
+                    <Loader /><br />Loading...
                 </div>
             </li>)
         }
 
         const topics = this.props.topics.model.topics
+
         return topics.map((m, index) => {
             return (
                 <div key={index} className='row'>
@@ -75,6 +77,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
 
 
     render() {
+
         return (
             <div className="comments">
                 <ul>
@@ -82,7 +85,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
                     {
                         this.props.topics.model.topics.length < this.props.topics.model.total &&
                         <div className="left-side-wrapper">
-                            <a onClick={ this.clickNextPage } className='btn big-btn more-btn'>SEE MORE...</a>
+                            <a onClick={ this.clickNextPage } className='btn big-btn more-btn'>Load More...</a>
                         </div>
                     }
                 </ul>

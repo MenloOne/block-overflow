@@ -18,9 +18,10 @@
 import ipfsAPI from 'ipfs-api'
 import { CID, IPFSFile } from 'ipfs'
 import PromiseRaceSuccess from '../utils/PromiseRaceSuccess'
+import { IIPFSMessage, IIPFSTopic } from '../shared/BlockOverflow.cto'
 
 
-export class IPFSMessage {
+export class IPFSMessage implements IIPFSMessage {
     version: number = 1
     offset:  number = -1
     topic:   number = 0
@@ -30,7 +31,7 @@ export class IPFSMessage {
     body:    string = ''
 }
 
-export class IPFSTopic {
+export class IPFSTopic implements IIPFSTopic {
     version: number = 1
     offset:  number = -1
     author:  string = ''

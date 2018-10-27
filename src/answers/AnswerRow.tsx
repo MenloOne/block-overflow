@@ -239,11 +239,11 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
         const { height } = this.state;
 
         const message = this.props.message
-
+        
         return (
             <li className="borderis message">
                 {
-                    this.props.forum.model.lottery.winningMessage && this.props.forum.model.lottery.winningMessage.id === message.id &&
+                    this.props.forum.model.winningMessage && this.props.forum.model.winningMessage.id === message.id &&
                     <i className='fa fa-check winning-check' />
                 }
                 <div className="user-img">
@@ -279,8 +279,10 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                         { this.renderVotes() }
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
                         <span >
-                                <a onClick={this.upvote} disabled={this.props.message.upvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
-                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}>
+                                <a onClick={this.upvote} disabled={this.props.message.upvoteDisabled()}>
+                                    <span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span>
+                                </a>
+                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled()}>
                                     <span className="Question-downvote">
                                         <img src={voteTriangle} className="icon-downvote" />
                                         Downvote
