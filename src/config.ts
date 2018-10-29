@@ -3,7 +3,7 @@ class Config {
 
     constructor() {
         if (process.env.NODE_ENV === 'production') {
-            this.contentNodeUrl = 'https://node.menlo.one/v0'
+            this.contentNodeUrl = 'https://cn.menlo.one/v0'
             return
         }
 
