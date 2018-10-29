@@ -61,6 +61,12 @@ contract MenloTopics is MenloTokenReceiver, MenloForumCallback, MenloTopicEvents
         emit NewTopic( address(forum), _topicHash );
     }
 
+    function addForum(address _forum, bytes32 _topicHash) public onlyOwner {
+        forums[_forum] = _topicHash;
+        topicsCount += 1;
+        emit NewTopic( _forum, _topicHash );
+    }
+
     function onTokenReceived(
         address _from,
         uint256 _value,

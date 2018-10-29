@@ -142,7 +142,6 @@ export class Account extends AccountModel implements AccountService {
         if (window.ethereum) {
             try {
                 // Request account access if needed
-                console.log('Calling ethereum enable')
                 await window.ethereum.enable();
             } catch (error) {
                 // User denied account access...
@@ -154,6 +153,7 @@ export class Account extends AccountModel implements AccountService {
         }
 
         this.setNetwork()
+
         web3.eth.getAccounts(async (err, accounts) => {
             if (err || !accounts || accounts.length === 0) {
                 this.status = MetamaskStatus.LoggedOut
@@ -186,7 +186,7 @@ export class Account extends AccountModel implements AccountService {
     async refreshAccount(reload : boolean, address: string) {
         toast.dismiss()
 
-        if (this.networkName !== NetworkName.Kovan && this.networkName !== NetworkName.Rinkeby) {
+        if (this.networkName !== NetworkName.Rinkeby) {
             this.status = MetamaskStatus.InvalidNetwork
             this.onStateChange()
             return

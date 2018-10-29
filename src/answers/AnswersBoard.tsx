@@ -4,7 +4,7 @@ import Blockies from 'react-blockies'
 import MarkDown from 'react-markdown-renderer'
 import Moment from 'react-moment'
 
-import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
+import { AccountContext, withAcct } from '../models/Account'
 import { Forum, ForumContext } from '../models/Forum'
 import { CIDZero } from '../storage/HashUtils'
 
@@ -55,11 +55,10 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
             isCommenting: false,
             topicAvatar: null
         }
-
-        this.updateForum(props.forum)
     }
 
     componentWillMount() {
+        this.updateForum(this.props.forum)
         this.subscribe(this.props.forum.svc)
     }
 
@@ -148,15 +147,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
     }
 
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok)) {
-            return (
-                <li className='borderis message'>
-                    <div style={{ paddingBottom: '3em' }}>
-                        <Loader size={22} />
-                    </div>
-                </li>)
-        }
-
         if (this.state.messages.length === 0) {
             if (this.props.forum.model.hasEnded) {
                 return (
@@ -239,13 +229,9 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                     </div>
                     <div className="Question-wrapper left-side-wrapper">
                         {
-                            this.props.forum.model.topic ? (
-                                <h6>
-                                    {this.props.forum.model.topic && this.props.forum.model.topic.title}
-                                </h6>
-                            ) : (
-                                    <Loader size={22} style={{ margin: '0 1rem 0 0' }} />
-                                )
+                            <h6>
+                                {this.props.forum.model.topic && this.props.forum.model.topic.title}
+                            </h6>
                         }
                         {this.props.forum.model.topic && this.props.forum.model.topic.body ? <MarkDown markdown={this.props.forum.model.topic.body} /> : null}
 
@@ -253,7 +239,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             <div>
                                 {!this.props.forum.model.hasEnded && <span><span className="small-subtitle">BOUNTY</span><br /></span>}
                                 {this.props.forum.model.pool ? (<span className="Question-payout">
-                                    {utils.formatNumber(this.props.forum.model.pool.toFixed(0))} ONE
+                                    {utils.formatNumber((this.props.forum.model.pool / 10 ** 18).toFixed(0))} ONE
                                     {/* <span className="one-icon"><img src={ONElogo} alt="" /></span> */}
                                 </span>) : (<Loader size={22} />)}
                                 {this.props.forum.model.hasEnded &&  this.props.forum.model.claimed && (this.props.forum.model.author !== this.props.forum.model.winner) && <span><br /><span className="small-subtitle">REWARDED TO WINNER</span></span>}

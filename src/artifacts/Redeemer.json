@@ -53,19 +53,19 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity^0.4.19;\n\nimport \"menlo-token/contracts/MenloToken.sol\";\n\n// assumption: token upgrades through DappHub, such as https://etherscan.io/address/0x642ae78fafbb8032da552d619ad43f1d81e4dd7c#code\n// assumption: token upgrades are 1:1\ninterface Redeemer {\n    function redeem() external;\n    function undo() external;\n    function to() external view returns (MenloToken);\n    function from() external view returns (MenloToken);\n}\n",
-  "sourcePath": "/Users/dave/Code/block-overflow/contracts/Redeemer.sol",
+  "sourcePath": "/Users/dave/Code/content-node/contracts/Redeemer.sol",
   "ast": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/Redeemer.sol",
+    "absolutePath": "/Users/dave/Code/content-node/contracts/Redeemer.sol",
     "exportedSymbols": {
       "Redeemer": [
-        1550
+        3456
       ]
     },
-    "id": 1551,
+    "id": 3457,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1532,
+        "id": 3438,
         "literals": [
           "solidity",
           "^",
@@ -73,16 +73,16 @@
           ".19"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:3"
+        "src": "0:23:8"
       },
       {
         "absolutePath": "menlo-token/contracts/MenloToken.sol",
         "file": "menlo-token/contracts/MenloToken.sol",
-        "id": 1533,
+        "id": 3439,
         "nodeType": "ImportDirective",
-        "scope": 1551,
-        "sourceUnit": 2764,
-        "src": "25:46:3",
+        "scope": 3457,
+        "sourceUnit": 4670,
+        "src": "25:46:8",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -92,9 +92,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1550,
+        "id": 3456,
         "linearizedBaseContracts": [
-          1550
+          3456
         ],
         "name": "Redeemer",
         "nodeType": "ContractDefinition",
@@ -102,7 +102,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1536,
+            "id": 3442,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -110,20 +110,20 @@
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1534,
+              "id": 3440,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "283:2:3"
+              "src": "283:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 1535,
+              "id": 3441,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "294:0:3"
+              "src": "294:0:8"
             },
-            "scope": 1550,
-            "src": "268:27:3",
+            "scope": 3456,
+            "src": "268:27:8",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -131,7 +131,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1539,
+            "id": 3445,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -139,20 +139,20 @@
             "name": "undo",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1537,
+              "id": 3443,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "313:2:3"
+              "src": "313:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 1538,
+              "id": 3444,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "324:0:3"
+              "src": "324:0:8"
             },
-            "scope": 1550,
-            "src": "300:25:3",
+            "scope": 3456,
+            "src": "300:25:8",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -160,7 +160,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1544,
+            "id": 3450,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -168,38 +168,38 @@
             "name": "to",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1540,
+              "id": 3446,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "341:2:3"
+              "src": "341:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 1543,
+              "id": 3449,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1542,
+                  "id": 3448,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1544,
-                  "src": "367:10:3",
+                  "scope": 3450,
+                  "src": "367:10:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2721",
+                    "typeIdentifier": "t_contract$_MenloToken_$4627",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1541,
+                    "id": 3447,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2721,
-                    "src": "367:10:3",
+                    "referencedDeclaration": 4627,
+                    "src": "367:10:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2721",
+                      "typeIdentifier": "t_contract$_MenloToken_$4627",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -207,10 +207,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "366:12:3"
+              "src": "366:12:8"
             },
-            "scope": 1550,
-            "src": "330:49:3",
+            "scope": 3456,
+            "src": "330:49:8",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -218,7 +218,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1549,
+            "id": 3455,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -226,38 +226,38 @@
             "name": "from",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1545,
+              "id": 3451,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "397:2:3"
+              "src": "397:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 1548,
+              "id": 3454,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1547,
+                  "id": 3453,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1549,
-                  "src": "423:10:3",
+                  "scope": 3455,
+                  "src": "423:10:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2721",
+                    "typeIdentifier": "t_contract$_MenloToken_$4627",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1546,
+                    "id": 3452,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2721,
-                    "src": "423:10:3",
+                    "referencedDeclaration": 4627,
+                    "src": "423:10:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2721",
+                      "typeIdentifier": "t_contract$_MenloToken_$4627",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -265,33 +265,33 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "422:12:3"
+              "src": "422:12:8"
             },
-            "scope": 1550,
-            "src": "384:51:3",
+            "scope": 3456,
+            "src": "384:51:8",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1551,
-        "src": "243:194:3"
+        "scope": 3457,
+        "src": "243:194:8"
       }
     ],
-    "src": "0:438:3"
+    "src": "0:438:8"
   },
   "legacyAST": {
-    "absolutePath": "/Users/dave/Code/block-overflow/contracts/Redeemer.sol",
+    "absolutePath": "/Users/dave/Code/content-node/contracts/Redeemer.sol",
     "exportedSymbols": {
       "Redeemer": [
-        1550
+        3456
       ]
     },
-    "id": 1551,
+    "id": 3457,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1532,
+        "id": 3438,
         "literals": [
           "solidity",
           "^",
@@ -299,16 +299,16 @@
           ".19"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:3"
+        "src": "0:23:8"
       },
       {
         "absolutePath": "menlo-token/contracts/MenloToken.sol",
         "file": "menlo-token/contracts/MenloToken.sol",
-        "id": 1533,
+        "id": 3439,
         "nodeType": "ImportDirective",
-        "scope": 1551,
-        "sourceUnit": 2764,
-        "src": "25:46:3",
+        "scope": 3457,
+        "sourceUnit": 4670,
+        "src": "25:46:8",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -318,9 +318,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 1550,
+        "id": 3456,
         "linearizedBaseContracts": [
-          1550
+          3456
         ],
         "name": "Redeemer",
         "nodeType": "ContractDefinition",
@@ -328,7 +328,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1536,
+            "id": 3442,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -336,20 +336,20 @@
             "name": "redeem",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1534,
+              "id": 3440,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "283:2:3"
+              "src": "283:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 1535,
+              "id": 3441,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "294:0:3"
+              "src": "294:0:8"
             },
-            "scope": 1550,
-            "src": "268:27:3",
+            "scope": 3456,
+            "src": "268:27:8",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -357,7 +357,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1539,
+            "id": 3445,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -365,20 +365,20 @@
             "name": "undo",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1537,
+              "id": 3443,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "313:2:3"
+              "src": "313:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 1538,
+              "id": 3444,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "324:0:3"
+              "src": "324:0:8"
             },
-            "scope": 1550,
-            "src": "300:25:3",
+            "scope": 3456,
+            "src": "300:25:8",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
@@ -386,7 +386,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1544,
+            "id": 3450,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -394,38 +394,38 @@
             "name": "to",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1540,
+              "id": 3446,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "341:2:3"
+              "src": "341:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 1543,
+              "id": 3449,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1542,
+                  "id": 3448,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1544,
-                  "src": "367:10:3",
+                  "scope": 3450,
+                  "src": "367:10:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2721",
+                    "typeIdentifier": "t_contract$_MenloToken_$4627",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1541,
+                    "id": 3447,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2721,
-                    "src": "367:10:3",
+                    "referencedDeclaration": 4627,
+                    "src": "367:10:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2721",
+                      "typeIdentifier": "t_contract$_MenloToken_$4627",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -433,10 +433,10 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "366:12:3"
+              "src": "366:12:8"
             },
-            "scope": 1550,
-            "src": "330:49:3",
+            "scope": 3456,
+            "src": "330:49:8",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
@@ -444,7 +444,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 1549,
+            "id": 3455,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -452,38 +452,38 @@
             "name": "from",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1545,
+              "id": 3451,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "397:2:3"
+              "src": "397:2:8"
             },
             "payable": false,
             "returnParameters": {
-              "id": 1548,
+              "id": 3454,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1547,
+                  "id": 3453,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1549,
-                  "src": "423:10:3",
+                  "scope": 3455,
+                  "src": "423:10:8",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_MenloToken_$2721",
+                    "typeIdentifier": "t_contract$_MenloToken_$4627",
                     "typeString": "contract MenloToken"
                   },
                   "typeName": {
                     "contractScope": null,
-                    "id": 1546,
+                    "id": 3452,
                     "name": "MenloToken",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2721,
-                    "src": "423:10:3",
+                    "referencedDeclaration": 4627,
+                    "src": "423:10:8",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_MenloToken_$2721",
+                      "typeIdentifier": "t_contract$_MenloToken_$4627",
                       "typeString": "contract MenloToken"
                     }
                   },
@@ -491,20 +491,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "422:12:3"
+              "src": "422:12:8"
             },
-            "scope": 1550,
-            "src": "384:51:3",
+            "scope": 3456,
+            "src": "384:51:8",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 1551,
-        "src": "243:194:3"
+        "scope": 3457,
+        "src": "243:194:8"
       }
     ],
-    "src": "0:438:3"
+    "src": "0:438:8"
   },
   "compiler": {
     "name": "solc",
@@ -512,5 +512,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-10-16T19:11:25.752Z"
+  "updatedAt": "2018-10-29T03:55:11.236Z"
 }

@@ -1,3 +1,5 @@
+import { IPFSTopic } from '../storage/RemoteIPFSStorage'
+
 export type CID = any;
 
 export interface IIPFSTopic {
@@ -31,6 +33,7 @@ export interface TopicsCTOGet {
 }
 
 export interface ForumCTOGet {
+    readonly topic:          IPFSTopic,
     readonly epochLength:    number
     readonly postCost :      number
     readonly voteCost :      number

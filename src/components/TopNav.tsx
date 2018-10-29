@@ -146,7 +146,7 @@ class TopNav extends React.Component<TopNavProps> {
         }
 
         if (this.props.acct.model.status === MetamaskStatus.InvalidNetwork) {
-            toast(`Oops, you’re on the ${this.props.acct.model.networkName} Network.  Please switch to the ${NetworkName.Kovan} or ${NetworkName.Rinkeby} Networks.`, {
+            toast(`Oops, you’re on the ${this.props.acct.model.networkName} Network.  Please switch to the ${NetworkName.Rinkeby} Network.`, {
                 toastId: ToastType.Account,
                 autoClose: false,
                 closeButton: false

@@ -180,7 +180,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         </Fragment>)
                         :
                         (<Fragment>
-                            { utils.formatNumber(topic.bounty.toFixed()) }
+                            { utils.formatNumber((topic.pool / 10 ** 18).toFixed()) }
                             <span className="subtitle">BOUNTY</span>
                         </Fragment>)
                     }

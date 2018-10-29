@@ -86,7 +86,7 @@ export class Forum extends ForumModel {
     public contractAddress: string
     public contract: MenloForum | null
 
-    private acct: Account
+    private acct: Account | null
     private actions: { post, upvote, downvote }
 
     public account: string | null
@@ -102,7 +102,7 @@ export class Forum extends ForumModel {
     public postCost : number
     public voteCost : number
     public postCount: number
-    public  epochLength: number = 0
+    public epochLength: number = 0
 
     
     constructor( forumAddress: string ) {
@@ -122,6 +122,7 @@ export class Forum extends ForumModel {
     async queryCN() {
         const forum = await this.cn.getForum(this.contractAddress, this.account)
 
+        this.topic           = Object.assign({}, forum.topic)
         this.voteCost        = forum.voteCost
         this.postCost        = forum.postCost
         this.epochLength     = forum.epochLength
@@ -137,7 +138,7 @@ export class Forum extends ForumModel {
         this.winningVotes    = forum.winningVotes
         this.winningOffset   = forum.winningOffset
         this.winner          = forum.winner
-        
+
         forum.messages.children.forEach(m => {
             this.messages.add(new Message(this, m))
         })
@@ -153,12 +154,13 @@ export class Forum extends ForumModel {
     }
 
     async setWeb3Account(acct : Account) {
+        await this.queryCN()
+
         if (acct.address === this.account) {
             return
         }
 
         try {
-
             this.acct = acct
             this.account = acct.address
 
@@ -175,8 +177,6 @@ export class Forum extends ForumModel {
             */
             this.contract = await MenloForum.createAndValidate(web3, this.contractAddress)
 
-            const hash : SolidityHash = (await this.contract.topicHash).toString()
-            this.topic = await this.remoteStorage.getMessage<IPFSTopic>(HashUtils.solidityHashToCid(hash))
             const [post, upvote, downvote] = (await Promise.all([
                 this.contract.ACTION_POST,
                 this.contract.ACTION_UPVOTE,
@@ -444,7 +444,10 @@ export class Forum extends ForumModel {
     async refreshBalances() {
         await this.ready
         await this.refreshLottery()
-        this.acct.refreshBalance()
+
+        if (this.acct) {
+            this.acct.refreshBalance()
+        }
     }
 
     getMessage(id : string) : Message {

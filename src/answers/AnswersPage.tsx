@@ -56,6 +56,7 @@ class AnswersPage extends React.Component<ForumProps> {
         if (nextProps.params.address !== this.props.params.address) {
             this.forum = new Forum(nextProps.params.address)
             this.prepForum(nextProps)
+            return
         }
 
         if (nextProps.acct.model.address !== this.props.acct.model.address) {
