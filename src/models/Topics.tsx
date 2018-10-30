@@ -66,8 +66,6 @@ export class Topics extends TopicsModel {
     private filledTopicsCounter: number = 0
 
     public  ACTION_NEWTOPIC: number
-    public  topicOffsets: Map<string, number> | {}
-    public  topicHashes: string[]
 
     private pageSize: number = 15
     private pageLimit: number = this.pageSize
@@ -105,17 +103,14 @@ export class Topics extends TopicsModel {
         const topics = await this.cn.getTopics(query, this.pageLimit)
 
         this.ACTION_NEWTOPIC = topics.ACTION_NEWTOPIC
-        this.topicOffsets    = topics.topicOffsets
-        this.topicHashes     = topics.topicHashes
         this.total           = topics.total
         this.query           = topics.query
         this.topics          = topics.topics.map(t => new Topic(this, t))
 
         this.signalReady()
 
-        await Promise.all(this.topicHashes.map(async forumAddress => {
-            const offset = this.topicOffsets[forumAddress]
-            console.log(`[[ Existing Topic ]] ( ${offset} ) ${forumAddress}`)
+        await Promise.all(this.topics.map(async topic => {
+            console.log(`[[ Existing Topic ]] ${topic.forumAddress}`)
 
             this.filledTopicsCounter++;
             if (this.filledTopicsCounter >= this.initialTopicCount) {
@@ -192,12 +187,8 @@ export class Topics extends TopicsModel {
         }
     }
 
-    public topicOffset(id : string) {
-        return this.topicOffsets[id]
-    }
-
     public getTopic(id : string) : Topic {
-        return this.topics[this.topicOffset(id)]
+        return this.topics.filter(t => t.forumAddress === id)[0]
     }
 
     async createTopic(title: string, body: string, bounty: number) : Promise<object> {
@@ -206,7 +197,7 @@ export class Topics extends TopicsModel {
 
         const ipfsTopic : IPFSTopic = {
             version: 1,
-            offset: this.topicHashes.length,
+            offset: this.total,
             author: this.account!,
             date: Date.now(),
             title,

@@ -24,8 +24,6 @@ export interface TopicCTOGet extends IIPFSTopic {
 
 
 export interface TopicsCTOGet {
-    readonly topicOffsets: Map<string, number> | {}
-    readonly topicHashes: string[]
     readonly ACTION_NEWTOPIC: number
     readonly total: number
     readonly query: string
