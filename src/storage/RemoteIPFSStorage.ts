@@ -55,13 +55,11 @@ class RemoteIPFSStorage {
             path: `/${message.topic}/${message.offset}.json`,
             content: Buffer.from(JSON.stringify(message))
         }
-        const result = await new PromiseRaceSuccess().timeout(10000, [
+        const result = await new PromiseRaceSuccess().timeout(5000, [
             this.ipfs.files.add([file], { pin: true }),
             this.ipfsMenlo.files.add([file], { pin: true })
         ])
         const hash = result[0].hash
-
-        await (this.ipfsMenlo as any).pin.add(hash)
 
         /*
         console.log(`Created ${hash}`)
@@ -96,8 +94,6 @@ class RemoteIPFSStorage {
             this.ipfsMenlo.files.add([file], { pin: true })
         ])
         const hash = result[0].hash
-
-        await (this.ipfsMenlo as any).pin.add(hash)
 
         /*
         console.log(`Created ${hash}`)
