@@ -9,7 +9,7 @@ const A = ({ children, href = '', ...props }) => {
         history.push(href)
     }
 
-    return <a onClick={onClick} href=''>{children}</a>
+    return <a onClick={onClick}>{children}</a>
 };
 
 export default A

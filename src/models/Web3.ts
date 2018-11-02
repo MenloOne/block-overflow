@@ -17,31 +17,28 @@
 // Overrides metamask v0.2 for 1.0 version.
 // 1.0 lets us use async and await instead of promises.
 
-import Web3 from 'web3'
+let web3 : any = Object.assign({})
 
-let web3
+if (window.web3) {
 
-function setupWeb3() {
+    const Web3 = require('web3')
+
     // Modern dapp browsers...
     if (window.ethereum) {
         const ethereum = window.ethereum
 
         window.web3 = new Web3(ethereum);
-        web3 = window.web3
+        web3 = window.web3 as any
 
-    // Legacy dapp browsers...
+        // Legacy dapp browsers...
     } else if (window.web3) {
         window.web3 = new Web3(window.web3.currentProvider);
-        web3 = window.web3
+        web3 = window.web3 as any
 
-    // Non-dapp browsers...
+        // Non-dapp browsers...
     } else {
         console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
     }
-
 }
-
-setupWeb3()
-
 
 export default web3

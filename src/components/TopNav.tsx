@@ -38,9 +38,8 @@ class TopNav extends React.Component<TopNavProps> {
     }
 
     componentWillMount() {
-        this.getUrl().then((url) => {
-            this.setState({ url })
-        });
+        const url = this.props.acct.svc.getEtherscanUrl()
+        this.setState({ url })
     }
 
     async onGetTokens() {
@@ -79,35 +78,6 @@ class TopNav extends React.Component<TopNavProps> {
                 <span className="token-one">&nbsp;ONE</span>
             </li>
         )
-    }
-
-    async getUrl() : Promise<string> {
-
-        let url = ''
-
-        if (!web3 || !web3.version) {
-            return 'https://etherscan.io'
-        }
-
-        return new Promise<string>((resolve, reject) => {
-
-            web3.version.getNetwork((err, netId) => {
-
-                switch (netId) {
-                    case '4':
-                        url = 'https://rinkeby.etherscan.io'
-                        break
-                    case "42":
-                        url = 'https://kovan.etherscan.io'
-                        break
-                    default:
-                        url = 'https://etherscan.io'
-                }
-
-                resolve(`${url}/address/${this.props.acct.model.address}`);
-            })
-        })
-
     }
 
     renderAccountStatus() {

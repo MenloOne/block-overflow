@@ -63,9 +63,8 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
     }
 
     componentDidMount() {
-        utils.getUrl({ address: this.props.forum.model.contractAddress}).then((url) => {
-            this.setState({ url })
-        });
+        const url = this.props.acct.svc.getEtherscanUrl(this.props.forum.model.contractAddress)
+        this.setState({ url })
     }
 
     componentWillUnmount() {

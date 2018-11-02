@@ -17,6 +17,7 @@ import TopicForm from './QuestionForm'
 
 import '../App.scss'
 import Topic from '../models/Topic'
+import { withSockets } from '../SocketContext'
 
 const BlockOverflowIcon = require('../images/menlo-logo.svg')
 const how1 = require('../images/how-1.svg')
@@ -29,6 +30,7 @@ const how6 = require('../images/how-6.svg')
 
 class QuestionsPageProps {
     acct: AccountContext
+    socket: SocketIOClient.Socket
 }
 
 class QuestionsPageState {
@@ -98,6 +100,8 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
             searchQuery: '',
             activeFilter: this.filters[0].fn
         }
+
+        props.socket.send('events', ['NewTopic'] )
 
         QuestionsPage.topics.setCallback(this.topicsChanged)
         this.prepTopics(props)
@@ -387,4 +391,4 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
     }
 }
 
-export default withAcct(QuestionsPage)
+export default withAcct(withSockets(QuestionsPage))

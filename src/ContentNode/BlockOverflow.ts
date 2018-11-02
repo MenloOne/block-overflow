@@ -8,7 +8,7 @@ export class ContentNode {
     }
 
     async getTopics(query: string | null, pageLimit?: number) : Promise<TopicsCTOGet> {
-        let   url = `${config.contentNodeUrl}/topics`
+        let   url = `${config.apiUrl}/topics`
         const params: string[] = []
 
         if (query) {
@@ -26,7 +26,7 @@ export class ContentNode {
     }
 
     async getForum(address: string, account: string | null) : Promise<ForumCTOGet> {
-        let   url = `${config.contentNodeUrl}/forums/${address}`
+        let   url = `${config.apiUrl}/forums/${address}`
         const params: string[] = []
 
         if (account) {
