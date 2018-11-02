@@ -10,6 +10,7 @@ import { AccountContext, MetamaskStatus, NetworkName, ToastType, withAcct } from
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.scss'
+import A from './A'
 
 
 const logo = require('../images/BlockOverflow-logo.svg')
@@ -191,9 +192,9 @@ class TopNav extends React.Component<TopNavProps> {
             <div className="nav-wrapper fixed-top">
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav">
                     <div className="container">
-                        <a className="navbar-brand" href="/">
+                        <A className="navbar-brand" href="/">
                             <img src={logo} title="Menlo One" alt="Menlo One" />
-                        </a>
+                        </A>
                         <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                             data-target="#navbarResponsive"
                             aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
