@@ -125,7 +125,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                         {(this.state.forum.model.pool !== 0 && this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) ? (<div className="stat">
                                             <div className="stat-label-wrapper">
                                                     <span className="number-circle">
-                                                        {utils.formatNumber(this.state.forum.model.pool.toFixed(0))}
+                                                        {utils.formatNumber((this.state.forum.model.pool / 10 ** 18).toFixed(0))}
                                                     </span>
                                                 <div className="stat-labels">
                                                     {this.state.forum.model.endTimestamp < Date.now() &&  this.state.forum.model.claimed && (this.state.forum.model.author !== this.state.forum.model.winner) && <span>ONE rewarded</span>}
