@@ -91,13 +91,21 @@ export class Topics extends TopicsModel {
             this.socket.disconnect()
         }
         this.socket = socket
-
         socket.connect()
+
 //        socket.emit('events', ['NewTopic'] )
         socket.on('NewTopic', (args) => {
             console.log('NewTopic ', args)
             this.queryCN()
         })
+
+        socket.on('NewMessage', (args) => {
+            console.log('Saw new message')
+
+            // TODO: Check that message is in the list of topics currently displayed, otherwise don't refresh
+            this.queryCN()
+        })
+
     }
 
     public setCallback(callback : TopicsCallback) {
@@ -114,6 +122,8 @@ export class Topics extends TopicsModel {
     }
 
     async queryCN(query: string | null = null) {
+        // TODO: query / filters should be part of the state so all queryCN refreshes take them into account
+
         const topics = await this.cn.getTopics(query, this.pageLimit)
 
         this.ACTION_NEWTOPIC = topics.ACTION_NEWTOPIC
@@ -137,6 +147,10 @@ export class Topics extends TopicsModel {
 
     async setWeb3Account(acct : Account) {
         await this.queryCN()
+        if (this.socket) {
+            this.socket.connect()
+        }
+
 
         if (acct.address === this.account || acct.address === null) {
             return
@@ -235,6 +249,8 @@ export class Topics extends TopicsModel {
             const data : string[] = [hashSolidity.toString(), TOPIC_LENGTH.toString()]
             const result = await this.tokenContract.transferAndCallTx(contract.address as string, bounty * 10 ** 18, this.ACTION_NEWTOPIC, data).send({})
             console.log(result)
+
+            // TODO: Add topic to CN marked as "Waiting to be confirmed..."
 
             return {
                 id: ipfsHash,

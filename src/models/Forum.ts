@@ -104,6 +104,8 @@ export class Forum extends ForumModel {
     public postCount: number
     public epochLength: number = 0
 
+    private socket: SocketIOClient.Socket | null = null
+
     
     constructor( forumAddress: string ) {
         super()
@@ -118,7 +120,21 @@ export class Forum extends ForumModel {
         this.remoteStorage = new RemoteIPFSStorage()
         this.cn = new ContentNode()
     }
-    
+
+    public setSocket(socket: SocketIOClient.Socket) {
+        if (this.socket) {
+            this.socket.disconnect()
+        }
+        this.socket = socket
+        socket.connect()
+
+//        socket.emit('events', ['NewTopic'] )
+        socket.on('NewMessage', (args) => {
+            console.log('NewMessage ', args)
+            this.queryCN()
+        })
+    }
+
     async queryCN() {
         const forum = await this.cn.getForum(this.contractAddress, this.account)
 
@@ -511,6 +527,8 @@ export class Forum extends ForumModel {
             // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
             console.log(result)
 
+            // TODO: Add vote & comment to CN marked as "Waiting to be confirmed..."
+
             return {
                 id: ipfsHash,
                 ...ipfsMessage
@@ -557,6 +575,9 @@ export class Forum extends ForumModel {
             const data : string[] = [parentHashSolidity, hashSolidity]
             const result = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.postCost, this.actions.post, data).send({})
             console.log(result)
+
+            // TODO: Add message to CN marked as "Waiting to be confirmed..."
+
 
             return {
                 id: ipfsHash,

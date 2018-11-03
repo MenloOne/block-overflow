@@ -14,11 +14,13 @@ import '../App.scss'
 import Moment from 'react-moment'
 import Loader from '../components/Loader'
 import utils from '../utils'
+import { withSockets } from '../SocketContext'
 
 
 interface ForumProps {
     params: { address: string },
     acct: AccountContext
+    socket: SocketIOClient.Socket
 }
 
 interface ForumState {
@@ -35,6 +37,7 @@ class AnswersPage extends React.Component<ForumProps> {
         super(props, context)
 
         this.forum = new Forum(props.params.address)
+        this.forum.setSocket(props.socket)
 
         this.state = {
             forum: { model: this.forum, svc: this.forum}
@@ -56,6 +59,7 @@ class AnswersPage extends React.Component<ForumProps> {
 
     componentWillReceiveProps(nextProps : ForumProps, nextContext) {
         this.updateForum(nextProps)
+        this.forum.setSocket(nextProps.socket)
     }
 
     async updateForum(nextProps : ForumProps) {
@@ -169,4 +173,4 @@ class AnswersPage extends React.Component<ForumProps> {
     }
 }
 
-export default withAcct(AnswersPage)
+export default withAcct(withSockets(AnswersPage))
