@@ -44,9 +44,6 @@ class App extends React.Component {
 
         this.account = new Account()
         this.socket = SocketIoClient.connect(config.contentNodeUrl)
-        this.socket.on('connect', () => {
-            console.log( 'Websockets connected!!' )
-        })
 
         this.state = {
             account: { model: Object.assign({}, this.account), svc: this.account },

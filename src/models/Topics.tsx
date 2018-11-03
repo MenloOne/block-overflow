@@ -71,7 +71,7 @@ export class Topics extends TopicsModel {
     private pageLimit: number = this.pageSize
 
     private cn: ContentNode
-
+    private socket: SocketIOClient.Socket | null = null
 
     constructor() {
         super()
@@ -84,6 +84,20 @@ export class Topics extends TopicsModel {
         this.topicsCallback = null
 
         this.cn = new ContentNode()
+    }
+
+    public setSocket(socket: SocketIOClient.Socket) {
+        if (this.socket) {
+            this.socket.disconnect()
+        }
+        this.socket = socket
+
+        socket.connect()
+//        socket.emit('events', ['NewTopic'] )
+        socket.on('NewTopic', (args) => {
+            console.log('NewTopic ', args)
+            this.queryCN()
+        })
     }
 
     public setCallback(callback : TopicsCallback) {

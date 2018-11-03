@@ -101,7 +101,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
             activeFilter: this.filters[0].fn
         }
 
-        props.socket.send('events', ['NewTopic'] )
+        this.topics.setSocket(props.socket)
 
         QuestionsPage.topics.setCallback(this.topicsChanged)
         this.prepTopics(props)
@@ -112,6 +112,8 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
     }
 
     componentWillReceiveProps(newProps: QuestionsPageProps) {
+        this.topics.setSocket(newProps.socket)
+
         if (newProps.acct.model !== this.props.acct.model) {
             this.prepTopics(newProps)
         }
