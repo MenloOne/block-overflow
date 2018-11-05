@@ -8,7 +8,7 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
 
     public topics: Topics
 
-    public forumAddress: string
+    public forumAddress: string | null | undefined
     public forum: Forum | null = null
 
     public offset: number
@@ -27,6 +27,7 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
     public isAnswered: boolean
     public isClaimed: boolean
     public iWon: boolean
+    public confirmed: boolean
 
     public filled: boolean
 
@@ -47,6 +48,7 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
         this.winningVotes = t.winningVotes
         this.totalAnswers = t.totalAnswers
         this.pool         = t.pool
+        this.confirmed    = t.confirmed
 
         this.version = t.version
         this.offset  = t.offset
@@ -61,24 +63,15 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
     }
 
     public get id(): string {
-        return this.forumAddress
-    }
-
-    async getForum(refresh: boolean = false) : Promise<Forum> {
-        if (this.forum && !refresh) {
-            return this.forum
-        }
-
-        this.forum = new Forum(this.forumAddress)
-        await this.forum.queryCN()
-        return this.forum
-    }
-
-    async clearForum() {
-        this.forum = null
+        return this.forumAddress ? this.forumAddress : this.endTime.toString()
     }
 
     async claimWinnings() {
+
+        if (!this.forumAddress) {
+            return
+        }
+
         const forum = new Forum(this.forumAddress)
         await forum.setWeb3Account(this.topics.acctSvc!)
         await forum.claimWinnings()

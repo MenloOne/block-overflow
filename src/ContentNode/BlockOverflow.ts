@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from '../config'
-import { ForumCTOGet, TopicsCTOGet } from './BlockOverflow.cto'
+import { ForumCTOGet, TopicCTOPost, TopicsCTOGet } from './BlockOverflow.cto'
 
 export class ContentNode {
 
@@ -23,6 +23,16 @@ export class ContentNode {
 
         const result = await axios.get(url)
         return result.data
+    }
+
+    async createTopic(topic: TopicCTOPost) : Promise<any> {
+        const url = `${config.apiUrl}/topics`
+
+        const result = await axios.post(url, {
+            topic
+        })
+
+        return result
     }
 
     async getForum(address: string, account: string | null) : Promise<ForumCTOGet> {

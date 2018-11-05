@@ -2,6 +2,10 @@ import { IPFSTopic } from '../storage/RemoteIPFSStorage'
 
 export type CID = any;
 
+export interface CNResult {
+    success: boolean
+}
+
 export interface IIPFSTopic {
     version: number
     offset:  number
@@ -12,14 +16,19 @@ export interface IIPFSTopic {
 }
 
 export interface TopicCTOGet extends IIPFSTopic {
-    readonly isClosed:     boolean
-    readonly messageHash:  string
-    readonly isClaimed:    boolean
-    readonly endTime:      number
-    readonly forumAddress: string
-    readonly winningVotes: number
-    readonly totalAnswers: number
-    readonly pool:         number
+    isClosed:     boolean
+    messageHash:  string
+    isClaimed:    boolean
+    endTime:      number
+    forumAddress: string | null | undefined
+    winningVotes: number
+    totalAnswers: number
+    pool:         number
+    confirmed:    boolean
+}
+
+export interface TopicCTOPost extends TopicCTOGet {
+    readonly transaction: string
 }
 
 

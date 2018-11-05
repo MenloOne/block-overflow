@@ -30,6 +30,7 @@ import { MenloToken } from '../contracts/MenloToken'
 import { Account } from './Account'
 import Topic  from './Topic'
 import { ContentNode } from '../ContentNode/BlockOverflow'
+import { TopicCTOGet } from '../ContentNode/BlockOverflow.cto'
 
 
 export class TopicsModel {
@@ -43,7 +44,7 @@ export type TopicsContext = { model: TopicsModel, svc: Topics }
 
 
 type TopicsCallback = (topic?: Topic) => void
-const TOPIC_LENGTH : number = 24 * 60 * 60
+const TOPIC_LENGTH_SECONDS : number = 24 * 60 * 60
 
 export class Topics extends TopicsModel {
 
@@ -219,7 +220,7 @@ export class Topics extends TopicsModel {
         return this.topics.filter(t => t.forumAddress === id)[0]
     }
 
-    async createTopic(title: string, body: string, bounty: number) : Promise<object> {
+    async createTopic(title: string, body: string, bounty: number) {
         await this.ready
         const contract = this.contract!
 
@@ -246,16 +247,27 @@ export class Topics extends TopicsModel {
             const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
 
             // Send it to Blockchain
-            const data : string[] = [hashSolidity.toString(), TOPIC_LENGTH.toString()]
-            const result = await this.tokenContract.transferAndCallTx(contract.address as string, bounty * 10 ** 18, this.ACTION_NEWTOPIC, data).send({})
-            console.log(result)
+            const data : string[] = [hashSolidity.toString(), TOPIC_LENGTH_SECONDS.toString()]
+            const bounty18 = bounty * 10 ** 18
+            const transaction = await this.tokenContract.transferAndCallTx(contract.address as string, bounty18, this.ACTION_NEWTOPIC, data).send({})
+            console.log('Create transactiontransaction: ', transaction)
+
+            const topicModel: TopicCTOGet = {
+                ...ipfsTopic,
+                isClosed    : false,
+                messageHash : ipfsHash,
+                isClaimed   : false,
+                endTime     : new Date().getTime() + (TOPIC_LENGTH_SECONDS * 1000),
+                forumAddress: null,
+                winningVotes: 0,
+                totalAnswers: 0,
+                pool        : bounty18,
+                confirmed   : false
+            }
 
             // TODO: Add topic to CN marked as "Waiting to be confirmed..."
+            await this.cn.createTopic({ transaction, ...topicModel })
 
-            return {
-                id: ipfsHash,
-                ...ipfsTopic
-            }
         } catch (e) {
             if (ipfsHash) {
                 // Failed - unpin it from ipfs.menlo.one
