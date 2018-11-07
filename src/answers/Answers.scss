@@ -23,6 +23,10 @@ a[disabled], a[disabled]:hover {
     color: #c0c0c0 !important;
 }
 
+.message.unconfirmed {
+    background-color: #ffe1d0 !important;
+}
+
 .message .text {
     font-size: 1.2em;
 }

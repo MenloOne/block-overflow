@@ -32,6 +32,7 @@ import { Account } from './Account'
 import Message, { Message0 } from './Message'
 import { CID } from 'ipfs'
 import { ContentNode } from '../ContentNode/BlockOverflow'
+import { MessageCTOGet } from '../ContentNode/BlockOverflow.cto'
 
 
 type NewMessageCallback = () => void
@@ -50,7 +51,6 @@ export class ForumModel {
     public  winningOffset: number
     public  winner: string | null
     public  pool: number = 0
-    public  tokenBalance: number = 0
     public  author: string = ''
     public  endTimestamp: number = 0
 }
@@ -94,11 +94,14 @@ export class Forum extends ForumModel {
     public messagesCallbacks: Map<string, NewMessageCallback> | {}
     public lotteriesCallback: LotteriesCallback | null
 
+    public ACTION_POST     : number
+    public ACTION_UPVOTE   : number
+    public ACTION_DOWNVOTE : number
+
     public filledMessagesCounter: number
     public messageOffsets: Map<CID, number> | {}
     public messageHashes: string[]
 
-    public initialSyncEpoch : number
     public postCost : number
     public voteCost : number
     public postCount: number
@@ -148,12 +151,21 @@ export class Forum extends ForumModel {
         this.endTimestamp    = forum.endTimestamp
         this.author          = forum.author
         this.pool            = forum.pool
-        this.tokenBalance    = forum.tokenBalance
         this.hasEnded        = forum.hasEnded
         this.claimed         = forum.claimed
         this.winningVotes    = forum.winningVotes
         this.winningOffset   = forum.winningOffset
         this.winner          = forum.winner
+
+        this.ACTION_POST     = forum.ACTION_POST
+        this.ACTION_UPVOTE   = forum.ACTION_UPVOTE
+        this.ACTION_DOWNVOTE = forum.ACTION_DOWNVOTE
+
+        this.actions = {
+            post: this.ACTION_POST,
+            upvote: this.ACTION_UPVOTE,
+            downvote: this.ACTION_DOWNVOTE
+        };
 
         forum.messages.children.forEach(m => {
             this.messages.add(new Message(this, m))
@@ -181,50 +193,7 @@ export class Forum extends ForumModel {
             this.account = acct.address
 
             this.tokenContract = new MenloToken(web3, this.acct.contractAddresses.MenloToken)
-
-            this.filledMessagesCounter = 0
-            this.messageOffsets = {}
-            this.messageHashes = []
-
-            /*
-            const forumContract = TruffleContract(ForumContract)
-            await forumContract.setProvider(web3.currentProvider)
-            forumContract.defaults({ from: this.account })
-            */
             this.contract = await MenloForum.createAndValidate(web3, this.contractAddress)
-
-            const [post, upvote, downvote] = (await Promise.all([
-                this.contract.ACTION_POST,
-                this.contract.ACTION_UPVOTE,
-                this.contract.ACTION_DOWNVOTE
-            ])).map(bn => bn.toNumber());
-
-            this.actions = { post, upvote, downvote };
-
-            [this.initialSyncEpoch, this.lotteryLength, this.postCost, this.voteCost] = (await Promise.all([
-                this.contract.postCount,
-                this.contract.epochLength,
-                this.contract.postCost,
-                this.contract.voteCost
-            ])).map(bn => bn.toNumber())
-
-            this.initialSyncEpoch -= 1
-            this.lotteryLength    *= 1000
-
-            // Figure out cost for post
-            // this.postGas = await this.tokenContract.transferAndCall.estimateGas(this.contract.address, 1 * 10**18, this.actions.post, [SolidityHashZero, '0x0000000000000000000000000000000000000000000000000000000000000000'])
-            // this.voteGas = await this.tokenContract.transferAndCall.estimateGas(this.contract.address, 1 * 10**18, this.actions.upvote, ['0x0000000000000000000000000000000000000000000000000000000000000000'])
-            // console.log(`postGas ${this.postGas}, voteGas ${this.voteGas}`)
-
-            /*
-            this.watchForAnswers()
-            this.watchForVotes()
-            this.watchForComments()
-            this.watchForPayouts()
-            */
-
-            this.refreshBalances()
-            this.signalReady()
 
         } catch (e) {
             console.error(e)
@@ -232,131 +201,9 @@ export class Forum extends ForumModel {
         }
     }
 
-    clearAccount() {
-        // TODO: Remove watchers
-    }
-
     topicOffset(id : string) {
         return this.messageOffsets[id]
     }
-
-    /*
-    async watchForPayouts() {
-        await this.ready
-        const forum = this.contract!
-
-        forum.PayoutEvent({}).watch({}, (error, result) => {
-            if (error) {
-                console.error( error )
-                return
-            }
-
-            const payout : { tokens: number, user: string} = {
-                tokens:  (result.args._tokens as number) / 10 ** 18,
-                user:    result.args._user as string
-            }
-            console.log('[[ Payout ]] ', payout)
-
-            if (payout.user.toLowerCase() === this.account) {
-                this.markClaimed()
-                this.refreshBalances()
-            }
-
-            this.refreshLottery()
-            this.refreshBalances()
-        })
-    }
-
-    async watchForVotes() {
-        await this.ready
-        const forum = this.contract!
-
-        forum.VoteEvent({}).watch({}, (error, result) => {
-            if (error) {
-                console.error( error )
-                return
-            }
-
-            const offset    = result.args._offset as number
-            const direction = result.args._direction as number
-
-            console.log(`[[ Vote ]] ( ${offset} ) > ${direction}` )
-
-            const message = this.messages.get(this.messageHashes[offset])
-            if (message) {
-                this.updateVotesData(message, 0)
-                this.onModifiedMessage(message)
-            }
-
-            this.refreshLottery()
-        })
-    }
-
-
-    async watchForAnswers() {
-        await this.ready
-        const forum = this.contract!
-
-        forum.AnswerEvent({}).watch({}, (error, result) => {
-            if (error) {
-                console.error( error )
-                return
-            }
-
-            const messageHash : SolidityHash = result.args._contentHash.toString()
-            const messageID : CID = solidityHashToCid(messageHash)
-
-            if (messageID === CIDZero) {
-                console.log(`[[ Answer ]] ${messageHash}`)
-
-                // Probably 0x0 > 0x0 which Solidity adds to make life simple
-                this.messageOffsets[messageID] = this.messageHashes.length
-                this.messageHashes.push(messageID)
-                return
-            }
-
-            if (typeof this.messageOffsets[messageID] === 'undefined') {
-                const offset = this.messageHashes.length
-                console.log(`[[ Answer ]] ( ${offset} ) ${messageHash}`)
-
-                this.messageOffsets[messageID] = offset
-                this.messageHashes.push(messageID)
-                const message = new Message( this, messageID, CIDZero, offset )
-
-                this.messages.add(message)
-                this.fillMessage(message.id)
-
-                this.refreshLottery()
-            }
-        })
-    }
-
-    async watchForComments() {
-        await this.ready
-        const forum = this.contract!
-
-        forum.CommentEvent({}).watch({}, (error, result) => {
-            if (error) {
-                console.error( error )
-                return
-            }
-
-            const parentHash  : SolidityHash = result.args._parentHash.toString()
-            const messageHash : SolidityHash = result.args._contentHash.toString()
-
-            const parentID  = HashUtils.solidityHashToCid(parentHash)
-            const messageID = HashUtils.solidityHashToCid(messageHash)
-
-            console.log(`[[ Comment ]] ${parentID} > ${messageID}`)
-            const message = new Message( this, messageID, parentID, -1 )
-
-            this.messages.add(message)
-            this.fillMessage(message.id)
-
-            this.refreshLottery()
-        })
-    }
-    */
 
     async claimWinnings() {
         await this.ready
@@ -500,7 +347,7 @@ export class Forum extends ForumModel {
             const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
             // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
             console.log(result)
-            return null
+            return
         }
 
         const parentID : CID = id
@@ -523,16 +370,23 @@ export class Forum extends ForumModel {
 
             // Send it to Blockchain
             const data : [string, SolidityHash, SolidityHash] = [this.topicOffset(id).toString(), HashUtils.cidToSolidityHash(parentID), HashUtils.cidToSolidityHash(ipfsHash)]
-            const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
+            const transaction = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
             // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
-            console.log(result)
+            console.log(transaction)
 
             // TODO: Add vote & comment to CN marked as "Waiting to be confirmed..."
-
-            return {
-                id: ipfsHash,
-                ...ipfsMessage
+            const messageModel: MessageCTOGet = {
+                ...ipfsMessage,
+                id:        ipfsHash,
+                forumAddress: this.contractAddress,
+                votes:     0,
+                myvotes:   0,
+                children:  [],
+                confirmed: false
             }
+
+            await this.cn.createMessage({ transaction, forumAddress: this.contractAddress, ...messageModel })
+
         } catch (e) {
             if (ipfsHash) {
                 // Failed - unpin it from ipfs.menlo.one
@@ -545,7 +399,7 @@ export class Forum extends ForumModel {
         }
     }
 
-    async postMessage(body: string, parentHash : string | null) : Promise<object> {
+    async postMessage(body: string, parentHash : string | null) : Promise<Message> {
         await this.ready
 
         const ipfsMessage : IPFSMessage = {
@@ -573,16 +427,21 @@ export class Forum extends ForumModel {
 
             // Send it to Blockchain
             const data : string[] = [parentHashSolidity, hashSolidity]
-            const result = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.postCost, this.actions.post, data).send({})
-            console.log(result)
+            const transaction = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.postCost, this.actions.post, data).send({})
+            console.log(transaction)
 
             // TODO: Add message to CN marked as "Waiting to be confirmed..."
-
-
-            return {
-                id: ipfsHash,
-                ...ipfsMessage
+            const messageModel: MessageCTOGet = {
+                ...ipfsMessage,
+                id:        ipfsHash,
+                forumAddress: this.contractAddress,
+                votes:     0,
+                myvotes:   0,
+                children:  [],
+                confirmed: false
             }
+
+            return await this.cn.createMessage({ transaction, forumAddress: this.contractAddress, ...messageModel })
         } catch (e) {
 
             let msg = e.message

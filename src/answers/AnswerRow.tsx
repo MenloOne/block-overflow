@@ -241,7 +241,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
         const message = this.props.message
         
         return (
-            <li className="borderis message">
+            <li className={`borderis message ${message.confirmed ? null : 'unconfirmed'}`}>
                 {
                     this.props.forum.model.winningMessage && this.props.forum.model.winningMessage.id === message.id &&
                     <i className='fa fa-check winning-check' />

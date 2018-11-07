@@ -20,5 +20,10 @@ module.exports = (deployer, network) => {
         }
     }
 
+    if (web3.version.network === 1) {
+        console.log('Not deploying faucet in prod')
+        return
+    }
+
     deployer.then(async () => await asyncDeploy())
 }

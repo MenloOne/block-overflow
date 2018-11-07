@@ -30,15 +30,14 @@ import { MenloToken } from '../contracts/MenloToken'
 import { Account } from './Account'
 import Topic  from './Topic'
 import { ContentNode } from '../ContentNode/BlockOverflow'
-import { TopicCTOGet } from '../ContentNode/BlockOverflow.cto'
+import { MessageCTOGet, TopicCTOGet } from '../ContentNode/BlockOverflow.cto'
 
 
 export class TopicsModel {
     public topics: Topic[] = []
-    public query: string = ''
+    public query: string | null = null
     public total: number = 0
 }
-
 
 export type TopicsContext = { model: TopicsModel, svc: Topics }
 
@@ -49,11 +48,12 @@ const TOPIC_LENGTH_SECONDS : number = 24 * 60 * 60
 export class Topics extends TopicsModel {
 
     public ready: any
-    public synced: any
 
     // Private
     private signalReady: () => void
-    private signalSynced: () => void
+
+    private currentToken : string | null = null
+    private nextToken : string | null = null
 
     private tokenContract: MenloToken
     private contract: MenloTopics | null
@@ -63,13 +63,7 @@ export class Topics extends TopicsModel {
     private remoteStorage: RemoteIPFSStorage
     private topicsCallback: TopicsCallback | null
 
-    private initialTopicCount: number
-    private filledTopicsCounter: number = 0
-
     public  ACTION_NEWTOPIC: number
-
-    private pageSize: number = 15
-    private pageLimit: number = this.pageSize
 
     private cn: ContentNode
     private socket: SocketIOClient.Socket | null = null
@@ -78,7 +72,6 @@ export class Topics extends TopicsModel {
         super()
 
         this.ready  = QPromise((resolve) => { this.signalReady = resolve })
-        this.synced = QPromise((resolve) => { this.signalSynced = resolve })
 
         this.remoteStorage = new RemoteIPFSStorage()
         this.account = null
@@ -95,18 +88,18 @@ export class Topics extends TopicsModel {
         socket.connect()
 
 //        socket.emit('events', ['NewTopic'] )
-        socket.on('NewTopic', (args) => {
-            console.log('NewTopic ', args)
+        socket.on('NewTopic', (topic : TopicCTOGet) => {
+            console.log('NewTopic ', topic)
             this.queryCN()
         })
 
-        socket.on('NewMessage', (args) => {
-            console.log('Saw new message')
+        socket.on('NewMessage', (message : MessageCTOGet) => {
+            console.log('Saw new message ', message)
 
-            // TODO: Check that message is in the list of topics currently displayed, otherwise don't refresh
-            this.queryCN()
+            if (this.topics.filter(t => t.forumAddress === message.forumAddress).length > 0) {
+                this.queryCN()
+            }
         })
-
     }
 
     public setCallback(callback : TopicsCallback) {
@@ -114,44 +107,51 @@ export class Topics extends TopicsModel {
     }
 
     public setFilter(query: string, filters?: { any }) {
-        this.queryCN(query)
+        if (query === this.query) {
+            return
+        }
+
+        this.query = query
+        this.currentToken = null
+        this.nextToken = null
+
+        this.queryCN()
+    }
+
+    public clearFilters() {
+        this.query = null
+        this.currentToken = null
+        this.nextToken = null
+
+        this.queryCN()
     }
 
     public getNextPage() {
-        this.pageLimit += this.pageSize
-        this.onModifiedTopic()
+        this.queryCN(this.nextToken)
     }
 
-    async queryCN(query: string | null = null) {
-        // TODO: query / filters should be part of the state so all queryCN refreshes take them into account
+    async queryCN(next?: string | null) {
+        const currentToken = next ? next : this.currentToken
+        const topics = await this.cn.getTopics(this.query, currentToken)
 
-        const topics = await this.cn.getTopics(query, this.pageLimit)
-
-        this.ACTION_NEWTOPIC = topics.ACTION_NEWTOPIC
-        this.total           = topics.total
-        this.query           = topics.query
-        this.topics          = topics.topics.map(t => new Topic(this, t))
+        this.ACTION_NEWTOPIC   = topics.ACTION_NEWTOPIC
+        this.total             = topics.total
+        this.query             = topics.query
+        this.currentToken      = currentToken
+        this.nextToken         = topics.continuation
+        this.topics            = topics.topics.map(t => new Topic(this, t))
 
         this.signalReady()
-
-        await Promise.all(this.topics.map(async topic => {
-            console.log(`[[ Existing Topic ]] ${topic.forumAddress}`)
-
-            this.filledTopicsCounter++;
-            if (this.filledTopicsCounter >= this.initialTopicCount) {
-                this.signalSynced()
-            }
-        }))
 
         this.onModifiedTopic()
     }
 
     async setWeb3Account(acct : Account) {
         await this.queryCN()
+
         if (this.socket) {
             this.socket.connect()
         }
-
 
         if (acct.address === this.account || acct.address === null) {
             return
@@ -170,43 +170,6 @@ export class Topics extends TopicsModel {
             // throw(e)
         }
     }
-
-    /*
-    async watchForTopics() {
-        await this.ready
-        const topics = this.contract!
-
-        topics.NewTopicEvent({}).watch({fromBlock:0, toBlock:'latest'}, (error, result) => {
-            if (error) {
-                console.error( `[[ Topic ERROR ]] ${error}` )
-                return
-            }
-
-            const forumAdddress = result.args._forum.toString()
-
-            if (typeof this.messageHashes[forumAdddress] !== 'undefined') {
-                console.error('Received duplicate Topic! ', forumAdddress)
-                return
-            }
-
-            const offset = this.messageHashes.length
-            console.log(`[[ Topic ]] ( ${offset} ) ${forumAdddress}`)
-
-            this.messageOffsets[forumAdddress] = offset
-            this.messageHashes.push(forumAdddress)
-
-            const message = new Topic( this, forumAdddress, offset )
-            this.topics.push(message)
-            this.fillTopic(message)
-
-            this.filledTopicsCounter++;
-
-            if (this.filledTopicsCounter >= this.initialTopicCount) {
-                this.signalSynced()
-            }
-        })
-    }
-*/
 
     onModifiedTopic(topic?: Topic) {
 
@@ -250,14 +213,14 @@ export class Topics extends TopicsModel {
             const data : string[] = [hashSolidity.toString(), TOPIC_LENGTH_SECONDS.toString()]
             const bounty18 = bounty * 10 ** 18
             const transaction = await this.tokenContract.transferAndCallTx(contract.address as string, bounty18, this.ACTION_NEWTOPIC, data).send({})
-            console.log('Create transactiontransaction: ', transaction)
+            console.log('Create transaction: ', transaction)
 
             const topicModel: TopicCTOGet = {
                 ...ipfsTopic,
                 isClosed    : false,
                 messageHash : ipfsHash,
                 isClaimed   : false,
-                endTime     : new Date().getTime() + (TOPIC_LENGTH_SECONDS * 1000),
+                endTime     : new Date().getTime(), // Make model expired so we render a closed (not open yet) topic
                 forumAddress: null,
                 winningVotes: 0,
                 totalAnswers: 0,
@@ -265,7 +228,6 @@ export class Topics extends TopicsModel {
                 confirmed   : false
             }
 
-            // TODO: Add topic to CN marked as "Waiting to be confirmed..."
             await this.cn.createTopic({ transaction, ...topicModel })
 
         } catch (e) {

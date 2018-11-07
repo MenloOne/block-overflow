@@ -13,10 +13,12 @@ export const Message0 : MessageCTOGet = {
     version:  0,
     offset:   0,
     topic:    0,
+    forumAddress: '0x0',
     parent:   CIDZero,
     author:   '',
     date:     0,
     body:     '',
+    confirmed: true
 }
 
 
@@ -30,7 +32,7 @@ export default class Message extends IPFSMessage {
     public children: string[] = []
     public votes: number = 0
     public myvotes: number = 0
-
+    public confirmed: boolean = true
     public filled: boolean = false
     public error?: Error | null
 
@@ -51,6 +53,7 @@ export default class Message extends IPFSMessage {
         this.author   = m.author
         this.date     = m.date
         this.body     = m.body
+        this.confirmed = m.confirmed
 
         this.children = m.children.map(child => {
             this.forum.messages.add(new Message(forum, child))

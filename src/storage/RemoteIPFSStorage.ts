@@ -47,7 +47,7 @@ class RemoteIPFSStorage {
 
     constructor() {
         this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-        this.ipfsMenlo = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
+        this.ipfsMenlo = ipfsAPI('ipfs.menlo.one', '4002', { protocol: 'https' })
     }
 
     async createMessage(message : IPFSMessage) : Promise<CID> {

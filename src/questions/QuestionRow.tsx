@@ -106,6 +106,14 @@ class QuestionRow extends React.Component<TopicViewProps> {
     }
 
     renderClosed() {
+        if (!this.props.topic.confirmed) {
+            return (
+                <span>
+                    <span className="closed">PENDING...</span>
+                </span>
+            )
+        }
+
         if (!this.props.topic.isAnswered && this.props.topic.isClosed) {
             return (
                 <span>
@@ -197,7 +205,11 @@ class QuestionRow extends React.Component<TopicViewProps> {
                     }
                 </div>
                 <div className="stats stats-timer">
-                    <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
+                    { topic.confirmed ?
+                        <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
+                        :
+                        this.renderClosed()
+                    }
                 </div>
                 {this.state.showMetamaskModal ? <MetamaskModal /> : null }
             </li>

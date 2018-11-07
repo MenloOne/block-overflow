@@ -1,25 +1,18 @@
 import React, { Component } from 'react'
 
-import { withAcct, AccountContext } from '../models/Account'
-
 const metamaskLogo = require('../images/metamask-logo.png')
 
 import './MetamaskModal.scss'
-
-class MetamaskModalProps {
-    acct: AccountContext
-}
 
 interface MetamaskModalState {
     visible?: boolean,
 }
 
-class MetamaskModal extends Component<MetamaskModalProps> {
+class MetamaskModal extends Component {
 
     state: MetamaskModalState
-    account: Account
 
-    constructor(props: MetamaskModalProps, context) {
+    constructor(props, context) {
         super(props, context)
 
         this.state = {
@@ -33,11 +26,11 @@ class MetamaskModal extends Component<MetamaskModalProps> {
     componentWillUnmount() {
     }
 
-    show() {
+    public show() {
         this.setState({ visible: true })
     }
 
-    hide() {
+    public hide() {
         this.setState({ visible: false })
     }
 
@@ -58,4 +51,4 @@ class MetamaskModal extends Component<MetamaskModalProps> {
     }
 }
 
-export default withAcct(MetamaskModal)
+export default MetamaskModal
