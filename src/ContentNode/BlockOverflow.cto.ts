@@ -36,26 +36,30 @@ export interface TopicsCTOGet {
     readonly ACTION_NEWTOPIC: number
     readonly total: number
     readonly query: string
+    readonly continuation: string
     readonly topics: TopicCTOGet[]
 }
 
 export interface ForumCTOGet {
-    readonly topic:          IPFSTopic,
-    readonly epochLength:    number
-    readonly postCost :      number
-    readonly voteCost :      number
-    readonly messageOffsets: Map<CID, number> | {}
-    readonly messageHashes:  string[]
-    readonly postCount:      number
-    readonly endTimestamp:   number
-    readonly author:         string
-    readonly pool:           number
-    readonly tokenBalance:   number
-    readonly hasEnded:       boolean
-    readonly claimed:        boolean
-    readonly winningVotes:   number
-    readonly winningOffset:  number
-    readonly winner:         string | null
+    readonly topic:           IPFSTopic,
+    readonly epochLength:     number
+    readonly postCost :       number
+    readonly voteCost :       number
+    readonly messageOffsets:  Map<CID, number> | {}
+    readonly messageHashes:   string[]
+    readonly postCount:       number
+    readonly endTimestamp:    number
+    readonly author:          string
+    readonly pool:            number
+    readonly hasEnded:        boolean
+    readonly claimed:         boolean
+    readonly winningVotes:    number
+    readonly winningOffset:   number
+    readonly winner:          string | null
+    readonly ACTION_POST:     number
+    readonly ACTION_UPVOTE:   number
+    readonly ACTION_DOWNVOTE: number
+
     readonly messages:       MessageCTOGet
 }
 
@@ -71,10 +75,16 @@ export interface IIPFSMessage {
 
 
 export interface MessageCTOGet extends IIPFSMessage {
+    readonly forumAddress: string
     readonly id: CID
     readonly votes:   number
     readonly myvotes: number
+    readonly confirmed: boolean
     readonly children: MessageCTOGet[]
 }
 
+
+export interface MessageCTOPost extends MessageCTOGet {
+    readonly transaction: string
+}
 

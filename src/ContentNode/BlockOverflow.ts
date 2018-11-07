@@ -1,13 +1,13 @@
 import axios from 'axios'
 import config from '../config'
-import { ForumCTOGet, TopicCTOPost, TopicsCTOGet } from './BlockOverflow.cto'
+import { ForumCTOGet, MessageCTOPost, TopicCTOPost, TopicsCTOGet } from './BlockOverflow.cto'
 
 export class ContentNode {
 
     constructor() {
     }
 
-    async getTopics(query: string | null, pageLimit?: number) : Promise<TopicsCTOGet> {
+    async getTopics(query: string | null, continuation?: string | null, pageLimit?: number) : Promise<TopicsCTOGet> {
         let   url = `${config.apiUrl}/topics`
         const params: string[] = []
 
@@ -16,6 +16,9 @@ export class ContentNode {
         }
         if (pageLimit) {
             params.push(`pageLimit=${pageLimit}`)
+        }
+        if (continuation) {
+            params.push(`continuation=${continuation}`)
         }
         if (params.length > 0) {
             url += `?${params.join('&')}`
@@ -49,4 +52,15 @@ export class ContentNode {
         const result = await axios.get(url)
         return result.data
     }
+
+    async createMessage(message: MessageCTOPost) : Promise<any> {
+        const url = `${config.apiUrl}/forums/${message.forumAddress}/messages`
+
+        const result = await axios.post(url, {
+            message
+        })
+
+        return result
+    }
+
 }

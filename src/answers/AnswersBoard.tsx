@@ -200,11 +200,11 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                     <span className="QuestionHeader-annotation">QUESTION CLOSED</span>
                                     {!this.state.messages.length && <span className="QuestionHeader-annotation">NO ANSWER</span>}
                                     {
-                                        this.props.forum.model.iWon && this.props.forum.model.winner === this.props.acct.model.address && this.props.forum.model.tokenBalance > 0 &&
+                                        this.props.forum.model.iWon && this.props.forum.model.winner === this.props.acct.model.address && !this.props.forum.model.claimed &&
                                         <a className='main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
                                     }
                                     {
-                                        this.props.forum.model.iWon && this.props.forum.model.winner !== this.props.acct.model.address && this.props.forum.model.tokenBalance > 0 &&
+                                        this.props.forum.model.iWon && this.props.forum.model.winner !== this.props.acct.model.address && !this.props.forum.model.claimed &&
                                         <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
                                     }
                                 </span>
