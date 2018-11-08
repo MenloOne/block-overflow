@@ -195,7 +195,7 @@ export class Account extends AccountModel implements AccountService {
     async refreshAccount(reload : boolean, address: string) {
         toast.dismiss()
 
-        if (this.networkName !== NetworkName.Rinkeby) {
+        if (this.networkName !== NetworkName.Mainnet) {
             this.status = MetamaskStatus.InvalidNetwork
             this.onStateChange()
             return
@@ -300,15 +300,19 @@ export class Account extends AccountModel implements AccountService {
             if (this.ethBalance === 0) {
                 toast(`Note you have no ETH in this wallet.`, {
                     autoClose: false,
-                    toastId: ToastType.Balance,
-                    closeButton: false
+                    toastId: ToastType.Balance
                 })
             } else
             if (this.oneBalance === 0) {
-                toast('You have no ONE tokens, use the ONE faucet to obtain some!', {
+                let instr = 'use the Menlo Faucet button to get some'
+
+                if (this.networkName === NetworkName.Mainnet) {
+                    instr = 'buy some on an exchange like IDEX'
+                }
+
+                toast(`You have no ONE tokens, ${instr}`, {
                     autoClose: false,
-                    toastId: ToastType.Balance,
-                    closeButton: false
+                    toastId: ToastType.Balance
                 })
             }
         })
