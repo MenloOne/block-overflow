@@ -84,6 +84,8 @@ export class Account extends AccountModel implements AccountService {
     private stateChangeCallback : AccountChangeCallback | null
     private balanceCallbacks: BasicCallback[] = []
 
+    private enabled: boolean = false
+
     constructor() {
         super()
 
@@ -151,7 +153,10 @@ export class Account extends AccountModel implements AccountService {
         if (window.ethereum) {
             try {
                 // Request account access if needed
-                await window.ethereum.enable();
+                if (!this.enabled) {
+                    await window.ethereum.enable();
+                }
+
             } catch (error) {
                 // User denied account access...
 
