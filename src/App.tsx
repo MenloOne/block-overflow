@@ -1,14 +1,16 @@
 import * as React from 'react'
 import * as History from 'history'
+import * as SocketIoClient from 'socket.io-client'
 
 import 'react-toastify/dist/ReactToastify.min.css';
-
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { Account, AccountContext, AccountCtxtComponent } from './models/Account'
+import { SocketCtxtComponent } from './SocketContext'
 import { resolve, history } from './router'
 
 import TopicsPage from './questions/QuestionsPage'
 import ForumPage from './answers/AnswersPage'
+import config from './config'
 
 import "./App.scss"
 
@@ -32,6 +34,7 @@ class App extends React.Component {
 
     state   : AppState
     account : Account
+    socket  : SocketIOClient.Socket
 
     constructor(props: any, context: any) {
         super(props, context)
@@ -40,6 +43,7 @@ class App extends React.Component {
         this.renderLocation = this.renderLocation.bind(this)
 
         this.account = new Account()
+        this.socket = SocketIoClient.connect(config.contentNodeUrl)
 
         this.state = {
             account: { model: Object.assign({}, this.account), svc: this.account },
@@ -104,11 +108,13 @@ class App extends React.Component {
     render() {
         return (
             <AccountCtxtComponent.Provider value={this.state.account}>
-                <CssBaseline />
-                { this.state.component }
-                { this.props.children }
-                <Footer />
-                <div className="mobile-mask">Please use a Desktop computer to access this dApp.</div>
+                <SocketCtxtComponent.Provider value={this.socket}>
+                    <CssBaseline />
+                    { this.state.component }
+                    { this.props.children }
+                    <Footer />
+                    <div className="mobile-mask">Please use a Desktop computer to access this dApp.</div>
+                </SocketCtxtComponent.Provider>
             </AccountCtxtComponent.Provider>
         )
     }

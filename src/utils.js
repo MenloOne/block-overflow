@@ -25,28 +25,4 @@ utils.isWindows = function isWindows() {
 
 
 
-utils.getUrl = async function getUrl(props) {
-
-    let url = ''
-
-    return new Promise((resolve, reject) => {
-
-        web3.version.getNetwork((err, netId) => {
-            const { address, etherscanTab } = props;
-            const targetId = etherscanTab ? `#${etherscanTab}` : '';
-
-            switch (netId) {
-                case "42":
-                    url = 'https://kovan.etherscan.io'
-                    break
-                default:
-                    url = 'https://etherscan.io'
-            }
-
-            resolve(`${url}/address/${address}${targetId}`);
-        })
-    })
-
-}
-
 export default utils

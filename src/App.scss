@@ -3,10 +3,6 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 @import './buttons.scss';
 
-*:focus {
-    outline: none;
-}
-
 html {
     position: relative;
     min-height: 100%;
@@ -34,7 +30,7 @@ body.fixed-nav {
 
 .content-wrapper {
     min-height: calc(100vh - 56px);
-    padding-top: 3.5rem;
+    padding-top: 1rem;
 }
 
 .scroll-to-top {
@@ -517,15 +513,9 @@ footer.sticky-footer {
     color: #fff !important;
 }
 
-.nolist {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
 span.user-img {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     background: #fff;
     display: inline-block;
     border-radius: 50%;
@@ -840,7 +830,6 @@ nav {
     float: left;
     clear: both;
     width: 100%;
-    background: white;
 }
 
 .game-token .container {
@@ -923,23 +912,14 @@ img.hero-logo {
 
 .hero-logo-text-wrapper h3 {
     font-size: 1.7rem;
-    color: #18AF41;
+    color: #9B9B9B;
     font-family: "TiTillium web";
 }
 
-.menloOneLogo {
-    -webkit-mask:  url(./images/menlo/menlo-one-logo.svg) no-repeat 50% 50%;
-    mask: url(./images/menlo/menlo-one-logo.svg) no-repeat 50% 50%;
-    background-color: #0942AA;
-    height: 1.1rem;
-    width: 130px;
-    display: inline-block;
-}
-
 .hero-logo-text-wrapper h4 {
-    color: #0942AA;
+    color: #4A90E2;
     margin-top: 1rem;
-    font-size: .9rem;
+    font-size: 1.3rem;
     font-family: "TiTillium web";
 }
 
@@ -1106,6 +1086,7 @@ span.location {
     border-radius: 50%;
     overflow: hidden;
     margin: 0;
+    border: 1px solid #dfe6f9;
     justify-content: center;
     align-items: center;
     align-self: flex-start;
@@ -1336,13 +1317,14 @@ body {
 }
 
 .block-padding {
-    padding: 0 1.5rem 1.5rem;
+    padding: 1.5rem;
     overflow: hidden;
 }
 
 .block-header h4 {
+    border-bottom: 1px solid #0000000f;
     font-size: 1rem;
-    padding: 1.5rem 1.5rem 1.25rem;
+    padding: .8rem .9rem .5rem;
     font-weight: 600;
     font-family: "TiTillium web";
     margin: 0;
@@ -1880,7 +1862,7 @@ span.sold {
     display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-family: Inconsolata;
+    font-family: monospace;
 }
 
 .comments .AddressTag-name-dots, .comments .AddressTag-name-0x {
@@ -1889,11 +1871,11 @@ span.sold {
 }
 
 .question time, .message time, .QuestionHeader time {
-    font-size: 11px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 600;
     font-stretch: normal;
-    letter-spacing: .005rem;
+    letter-spacing: .02rem;
     color: #696d75;
     margin-bottom: 0;
     padding-bottom: 0;
@@ -1936,6 +1918,10 @@ body pre {
 
 span.tag {
     flex: 1;
+}
+
+.reply-form {
+    margin: 0 .5rem 0 3rem;
 }
 
 .comments .tag-name .btn {
@@ -2038,7 +2024,7 @@ span.tag {
 }
 
 #simplepostmd-editor-1-wrapper {
-    margin: 2rem 0 1rem;
+    margin: .5rem 0 0;
 }
 
 .comment-indicator {
@@ -2220,9 +2206,7 @@ table.stats tr td:nth-child(2) {
 }
 
 .comments li.borderis.message {
-    border-bottom: 1px solid #ececed;
-    padding-left: 0;
-    padding-right: 0;
+    border-bottom: 1px solid #e7ecf7;
     .user-img {
         margin-right: 1rem;
     }
@@ -2233,7 +2217,7 @@ table.stats tr td:nth-child(2) {
         margin: 0;
     }
     .content ul  {
-        border: 1px solid #ececed;
+        border: 1px solid #e7ecf7;
         border-top: none;
         border-bottom: none;
     }
@@ -2253,7 +2237,7 @@ table.stats tr td:nth-child(2) {
     padding: 1rem;
     margin-top: 1rem;
     border-radius: 6px 6px 0 0;
-    border: 1px solid #ececed;
+    border: 1px solid #e7ecf7;
 }
 
 .comments .message-wrapper {
@@ -2462,20 +2446,13 @@ table.stats tr td:nth-child(2) {
 }
 .moreinfo-btn {
     display: flex;
-    min-height: 58px;
     flex-direction: row;
     width: 100%;
     align-items: center;
     padding:.6rem;
     margin-bottom: .33rem;
-    border: 1px solid #f5f5f7;
+    border: 1px solid #ECECED;
     border-radius: .2rem;
-    &:hover {
-        background: #ececed;
-    }
-}
-.moreinfo-btns-wrapper a {
-    text-decoration: none;
 }
 
 .moreinfo-btn-textwrapper {
@@ -2497,8 +2474,8 @@ table.stats tr td:nth-child(2) {
 
 .moreinfo-btn [class*=icon] {
     margin-right: 1rem;
-    width: 1.5rem;
-    margin-left: .5rem;
+    max-height: 2.2rem;
+    max-width: 2.2rem;
 }
 
 .moreinfo-social-wrapper ul {
@@ -2547,7 +2524,7 @@ table.stats tr td:nth-child(2) {
         font-size: 8px;
         line-height: 11px;
         text-align: center;
-        font-family: Inconsolata;
+        font-family: monospace;
         color: black;
         vertical-align: middle;
         border-radius: 50%;

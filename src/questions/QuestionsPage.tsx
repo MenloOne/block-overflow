@@ -1,14 +1,14 @@
 import * as React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import AnimateHeight from 'react-animate-height'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 
-import { AccountContext, withAcct, MetamaskStatus } from '../models/Account'
+import { AccountContext, withAcct } from '../models/Account'
 import { Topics, TopicsContext, TopicsCtxtComponent } from '../models/Topics'
 
 import TopNav from '../components/TopNav'
 import Sidebar from '../components/Sidebar'
-import Loader from '../components/Loader'
 
 
 import QuestionsBoard from "./QuestionsBoard";
@@ -17,15 +17,26 @@ import TopicForm from './QuestionForm'
 
 import '../App.scss'
 import Topic from '../models/Topic'
+import { withSockets } from '../SocketContext'
+
+const BlockOverflowIcon = require('../images/menlo-logo.svg')
+const how1 = require('../images/how-1.svg')
+const how2 = require('../images/how-2.svg')
+const how3 = require('../images/how-3.svg')
+const how4 = require('../images/how-4.svg')
+const how5 = require('../images/how-5.svg')
+const how6 = require('../images/how-6.svg')
 
 
 class QuestionsPageProps {
     acct: AccountContext
+    socket: SocketIOClient.Socket
 }
 
 class QuestionsPageState {
     topics: TopicsContext
     searchQuery: string
+    howToHeight: string | number | undefined
     showCompose: boolean
     showInstructions: boolean
     activeFilter: Function;
@@ -82,22 +93,27 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         this._onSelect = this._onSelect.bind(this)
 
         this.state = {
-            showCompose: true,
+            howToHeight: localStorage.getItem('HowTo-Toggle') || 'auto',
+            showCompose: false,
             showInstructions: true,
             topics: { model: Object.assign({}, this.topics), svc: this.topics },
             searchQuery: '',
             activeFilter: this.filters[0].fn
         }
 
+        this.topics.setSocket(props.socket)
+
         QuestionsPage.topics.setCallback(this.topicsChanged)
         this.prepTopics(props)
     }
 
     async prepTopics(props: QuestionsPageProps) {
-        this.topics.setAccount(props.acct.svc)
+        this.topics.setWeb3Account(props.acct.svc)
     }
 
     componentWillReceiveProps(newProps: QuestionsPageProps) {
+        this.topics.setSocket(newProps.socket)
+
         if (newProps.acct.model !== this.props.acct.model) {
             this.prepTopics(newProps)
         }
@@ -136,7 +152,6 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
 
     clickAsk() {
         this.setState({ showCompose: true })
-        window.scrollTo(0, document.body.scrollHeight);
     }
 
     renderUserStats() {
@@ -189,60 +204,157 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
         )
     }
 
-    _onSelect(newOption) {
-        this.setState({ activeFilter: this.filters.filter((filters) => {
-            return filters.name === newOption.value
-        })[0].fn})
+
+    toggleHowTo = () => {
+        const { howToHeight } = this.state;
+        const newHeight = howToHeight === "0" ? 'auto' : '0';
+
+        console.log(123, howToHeight, howToHeight === '0' );
+        
+
+        localStorage.setItem('HowTo-Toggle', newHeight)
+
+        this.setState({
+            howToHeight: newHeight
+        });
+    };
+
+
+    renderInstructions() {
+        const { howToHeight } = this.state;
+
+        if (localStorage.getItem('HowTo-Toggle') && howToHeight === 0) {
+            return null;
+        }
+
+        return (
+            <AnimateHeight
+                duration={500}
+                height={howToHeight}
+            >
+                <div className="game-token shadow-sm">
+                    <div className="container">
+                        <div className="col-md-5 game-detail-wrapper">
+                            <div className="hero-logo-wrapper">
+                                <img className="hero-logo" src={BlockOverflowIcon} />
+                                <div className="hero-logo-text-wrapper">
+                                    <h1>Block Overflow</h1>
+                                    <h3>Share Knowledge,<br />Earn Tokens</h3>
+                                    <h4>Built with Menlo One</h4>
+                                </div>
+                            </div>
+                            <div className="">
+                                <p>Block Overflow is a question and answer site for blockchain programmers and other people from the Menlo One community where users get paid in ONE tokens for providing correct answers.</p>
+                                <div className="btn-wrapper">
+                                    <a className="btn btn-grey" onClick={this.toggleHowTo}>Close</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="game-action-wrapper">
+                            <div className="row">
+                                <div className="col-12 text-center">
+                                    <h6>How Block Overflow Works</h6>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how1} />
+                                    <h4>Ask a question</h4>
+                                    <p>
+                                        Asking a question costs ONE tokens, which goes into a pool to pay the person with the best answer. Then, a 24 hour countdown timer starts.
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how2} />
+                                    <h4>Users post answers</h4>
+                                    <p>
+                                        When someone replies with an answer, they place ONE tokens into the pool too, in hopes they have the right answer.
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how3} />
+                                    <h4>The pool grows</h4>
+                                    <p>
+                                        With every answer the pool grows larger, and the 24 hour clock resets.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-4">
+                                    <img src={how4} />
+                                    <h4>Users vote on answers</h4>
+                                    <p>
+                                        Users vote on answers. They can leave a comments too. If the answer they voted on wins, they get Reputation points.
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how5} />
+                                    <h4>Top answers win tokens</h4>
+                                    <p>
+                                        When people stop providing answers, the most up-voted answer is the winner. All of the ONE tokens go to the winner.
+                                    </p>
+                                </div>
+                                <div className="col-4">
+                                    <img src={how6} />
+                                    <h4>Plus, totally decentralized</h4>
+                                    <p>
+                                        Furthermore, all of Block Overflow is decentralized. All of the data on this website was read from the blockchain.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </AnimateHeight>
+        )
     }
 
-    getFilter() {
-        
-        return this.state.activeFilter
+    _onSelect(newOption) {
+        this.setState({ activeFilter: this.filters.filter((filters) => filters.name === newOption.value)[0].fn})
     }
 
     render() {
         return (
             <TopicsCtxtComponent.Provider value={this.state.topics}>
                 <div>
-                    <TopNav />
+                    <TopNav>
+                        <li className="nav-item"><a onClick={this.toggleHowTo} title="Guilds">Info</a></li>
+                    </TopNav>
+
+                    { this.renderInstructions() }
 
                     <div className="content-wrapper">
                         <div className="container">
                             <div className="row">
                                 <div className="col-md-8">
-                                    <div className="list-actions row">
+                                    <div className="row">
                                         <div className="col-4">
-                                            {
-                                                (this.state.showCompose && this.props.acct.model.status === MetamaskStatus.Ok) ? 
-                                                    <a className='btn ask-btn' onClick={this.clickAsk}>Ask a Question</a> :
-                                                    <Loader size={22} />
-                                            }
+                                                <a className='btn ask-btn' onClick={this.clickAsk}>Ask a Question</a>
                                         </div>
-                                        <div className="col-4 offset-4">
-                                            {(this.state.topics.model.topics.length !== 0 && this.props.acct.model.status === MetamaskStatus.Ok) ?
-                                            <div>
+                                        <div style={{ display: 'none' }}>
+                                            <div className="col-4 offset-4">
                                                 <span>Sort By:</span>
-                                                <Dropdown options={this.filters.map((f) => { return f.name })} onChange={this._onSelect} value={this.filters[0].name} placeholder="Select an option" />
-                                                </div> : <div style={{
-                                                    textAlign: 'right',
-                                                    marginRight: '5px'}}><Loader size={22} /></div>
-                                        }
+                                            <Dropdown options={this.filters.map((f) => { return f.name })} onChange={this._onSelect} value={this.filters[0].name} placeholder="Select an option" />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className='left-side'>
                                         <div className="left-side-wrapper">
                                             <input className='search' placeholder='Search...' value={this.state.searchQuery} onChange={this.onChangeSearch} />
                                         </div>
-                                        <QuestionsBoard filter={this.getFilter()} />
+                                        <QuestionsBoard />
                                     </div>
                                     {
-                                        (this.state.showCompose && this.props.acct.model.status === MetamaskStatus.Ok) ?
-                                            <TopicForm onSubmit={this.onSubmitQuestion} /> : <div className='left-side'><div className="left-side-wrapper" style={{marginTop: '2rem', textAlign: 'center'}}><Loader /></div></div>
+                                        this.state.showCompose &&
+                                        <TopicForm onSubmit={this.onSubmitQuestion} onCancel={this.onCancelQuestion} />
                                     }
                                 </div>
 
                                 <div className="col-md-4">
                                     {/* {this.renderUserStats()} */}
+                                    {(this.state.howToHeight === '0') && (
+                                        <a href="#" onClick={this.toggleHowTo} className="btn-instructions btn btn-green text-center mb-1">
+                                            Show Instructions
+                                        </a>
+                                    )}
                                     <Sidebar />
 
                                     {/* <div className="token-metrics right-side-box white-bg">
@@ -281,4 +393,4 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
     }
 }
 
-export default withAcct(QuestionsPage)
+export default withAcct(withSockets(QuestionsPage))

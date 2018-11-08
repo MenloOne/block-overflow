@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import ReactTooltip from 'react-tooltip'
 
-import utils from '../utils'
-
 import './AddressTag.scss'
+import { AccountProps, withAcct } from '../models/Account'
 
-class AddressTagProps {
-    address: String;
-    etherscanTab?: String;
+
+interface AddressTagProps extends AccountProps {
+    address: string;
+    etherscanTab?: string;
     link?: boolean;
     copy?: boolean;
 }
@@ -18,7 +18,7 @@ interface AddressTagState {
     statusTip?: string;
 }
 
-export default class AddressTag extends Component<AddressTagProps> {
+class AddressTag extends Component<AddressTagProps> {
 
     state : AddressTagState
 
@@ -35,9 +35,8 @@ export default class AddressTag extends Component<AddressTagProps> {
     }
 
     componentWillMount() {
-        utils.getUrl(this.props).then((url) => {
-            this.setState({ url })
-        });
+        const url = this.props.acct.svc.getEtherscanUrl(this.props.address, this.props.etherscanTab)
+        this.setState({ url })
 
         document.addEventListener("keydown", this.onKeyPressedDown.bind(this));
         document.addEventListener("keyup", this.onKeyPressedUp.bind(this));
@@ -138,3 +137,5 @@ export default class AddressTag extends Component<AddressTagProps> {
         )
     }
 }
+
+export default withAcct(AddressTag)

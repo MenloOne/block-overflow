@@ -114,28 +114,10 @@ class QuestionForm extends React.Component<TopicFormProps> {
                             <h2 className="text-center">
                                 Ask A Question
                             </h2>
-                            <div className="QuestionForm-tableWrapper">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <span><strong>Bounty for Answers:</strong></span>
-                                            </td>
-                                            <td>
-                                                <span><input className='bounty field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} /> ONE</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <span><strong>Your current balance:</strong></span>
-                                            </td>
-                                            <td>
-                                                <span>{new BigNumber(this.props.acct.model.oneBalance).toFormat(0)} ONE</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <p>
+                                <span><strong>Bounty for Answers:</strong> <input className='bounty field' onChange={this.onChangeBounty} value={this.state.bounty} onBlur={this.onBlurBounty} /> ONE</span><br />
+                                <span><strong>Your current balance:</strong> {new BigNumber(this.props.acct.model.oneBalance).toFormat(0)} ONE</span>
+                            </p>
                         </div>
                     </div>
                     <div className='row'>
@@ -155,7 +137,7 @@ class QuestionForm extends React.Component<TopicFormProps> {
                     />
                     <div className="askquestion-button-wrapper">
                         <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Question' />
-                        {/* <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a> */}
+                        <a className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
                     </div>
                     {this.state.submitting && <MetamaskModal />}
                 </div>

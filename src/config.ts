@@ -1,13 +1,15 @@
 class Config {
     public contentNodeUrl: string
+    public apiUrl: string
 
     constructor() {
         if (process.env.NODE_ENV === 'production') {
-            this.contentNodeUrl = 'https://node.menlo.one'
-            return
+            this.contentNodeUrl = 'https://cn.menlo.one'
+        } else {
+            this.contentNodeUrl = 'http://localhost:8080'
         }
 
-        this.contentNodeUrl = 'http://localhost:3030'
+        this.apiUrl = `${this.contentNodeUrl}/v0`
     }
 }
 

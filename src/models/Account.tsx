@@ -27,6 +27,7 @@ import { QPromise } from '../utils/QPromise'
 import config from '../config'
 import { networks, ContractAddresses } from './networks'
 
+
 export enum ToastType {
     Account,
     Balance
@@ -59,6 +60,7 @@ export class AccountModel {
     public ethBalance: number
     public status: MetamaskStatus
     public error: string | null
+    public network: number
     public networkName: NetworkName = NetworkName.Unknown
     public contractAddresses : ContractAddresses
 }
@@ -88,11 +90,12 @@ export class Account extends AccountModel implements AccountService {
         this.ready = QPromise((res, rej) => this.signalReady = res)
         this.address = null
         this.oneBalance = 0
+        this.network = 0
         this.status = MetamaskStatus.Starting
         this.stateChangeCallback = null
 
         this.checkMetamaskStatus = this.checkMetamaskStatus.bind(this)
-        if (!web3) {
+        if (!web3.version) {
             this.status = MetamaskStatus.Uninstalled
             this.onStateChange()
             return
@@ -101,7 +104,9 @@ export class Account extends AccountModel implements AccountService {
         this.setNetwork()
         this.onStateChange()
 
-        web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
+        if (web3.currentProvider) {
+            web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
+        }
         this.checkMetamaskStatus()
     }
 
@@ -115,7 +120,7 @@ export class Account extends AccountModel implements AccountService {
     }
 
     public async signIn() {
-        const baseUrl = config.contentNodeUrl
+        const baseUrl = config.apiUrl
 
         web3.personal.sign(ethUtil.bufferToHex(new Buffer(`I want to sign into ${baseUrl}`, 'utf8')), this.address, async (error, signed) => {
             if (error) {
@@ -139,10 +144,13 @@ export class Account extends AccountModel implements AccountService {
     }
 
     async checkMetamaskStatus() {
+        if (!web3.version) {
+            return
+        }
+
         if (window.ethereum) {
             try {
                 // Request account access if needed
-                console.log('Calling ethereum enable')
                 await window.ethereum.enable();
             } catch (error) {
                 // User denied account access...
@@ -154,6 +162,7 @@ export class Account extends AccountModel implements AccountService {
         }
 
         this.setNetwork()
+
         web3.eth.getAccounts(async (err, accounts) => {
             if (err || !accounts || accounts.length === 0) {
                 this.status = MetamaskStatus.LoggedOut
@@ -186,7 +195,7 @@ export class Account extends AccountModel implements AccountService {
     async refreshAccount(reload : boolean, address: string) {
         toast.dismiss()
 
-        if (this.networkName !== NetworkName.Kovan && this.networkName !== NetworkName.Rinkeby) {
+        if (this.networkName !== NetworkName.Mainnet) {
             this.status = MetamaskStatus.InvalidNetwork
             this.onStateChange()
             return
@@ -196,7 +205,7 @@ export class Account extends AccountModel implements AccountService {
         try {
             if (reload) {
                 // Easy way out for now
-                // TODO: Make all modules refresh all acct based state when setAccount() is called
+                // TODO: Make all modules refresh all acct based state when setWeb3Account() is called
                 window.location.reload()
             }
 
@@ -223,24 +232,48 @@ export class Account extends AccountModel implements AccountService {
             this.onStateChange()
         }
     }
-    
-    setNetwork() {
-        this.contractAddresses = networks[web3.version.network]
 
-        switch (web3.version.network) {
-            case '1':
+    async getEtherscanUrl(address?: string, tab?: string) {
+        let url = ''
+
+        switch (this.network) {
+            case 4:
+                url = 'https://rinkeby.etherscan.io'
+                break
+            case 42:
+                url = 'https://kovan.etherscan.io'
+                break
+            default:
+                url = 'https://etherscan.io'
+        }
+
+        if (address) {
+            return `${url}/address/${address}${tab ? '#${tab}' : ''}`
+        }
+
+        return url
+    }
+
+    setNetwork() {
+        if (!web3.version) { return }
+
+        this.contractAddresses = networks[web3.version.network]
+        this.network = parseInt(web3.version.network, 10)
+
+        switch (this.network) {
+            case 1:
                 this.networkName = NetworkName.Mainnet
                 break;
-            case '2':
+            case 2:
                 this.networkName = NetworkName.Morden
                 break;
-            case '3':
+            case 3:
                 this.networkName = NetworkName.Ropsten
                 break;
-            case '4':
+            case 4:
                 this.networkName = NetworkName.Rinkeby
                 break;
-            case '42':
+            case 42:
                 this.networkName = NetworkName.Kovan
                 return
             default:
@@ -267,15 +300,19 @@ export class Account extends AccountModel implements AccountService {
             if (this.ethBalance === 0) {
                 toast(`Note you have no ETH in this wallet.`, {
                     autoClose: false,
-                    toastId: ToastType.Balance,
-                    closeButton: false
+                    toastId: ToastType.Balance
                 })
             } else
             if (this.oneBalance === 0) {
-                toast('You have no ONE tokens, use the ONE faucet to obtain some!', {
+                let instr = 'use the Menlo Faucet button to get some'
+
+                if (this.networkName === NetworkName.Mainnet) {
+                    instr = 'buy some on an exchange like IDEX'
+                }
+
+                toast(`You have no ONE tokens, ${instr}`, {
                     autoClose: false,
-                    toastId: ToastType.Balance,
-                    closeButton: false
+                    toastId: ToastType.Balance
                 })
             }
         })
@@ -319,7 +356,9 @@ export class Account extends AccountModel implements AccountService {
 
 
 export const AccountCtxtComponent = React.createContext({})
-
+export interface AccountProps {
+    acct: AccountContext
+}
 
 export function withAcct(Component) {
     // ...and returns another component...

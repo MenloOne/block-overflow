@@ -90,41 +90,31 @@ a[disabled], a[disabled]:hover {
         width: 3.3rem;
         text-align: center;
     }
-    table {
-        color: green;
-        td {
-            padding: .1rem .4rem;
+    p {
+        text-align: center;
+        span {
+            color: green;
+            input {
+            color: green;
+            }
+            strong {
+                color: black;
+                font-weight: 600;
+            }
         }
-        input {
-        color: green;
-        }
-        strong {
-            color: black;
-            font-weight: 600;
-        }
-    }
-}
-
-.list-actions {
-    align-items: center;
-    margin-bottom: 2rem;
-    .btn {
-        margin: 0;
     }
 }
 
 .question {
-    padding: 1.5rem 1rem;
+    padding: 10px 14px;
     display: flex;
     .title {
         color: #2c3035;
     }
-    time {
-        color: #6B768E;
-    }
     .stats {
         font-family: "Titillium web";
         min-width: 4em;
+        border-left: 1px solid #f0f4ff;
         padding: 0 0.65em;
         color: #6B768E;
         font-weight: normal;
@@ -144,7 +134,6 @@ a[disabled], a[disabled]:hover {
         .subtitle {
             font-size: 0.5rem;
             letter-spacing: .02rem;
-            font-weight: 600;
         }
 
         .closed, .claim {
@@ -162,23 +151,11 @@ a[disabled], a[disabled]:hover {
             background: #0033a0;
             color: white;
         }
-        .time-inline {
-            font-family: 'Inconsolata';
-            font-weight: 600;
-            font-size: 19px;
-            letter-spacing: .05rem;
-        }
     }
 
     .stats-timer {
         min-width: 10em;
         display: block;
-    }
-}
-
-.QuestionForm-tableWrapper {
-    table {
-        margin: 0 auto;
     }
 }
 
@@ -200,6 +177,11 @@ a.more-btn {
 .comments .question:hover {
     background: #FBFBFB;
 }
+
+.comments .question.unconfirmed {
+    background: #ffe1d0 !important;
+}
+
 
 .question .tag-name {
   line-height: initial;
