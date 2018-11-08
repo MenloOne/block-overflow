@@ -1,22 +1,20 @@
 import { Topics } from "./Topics";
 import {IPFSTopic} from "../storage/RemoteIPFSStorage";
 import { Forum } from './Forum'
+import { TopicCTOGet } from '../ContentNode/BlockOverflow.cto'
 
 
-type TopicMetadata = {
-    isClosed:  boolean,
-    messageHash: string,
-}
-
-
-export default class Topic extends IPFSTopic {
+export default class Topic extends IPFSTopic implements TopicCTOGet {
 
     public topics: Topics
 
-    public forumAddress: string
+    public forumAddress: string | null | undefined
+    public forum: Forum | null = null
+
     public offset: number
 
-    public metadata: TopicMetadata | null
+    public isClosed:  boolean
+    public messageHash: string
     public body: string
 
     // Read from Forum contract
@@ -29,43 +27,60 @@ export default class Topic extends IPFSTopic {
     public isAnswered: boolean
     public isClaimed: boolean
     public iWon: boolean
+    public confirmed: boolean
 
     public filled: boolean
 
     error: Error | null = null
 
-    constructor(topics : Topics, forumAddress : string, offset : number) {
+    constructor(topics : Topics, t: TopicCTOGet) {
         super()
 
         this.topics = topics
-        this.forumAddress = forumAddress
-        this.offset = offset
 
-        this.metadata = null
-        this.filled = false
-        this.body = 'Loading from IPFS...'
+        this.forumAddress = t.forumAddress
+        this.offset       = t.offset
+        this.isClosed     = t.isClosed
+        this.messageHash  = t.messageHash
+        this.isClaimed    = t.isClaimed
+        this.endTime      = t.endTime
+        this.forumAddress = t.forumAddress
+        this.winningVotes = t.winningVotes
+        this.totalAnswers = t.totalAnswers
+        this.pool         = t.pool
+        this.confirmed    = t.confirmed
+
+        this.version = t.version
+        this.offset  = t.offset
+        this.author  = t.author
+        this.date    = t.date
+        this.title   = t.title
+        this.body    = t.body
+
+        this.filled = true
 
         this.refresh = this.refresh.bind(this)
     }
 
     public get id(): string {
-        return this.forumAddress
-    }
-
-    async refreshMetadata(address) {
-        await this.topics.ready
+        return this.forumAddress ? this.forumAddress : this.endTime.toString()
     }
 
     async claimWinnings() {
+
+        if (!this.forumAddress) {
+            return
+        }
+
         const forum = new Forum(this.forumAddress)
-        await forum.setAccount(this.topics.acctSvc!)
-        await forum.lottery.claimWinnings()
+        await forum.setWeb3Account(this.topics.acctSvc!)
+        await forum.claimWinnings()
 
         this.topics.acctSvc!.addBalanceCallback(this.refresh)
     }
 
     async refresh() {
-        await this.topics.fillTopic(this)
+
     }
 }
 

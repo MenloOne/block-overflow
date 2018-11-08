@@ -23,6 +23,10 @@ a[disabled], a[disabled]:hover {
     color: #c0c0c0 !important;
 }
 
+.message.unconfirmed {
+    background-color: #ffe1d0 !important;
+}
+
 .message .text {
     font-size: 1.2em;
 }
@@ -33,31 +37,10 @@ a[disabled], a[disabled]:hover {
     cursor: pointer;
 }
 
-.editor-toolbar {
-    a.fa.fa-question-circle, a.fa-arrows-alt, a.fa-columns, a.fa-eye, i:nth-of-type(3), i:nth-of-type(4) {
-        display: none;
-    }
-    a {
-        color: #949494 !important;
-        opacity: 1 !important;
-    }
-}
-.editor-toolbar:hover, .editor-wrapper input.title:focus, .editor-wrapper input.title:hover {
-    opacity: 1;
-}
-
-.CodeMirror, .editor-toolbar {
-    border-color: #ececed;
-    opacity: 1;
-}
-.editor-statusbar {
-    display: none;
-}
-
 .Question-payout {
     font-size: 2.5rem;
-    font-family: Inconsolata;
-    line-height: 2.4rem;
+    font-family: monospace;
+    line-height: 1.5rem;
     color: #60b91c;
 }
 
@@ -80,8 +63,8 @@ a[disabled], a[disabled]:hover {
 }
 .left-side .QuestionHeader {
     .user-img {
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
         margin-right: .5rem;
     }
     &-annotation {
@@ -131,27 +114,8 @@ p > code {
 
 .question {
     .user-img {
-        width: 36px;
-        height: 36px;
-    }
-}
-
-.reply-form .submit-btn {
-    margin-top: 1rem;
-}
-
-.reply-form {
-    display: flex;
-    flex-direction: row;
-    &> div:nth-child(1) {
-        padding: 2rem;
-    }
-    &> div:nth-child(2) {
-        flex: 1;
-    }
-    .user-img {
-        width: 32px;
-        height: 32px;
+        width: 37px;
+        height: 37px;
     }
 }
 

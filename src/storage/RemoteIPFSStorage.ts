@@ -18,9 +18,10 @@
 import ipfsAPI from 'ipfs-api'
 import { CID, IPFSFile } from 'ipfs'
 import PromiseRaceSuccess from '../utils/PromiseRaceSuccess'
+import { IIPFSMessage, IIPFSTopic } from '../ContentNode/BlockOverflow.cto'
 
 
-export class IPFSMessage {
+export class IPFSMessage implements IIPFSMessage {
     version: number = 1
     offset:  number = -1
     topic:   number = 0
@@ -30,7 +31,7 @@ export class IPFSMessage {
     body:    string = ''
 }
 
-export class IPFSTopic {
+export class IPFSTopic implements IIPFSTopic {
     version: number = 1
     offset:  number = -1
     author:  string = ''
@@ -46,7 +47,7 @@ class RemoteIPFSStorage {
 
     constructor() {
         this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-        this.ipfsMenlo = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
+        this.ipfsMenlo = ipfsAPI('ipfs.menlo.one', '4002', { protocol: 'https' })
     }
 
     async createMessage(message : IPFSMessage) : Promise<CID> {
@@ -54,13 +55,11 @@ class RemoteIPFSStorage {
             path: `/${message.topic}/${message.offset}.json`,
             content: Buffer.from(JSON.stringify(message))
         }
-        const result = await new PromiseRaceSuccess().timeout(10000, [
+        const result = await new PromiseRaceSuccess().timeout(5000, [
             this.ipfs.files.add([file], { pin: true }),
             this.ipfsMenlo.files.add([file], { pin: true })
         ])
         const hash = result[0].hash
-
-        await (this.ipfsMenlo as any).pin.add(hash)
 
         /*
         console.log(`Created ${hash}`)
@@ -95,8 +94,6 @@ class RemoteIPFSStorage {
             this.ipfsMenlo.files.add([file], { pin: true })
         ])
         const hash = result[0].hash
-
-        await (this.ipfsMenlo as any).pin.add(hash)
 
         /*
         console.log(`Created ${hash}`)

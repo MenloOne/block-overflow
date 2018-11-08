@@ -1,34 +1,30 @@
 import * as React from 'react'
-import Moment from 'react-moment'
 import moment from 'moment'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
-import A from '../components/A'
 import TopNav from '../components/TopNav'
-import Loader from '../components/Loader'
-import Sidebar from '../components/Sidebar'
-
 import AnswersBoard from './AnswersBoard'
 import { Forum, ForumContext } from '../models/Forum'
-import { AccountContext, withAcct, MetamaskStatus } from "../models/Account";
+import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 import { history } from '../router'
+import A from '../components/A'
+import Sidebar from '../components/Sidebar'
 
-import Lottery from '../models/Lottery'
-import { CIDZero } from '../storage/HashUtils'
-
-import utils from '../utils'
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.scss'
+import Moment from 'react-moment'
+import Loader from '../components/Loader'
+import utils from '../utils'
+import { withSockets } from '../SocketContext'
 
 
 interface ForumProps {
     params: { address: string },
     acct: AccountContext
+    socket: SocketIOClient.Socket
 }
 
 interface ForumState {
     forum: ForumContext
-    lottery?: Lottery,
 }
 
 
@@ -41,54 +37,18 @@ class AnswersPage extends React.Component<ForumProps> {
         super(props, context)
 
         this.forum = new Forum(props.params.address)
+        this.forum.setSocket(props.socket)
 
         this.state = {
             forum: { model: this.forum, svc: this.forum}
         }
-
-        this.refreshLotteries = this.refreshLotteries.bind(this)
-        this.refreshMessages = this.refreshMessages.bind(this)
-
+        
         this.prepForum(props)
-
-        this.updateForum(props)
     }
-
-    componentWillMount() {
-        this.subscribe(this.state.forum.svc)
-    }
-
-    componentWillUnmount() {
-        this.unsubscribe(this.state.forum.svc)
-    }
-
-    subscribe(forum: Forum) {
-        forum.subscribeMessages(CIDZero, this.refreshMessages)
-        this.refreshMessages()
-
-        forum.subscribeLotteries(this.refreshLotteries)
-        this.refreshLotteries()
-    }
-
-    unsubscribe(forum: Forum) {
-        forum.subscribeMessages(CIDZero, null)
-        forum.subscribeLotteries(null)
-    }
-
-    async refreshMessages() {
-        const messages = await this.state.forum.svc.getChildrenMessages(CIDZero)
-        this.setState({ messages })
-    }
-
-    async refreshLotteries() {
-        const lottery = await this.state.forum.model.lottery
-        this.setState({ lottery })
-    }
-
 
     async prepForum(props: ForumProps) {
         try {
-            await this.forum.setAccount(props.acct.svc)
+            await this.forum.setWeb3Account(props.acct.svc)
         } catch (e) {
             // If this fails we probably got a bad forum address
             console.log('Error setting up forum ', e)
@@ -99,24 +59,19 @@ class AnswersPage extends React.Component<ForumProps> {
 
     componentWillReceiveProps(nextProps : ForumProps, nextContext) {
         this.updateForum(nextProps)
+        this.forum.setSocket(nextProps.socket)
     }
 
-    async updateForum(nextProps: ForumProps) {
-
+    async updateForum(nextProps : ForumProps) {
         if (nextProps.params.address !== this.props.params.address) {
             this.forum = new Forum(nextProps.params.address)
             this.prepForum(nextProps)
+            return
         }
 
         if (nextProps.acct.model.address !== this.props.acct.model.address) {
             this.prepForum(nextProps)
         }
-
-        if (!this.state.forum.model.lottery.hasEnded) {
-            await this.state.forum.svc.ready
-            this.subscribe(this.state.forum.svc)   
-        }
-
     }
 
     render() {
@@ -124,7 +79,7 @@ class AnswersPage extends React.Component<ForumProps> {
         let hours;
 
         hours = false;
-        
+
         if (this.state.forum.model.topic && this.state.forum.model.topic.date && this.state.forum.model.topic.date !== 0) {
             const end = moment(this.state.forum.model.topic.date)
             const now = moment(Date.now())
@@ -134,7 +89,7 @@ class AnswersPage extends React.Component<ForumProps> {
         }
 
         return (
-            
+
             <div>
                 <TopNav/>
 
@@ -161,41 +116,41 @@ class AnswersPage extends React.Component<ForumProps> {
                                     </div>
                                     <div className="block-padding">
 
-                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat"><div className="stat-label-wrapper">
+                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) ? <div className="stat"><div className="stat-label-wrapper">
                                                 <span className="number-circle">
                                                     {this.state.forum.model.messages.messages[0].children.length}
                                                 </span>
-                                                <div className="stat-labels">
-                                                    <span>Total Answers</span>
-                                                </div>
+                                            <div className="stat-labels">
+                                                <span>Total Answers</span>
                                             </div>
+                                        </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
 
-                                        {(this.state.lottery && this.state.lottery.pool !== 0 && this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? (<div className="stat">
-                                                <div className="stat-label-wrapper">
+                                        {(this.state.forum.model.pool !== 0 && this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) ? (<div className="stat">
+                                            <div className="stat-label-wrapper">
                                                     <span className="number-circle">
-                                                        {utils.formatNumber(this.state.lottery.pool.toFixed(0))}
+                                                        {utils.formatNumber((this.state.forum.model.pool / 10 ** 18).toFixed(0))}
                                                     </span>
-                                                    <div className="stat-labels">
-                                                        {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && (this.state.lottery.author !== this.state.lottery.winner) && <span>ONE rewarded</span>}
-                                                        {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && this.state.lottery.claimed && (this.state.lottery.author === this.state.lottery.winner) && <span>ONE reclaimed</span>}
-                                                        {this.state.lottery && this.state.lottery.endTime < Date.now() && this.state.lottery && !this.state.lottery.claimed ? <span>to be claimed</span> : null}
-                                                        {this.state.lottery && this.state.lottery.endTime > Date.now() && this.state.lottery && !this.state.lottery.claimed ? <span>ONE bounty</span> : null}
-                                                        {/* <span>($11 USD)</span> */}
-                                                    </div>
+                                                <div className="stat-labels">
+                                                    {this.state.forum.model.endTimestamp < Date.now() &&  this.state.forum.model.claimed && (this.state.forum.model.author !== this.state.forum.model.winner) && <span>ONE rewarded</span>}
+                                                    {this.state.forum.model.endTimestamp < Date.now() &&  this.state.forum.model.claimed && (this.state.forum.model.author === this.state.forum.model.winner) && <span>ONE reclaimed</span>}
+                                                    {this.state.forum.model.endTimestamp < Date.now() && !this.state.forum.model.claimed ? <span>to be claimed</span> : null}
+                                                    {this.state.forum.model.endTimestamp > Date.now() && !this.state.forum.model.claimed ? <span>ONE bounty</span> : null}
+                                                    {/* <span>($11 USD)</span> */}
                                                 </div>
+                                            </div>
                                         </div>) : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
-                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) ? <div className="stat">
+                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
-                                                    {this.state.lottery && this.state.lottery.winningVotes ? utils.formatNumber(this.state.lottery.winningVotes) : 0}
+                                                    {this.state.forum.model.winningVotes ? utils.formatNumber(this.state.forum.model.winningVotes) : 0}
                                                 </span>
                                                 <div className="stat-labels">
                                                     <span>Winning Votes</span>
                                                 </div>
                                             </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
-                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.synced.isFulfilled()) && this.state.lottery && this.state.lottery.endTime ? <div className="stat">
+                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) && this.state.forum.model.endTimestamp ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
                                                     {hours}
@@ -218,4 +173,4 @@ class AnswersPage extends React.Component<ForumProps> {
     }
 }
 
-export default withAcct(AnswersPage)
+export default withAcct(withSockets(AnswersPage))

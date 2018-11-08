@@ -26,7 +26,7 @@ import MetamaskModal from 'src/components/MetamaskModal';
 
 class AnswerFormProps {
     rows: number
-    icon: string
+    icon?: string
     onSubmit: (message: string) => void
     onCancel?: () => void
 }

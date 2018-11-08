@@ -106,7 +106,15 @@ class QuestionRow extends React.Component<TopicViewProps> {
     }
 
     renderClosed() {
-        if (!this.props.topic.isAnswered && this.props.topic.metadata!.isClosed) {
+        if (!this.props.topic.confirmed) {
+            return (
+                <span>
+                    <span className="closed">PENDING...</span>
+                </span>
+            )
+        }
+
+        if (!this.props.topic.isAnswered && this.props.topic.isClosed) {
             return (
                 <span>
                     {
@@ -138,20 +146,31 @@ class QuestionRow extends React.Component<TopicViewProps> {
     render() {
         const topic = this.props.topic
         return (
-            <div className={`question ${this.state.new ? 'fresh' : null}`}>
+            <li className={`question ${this.state.new ? 'fresh' : null} ${topic.confirmed ? null : 'unconfirmed'}`}>
                 <div className="user-img">
                     <Blockies size={9} scale={4} seed={topic.author}/>
                 </div>
                 <div className="content">
-                    <A href={`/topic/${ this.props.topic.forumAddress }`}>
+                    {topic.confirmed &&
+                        <A href={`/topic/${ this.props.topic.forumAddress }`}>
+                            <span className="title">
+                                {(topic.title && topic.title.length > 4) ?
+                                    topic.title
+                                    :
+                                    topic.body.substr(0, 100)
+                                }
+                            </span>
+                        </A>
+                    }
+                    {!topic.confirmed &&
                         <span className="title">
-                            { (topic.title && topic.title.length > 4) ?
+                            {(topic.title && topic.title.length > 4) ?
                                 topic.title
                                 :
                                 topic.body.substr(0, 100)
                             }
                         </span>
-                    </A>
+                    }
                     <div>
                         {topic && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
                         <span style={{ display: 'none' }}>
@@ -180,16 +199,20 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         </Fragment>)
                         :
                         (<Fragment>
-                            { utils.formatNumber(topic.bounty.toFixed()) }
+                            { utils.formatNumber((topic.pool / 10 ** 18).toFixed()) }
                             <span className="subtitle">BOUNTY</span>
                         </Fragment>)
                     }
                 </div>
                 <div className="stats stats-timer">
-                    <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
+                    { topic.confirmed ?
+                        <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
+                        :
+                        this.renderClosed()
+                    }
                 </div>
                 {this.state.showMetamaskModal ? <MetamaskModal /> : null }
-            </div>
+            </li>
         )
     }
 }

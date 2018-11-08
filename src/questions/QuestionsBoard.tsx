@@ -49,15 +49,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
         if (this.props.topics.model.topics.length === 0 && this.props.acct.model.status !== MetamaskStatus.Ok) {
             return (<li className=''>
                 <div style={{ textAlign: 'center', padding: '2em' }}>
-                    <Loader /><br />Connecting to blockchain...
-                </div>
-            </li>)
-        }
-
-        if (this.props.topics.model.topics.length === 0) {
-            return (<li className=''>
-                <div style={{ textAlign: 'center', padding: '2em' }}>
-                    <Loader /><br />Loading questions...
+                    <Loader /><br />Connecting...
                 </div>
             </li>)
         }
@@ -66,11 +58,11 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
 
         return topics.map((m, index) => {
             return (
-                <li key={index} className='row'>
+                <div key={index} className='row'>
                     <div className='col-12'>
                         <TopicView topic={m} />
                     </div>
-                </li>
+                </div>
             )
         })
     }
@@ -79,16 +71,14 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
     render() {
 
         return (
-            <div className="QuestionList container">
-                <ul className="nolist">
+            <div className="comments">
+                <ul>
                     { this.renderMessages() }
                     {
                         this.props.topics.model.topics.length < this.props.topics.model.total &&
-                        <li>
-                            <div className="left-side-wrapper">
-                                <a onClick={this.clickNextPage} className='btn big-btn more-btn'>Load More...</a>
-                            </div>
-                        </li>
+                        <div className="left-side-wrapper">
+                            <a onClick={ this.clickNextPage } className='btn big-btn more-btn'>Load More...</a>
+                        </div>
                     }
                 </ul>
             </div>

@@ -1,5 +1,5 @@
 var MenloToken = artifacts.require("menlo-token/MenloToken.sol");
-var MenloTopics = artifacts.require("./MenloTopics.sol");
+var MenloTopics = artifacts.require("./NewTopics.sol");
 
 module.exports = (deployer, network) => {
 

@@ -51,12 +51,14 @@ function getPrivKeys(network) {
 module.exports = {
     contracts_build_directory: path.join(__dirname, 'src/artifacts'),
     networks: {
-        onetokenlive: {
-            host: "localhost",
-            port: 8545,
+        live: {
+            provider: function() {
+                return noncedWallet(new HDWalletProvider(getPrivKeys('live'), 'https://mainnet.infura.io/v3/1b81fcc6e29d459ca28861e0901aba99'))
+            },
             network_id: '1',
-            gas: 2000000,
-            gasPrice: 99000000000
+            gas: 4500000,
+            gasPrice: 15000000000,
+            from: ('0xEADf4eECEdE7E07a1Bb53510CBd1ACE191B2Fd7f').toLowerCase()
         },
         kovan: {
             provider: function() {
@@ -72,7 +74,8 @@ module.exports = {
             },
             network_id: 4,
             gas: 6000000,
-            gasPrice: 10000000000
+            gasPrice: 10000000000,
+            from: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57'
         },
         develop: {
             host: '127.0.0.1',
