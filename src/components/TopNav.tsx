@@ -44,7 +44,7 @@ class TopNav extends React.Component<TopNavProps> {
     }
 
     async onGetTokens() {
-        if (this.props.acct.model.status !== MetamaskStatus.Ok) {
+        if (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.acct.model.contractAddresses.MenloFaucet) {
             return
         }
 
