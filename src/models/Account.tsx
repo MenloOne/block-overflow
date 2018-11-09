@@ -84,8 +84,6 @@ export class Account extends AccountModel implements AccountService {
     private stateChangeCallback : AccountChangeCallback | null
     private balanceCallbacks: BasicCallback[] = []
 
-    private enabled: boolean = false
-
     constructor() {
         super()
 
@@ -107,8 +105,10 @@ export class Account extends AccountModel implements AccountService {
         this.onStateChange()
 
         if (web3.currentProvider) {
-            web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
+            // web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
+            setInterval(this.checkMetamaskStatus, 3000)
         }
+
         this.checkMetamaskStatus()
     }
 
@@ -145,17 +145,21 @@ export class Account extends AccountModel implements AccountService {
         return false
     }
 
-    async checkMetamaskStatus() {
+    async checkMetamaskStatus(error?: any) {
+        if (error) {
+            return
+        }
+
         if (!web3.version) {
             return
         }
 
+        console.log('Updating Account Status...')
+
         if (window.ethereum) {
             try {
                 // Request account access if needed
-                if (!this.enabled) {
-                    await window.ethereum.enable();
-                }
+                await window.ethereum.enable();
 
             } catch (error) {
                 // User denied account access...
@@ -199,14 +203,17 @@ export class Account extends AccountModel implements AccountService {
 
     async refreshAccount(reload : boolean, address: string) {
         toast.dismiss()
+/*
+        if ((process.env.NODE_ENV === 'production' && this.networkName !== NetworkName.Mainnet) ||
+            (process.env.NODE_ENV !== 'production' && this.networkName !== NetworkName.Rinkeby)) {
 
-        if (this.networkName !== NetworkName.Mainnet) {
-            this.status = MetamaskStatus.InvalidNetwork
-            this.onStateChange()
+            if (this.status !== MetamaskStatus.InvalidNetwork) {
+                this.status = MetamaskStatus.InvalidNetwork
+                this.onStateChange()
+            }
             return
         }
-
-
+*/
         try {
             if (reload) {
                 // Easy way out for now
@@ -259,11 +266,20 @@ export class Account extends AccountModel implements AccountService {
         return url
     }
 
-    setNetwork() {
+    async setNetwork() {
         if (!web3.version) { return }
 
-        this.contractAddresses = networks[web3.version.network]
-        this.network = parseInt(web3.version.network, 10)
+        const oldNetwork = this.network
+        const n = await web3.version.network
+        this.network = parseInt(n, 10)
+
+        if (!this.network || this.network === oldNetwork) { return }
+
+        if (oldNetwork && oldNetwork !== this.network) {
+            this.refreshAccount( true, '' )
+        }
+
+        this.contractAddresses = networks[this.network]
 
         switch (this.network) {
             case 1:

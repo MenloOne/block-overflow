@@ -9,6 +9,7 @@ import { SocketCtxtComponent } from './SocketContext'
 import { resolve, history } from './router'
 
 import TopicsPage from './questions/QuestionsPage'
+import BonusPage from './pages/Bonus'
 import ForumPage from './answers/AnswersPage'
 import config from './config'
 
@@ -102,7 +103,7 @@ class App extends React.Component {
     commonRoutes = [
         { path: '/', action: () => <TopicsPage /> },
         { path: '/topic/:address(.+)', action: (params) => <ForumPage { ...params }/> },
-        { path: '/privacy', action: () => <TopicsPage /> }
+        { path: '/bonus', action: () => <BonusPage />}
     ];
 
     render() {

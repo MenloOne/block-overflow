@@ -1826,6 +1826,9 @@ span.sold {
 .question .time-watch div {
     line-height: 16px;
 }
+.bonus .time-watch {
+    justify-content: left;
+}
 
 .question .time-watch div span:nth-child(1) {
     font-size: 9px;
