@@ -173,6 +173,19 @@ export class Forum extends ForumModel {
 
         this.winningMessage  = this.winningOffset ? this.getMessage(this.messageOffsets[this.winningOffset]) : null
 
+
+        // Fixups - should move to client code
+        const now = (new Date()).getTime()
+        this.hasEnded = (this.endTimestamp * 1000 < now)
+        this.postCount--; // Remove 0x000
+
+        if (this.winningOffset !== 0) {
+            this.winner = this.messages.get(this.messageOffsets[this.winningOffset]).author
+        } else {
+            this.winner = this.topic.author
+        }
+
+
         this.signalReady()
         
         this.messageHashes.forEach(id => {

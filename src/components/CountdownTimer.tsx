@@ -48,12 +48,8 @@ export default class CountdownTimer extends Component<CountdownTimerProps> {
 
         return (
             <div className="time-watch">
-                {parseInt(days, 10) > 0 && (
-                    <span>
-                        <div>{days}<span>Days</span></div>
-                        <div className="dots">:</div>
-                    </span>
-                )}
+                <div>{days}<span>Days</span></div>
+                <div className="dots">:</div>
                 <div>{hours}<span>Hours</span></div>
                 <div className="dots">:</div>
                 <div>{minutes}<span>Minutes</span></div>
