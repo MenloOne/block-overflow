@@ -278,10 +278,11 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                     {(!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled() || this.state.children.length > 0) && <div className="comments-votes">
                         { this.renderVotes() }
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
-                        <span >
+                            <span >
                                 <a onClick={this.upvote} disabled={this.props.message.upvoteDisabled()}>
                                     <span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span>
                                 </a>
+                                &nbsp;
                                 <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled()}>
                                     <span className="Question-downvote">
                                         <img src={voteTriangle} className="icon-downvote" />
