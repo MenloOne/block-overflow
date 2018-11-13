@@ -79,7 +79,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
         this.upvote = this.upvote.bind(this)
         this.downvote = this.downvote.bind(this)
 
-        this.commentMaxHeight = 210;
+        this.commentMaxHeight = 300;
     }
 
     toggle = () => {
@@ -282,8 +282,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                                 <a onClick={this.upvote} disabled={this.props.message.upvoteDisabled()}>
                                     <span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span>
                                 </a>
-                                &nbsp;
-                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled()}>
+                                <a className='ml-2' onClick={this.downvote} disabled={this.props.message.downvoteDisabled()}>
                                     <span className="Question-downvote">
                                         <img src={voteTriangle} className="icon-downvote" />
                                         Downvote
@@ -306,9 +305,9 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                             {this.state.children.length > 0 &&
                             <span>
                                 {this.state.showReplies &&
-                                <a className="hideReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide Comments </em></a>}
+                                <a className="hideReplies ml-3" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide Comments </em></a>}
                                 {!this.state.showReplies &&
-                                <a className="showReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show Comments</em> ({message.children.length})</a>}
+                                <a className="showReplies ml-3" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show Comments</em> ({message.children.length})</a>}
                             </span>
                             }
                         </span>

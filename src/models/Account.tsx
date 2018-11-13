@@ -312,7 +312,7 @@ export class Account extends AccountModel implements AccountService {
 
         this.oneBalance = (await this.token.balanceOf(this.address as string)).div( 10 ** 18 ).toNumber()
         web3.eth.getBalance(this.address as string, (err, balance) => {
-            if (err) {
+            if (err || balance === null) {
                 throw (err)
             }
 
