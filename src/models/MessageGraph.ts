@@ -43,6 +43,7 @@ class MessageGraph {
 
             if (!parent) {
                 parent = new Message(message.forum, Message0)
+                parent.id = parentID
                 this.add(parent)
             }
 

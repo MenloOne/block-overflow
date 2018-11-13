@@ -257,18 +257,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                             }
                         </div>
 
-                        <p className="Question-actionWrapper">
-                            {
-                                !this.props.forum.model.hasEnded &&
-                                <a href='#answerForm'>
-                                    <span className="Question-reply">
-                                        Answer
-                                    </span>
-                                </a>
-                            }
-                            <a href="">
-                            </a>
-                        </p>
                     </div>
                     <div className="left-side-wrapper townhall">
                         <div className="comments">

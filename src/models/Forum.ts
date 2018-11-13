@@ -179,11 +179,10 @@ export class Forum extends ForumModel {
         this.postCount--; // Remove 0x000
 
         if (this.winningOffset !== 0) {
-            this.winner = this.messages.get(this.messageOffsets[this.winningOffset]).author
+            this.winner = this.messages.get(this.messageHashes[this.winningOffset]).author
         } else {
             this.winner = this.topic.author
         }
-
 
         this.signalReady()
         
