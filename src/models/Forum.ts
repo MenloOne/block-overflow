@@ -21,7 +21,7 @@ import web3 from './Web3'
 import MessagesGraph from './MessageGraph'
 
 import RemoteIPFSStorage, {IPFSMessage, IPFSTopic} from '../storage/RemoteIPFSStorage'
-import HashUtils, { CIDZero, SolidityHash, SolidityHashZero } from '../storage/HashUtils'
+import HashUtils, { CIDZero, SolidityHashZero } from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
@@ -81,7 +81,6 @@ export class Forum extends ForumModel {
 
     public cn: ContentNode
     public tokenContract: MenloToken | null
-    private tokenContractJS: any
 
     public contractAddress: string
     public contract: MenloForum | null
@@ -205,7 +204,7 @@ export class Forum extends ForumModel {
             this.acct = acct
             this.account = acct.address
 
-            this.tokenContract = new MenloToken(web3, this.acct.contractAddresses.MenloToken)
+            this.tokenContract = await MenloToken.createAndValidate(web3, this.acct.contractAddresses.MenloToken)
             this.contract = await MenloForum.createAndValidate(web3, this.contractAddress)
 
         } catch (e) {
@@ -356,9 +355,8 @@ export class Forum extends ForumModel {
 
         if (!body) {
             // Send it to Blockchain
-            const data: [string, SolidityHash, SolidityHash] = [this.topicOffset(id).toString(), SolidityHashZero, SolidityHashZero]
-            const result = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
-            // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
+            const data: string[] = [this.topicOffset(id).toString(), SolidityHashZero, SolidityHashZero]
+            const result = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.voteCost, action, data).send({})
             console.log(result)
             return
         }
@@ -382,9 +380,8 @@ export class Forum extends ForumModel {
             ipfsHash = await this.remoteStorage.createMessage(ipfsMessage)
 
             // Send it to Blockchain
-            const data : [string, SolidityHash, SolidityHash] = [this.topicOffset(id).toString(), HashUtils.cidToSolidityHash(parentID), HashUtils.cidToSolidityHash(ipfsHash)]
-            const transaction = await this.tokenContractJS.transferAndCall(this.contractAddress, this.voteCost, action, data)
-            // await this.tokenContract!.transferAndCallTx(forum.address, tokenCost, action, this.topicOffset(id).toString()).send({})
+            const data : string[] = [this.topicOffset(id).toString(), HashUtils.cidToSolidityHash(parentID), HashUtils.cidToSolidityHash(ipfsHash)]
+            const transaction = await this.tokenContract!.transferAndCallTx(this.contractAddress, this.voteCost, action, data).send({})
             console.log(transaction)
 
             // TODO: Add vote & comment to CN marked as "Waiting to be confirmed..."
