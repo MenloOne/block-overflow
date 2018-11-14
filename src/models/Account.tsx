@@ -203,7 +203,7 @@ export class Account extends AccountModel implements AccountService {
 
     async refreshAccount(reload : boolean, address: string) {
         toast.dismiss()
-/*
+
         if ((process.env.NODE_ENV === 'production' && this.networkName !== NetworkName.Mainnet) ||
             (process.env.NODE_ENV !== 'production' && this.networkName !== NetworkName.Rinkeby)) {
 
@@ -213,7 +213,7 @@ export class Account extends AccountModel implements AccountService {
             }
             return
         }
-*/
+
         try {
             if (reload) {
                 // Easy way out for now
