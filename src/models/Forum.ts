@@ -41,15 +41,11 @@ type NewMessageCallback = () => void
 export class ForumModel {
     public  topic: IPFSTopic
     public  messages: MessagesGraph
-    public  lotteryLength: number
     public  contractAddress: string
     public  winningMessage: Message | null
-    public  hasEnded: boolean = false
     public  claimed: boolean = false
-    public  iWon: boolean = false
     public  winningVotes: number
     public  winningOffset: number
-    public  winner: string | null
     public  pool: number = 0
     public  author: string = ''
     public  endTimestamp: number = 0
@@ -147,14 +143,12 @@ export class Forum extends ForumModel {
         this.postCount       = forum.postCount
         this.messageHashes   = forum.messageHashes
         this.messageOffsets  = forum.messageOffsets
-        this.endTimestamp    = forum.endTimestamp
+        this.endTimestamp    = forum.endTimestamp * 1000
         this.author          = forum.author
         this.pool            = forum.pool
-        this.hasEnded        = forum.hasEnded
         this.claimed         = forum.claimed
         this.winningVotes    = forum.winningVotes
         this.winningOffset   = forum.winningOffset
-        this.winner          = forum.winner
 
         this.ACTION_POST     = forum.ACTION_POST
         this.ACTION_UPVOTE   = forum.ACTION_UPVOTE
@@ -174,15 +168,7 @@ export class Forum extends ForumModel {
 
 
         // Fixups - should move to client code
-        const now = (new Date()).getTime()
-        this.hasEnded = (this.endTimestamp * 1000 < now)
         this.postCount--; // Remove 0x000
-
-        if (this.winningOffset !== 0) {
-            this.winner = this.messages.get(this.messageHashes[this.winningOffset]).author
-        } else {
-            this.winner = this.topic.author
-        }
 
         this.signalReady()
         
@@ -190,6 +176,31 @@ export class Forum extends ForumModel {
             const msg = this.messages.get(id)
             this.onModifiedMessage(msg)
         })
+    }
+
+    public get iWon(): boolean {
+        return this.winner === this.account
+    }
+
+    public get winner() : string {
+        if (!this.ready.isFulfilled()) { return '' }
+
+        if (this.winningOffset !== 0 && this.messages) {
+            const m = this.messages.get(this.messageHashes[this.winningOffset])
+            if (!m) {
+                return this.topic.author
+            }
+
+            return m.author
+        } else {
+            return this.topic.author
+        }
+    }
+
+    public get hasEnded() : boolean {
+        if (!this.ready.isFulfilled()) { return true }
+
+        return (this.endTimestamp < (new Date()).getTime())
     }
 
     async setWeb3Account(acct : Account) {
@@ -389,7 +400,6 @@ export class Forum extends ForumModel {
                 id:        ipfsHash,
                 forumAddress: this.contractAddress,
                 votes:     0,
-                myvotes:   0,
                 children:  [],
                 confirmed: false
             }
@@ -445,7 +455,6 @@ export class Forum extends ForumModel {
                 id:        ipfsHash,
                 forumAddress: this.contractAddress,
                 votes:     0,
-                myvotes:   0,
                 children:  [],
                 confirmed: false
             }

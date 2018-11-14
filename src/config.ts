@@ -6,7 +6,7 @@ class Config {
         if (process.env.NODE_ENV === 'production') {
             this.contentNodeUrl = 'https://cn.menlo.one'
         } else {
-            this.contentNodeUrl = 'http://localhost:8080'
+            this.contentNodeUrl = 'https://cn.menlo.one' // 'http://localhost:8080'
         }
 
         this.apiUrl = `${this.contentNodeUrl}/v0`

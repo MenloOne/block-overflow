@@ -204,8 +204,7 @@ export class Account extends AccountModel implements AccountService {
     async refreshAccount(reload : boolean, address: string) {
         toast.dismiss()
 
-        if ((process.env.NODE_ENV === 'production' && this.networkName !== NetworkName.Mainnet) ||
-            (process.env.NODE_ENV !== 'production' && this.networkName !== NetworkName.Rinkeby)) {
+        if (this.networkName !== NetworkName.Mainnet) {
 
             if (this.status !== MetamaskStatus.InvalidNetwork) {
                 this.status = MetamaskStatus.InvalidNetwork

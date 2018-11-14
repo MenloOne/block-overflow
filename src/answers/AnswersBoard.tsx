@@ -147,7 +147,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
 
     renderMessages() {
         if (this.state.messages.length === 0) {
-            if (this.props.forum.model.hasEnded) {
+            if (this.props.forum.svc.hasEnded) {
                 return (
                     <li className='borderis message'>
                         <div style={{ paddingBottom: '3em' }}>
@@ -195,17 +195,13 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                         {this.props.forum.model.topic && <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>}
                         <div>
                             {
-                                this.props.forum.model.hasEnded &&
+                                this.props.forum.svc.hasEnded &&
                                 <span>
                                     <span className="QuestionHeader-annotation">QUESTION CLOSED</span>
                                     {!this.state.messages.length && <span className="QuestionHeader-annotation">NO ANSWER</span>}
                                     {
-                                        this.props.forum.model.iWon && this.props.forum.model.winner === this.props.acct.model.address && !this.props.forum.model.claimed &&
+                                        this.props.forum.svc.iWon && !this.props.forum.model.claimed &&
                                         <a className='main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
-                                    }
-                                    {
-                                        this.props.forum.model.iWon && this.props.forum.model.winner !== this.props.acct.model.address && !this.props.forum.model.claimed &&
-                                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
                                     }
                                 </span>
                             }
@@ -236,14 +232,14 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
 
                         <div className="Question-urgency">
                             <div>
-                                {!this.props.forum.model.hasEnded && <span><span className="small-subtitle">BOUNTY</span><br /></span>}
+                                {!this.props.forum.svc.hasEnded && <span><span className="small-subtitle">BOUNTY</span><br /></span>}
                                 {this.props.forum.model.pool ? (<span className="Question-payout">
                                     {utils.formatNumber((this.props.forum.model.pool / 10 ** 18).toFixed(0))} ONE
                                     {/* <span className="one-icon"><img src={ONElogo} alt="" /></span> */}
                                 </span>) : (<Loader size={22} />)}
-                                {this.props.forum.model.hasEnded &&  this.props.forum.model.claimed && (this.props.forum.model.author !== this.props.forum.model.winner) && <span><br /><span className="small-subtitle">REWARDED TO WINNER</span></span>}
-                                {this.props.forum.model.hasEnded &&  this.props.forum.model.claimed && (this.props.forum.model.author === this.props.forum.model.winner) && <span><br /><span className="small-subtitle">BOUNTY RECLAIMED BY AUTHOR</span></span>}
-                                {this.props.forum.model.hasEnded && !this.props.forum.model.claimed ? <span><br /><span className="small-subtitle">TO BE CLAIMED</span></span> : null}
+                                {this.props.forum.svc.hasEnded &&  this.props.forum.model.claimed && (this.props.forum.model.author !== this.props.forum.svc.winner) && <span><br /><span className="small-subtitle">REWARDED TO WINNER</span></span>}
+                                {this.props.forum.svc.hasEnded &&  this.props.forum.model.claimed && (this.props.forum.model.author === this.props.forum.svc.winner) && <span><br /><span className="small-subtitle">BOUNTY RECLAIMED BY AUTHOR</span></span>}
+                                {this.props.forum.svc.hasEnded && !this.props.forum.model.claimed ? <span><br /><span className="small-subtitle">TO BE CLAIMED</span></span> : null}
                             </div>
                             {(this.state && this.props.forum.model.endTimestamp && this.props.forum.model.endTimestamp !== 0 && this.props.forum.model.endTimestamp > Date.now()) ?
                             (
@@ -265,7 +261,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
                                 <ul>
                                     {this.renderMessages()}
                                     {
-                                        !this.state.isCommenting && !this.props.forum.model.hasEnded &&
+                                        !this.state.isCommenting && !this.props.forum.svc.hasEnded &&
                                         <li>
                                             <a id='answerForm' />
                                             <div className='reply-form'>

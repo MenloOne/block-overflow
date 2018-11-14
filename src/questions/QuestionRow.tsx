@@ -114,7 +114,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
             )
         }
 
-        if (!this.props.topic.isAnswered && this.props.topic.isClosed) {
+        if (this.props.topic.totalAnswers === 0 && this.props.topic.isClosed) {
             return (
                 <span>
                     {
@@ -191,7 +191,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                     { topic.bounty === 0 ?
                         (<Fragment>
                             { utils.formatNumber(topic.pool.toFixed()) }
-                            {!this.props.topic.isAnswered ? (
+                            {this.props.topic.totalAnswers === 0 ? (
                                 <span className="subtitle">BOUNTY</span>
                             ) : (
                                 <span className="subtitle">ONE PAID</span>

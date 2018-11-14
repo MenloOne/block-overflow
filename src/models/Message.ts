@@ -8,7 +8,6 @@ import { CIDZero } from '../storage/HashUtils'
 export const Message0 : MessageCTOGet = {
     id:      CIDZero,
     votes:    0,
-    myvotes:  0,
     children: [],
     version:  0,
     offset:   0,
@@ -45,7 +44,6 @@ export default class Message extends IPFSMessage {
         this.parent   = m.parent
         this.offset   = m.offset
         this.votes    = m.votes
-        this.myvotes  = m.myvotes
         this.version  = m.version
         this.offset   = m.offset
         this.topic    = m.topic
