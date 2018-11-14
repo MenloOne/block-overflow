@@ -132,8 +132,8 @@ class AnswersPage extends React.Component<ForumProps> {
                                                         {utils.formatNumber((this.state.forum.model.pool / 10 ** 18).toFixed(0))}
                                                     </span>
                                                 <div className="stat-labels">
-                                                    {this.state.forum.model.endTimestamp < Date.now() &&  this.state.forum.model.claimed && (this.state.forum.model.author !== this.state.forum.model.winner) && <span>ONE rewarded</span>}
-                                                    {this.state.forum.model.endTimestamp < Date.now() &&  this.state.forum.model.claimed && (this.state.forum.model.author === this.state.forum.model.winner) && <span>ONE reclaimed</span>}
+                                                    {this.state.forum.model.endTimestamp < Date.now() &&  this.state.forum.model.claimed && (this.state.forum.model.author !== this.state.forum.svc.winner) && <span>ONE rewarded</span>}
+                                                    {this.state.forum.model.endTimestamp < Date.now() &&  this.state.forum.model.claimed && (this.state.forum.model.author === this.state.forum.svc.winner) && <span>ONE reclaimed</span>}
                                                     {this.state.forum.model.endTimestamp < Date.now() && !this.state.forum.model.claimed ? <span>to be claimed</span> : null}
                                                     {this.state.forum.model.endTimestamp > Date.now() && !this.state.forum.model.claimed ? <span>ONE bounty</span> : null}
                                                     {/* <span>($11 USD)</span> */}

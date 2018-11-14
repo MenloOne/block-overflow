@@ -1,7 +1,7 @@
 import { Topics } from "./Topics";
 import {IPFSTopic} from "../storage/RemoteIPFSStorage";
 import { Forum } from './Forum'
-import { TopicCTOGet } from '../ContentNode/BlockOverflow.cto'
+import { MessageCTOGet, TopicCTOGet } from '../ContentNode/BlockOverflow.cto'
 
 
 export default class Topic extends IPFSTopic implements TopicCTOGet {
@@ -13,7 +13,6 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
 
     public offset: number
 
-    public isClosed:  boolean
     public messageHash: string
     public body: string
 
@@ -24,9 +23,8 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
     public bounty: number
     public pool: number
     public winner: string
-    public isAnswered: boolean
+    public winningMessage: MessageCTOGet | null
     public isClaimed: boolean
-    public iWon: boolean
     public confirmed: boolean
 
     public filled: boolean
@@ -40,15 +38,15 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
 
         this.forumAddress = t.forumAddress
         this.offset       = t.offset
-        this.isClosed     = t.isClosed
         this.messageHash  = t.messageHash
         this.isClaimed    = t.isClaimed
-        this.endTime      = t.endTime
+        this.endTime      = t.endTime * 1000
         this.forumAddress = t.forumAddress
         this.winningVotes = t.winningVotes
         this.totalAnswers = t.totalAnswers
         this.pool         = t.pool
         this.confirmed    = t.confirmed
+        this.winningMessage = t.winningMessage
 
         this.version = t.version
         this.offset  = t.offset
@@ -60,6 +58,18 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
         this.filled = true
 
         this.refresh = this.refresh.bind(this)
+    }
+
+    public get isClosed(): boolean {
+        return (this.endTime < (new Date()).getTime())
+    }
+
+    public get iWon(): boolean {
+        if (!this.winningMessage || !this.forum || !this.forum.account) {
+            return false
+        }
+
+        return this.winningMessage.author === this.forum.account
     }
 
     public get id(): string {

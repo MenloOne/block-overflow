@@ -16,12 +16,12 @@ export interface IIPFSTopic {
 }
 
 export interface TopicCTOGet extends IIPFSTopic {
-    isClosed:     boolean
     messageHash:  string
     isClaimed:    boolean
     endTime:      number
     forumAddress: string | null | undefined
     winningVotes: number
+    winningMessage: MessageCTOGet | null
     totalAnswers: number
     pool:         number
     confirmed:    boolean
@@ -51,11 +51,9 @@ export interface ForumCTOGet {
     readonly endTimestamp:    number
     readonly author:          string
     readonly pool:            number
-    readonly hasEnded:        boolean
     readonly claimed:         boolean
     readonly winningVotes:    number
     readonly winningOffset:   number
-    readonly winner:          string | null
     readonly ACTION_POST:     number
     readonly ACTION_UPVOTE:   number
     readonly ACTION_DOWNVOTE: number
@@ -78,7 +76,6 @@ export interface MessageCTOGet extends IIPFSMessage {
     readonly forumAddress: string
     readonly id: CID
     readonly votes:   number
-    readonly myvotes: number
     readonly confirmed: boolean
     readonly children: MessageCTOGet[]
 }

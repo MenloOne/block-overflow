@@ -217,7 +217,6 @@ export class Topics extends TopicsModel {
 
             const topicModel: TopicCTOGet = {
                 ...ipfsTopic,
-                isClosed    : false,
                 messageHash : ipfsHash,
                 isClaimed   : false,
                 endTime     : new Date().getTime(), // Make model expired so we render a closed (not open yet) topic
@@ -225,6 +224,7 @@ export class Topics extends TopicsModel {
                 winningVotes: 0,
                 totalAnswers: 0,
                 pool        : bounty18,
+                winningMessage: null,
                 confirmed   : false
             }
 
