@@ -17,6 +17,7 @@ export interface IIPFSTopic {
 
 export interface TopicCTOGet extends IIPFSTopic {
     messageHash:  string
+    transaction:  string | null
     isClaimed:    boolean
     endTime:      number
     forumAddress: string | null | undefined
@@ -28,7 +29,6 @@ export interface TopicCTOGet extends IIPFSTopic {
 }
 
 export interface TopicCTOPost extends TopicCTOGet {
-    readonly transaction: string
 }
 
 

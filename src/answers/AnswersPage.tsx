@@ -4,7 +4,7 @@ import moment from 'moment'
 import TopNav from '../components/TopNav'
 import AnswersBoard from './AnswersBoard'
 import { Forum, ForumContext } from '../models/Forum'
-import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
+import { AccountContext, withAcct } from '../models/Account'
 import { history } from '../router'
 import A from '../components/A'
 import Sidebar from '../components/Sidebar'
@@ -116,7 +116,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                     </div>
                                     <div className="block-padding">
 
-                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) ? <div className="stat"><div className="stat-label-wrapper">
+                                        {(this.state.forum.svc.ready.isFulfilled()) ? <div className="stat"><div className="stat-label-wrapper">
                                                 <span className="number-circle">
                                                     {this.state.forum.model.messages.messages[0].children.length}
                                                 </span>
@@ -126,7 +126,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                         </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
 
-                                        {(this.state.forum.model.pool !== 0 && this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) ? (<div className="stat">
+                                        {(this.state.forum.model.pool !== 0 && this.state.forum.svc.ready.isFulfilled()) ? (<div className="stat">
                                             <div className="stat-label-wrapper">
                                                     <span className="number-circle">
                                                         {utils.formatNumber((this.state.forum.model.pool / 10 ** 18).toFixed(0))}
@@ -140,7 +140,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                                 </div>
                                             </div>
                                         </div>) : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
-                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) ? <div className="stat">
+                                        {(this.state.forum.svc.ready.isFulfilled()) ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
                                                     {this.state.forum.model.winningVotes ? utils.formatNumber(this.state.forum.model.winningVotes) : 0}
@@ -150,7 +150,7 @@ class AnswersPage extends React.Component<ForumProps> {
                                                 </div>
                                             </div>
                                         </div> : <div className="stat"><div className="stat-label-wrapper"><Loader /></div></div>}
-                                        {(this.props.acct.model.status === MetamaskStatus.Ok && this.state.forum.svc.ready.isFulfilled()) && this.state.forum.model.endTimestamp ? <div className="stat">
+                                        {(this.state.forum.svc.ready.isFulfilled()) && this.state.forum.model.endTimestamp ? <div className="stat">
                                             <div className="stat-label-wrapper">
                                                 <span className="number-circle">
                                                     {hours}

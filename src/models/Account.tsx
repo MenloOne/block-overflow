@@ -159,7 +159,9 @@ export class Account extends AccountModel implements AccountService {
         if (window.ethereum) {
             try {
                 // Request account access if needed
-                await window.ethereum.enable();
+                if (!await window.ethereum.enable()) {
+                    throw 'nope'
+                }
 
             } catch (error) {
                 // User denied account access...
@@ -181,7 +183,7 @@ export class Account extends AccountModel implements AccountService {
 
             const account0 = accounts[0].toLowerCase()
 
-            if (account0 !== this.address) {
+            if (account0 !== this.address || !this.token) {
 
                 if (this.status !== MetamaskStatus.Starting && this.status !== MetamaskStatus.Ok) {
                     await this.refreshAccount( true, account0)
@@ -224,6 +226,10 @@ export class Account extends AccountModel implements AccountService {
 
             if (!this.token) {
                 this.token = await MenloToken.createAndValidate(web3, this.contractAddresses.MenloToken)
+                if (!this.token) {
+                    console.error('Unable to get token contract')
+                    return
+                }
             }
 
             await this.getBalance(true)
@@ -244,7 +250,7 @@ export class Account extends AccountModel implements AccountService {
         }
     }
 
-    async getEtherscanUrl(address?: string, tab?: string) {
+    getEtherscanUrl(address?: string, type: 'tx' | 'address' = 'address', tab?: string): string {
         let url = ''
 
         switch (this.network) {
@@ -259,7 +265,12 @@ export class Account extends AccountModel implements AccountService {
         }
 
         if (address) {
-            return `${url}/address/${address}${tab ? '#${tab}' : ''}`
+            switch (type) {
+                case 'tx':
+                    return `${url}/tx/${address}${tab ? '#${tab}' : ''}`
+                case 'address':
+                    return `${url}/address/${address}${tab ? '#${tab}' : ''}`
+            }
         }
 
         return url
@@ -307,10 +318,14 @@ export class Account extends AccountModel implements AccountService {
             await this.ready
         }
 
+        if (!this.address) {
+            throw('Address is null')
+        }
+
         toast.dismiss(ToastType.Balance)
 
         this.oneBalance = (await this.token.balanceOf(this.address as string)).div( 10 ** 18 ).toNumber()
-        web3.eth.getBalance(this.address as string, (err, balance) => {
+        web3.eth.getBalance(this.address, (err, balance) => {
             if (err || balance === null) {
                 throw (err)
             }

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
 import { TopicsContext, withTopics } from "../models/Topics";
 
-import TopicView from './QuestionRow'
+import QuestionRow from './QuestionRow'
 import Loader from '../components/Loader'
 
 
@@ -60,7 +60,7 @@ class QuestionsBoard extends React.Component<TopicBoardProps> {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <TopicView topic={m} />
+                        <QuestionRow topic={m} />
                     </div>
                 </div>
             )

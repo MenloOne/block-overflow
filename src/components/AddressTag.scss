@@ -20,7 +20,10 @@
         width: 40px;
         display: inline-flex;
         overflow: hidden;
-        font-family: Inconsolata;
+        font-family: 'Inconsolata', 'Courier New';
+    }
+    &-name {
+        width: 5em;
     }
     &-wrapper {
         display: inline-block;

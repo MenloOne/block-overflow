@@ -9,7 +9,6 @@ import { Topics, TopicsContext, TopicsCtxtComponent } from '../models/Topics'
 
 import TopNav from '../components/TopNav'
 import Sidebar from '../components/Sidebar'
-import A from '../components/A'
 
 import QuestionsBoard from "./QuestionsBoard";
 
@@ -317,7 +316,6 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                 <div>
                     <TopNav>
                         <li className="nav-item"><a onClick={this.toggleHowTo} title="Info">Info</a></li>
-                        <li className="nav-item"><A href='/bonus' title="Bonus">Bonus</A></li>
                     </TopNav>
 
                     { this.renderInstructions() }
