@@ -206,7 +206,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                 </div>
                 <div className="stats stats-timer">
                     { topic.confirmed ?
-                        <CountdownTimer compact={true} date={ new Date(topic.date) } renderCompleted={ this.renderClosed }/>
+                        <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
                         :
                         this.renderClosed()
                     }
