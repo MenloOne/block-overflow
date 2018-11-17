@@ -1,9 +1,7 @@
 import * as React from 'react'
 
 const bitmart = require('../images/bitmart.svg')
-const menlo = require('../images/menlo-logo.png')
 const metal = require('../images/metal-pay.svg')
-const shapeshift = require('../images/shapeshift.svg')
 const arrowRight = require('../images/arrow-right.svg')
 
 const twitter = require('../images/twitter.svg')
@@ -93,74 +91,12 @@ class Sidebar extends React.Component<SidebarProps> {
         return (
             <div>
                 <div className="right-side-box">
-                    <div>
-                        <div className="block-header">
-                            <h4>ONE Token Metrics</h4>
-                        </div>
-                        <div className="block-padding">
-                            <table className="stats">
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            Circulating Supply
-                                                            </td>
-                                        <td>
-                                            354,000,000
-                                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Total Supply
-                                                            </td>
-                                        <td>
-                                            1,000,000,000 ONE
-                                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Volume (24h)
-                                                            </td>
-                                        <td>
-                                            N/A
-                                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Market Cap
-                                                            </td>
-                                        <td>
-                                            $16,000,000
-                                                            </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Price
-                                                            </td>
-                                        <td>
-                                            $0.018083
-                                                            </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
                     <div className="white-bg content-node">
                         <div className="block-header">
                             <h4>Buy ONE Token</h4>
                         </div>
                         <div className="block-padding">
                             <div className="moreinfo-btns-wrapper">
-                                <a href="http://menlo.one" target="_blank">
-                                    <div className="moreinfo-btn">
-                                        <img src={menlo} className="icon-paper" />
-                                        <div className="moreinfo-btn-textwrapper">
-                                            <span>Menlo One Token Sale</span>
-                                            <span>https://tokensale.menlo.one</span>
-                                        </div>
-                                        <img src={arrowRight} className="arrow-right" />
-                                    </div>
-                                </a>
                                 <a href="https://www.bitmart.com" target="_blank">
                                     <div className="moreinfo-btn">
                                         <img src={bitmart} className="icon-globe" />
@@ -171,22 +107,12 @@ class Sidebar extends React.Component<SidebarProps> {
                                         <img src={arrowRight} className="arrow-right" />
                                     </div>
                                 </a>
-                                <a href="http://shapeshift.io" target="_blank">
-                                    <div className="moreinfo-btn">
-                                        <img src={shapeshift} className="icon-globe" />
-                                        <div className="moreinfo-btn-textwrapper">
-                                            <span>ShapeShift</span>
-                                            <span>http://shapeshift.io</span>
-                                        </div>
-                                        <img src={arrowRight} className="arrow-right" />
-                                    </div>
-                                </a>
-                                <a href="https://metalpay.com" target="_blank">
+                                <a href="https://idex.market/eth/one" target="_blank">
                                     <div className="moreinfo-btn">
                                         <img src={metal} className="icon-globe" />
                                         <div className="moreinfo-btn-textwrapper">
-                                            <span>Metal Pay</span>
-                                            <span>https://metalpay.com</span>
+                                            <span>IDEX</span>
+                                            <span>https://idex.market</span>
                                         </div>
                                         <img src={arrowRight} className="arrow-right" />
                                     </div>

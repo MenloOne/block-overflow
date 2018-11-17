@@ -14,6 +14,7 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
     public offset: number
 
     public messageHash: string
+    public transaction: string | null
     public body: string
 
     // Read from Forum contract
@@ -39,6 +40,7 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
         this.forumAddress = t.forumAddress
         this.offset       = t.offset
         this.messageHash  = t.messageHash
+        this.transaction  = t.transaction
         this.isClaimed    = t.isClaimed
         this.endTime      = t.endTime * 1000
         this.forumAddress = t.forumAddress
@@ -65,11 +67,11 @@ export default class Topic extends IPFSTopic implements TopicCTOGet {
     }
 
     public get iWon(): boolean {
-        if (!this.winningMessage || !this.forum || !this.forum.account) {
+        if (!this.winningMessage || !this.topics.acctSvc) {
             return false
         }
 
-        return this.winningMessage.author === this.forum.account
+        return this.winningMessage.author === this.topics.acctSvc.address
     }
 
     public get id(): string {

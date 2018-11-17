@@ -217,6 +217,7 @@ export class Topics extends TopicsModel {
 
             const topicModel: TopicCTOGet = {
                 ...ipfsTopic,
+                transaction,
                 messageHash : ipfsHash,
                 isClaimed   : false,
                 endTime     : new Date().getTime(), // Make model expired so we render a closed (not open yet) topic
@@ -228,7 +229,7 @@ export class Topics extends TopicsModel {
                 confirmed   : false
             }
 
-            await this.cn.createTopic({ transaction, ...topicModel })
+            await this.cn.createTopic(topicModel)
 
         } catch (e) {
             if (ipfsHash) {

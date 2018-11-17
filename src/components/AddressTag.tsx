@@ -6,7 +6,9 @@ import { AccountProps, withAcct } from '../models/Account'
 
 
 interface AddressTagProps extends AccountProps {
-    address: string;
+    address?: string;
+    tx?:      string
+
     etherscanTab?: string;
     link?: boolean;
     copy?: boolean;
@@ -35,7 +37,7 @@ class AddressTag extends Component<AddressTagProps> {
     }
 
     componentWillMount() {
-        const url = this.props.acct.svc.getEtherscanUrl(this.props.address, this.props.etherscanTab)
+        const url = this.props.acct.svc.getEtherscanUrl(this.props.address, this.props.tx ? 'tx' : 'address', this.props.etherscanTab)
         this.setState({ url })
 
         document.addEventListener("keydown", this.onKeyPressedDown.bind(this));
@@ -112,7 +114,8 @@ class AddressTag extends Component<AddressTagProps> {
     }
 
     render() {
-        const { address } = this.props;
+        const { address, tx } = this.props;
+        const addr = address ? address : tx;
         
         const { url, statusTip } = this.state
 
@@ -120,7 +123,7 @@ class AddressTag extends Component<AddressTagProps> {
             <span className="AddressTag-container">
                 <div className="AddressTag-wrapper">
                     <span className="AddressTag-name-0x">0x</span>
-                    <span className="AddressTag-name">{address ? address.slice(2, address.length) : ''}</span>
+                    <span className="AddressTag-name">{addr ? addr.slice(2, addr.length) : ''}</span>
                     <span className="AddressTag-name-dots">…</span>
                     <ReactTooltip effect="solid" delayHide={1000} placement='top' event={'focus'} eventOff={'focus'} />
                 </div>

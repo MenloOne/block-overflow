@@ -37,8 +37,7 @@ import './Questions.scss'
 
 interface TopicViewProps {
     topic: Topic,
-    topics: TopicsContext,
-    onChangeReplying: (bool) => void
+    topics: TopicsContext
 }
 
 interface TopicViewState {
@@ -172,11 +171,12 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         </span>
                     }
                     <div>
-                        {topic && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
+                        {!topic.confirmed && topic.transaction && <AddressTag link={true} copy={true} tx={topic.transaction} />}
+                        {topic.confirmed && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
                         <span style={{ display: 'none' }}>
                             <span className="points">??? points </span>
                         </span>
-                        {topic && topic.date && <Moment fromNow>{topic.date}</Moment>}
+                        {topic && topic.date && <Moment fromNow>{topic.endTime}</Moment>}
                     </div>
                 </div>
                 <div className="stats">
@@ -206,7 +206,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                 </div>
                 <div className="stats stats-timer">
                     { topic.confirmed ?
-                        <CountdownTimer compact={true} date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
+                        <CountdownTimer compact={true} date={ new Date(topic.date) } renderCompleted={ this.renderClosed }/>
                         :
                         this.renderClosed()
                     }
