@@ -1,23 +1,18 @@
-# Menlo One Block-Overflow
-## Discussion site built on the Townhall Layer
+# Block Overflow
+#### A blockchain based discussion dApp that pays for answers. Built with the Menlo One's Townhall and Content Node components.
 
-Expo is the first application built on top of the Townhall technology.  It uses the 
-publicly deployed Menlo One Token as the utility token with which to post messages
-and win lottery rewards for contributing the most upvoted content.
+======
 
-To use BlockOverflow on the Kovan Test Network, visit the site curerntly running here: [https://expo.menlo.one](https://expo.menlo.one)
-which includes a Menlo One Kovan Faucet for those who don't have Menlo ONE tokens.
- 
-Menlo One is about to have a Public Token Sale.  Find out more here:
+Block Overflow is the first application built with Menlo One. It uses the publicly deployed Menlo ONE Token as the utility token with which to post messages and win ONE token rewards for contributing the most upvoted content. [More info can be found on this announcement on Medium](https://medium.com/menlo-one/menlo-one-announces-block-overflow-a-blockchain-stack-overflow-that-pays-for-answers-550a8c259183).
 
-#[https://www.menlo.one/](https://www.menlo.one/)
+**To use Block Overflow, visit [https://blockoverflow.menlo.one](https://blockoverflow.menlo.one).** 
 
 
-#For Developers:
-## Local "Develop" Environment
+![Block Overflow](https://cdn-images-1.medium.com/max/1000/1*8NGIONEC_UTSsorp_2mpsg.jpeg)
 
-To develop and run Expo locally, install the following prerequisites and
-dependencies before running the app.
+## Running a Local "Develop" Environment
+
+To develop and run Block Overflow locally, install the following prerequisites and dependencies before running the app.
 
 ### Prerequisites
 
@@ -29,7 +24,7 @@ We assume `brew` for package management to install `IPFS` and other dependencies
 
 #### IPFS
 
-TownHall uses [IPFS](https://ipfs.io/) for storage of messages.
+Menlo One uses [IPFS](https://ipfs.io/) for storage of messages.
 
 Menlo specific setup of IPFS can be installed and configured via:
 
@@ -45,8 +40,8 @@ Install Metamask extensions into your browser of choice, Chrome or Brave support
 ### Install app and dependencies
 
 1. Install nvm and node: `brew install nvm && nvm install`
-2. Clone the repo: `git clone git@github.com:MenloOne/expo-demo.git`
-3. Install dependencies: `cd expo-demo && nvm use && yarn install`
+2. Clone the repo: `git clone git@github.com:MenloOne/block-overflow.git`
+3. Install dependencies: `cd block-overflow && nvm use && yarn install`
 
 ### Run the application
 
@@ -76,7 +71,7 @@ Import this private key into MetaMask for use with `truffle develop`:
 
 If you see in the Chrome Console Metamask RPC Errors - it means your contract deploys didn't work.
 
-### Interact with Expo
+### Interact with Block Overflow
 
 A browser window should open after starting: `http://localhost:3000/`
 
@@ -90,9 +85,7 @@ Add a Custom RPC in MetaMask with URL `http://127.0.0.1:9545/`:
 
 # Using other Environments
 
-If for some reason Truffle doesn't work for you or you want a different environment the first thing you will
-need is to fill out the `.env` file with the following accounts that you create in your chain.  For Ganache, 
-you can just copy some of the precreated accounts:
+If for some reason Truffle doesn't work for you or you want a different environment the first thing you will need is to fill out the `.env` file with the following accounts that you create in your chain. For Ganache, you can just copy some of the pre-created accounts:
 
 
     - MENLO_ROOT: Address of pre-configured account on chain.
@@ -107,9 +100,9 @@ create the accounts below on chains such as Parity.
 
 
 
-### Getting ETH
+### Getting test-net ETH & ONE
 
-To get ETH in your account once on Ropsten, go to the [Ropsten ETH Faucet](http://faucet.ropsten.be:3001/)
+To get ETH in your account once on Ropsten, go to the [Ropsten ETH Faucet](http://faucet.ropsten.be:3001/). There is code in this repo which includes a ONE Token Faucet for those who don't have testnet ONE tokens.
 
 ### Running with Kovan contracts
 
@@ -170,7 +163,7 @@ Installing Parity:
 
 ### Testing
 
-For testing the TownHall dapp:
+For testing the Menlo One dapp:
 
       yarn test
 
