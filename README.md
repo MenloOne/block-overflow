@@ -1,7 +1,6 @@
 # Block Overflow
 #### A blockchain based discussion dApp that pays for answers. Built with the Menlo One's Townhall and Content Node components.
 
-======
 
 Block Overflow is the first application built with Menlo One. It uses the publicly deployed Menlo ONE Token as the utility token with which to post messages and win ONE token rewards for contributing the most upvoted content. [More info can be found on this announcement on Medium](https://medium.com/menlo-one/menlo-one-announces-block-overflow-a-blockchain-stack-overflow-that-pays-for-answers-550a8c259183).
 
