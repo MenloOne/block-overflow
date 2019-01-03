@@ -19,7 +19,7 @@ import ipfsAPI from 'ipfs-api'
 import { CID, IPFSFile } from 'ipfs'
 import PromiseRaceSuccess from '../utils/PromiseRaceSuccess'
 import { IIPFSMessage, IIPFSTopic } from '../ContentNode/BlockOverflow.cto'
-
+import config from '../config'
 
 export class IPFSMessage implements IIPFSMessage {
     version: number = 1
@@ -47,7 +47,7 @@ class RemoteIPFSStorage {
 
     constructor() {
         this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-        this.ipfsMenlo = ipfsAPI('ipfs.menlo.one', '4002', { protocol: 'https' })
+        this.ipfsMenlo = ipfsAPI(config.ipfsUrl, config.ipfsPort, { protocol: config.ipfsProtocol })
     }
 
     async createMessage(message : IPFSMessage) : Promise<CID> {
