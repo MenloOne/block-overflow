@@ -176,7 +176,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         <span style={{ display: 'none' }}>
                             <span className="points">??? points </span>
                         </span>
-                        {topic && topic.date && <Moment fromNow>{topic.endTime}</Moment>}
+                        {topic && topic.date && <Moment fromNow>{topic.date}</Moment>}
                     </div>
                 </div>
                 <div className="stats">
