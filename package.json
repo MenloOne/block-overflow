@@ -1,7 +1,6 @@
 {
-  "name": "block-overflow",
-  "version": "0.1.0",
-  "private": true,
+  "name": "Menlo One: Block Overflow",
+  "version": "1.0.0",
   "license": "MIT",
   "engines": {
     "node": "8.11.4",
