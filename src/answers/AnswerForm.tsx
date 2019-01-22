@@ -16,23 +16,49 @@
  */
 
 import React from 'react'
+import { toast } from 'react-toastify'
 import { withAcct } from '../models/Account'
+import utils from '../utils'
 import SimpleMDE from 'react-simplemde-editor';
 import "simplemde/dist/simplemde.min.css";
+import MetamaskModal from 'src/components/MetamaskModal';
 
 
-class AnswerForm extends React.Component {
-    state = {
-        message: '',
-        submitting: false
-    }
+class AnswerFormProps {
+    rows: number
+    icon?: string
+    onSubmit: (message: string) => void
+    onCancel?: () => void
+}
 
-    constructor(props) {
-        super(props)
+
+class AnswerFormState {
+    error: string | null
+    message: string
+    submitting: boolean
+}
+
+class AnswerForm extends React.Component<AnswerFormProps> {
+    textarea: HTMLTextAreaElement | null
+    state: AnswerFormState
+
+    constructor(props: AnswerFormProps, context) {
+        super(props, context)
 
         this.onChange = this.onChange.bind(this)
-        this.onCancel = this.onCancel.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+
+        this.updateTextareaHeight = this.updateTextareaHeight.bind(this);
+
+        this.state = {
+            error: null,
+            message: '',
+            submitting: false
+        }
+    }
+
+    componentDidMount() {
+        this.updateTextareaHeight();
     }
 
     async onSubmit(event) {
@@ -47,28 +73,44 @@ class AnswerForm extends React.Component {
                 error: null
             })
         } catch (e) {
-            this.setState({
-                error: e.message,
-                submitting: false,
+
+            let msg = e.message
+            let timeout = 4000
+
+            if (e.message === "Error: MetaMask Tx Signature: User denied transaction signature.") {
+                msg = "You cancelled the MetaMask transaction."
+                timeout = 1500
+            }
+
+            toast(msg, {
+                autoClose: timeout,
+                toastId: 2
             })
+
+            console.error(e)
+
+            throw e
         }
     }
 
     onChange(value) {
+        this.updateTextareaHeight();
         this.setState({ message: value })
     }
 
-    onCancel() {
-        this.setState({ message: '' })
+    updateTextareaHeight() {
+        if (this.textarea && this.textarea.scrollHeight < utils.getViewport().h * .8) {
+            this.textarea.style.height = `${this.textarea.scrollHeight + 2}px`; // +2 for border
+        }
     }
 
     render() {
         return (
             <form onSubmit={this.onSubmit}>
-                { this.props.rows == 1 &&
+                { this.props.rows === 1 &&
                     <div>
                         { this.props.icon &&
-                        <span className='comment-indicator'><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
+                        <span className={`comment-indicator  ${ this.props.icon.split('-')[2] }`}><i className={ `fa fa-fw ${ this.props.icon }` }/></span>
                         }
                         <textarea
                             className='field'
@@ -76,6 +118,7 @@ class AnswerForm extends React.Component {
                             value={this.state.message}
                             rows={ 1 }
                             autoFocus={true}
+                            ref={(ref) => this.textarea = ref}
                         />
                         <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Vote' />
                     </div>
@@ -94,8 +137,8 @@ class AnswerForm extends React.Component {
                         <input type="submit" className="btn submit-btn" disabled={this.state.submitting} value='Post Answer' />
                     </div>
                 }
-                <a href="" className="btn cancel-btn" onClick={this.onCancel}>Cancel</a>
-                {this.state.error && <p className="error new-message">{this.state.error}</p>}
+                { this.props.onCancel ? <a className="btn cancel-btn" onClick={this.props.onCancel}>Cancel</a> : null }
+                {this.state.submitting && <MetamaskModal />}
             </form>
         )
     }

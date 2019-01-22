@@ -4,20 +4,24 @@ import Blockies from 'react-blockies'
 import MarkDown from 'react-markdown-renderer'
 import Moment from 'react-moment'
 
-import { AccountContext, MetamaskStatus, withAcct } from '../models/Account'
+import { AccountContext, withAcct } from '../models/Account'
 import { Forum, ForumContext } from '../models/Forum'
-import Lottery from '../models/Lottery'
 import { CIDZero } from '../storage/HashUtils'
 
 import CountdownTimer from '../components/CountdownTimer'
+import Loader from '../components/Loader'
+import AddressTag from '../components/AddressTag'
 
-import AnswerView from './AnswerView'
+
+import utils from '../utils'
+
+import AnswerRow from './AnswerRow'
 import AnswerForm from './AnswerForm'
 
 import '../App.scss'
 import './Answers.scss'
 
-
+// const ONElogo = require('../images/menlo/menlo-one-logo-dark.svg')
 
 interface MessageBoardProps {
     acct: AccountContext,
@@ -28,7 +32,7 @@ interface MessageBoardState {
     messages: any[],
     topFive: boolean,
     isCommenting: boolean,
-    lottery?: Lottery,
+    url?: string,
     topicAvatar: Element | null
 }
 
@@ -42,9 +46,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
         this.onSubmitMessage = this.onSubmitMessage.bind(this)
         this.onChangeReplying = this.onChangeReplying.bind(this)
         this.claimWinnings = this.claimWinnings.bind(this)
-        this.refreshLotteries = this.refreshLotteries.bind(this)
         this.refreshMessages = this.refreshMessages.bind(this)
-        this.clickAnswer = this.clickAnswer.bind(this)
         this.clickClaimTokens = this.clickClaimTokens.bind(this)
 
         this.state = {
@@ -53,12 +55,16 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
             isCommenting: false,
             topicAvatar: null
         }
-
-        this.updateForum(props.forum)
     }
 
     componentWillMount() {
+        this.updateForum(this.props.forum)
         this.subscribe(this.props.forum.svc)
+    }
+
+    componentDidMount() {
+        const url = this.props.acct.svc.getEtherscanUrl(this.props.forum.model.contractAddress)
+        this.setState({ url })
     }
 
     componentWillUnmount() {
@@ -68,9 +74,6 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
     subscribe(forum: Forum) {
         forum.subscribeMessages(CIDZero, this.refreshMessages)
         this.refreshMessages()
-
-        forum.subscribeLotteries(this.refreshLotteries)
-        this.refreshLotteries()
     }
 
     unsubscribe(forum: Forum) {
@@ -86,12 +89,8 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
         }
     }
 
-    clickAnswer() {
-
-    }
-
     async clickClaimTokens() {
-        await this.props.forum.svc.lottery.claimWinnings()
+        await this.props.forum.svc.claimWinnings()
     }
 
     async updateForum(forum : ForumContext) {
@@ -99,7 +98,7 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
         this.subscribe(forum.svc)
 
         if (forum.model.topic) {
-            this.setState({ topicAvatar: <Blockies seed={ forum.model.topic.author } size={ 12 } scale={4} /> })
+            this.setState({ topicAvatar: <Blockies seed={ forum.model.topic.author } size={ 7 } scale={4} /> })
         } else {
             this.setState({ topicAvatar: null })
         }
@@ -110,15 +109,8 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
         this.setState({ messages })
     }
 
-    async refreshLotteries() {
-        const lottery = await this.props.forum.model.lottery
-        this.setState({ lottery })
-    }
-
     claimWinnings() {
-        if (this.state.lottery) {
-            this.state.lottery.claimWinnings()
-        }
+        this.props.forum.svc.claimWinnings()
     }
 
     async onSubmitMessage(body) {
@@ -154,17 +146,8 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
     }
 
     renderMessages() {
-        if (this.state.messages.length === 0 && (this.props.acct.model.status !== MetamaskStatus.Ok || !this.props.forum.svc.synced.isFulfilled())) {
-            return (
-                <li className='borderis message'>
-                    <div style={{ paddingBottom: '3em' }}>
-                        Loading Answers...
-                    </div>
-                </li>)
-        }
-
         if (this.state.messages.length === 0) {
-            if (this.props.forum.model.lottery.hasEnded) {
+            if (this.props.forum.svc.hasEnded) {
                 return (
                     <li className='borderis message'>
                         <div style={{ paddingBottom: '3em' }}>
@@ -187,10 +170,10 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
             return (
                 <div key={index} className='row'>
                     <div className='col-12'>
-                        <AnswerView key={m.id}
-                                    forum={this.props.forum}
-                                    message={m}
-                                    onChangeReplying={this.onChangeReplying}
+                        <AnswerRow key={m.id}
+                                   forum={this.props.forum}
+                                   message={m}
+                                   onChangeReplying={this.onChangeReplying}
                         />
                     </div>
                 </div>
@@ -198,107 +181,96 @@ class AnswersBoard extends React.Component<MessageBoardProps> {
         })
     }
 
-
     render() {
+
         return (
-            <div className="left-side">
-                <div className="QuestionHeader">
-                    <div className="QuestionHeader-logoWrapper">
+            <div>
+                <div className="left-side">
+                    <div className="QuestionHeader">
                         <span className="user-img">
-                            { this.state.topicAvatar }
+                            {this.state.topicAvatar}
                         </span>
-                    </div>
-                    <div className="QuestionHeader-textWrapper">
-                        <h6>
-                            { this.props.forum.model.topic && this.props.forum.model.topic.title }
-                        </h6>
-                        <div className="tag-name-wrapper">
-                            <span className="tag-name">{this.props.forum.model.topic ? this.props.forum.model.topic.author : '...'}</span>
-                        </div>
+                        {this.props.forum.model.topic && this.props.forum.model.topic.author && <AddressTag link={true} copy={true} address={this.props.forum.model.topic.author} />}
                         <span style={{ display: 'none' }}>?? points</span>
-                        <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>
-                    </div>
-                    <div className="QuestionHeader-countdown">
-                        {
-                            this.props.forum.model.lottery.hasEnded &&
-                            <span>
-                                <p>QUESTION CLOSED</p>
-                                {
-                                    this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner === this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&
-                                    <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>RECLAIM TOKENS</a>
-                                }
-                                {
-                                    this.props.forum.model.lottery.iWon && this.props.forum.model.lottery.winner !== this.props.acct.model.address && this.props.forum.model.lottery.tokenBalance > 0 &&
-                                    <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
-                                }
-                            </span>
-                        }
-                        {this.state.lottery &&
-                        <CountdownTimer date={new Date(this.state.lottery.endTime)}/>}
-                    </div>
-                </div>
-                <div className="Question-stats">
-                    <div className="stat">
-                        <div className="number-circle"><span>{ this.props.forum.model.lottery.pool.toFixed(0) }</span></div>
-                        <div className="stat-label-wrapper">
-                            <span>Payout for Winning Answer</span>
-                            <span>{ this.props.forum.model.lottery.pool.toFixed(0) } ONE Tokens</span>
-                        </div>
-                    </div>
-                    <div className="stat">
-                        <div className="number-circle"><span>{ this.state.messages.length }</span></div>
-                        <div className="stat-label-wrapper">
-                            <span>Activity</span>
-                            <span>{ this.state.messages.length } Answer{ this.state.messages.length > 1 ? 's' : '' }</span>
-                        </div>
-                    </div>
-                    <div className="stat">
-                        <div className="stat-label-wrapper">
-                            <span>Total Votes</span>
-                            <span>
-                            <i className="fa fa-fw fa-thumbs-up"></i>
-                            { this.props.forum.model.lottery.winningVotes }
-                        </span>
-                        </div>
-                    </div>
-                </div>
-                <div className="Question-wrapper left-side-wrapper">
-                    <span className="small-heading">Question</span>
-                    { this.props.forum.model.topic ? <MarkDown markdown={this.props.forum.model.topic.body}/> : '...' }
-                    <p className="Question-actionWrapper">
-                        {
-                            !this.props.forum.model.lottery.hasEnded &&
-                            <a href='#answerForm'>
-                                <span className="Question-reply">
-                                    Answer
+                        {this.props.forum.model.topic && <Moment fromNow>{this.props.forum.model.topic ? this.props.forum.model.topic.date : ''}</Moment>}
+                        <div>
+                            {
+                                this.props.forum.svc.hasEnded &&
+                                <span>
+                                    <span className="QuestionHeader-annotation">QUESTION CLOSED</span>
+                                    {!this.state.messages.length && <span className="QuestionHeader-annotation">NO ANSWER</span>}
+                                    {
+                                        this.props.forum.svc.iWon && !this.props.forum.model.claimed &&
+                                        <a className='main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM TOKENS</a>
+                                    }
                                 </span>
-                            </a>
-                        }
+                            }
+                        </div>
                         <a href="">
                             <span className="Question-permalink">
                                 Permalink
                             </span>
                         </a>
-                        <a href="">
+                        {/* <a href={''}>
+                            <span className="Question-ipfsSource">
+                                IPFS Source
+                            </span>
+                        </a> */}
+                        <a target="_blank" href={this.state.url}>
+                            <span className="Question-ethereumTx">
+                                Ethereum Tx
+                            </span>
                         </a>
-                    </p>
-                </div>
-                <div className="left-side-wrapper townhall">
-                    <div className="comments">
-                        <div className="message-wrapper">
-                            <span className="small-heading">Answers</span>
-                            <ul>
-                                { this.renderMessages() }
-                                {
-                                    !this.state.isCommenting && !this.props.forum.model.lottery.hasEnded &&
-                                    <li>
-                                        <a id='answerForm'/>
-                                        <div className='reply-form'>
-                                            <AnswerForm onSubmit={this.onSubmitMessage} rows={10}/>
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
+                    </div>
+                    <div className="Question-wrapper left-side-wrapper">
+                        {
+                            <h6>
+                                {this.props.forum.model.topic && this.props.forum.model.topic.title}
+                            </h6>
+                        }
+                        {this.props.forum.model.topic && this.props.forum.model.topic.body ? <MarkDown markdown={this.props.forum.model.topic.body} /> : null}
+
+                        <div className="Question-urgency">
+                            <div>
+                                {!this.props.forum.svc.hasEnded && <span><span className="small-subtitle">BOUNTY</span><br /></span>}
+                                {this.props.forum.model.pool ? (<span className="Question-payout">
+                                    {utils.formatNumber((this.props.forum.model.pool / 10 ** 18).toFixed(0))} ONE
+                                    {/* <span className="one-icon"><img src={ONElogo} alt="" /></span> */}
+                                </span>) : (<Loader size={22} />)}
+                                {this.props.forum.svc.hasEnded &&  this.props.forum.model.claimed && (this.props.forum.model.author !== this.props.forum.svc.winner) && <span><br /><span className="small-subtitle">REWARDED TO WINNER</span></span>}
+                                {this.props.forum.svc.hasEnded &&  this.props.forum.model.claimed && (this.props.forum.model.author === this.props.forum.svc.winner) && <span><br /><span className="small-subtitle">BOUNTY RECLAIMED BY AUTHOR</span></span>}
+                                {this.props.forum.svc.hasEnded && !this.props.forum.model.claimed ? <span><br /><span className="small-subtitle">TO BE CLAIMED</span></span> : null}
+                            </div>
+                            {(this.state && this.props.forum.model.endTimestamp && this.props.forum.model.endTimestamp !== 0 && this.props.forum.model.endTimestamp > Date.now()) ?
+                            (
+                            <div>
+                                <div className="Question-countdownWrapper">
+                                    <span className="small-subtitle">TIME LEFT</span>
+                                    <CountdownTimer date={new Date(this.props.forum.model.endTimestamp)} />
+                                </div>
+                            </div>
+                            ) : (null)
+                            }
+                        </div>
+
+                    </div>
+                    <div className="left-side-wrapper townhall">
+                        <div className="comments">
+                            <div className="message-wrapper">
+                                <span className="small-heading">Answers</span>
+                                <ul>
+                                    {this.renderMessages()}
+                                    {
+                                        !this.state.isCommenting && !this.props.forum.svc.hasEnded &&
+                                        <li>
+                                            <a id='answerForm' />
+                                            <div className='reply-form'>
+                                                <AnswerForm onSubmit={this.onSubmitMessage} rows={10} />
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

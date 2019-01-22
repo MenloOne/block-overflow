@@ -16,11 +16,12 @@
  */
 
 import ipfsAPI from 'ipfs-api'
-import PromiseTimeout  from '../utils/PromiseTimeout'
 import { CID, IPFSFile } from 'ipfs'
+import PromiseRaceSuccess from '../utils/PromiseRaceSuccess'
+import { IIPFSMessage, IIPFSTopic } from '../ContentNode/BlockOverflow.cto'
+import config from '../config'
 
-
-export class IPFSMessage {
+export class IPFSMessage implements IIPFSMessage {
     version: number = 1
     offset:  number = -1
     topic:   number = 0
@@ -30,7 +31,7 @@ export class IPFSMessage {
     body:    string = ''
 }
 
-export class IPFSTopic {
+export class IPFSTopic implements IIPFSTopic {
     version: number = 1
     offset:  number = -1
     author:  string = ''
@@ -41,12 +42,12 @@ export class IPFSTopic {
 
 class RemoteIPFSStorage {
 
-    private ipfs      : ipfs
-    private ipfsMenlo : ipfs
+    private readonly ipfs      : ipfs
+    private readonly ipfsMenlo : ipfs
 
     constructor() {
         this.ipfs = ipfsAPI('ipfs.infura.io', '5001', {protocol: 'https'})
-        this.ipfsMenlo = ipfsAPI('ipfs.menlo.one', '443', { protocol: 'https' })
+        this.ipfsMenlo = ipfsAPI(config.ipfsUrl, config.ipfsPort, { protocol: config.ipfsProtocol })
     }
 
     async createMessage(message : IPFSMessage) : Promise<CID> {
@@ -54,10 +55,11 @@ class RemoteIPFSStorage {
             path: `/${message.topic}/${message.offset}.json`,
             content: Buffer.from(JSON.stringify(message))
         }
-        const result = await this.ipfs.files.add([file], { pin: true })
+        const result = await new PromiseRaceSuccess().timeout(5000, [
+            this.ipfs.files.add([file], { pin: true }),
+            this.ipfsMenlo.files.add([file], { pin: true })
+        ])
         const hash = result[0].hash
-
-        await (this.ipfsMenlo as any).pin.add(hash)
 
         /*
         console.log(`Created ${hash}`)
@@ -87,10 +89,11 @@ class RemoteIPFSStorage {
             path: `/${topic.offset}/Topic.json`,
             content: Buffer.from(JSON.stringify(topic))
         }
-        const result = await this.ipfs.files.add([file], { pin: true })
+        const result = await new PromiseRaceSuccess().timeout(5000, [
+            this.ipfs.files.add([file], { pin: true }),
+            this.ipfsMenlo.files.add([file], { pin: true })
+        ])
         const hash = result[0].hash
-
-        await (this.ipfsMenlo as any).pin.add(hash)
 
         /*
         console.log(`Created ${hash}`)
@@ -118,18 +121,20 @@ class RemoteIPFSStorage {
     async getMessage<T>(hash : CID) : Promise<T> {
         let tries = 4
         let files : IPFSFile[] | null = null
-        let ipfs = this.ipfsMenlo
 
         do {
 
             try {
-                files = await PromiseTimeout(10000, ipfs.files.get(hash))
+                files = await new PromiseRaceSuccess().timeout(5000, [
+                    this.ipfs.files.get(hash),
+                    this.ipfsMenlo.files.get(hash)
+                ])
             } catch (e) {
+                console.error(e)
+
                 if (tries-- === 0) {
                     throw (e)
                 }
-
-                ipfs = (ipfs === this.ipfsMenlo) ? this.ipfs : this.ipfsMenlo
             }
         } while (!files)
 

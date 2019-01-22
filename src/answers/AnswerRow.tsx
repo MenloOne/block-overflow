@@ -24,6 +24,8 @@ import MarkdownRenderer from 'react-markdown-renderer';
 import Message from '../models/Message'
 import { ForumContext } from '../models/Forum'
 
+import AddressTag from '../components/AddressTag';
+
 import MessageForm from './AnswerForm'
 
 import '../App.scss'
@@ -55,7 +57,7 @@ interface MessageViewState {
     originalHeight: string | number
 }
 
-export default class AnswerView extends React.Component<MessageViewProps> {
+export default class AnswerRow extends React.Component<MessageViewProps> {
 
     state : MessageViewState
     bodyElement : any
@@ -77,7 +79,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
         this.upvote = this.upvote.bind(this)
         this.downvote = this.downvote.bind(this)
 
-        this.commentMaxHeight = 210;
+        this.commentMaxHeight = 300;
     }
 
     toggle = () => {
@@ -112,39 +114,55 @@ export default class AnswerView extends React.Component<MessageViewProps> {
         this.setState({ children: replies })
     }
 
-    async submitComment(_body) {
-
-        let body = _body.trim()
-        if (body.length === 0) {
-            body = null
-        }
-
-        if ( this.state.commentFormState === CommentFormState.OpenForUpvote) {
-            await this.props.forum.svc.upvoteAndComment(this.props.message.id, body)
-        } else {
-            await this.props.forum.svc.downvoteAndComment(this.props.message.id, body)
-        }
-
+    onCancel() {
         this.setState({
             commentFormState: CommentFormState.Closed
         })
-        /*
-
-        const child = (
-            <Topic key={message.id}
-                     message={message}
-                     forumService={this.props.forum}/>
-        )
-
-        this.showReplies(true)
-        this.setState({
-            children: [...this.state.children, child],
-            showCommentForm: false
-        })
-         */
 
         if (this.props.onChangeReplying) {
             this.props.onChangeReplying(false)
+        }
+    }
+
+    async submitComment(_body) {
+
+        try {
+
+            let body = _body.trim()
+            if (body.length === 0) {
+                body = null
+            }
+
+            if (this.state.commentFormState === CommentFormState.OpenForUpvote) {
+                await this.props.forum.svc.upvoteAndComment(this.props.message.id, body)
+            } else {
+                await this.props.forum.svc.downvoteAndComment(this.props.message.id, body)
+            }
+
+            this.setState({
+                commentFormState: CommentFormState.Closed
+            })
+            /*
+    
+            const child = (
+                <Topic key={message.id}
+                         message={message}
+                         forumService={this.props.forum}/>
+            )
+    
+            this.showReplies(true)
+            this.setState({
+                children: [...this.state.children, child],
+                showCommentForm: false
+            })
+             */
+
+            if (this.props.onChangeReplying) {
+                this.props.onChangeReplying(false)
+            }
+            
+        } catch (error) {
+            throw error
         }
     }
 
@@ -205,11 +223,12 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                 <li key={message.id} className="borderis message">
                     <div className="user-img">
                         { message.author &&
-                        <Blockies seed={message.author} size={ 12 } scale={ 4 }/>
+                        <Blockies seed={message.author} size={ 11 } scale={ 4 }/>
                         }
                     </div>
                     <div className="content">
                         <MarkdownRenderer markdown={message.body}/>
+                        <span><Moment fromNow>{message.date}</Moment></span>
                     </div>
                 </li>
             )
@@ -220,11 +239,11 @@ export default class AnswerView extends React.Component<MessageViewProps> {
         const { height } = this.state;
 
         const message = this.props.message
-
+        
         return (
-            <li className="borderis message">
+            <li className={`borderis message ${message.confirmed ? null : 'unconfirmed'}`}>
                 {
-                    this.props.forum.model.lottery.winningMessage && this.props.forum.model.lottery.winningMessage.id === message.id &&
+                    this.props.forum.model.winningMessage && this.props.forum.model.winningMessage.id === message.id &&
                     <i className='fa fa-check winning-check' />
                 }
                 <div className="user-img">
@@ -233,9 +252,7 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                     }
                 </div>
                 <div className="content">
-                    <div className="tag-name-wrapper">
-                        <span className="tag-name">{message.author}</span>
-                    </div>
+                    {message && message.author && <AddressTag copy={true} link={true} address={message.author} /> }
                     <span className="points" style={{ display: 'none' }}>??? points </span>
                     <span className="time">
                         <Moment fromNow>{message.date}</Moment>
@@ -258,12 +275,14 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                         Collapse Comment
                     </button>
                     }
-                    <div className="comments-votes">
+                    {(!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled() || this.state.children.length > 0) && <div className="comments-votes">
                         { this.renderVotes() }
                         { (!this.props.message.upvoteDisabled() || !this.props.message.downvoteDisabled()) &&
-                        <span >
-                                <a onClick={this.upvote}   disabled={this.props.message.upvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}><span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span></a>
-                                <a onClick={this.downvote} disabled={this.props.message.downvoteDisabled() || this.state.commentFormState !== CommentFormState.Closed}>
+                            <span >
+                                <a onClick={this.upvote} disabled={this.props.message.upvoteDisabled()}>
+                                    <span className="Question-upvote"><img src={voteTriangle} className="icon-upvote" />Upvote</span>
+                                </a>
+                                <a className='ml-2' onClick={this.downvote} disabled={this.props.message.downvoteDisabled()}>
                                     <span className="Question-downvote">
                                         <img src={voteTriangle} className="icon-downvote" />
                                         Downvote
@@ -286,19 +305,23 @@ export default class AnswerView extends React.Component<MessageViewProps> {
                             {this.state.children.length > 0 &&
                             <span>
                                 {this.state.showReplies &&
-                                <a className="hideReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide Comments </em></a>}
+                                <a className="hideReplies ml-3" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Hide Comments </em></a>}
                                 {!this.state.showReplies &&
-                                <a className="showReplies" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show Comments</em> ({message.children.length})</a>}
+                                <a className="showReplies ml-3" onClick={() => this.showReplies(!this.state.showReplies)}> <em className="blue">Show Comments</em> ({message.children.length})</a>}
                             </span>
                             }
                         </span>
                         }
                     </div>
+                    }
                     <ul>
                         {this.state.showReplies && this.renderReplies()}
                     </ul>
                     {this.state.commentFormState !== CommentFormState.Closed &&
-                        <MessageForm onSubmit={(message) => this.submitComment(message)} rows={1} icon={ this.state.commentFormState === CommentFormState.OpenForUpvote ? 'fa-thumbs-up' : 'fa-thumbs-down' }/>
+                        <MessageForm onSubmit={(message) => this.submitComment(message)}
+                                     onCancel={() => this.onCancel()}
+                                     rows={1}
+                                     icon={ this.state.commentFormState === CommentFormState.OpenForUpvote ? 'fa-thumbs-up' : 'fa-thumbs-down' }/>
                     }
                 </div>
             </li>

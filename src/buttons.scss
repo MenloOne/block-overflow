@@ -1,12 +1,13 @@
 a, input {
   &.btn {
+    outline: none;
+    line-height: 3em;
     border-radius: 3px;
     font-family: 'Titillium web', 'Helvetica Neue';
     font-size: 13px;
     font-weight: bold;
     font-style: normal;
     font-stretch: normal;
-    line-height: normal;
     letter-spacing: normal;
     text-align: center;
     border: solid 1px #eaeaea !important;
@@ -32,11 +33,22 @@ a, input {
     &.btn-green {
       background: #6EB735 !important;
       color: white !important;
+      &:hover {
+        background-color: darken(#6EB735, 10%) !important;
+      }
     }
 
     &.btn-grey {
       background: #f3f3f3 !important;
       color: black !important;
+    }
+
+    &.more-btn {
+      border: none !important;
+      color: #154dca !important;
+      &:hover {
+        background: #ececed !important;
+      }
     }
 
     &.claim-btn {
@@ -73,6 +85,9 @@ a, input {
     border-color: #154dca !important;
     color: #ffffff !important;
     margin-bottom: 1rem;
+    &:hover {
+      background-color: darken(#154dca, 10%) !important;
+    }
   }
 
   &.ask-btn {
@@ -84,6 +99,7 @@ a, input {
     margin-left: 19px;
     padding-left: 2rem;
     padding-right: 2rem;
+    margin: 0;
   }
 
   &.submit-btn[disabled] {
@@ -98,6 +114,7 @@ a, input {
     float: right;
     width: 77px;
     display: inline-block;
+    margin-right: 1rem;
 
     &[disabled] {
       color: grey !important;
@@ -106,3 +123,10 @@ a, input {
   }
 }
 
+button.btn-blank {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
