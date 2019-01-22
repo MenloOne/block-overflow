@@ -38,21 +38,30 @@ class Sidebar extends React.Component<SidebarProps> {
                 </div>
                 <div className="block-padding">
                     <div className="moreinfo-btns-wrapper">
-                        <a href="https://menloone.docsend.com/view/zgf6d4e" target="_blank">
+                        <a href="https://www.menlo.one/docs/" target="_blank">
                             <div className="moreinfo-btn">
                                 <img src={paper} className="icon-paper" />
                                 <div className="moreinfo-btn-textwrapper">
-                                    <span>Whitepaper</span>
+                                    <span>Developer Docs</span>
+                                    <span>Build a Menlo dApp like this</span>
                                 </div>
                                 <img src={arrowRight} className="arrow-right" />
                             </div>
                         </a>
-                        <a href="http://menlo.one" target="_blank">
+                        <a href="https://menlo.one" target="_blank">
                             <div className="moreinfo-btn">
                                 <img src={globe} className="icon-globe" />
                                 <div className="moreinfo-btn-textwrapper">
-                                    <span>Website</span>
-                                    <span>http://menlo.one</span>
+                                    <span>Menlo One Website</span>
+                                </div>
+                                <img src={arrowRight} className="arrow-right" />
+                            </div>
+                        </a>
+                        <a href="https://medium.com/menlo-one/menlo-framework-alpha-is-live-bb16a034fd90" target="_blank">
+                            <div className="moreinfo-btn">
+                                <img src={globe} className="icon-globe" />
+                                <div className="moreinfo-btn-textwrapper">
+                                    <span>About the Menlo Framework</span>
                                 </div>
                                 <img src={arrowRight} className="arrow-right" />
                             </div>
@@ -97,12 +106,11 @@ class Sidebar extends React.Component<SidebarProps> {
                         </div>
                         <div className="block-padding">
                             <div className="moreinfo-btns-wrapper">
-                                <a href="https://www.bitmart.com" target="_blank">
+                                <a href="https://www.bitmart.com/trade?symbol=ONE_ETH" target="_blank">
                                     <div className="moreinfo-btn">
                                         <img src={bitmart} className="icon-globe" />
                                         <div className="moreinfo-btn-textwrapper">
                                             <span>Bitmart</span>
-                                            <span>https://www.bitmart.com</span>
                                         </div>
                                         <img src={arrowRight} className="arrow-right" />
                                     </div>
@@ -112,7 +120,6 @@ class Sidebar extends React.Component<SidebarProps> {
                                         <img src={metal} className="icon-globe" />
                                         <div className="moreinfo-btn-textwrapper">
                                             <span>IDEX</span>
-                                            <span>https://idex.market</span>
                                         </div>
                                         <img src={arrowRight} className="arrow-right" />
                                     </div>
