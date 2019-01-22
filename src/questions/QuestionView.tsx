@@ -21,7 +21,8 @@ import Blockies from 'react-blockies'
 
 import { TopicsContext, withTopics } from "../models/Topics";
 import Topic from "../models/Topic";
-import CountdownTimer from '../components/CountdownTimer'
+// import CountdownTimer from '../components/CountdownTimer'
+import AddressTag from '../components/AddressTag'
 
 import '../App.scss'
 import './Questions.scss'
@@ -49,7 +50,6 @@ class QuestionView extends React.Component<TopicViewProps> {
         super(props)
 
         this.onClickTopic = this.onClickTopic.bind(this)
-        this.renderClosed = this.renderClosed.bind(this)
 
         this.state = {
             showReplyForm: false,
@@ -79,80 +79,36 @@ class QuestionView extends React.Component<TopicViewProps> {
         return this.messageStatus() === 'pending'
     }
 
-    async clickClaimTokens() {
-        await this.props.topic.claimWinnings()
-    }
-
-    renderClosed() {
-        if (!this.props.topic.isAnswered && this.props.topic.metadata!.isClosed) {
-            return (
-                <span>
-                    <span className='closed'>NO ANSWER</span>
-                    {
-                        this.props.topic.iWon && !this.props.topic.isClaimed &&
-                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>RECLAIM TOKENS</a>
-                    }
-                </span>
-            )
-        }
-
-        if (this.props.topic.iWon) {
-            return (
-                <span>
-                    <span className='closed'>YOU WON!</span>
-                    {
-                        this.props.topic.iWon && !this.props.topic.isClaimed &&
-                        <a className='btn main-btn btn-claim' onClick={this.clickClaimTokens}>CLAIM WON TOKENS</a>
-                    }
-                </span>
-            )
-        }
-
-        return <span className='closed'>CLOSED</span>
-    }
 
     render() {
         const topic = this.props.topic
+        
 
         return (
-            <li className='question'>
-                <a onClick={ this.onClickTopic } >
+            <div className='question'>
+                <a
+                    onClick={ this.onClickTopic }
+                >
                     <div className='user-img'>
                         <Blockies size={12} scale={4} seed={topic.author}/>
                     </div>
                     <div className="content">
                         <span className="title">
-                            { (topic.title && topic.title.length > 4) ?
-                                topic.title
-                                :
-                                topic.body.substr(0, 100)
-                            }
+                            {topic.title}
                         </span>
                         <div>
-                            <div className="tag-name-wrapper">
-                                <span className="tag-name-0x">0x</span>
-                                <span className="tag-name">{topic ? topic.author.slice(2, topic.author.length) : '...'}</span>
-                                <span className="tag-name-dots">…</span>
-                            </div>
+                            {topic && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
                             <span>
                                 <span className="points" style={{ display: 'none' }}>??? points </span>
                             </span>
                             <Moment fromNow>{topic.date}</Moment>
                         </div>
                     </div>
-                    <div className='stats'>
-                        { topic.totalAnswers }
-                        <span className='subtitle'>ANSWERS</span>
-                    </div>
-                    <div className='stats'>
-                        { topic.winningVotes }
-                        <span className='subtitle'>VOTES</span>
-                    </div>
-                    <div className='stats stats-timer'>
-                        <CountdownTimer date={ new Date(topic.endTime) } renderCompleted={ this.renderClosed }/>
-                    </div>
+                    {/* <div className='stats'>
+                        <CountdownTimer date={Date.now() + (Math.random() * 1000000) } />
+                    </div> */}
                 </a>
-            </li>
+            </div>
         )
     }
 }

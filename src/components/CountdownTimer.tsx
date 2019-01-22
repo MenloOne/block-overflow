@@ -4,7 +4,8 @@ import Countdown from 'react-countdown-now'
 import './CountdownTimer.scss'
 
 class CountdownTimerProps {
-    date: Date
+    date: Date;
+    compact?: boolean;
     renderCompleted?: () => void
 }
 
@@ -12,10 +13,31 @@ export default class CountdownTimer extends Component<CountdownTimerProps> {
 
     constructor(props : CountdownTimerProps, context) {
         super(props, context)
-        this.renderer = this.renderer.bind(this)
+        this.renderBlockLayout = this.renderBlockLayout.bind(this)
+        this.renderInlineLayout = this.renderInlineLayout.bind(this)
     }
 
-    renderer({ days, hours, minutes, seconds, completed }) {
+    renderInlineLayout({ days, hours, minutes, seconds, completed }) {
+        if (completed) {
+            if (this.props.renderCompleted) {
+                return this.props.renderCompleted()
+            }
+
+            return null
+        }
+
+        return (
+            <span className="time-inline">
+                {parseInt(days, 10) > 0 && (
+                    <span>{days}d</span>
+                )}
+                <span>{hours}h</span>
+                <span>{minutes}m</span>
+            </span>
+        )
+    }
+
+    renderBlockLayout({ days, hours, minutes, seconds, completed }) {
         if (completed) {
             if (this.props.renderCompleted) {
                 return this.props.renderCompleted()
@@ -26,12 +48,8 @@ export default class CountdownTimer extends Component<CountdownTimerProps> {
 
         return (
             <div className="time-watch">
-                {parseInt(days, 10) > 0 && (
-                    <span>
-                        <div>{days}<span>Days</span></div>
-                        <div className="dots">:</div>
-                    </span>
-                )}
+                <div>{days}<span>Days</span></div>
+                <div className="dots">:</div>
                 <div>{hours}<span>Hours</span></div>
                 <div className="dots">:</div>
                 <div>{minutes}<span>Minutes</span></div>
@@ -43,7 +61,7 @@ export default class CountdownTimer extends Component<CountdownTimerProps> {
 
     render() {
         return (
-            <Countdown date={ this.props.date } zeroPadLength={2} renderer={ this.renderer } />
+            <Countdown date={this.props.date} zeroPadLength={2} renderer={ this.props.compact ? this.renderInlineLayout : this.renderBlockLayout } />
         )
     }
 }

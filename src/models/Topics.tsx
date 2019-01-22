@@ -15,232 +15,182 @@
  */
 
 import * as React from 'react'
+import { toast } from 'react-toastify'
 
 import web3 from './Web3'
-import TruffleContract from 'truffle-contract'
-import BigNumber from 'bignumber.js'
 
 import RemoteIPFSStorage, { IPFSTopic } from '../storage/RemoteIPFSStorage'
 import HashUtils from '../storage/HashUtils'
 
 import { QPromise } from '../utils/QPromise'
 
-import TokenContract   from 'menlo-token/build/contracts/MenloToken.json'
-import TopicsContract  from '../artifacts/MenloTopics.json'
 import { MenloTopics } from '../contracts/MenloTopics'
-// import { MenloToken } from '../contracts/MenloToken'
+import { MenloToken } from '../contracts/MenloToken'
 
 import { Account } from './Account'
-import Topic from './Topic'
-import { MenloForum } from '../contracts/MenloForum'
+import Topic  from './Topic'
+import { ContentNode } from '../ContentNode/BlockOverflow'
+import { MessageCTOGet, TopicCTOGet } from '../ContentNode/BlockOverflow.cto'
 
 
 export class TopicsModel {
     public topics: Topic[] = []
+    public query: string | null = null
+    public total: number = 0
 }
 
 export type TopicsContext = { model: TopicsModel, svc: Topics }
 
 
-type TopicsCallback = (topic: Topic | null) => void
-const TOPIC_LENGTH : number = 24 * 60 * 60
+type TopicsCallback = (topic?: Topic) => void
+const TOPIC_LENGTH_SECONDS : number = 24 * 60 * 60
 
 export class Topics extends TopicsModel {
 
     public ready: any
-    public synced: any
 
     // Private
-
     private signalReady: () => void
-    private signalSynced: () => void
 
-    private tokenContractJS: any
+    private currentToken : string | null = null
+    private nextToken : string | null = null
+
+    private tokenContract: MenloToken
     private contract: MenloTopics | null
 
-    private actions: { newTopic }
-
-    public  account: Account | null
+    private account: string | null
+    public  acctSvc: Account | null
     private remoteStorage: RemoteIPFSStorage
     private topicsCallback: TopicsCallback | null
 
-    private initialTopicCount: number
-    private filledTopicsCounter: number = 0
-    private topicOffsets: Map<string, number> | {}
-    private topicHashes: string[]
+    public  ACTION_NEWTOPIC: number
 
+    private cn: ContentNode
+    private socket: SocketIOClient.Socket | null = null
 
     constructor() {
         super()
 
         this.ready  = QPromise((resolve) => { this.signalReady = resolve })
-        this.synced = QPromise((resolve) => { this.signalSynced = resolve })
 
         this.remoteStorage = new RemoteIPFSStorage()
         this.account = null
         this.topicsCallback = null
+
+        this.cn = new ContentNode()
+    }
+
+    public setSocket(socket: SocketIOClient.Socket) {
+        if (this.socket) {
+            this.socket.disconnect()
+        }
+        this.socket = socket
+        socket.connect()
+
+//        socket.emit('events', ['NewTopic'] )
+        socket.on('NewTopic', (topic : TopicCTOGet) => {
+            console.log('NewTopic ', topic)
+            this.queryCN()
+        })
+
+        socket.on('NewMessage', (message : MessageCTOGet) => {
+            console.log('Saw new message ', message)
+
+            if (this.topics.filter(t => t.forumAddress === message.forumAddress).length > 0) {
+                this.queryCN()
+            }
+        })
     }
 
     public setCallback(callback : TopicsCallback) {
         this.topicsCallback = callback
     }
 
-    async setAccount(acct : Account) {
-        if (this.account && acct.address === this.account.address) {
+    public setFilter(query: string, filters?: { any }) {
+        if (query === this.query) {
+            return
+        }
+
+        this.query = query
+        this.currentToken = null
+        this.nextToken = null
+
+        this.queryCN()
+    }
+
+    public clearFilters() {
+        this.query = null
+        this.currentToken = null
+        this.nextToken = null
+
+        this.queryCN()
+    }
+
+    public getNextPage() {
+        this.queryCN(this.nextToken)
+    }
+
+    async queryCN(next?: string | null) {
+        const currentToken = next ? next : this.currentToken
+        const topics = await this.cn.getTopics(this.query, currentToken)
+
+        this.ACTION_NEWTOPIC   = topics.ACTION_NEWTOPIC
+        this.total             = topics.total
+        this.query             = topics.query
+        this.currentToken      = currentToken
+        this.nextToken         = topics.continuation
+        this.topics            = topics.topics.map(t => new Topic(this, t))
+
+        this.signalReady()
+
+        this.onModifiedTopic()
+    }
+
+    async setWeb3Account(acct : Account) {
+        await this.queryCN()
+
+        if (this.socket) {
+            this.socket.connect()
+        }
+
+        if (acct.address === this.account || acct.address === null) {
             return
         }
 
         try {
-            this.account = acct
+            this.account = acct.address
+            this.acctSvc = acct
 
-            const tokenContract = TruffleContract(TokenContract)
-            await tokenContract.setProvider(web3.currentProvider)
-            tokenContract.defaults({ from: this.account.address })
-            this.tokenContractJS = await tokenContract.deployed()
+            this.tokenContract = await MenloToken.createAndValidate(web3, this.acctSvc.contractAddresses.MenloToken)
+            this.contract = await MenloTopics.createAndValidate(web3, this.acctSvc.contractAddresses.MenloTopics)
+            // this.watchForTopics()
 
-            const topicsContract = TruffleContract(TopicsContract)
-            await topicsContract.setProvider(web3.currentProvider)
-            topicsContract.defaults({ from: this.account.address })
-            const topicAddress = (await topicsContract.deployed()).address
-            this.contract = await MenloTopics.createAndValidate(web3, topicAddress)
-
-            this.topicOffsets = {}
-            this.topicHashes = []
-            this.initialTopicCount = (await this.contract.topicsCount).toNumber()
-
-            const newTopic = (await this.contract.ACTION_NEWTOPIC).toNumber()
-            this.actions = { newTopic }
-
-            this.watchForTopics()
-
-            this.signalReady()
-
-            if (this.initialTopicCount === 0) {
-                this.signalSynced()
-            }
-
-            this.onModifiedTopic(null)
         } catch (e) {
             console.error(e)
-            throw(e)
+            // throw(e)
         }
     }
 
-    async watchForTopics() {
-        await this.ready
-        const topics = this.contract!
+    onModifiedTopic(topic?: Topic) {
 
-        topics.NewTopicEvent({}).watch({fromBlock:0, toBlock:'latest'}, (error, result) => {
-            if (error) {
-                console.error( error )
-                return
-            }
-
-            const forumAdddress = result.args._forum.toString()
-
-            if (typeof this.topicHashes[forumAdddress] !== 'undefined') {
-                console.error('Received duplicate Topic! ', forumAdddress)
-                return
-            }
-
-            const offset = this.topicHashes.length
-            console.log(`[[ Topic ]] ( ${offset} ) ${forumAdddress}`)
-
-            this.topicOffsets[forumAdddress] = offset
-            this.topicHashes.push(forumAdddress)
-
-            const message = new Topic( this, forumAdddress, offset )
-            this.topics.push(message)
-            this.fillTopic(message)
-        })
-    }
-
-    async fillTopic(topic: Topic) {
-        await this.ready
-        const contract = this.contract!;
-
-        try {
-            const md: [string, boolean, BigNumber, BigNumber, string] = await contract.forums(topic.forumAddress)
-            topic.metadata = {
-                messageHash: HashUtils.solidityHashToCid(md[0]),
-                isClosed:    md[1]
-            }
-
-            // console.log(`[[ Fill Topic ]] ( ${topic.offset} ) ${topic.metadata.messageHash}`)
-
-            const ipfsTopic = await this.remoteStorage.getMessage(topic.metadata.messageHash)
-            Object.assign(topic, ipfsTopic)
-
-            // Grab data from the actual Forum contract
-            const forumContract = await MenloForum.createAndValidate(web3, topic.forumAddress);
-            [topic.endTime, topic.winningVotes, topic.totalAnswers] = (await Promise.all([
-                forumContract.endTimestamp,
-                forumContract.winningVotes,
-                forumContract.postCount
-                ])).map(bn => bn.toNumber());
-            topic.totalAnswers -= 1;
-
-            [topic.winner] =  (await Promise.all([
-                forumContract.winner
-            ]));
-
-            topic.endTime *= 1000 // Convert to Milliseconds
-            topic.isAnswered = (topic.winner !== topic.author)
-            topic.iWon = (topic.winner === this.account!.address)
-            topic.isClaimed = ((await this.tokenContractJS.balanceOf(topic.forumAddress)).toNumber() === 0)
-
-            topic.error  = null
-            topic.filled = true
-        } catch (e) {
-            console.log('Error with Topic ', topic, ' Error ', e)
-
-            if (!topic.error) {
-                setTimeout(() => { this.fillTopic(topic) }, 100)
-            }
-
-            topic.error = e
-            topic.title = 'IPFS Retrieval Issue. Retrying...'
-            topic.body  = '...'
-
-        } finally {
-            this.filledTopicsCounter++;
-
-            if (this.filledTopicsCounter >= this.initialTopicCount) {
-                this.signalSynced()
-            }
-
-            this.onModifiedTopic(topic)
-        }
-    }
-
-
-    onModifiedTopic(topic : Topic | null) {
         // Send message back
         if (this.topicsCallback) {
             this.topicsCallback(topic)
         }
     }
 
-    public get latestTopics() : Topic[] {
-        return this.topics.filter(t => !t.error).sort((a, b) => { return b.date - a.date })
-    }
-
-    public topicOffset(id : string) {
-        return this.topicOffsets[id]
-    }
-
     public getTopic(id : string) : Topic {
-        return this.topics[this.topicOffset(id)]
+        return this.topics.filter(t => t.forumAddress === id)[0]
     }
 
-    async createTopic(title: string, body: string, bounty: number) : Promise<object> {
+    async createTopic(title: string, body: string, bounty: number) {
         await this.ready
         const contract = this.contract!
 
         const ipfsTopic : IPFSTopic = {
             version: 1,
-            offset: this.topicHashes.length,
-            author: this.account!.address!,
+            offset: this.total,
+            author: this.account!,
             date: Date.now(),
             title,
             body,
@@ -249,22 +199,38 @@ export class Topics extends TopicsModel {
         let ipfsHash
 
         try {
+
+            if (!ipfsTopic.title || !ipfsTopic.body || !bounty) {
+                throw new Error('Please fill out all of the fields.');
+            }
+
             // Create message and pin it to remote IPFS
             ipfsHash = await this.remoteStorage.createTopic(ipfsTopic)
 
             const hashSolidity = HashUtils.cidToSolidityHash(ipfsHash)
 
             // Send it to Blockchain
-            console.log('token ', this.tokenContractJS.address, ' topic ', contract.address, ' bounty ', bounty * 10 ** 18, ' action ', this.actions.newTopic)
+            const data : string[] = [hashSolidity.toString(), TOPIC_LENGTH_SECONDS.toString()]
+            const bounty18 = bounty * 10 ** 18
+            const transaction = await this.tokenContract.transferAndCallTx(contract.address as string, bounty18, this.ACTION_NEWTOPIC, data).send({})
+            console.log('Create transaction: ', transaction)
 
-            const data : [string, string] = [hashSolidity.toString(), TOPIC_LENGTH.toString()]
-            const result = await this.tokenContractJS.transferAndCall(contract.address, bounty * 10 ** 18, this.actions.newTopic, data)
-            console.log(result)
-
-            return {
-                id: ipfsHash,
-                ...ipfsTopic
+            const topicModel: TopicCTOGet = {
+                ...ipfsTopic,
+                transaction,
+                messageHash : ipfsHash,
+                isClaimed   : false,
+                endTime     : new Date().getTime(), // Make model expired so we render a closed (not open yet) topic
+                forumAddress: null,
+                winningVotes: 0,
+                totalAnswers: 0,
+                pool        : bounty18,
+                winningMessage: null,
+                confirmed   : false
             }
+
+            await this.cn.createTopic(topicModel)
+
         } catch (e) {
             if (ipfsHash) {
                 // Failed - unpin it from ipfs.menlo.one
@@ -272,7 +238,19 @@ export class Topics extends TopicsModel {
                 this.remoteStorage.unpin(ipfsHash)
             }
 
+            let msg = e.message
+            let timeout = 4000
+
+            if (e.message === "Error: MetaMask Tx Signature: User denied transaction signature.") {
+                msg = "You cancelled the MetaMask transaction."
+                timeout = 1500
+            }
+
             console.error(e)
+            toast(msg, {
+                autoClose: timeout,
+                toastId: 123
+            })
             throw e
         }
     }
@@ -290,7 +268,11 @@ export function withTopics(Component) {
         // Notice that we pass through any additional props as well
         return (
             <TopicsCtxtComponent.Consumer>
-                {(topics: Topics) => <Component { ...props } topics={ topics }/>}
+                {(topics: Topics) => (
+                    <div>
+                        <Component {...props} topics={topics} />
+                    </div>
+                )}
             </TopicsCtxtComponent.Consumer>
         )
     }

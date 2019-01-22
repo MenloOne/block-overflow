@@ -9,15 +9,7 @@
         ]
     },
     "jsRules": {
-        "comma-dangle": [2, "only-multiline"],
-        "indent": [2, 2],
-        "object-curly-spacing": [2, "always"],
-        "array-bracket-spacing": [2, "always"],
-        "max-len": [1, 150],
-        "space-before-function-paren": [2, "never"],
-        "semi": [2, "never"],
-        "no-confusing-arrow": [2, { "allowParens": true }],
-        "arrow-parens": [2, "always"]
+        "no-empty": true
     },
     "rules": {
         "function-name": false,

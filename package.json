@@ -1,7 +1,6 @@
 {
-  "name": "block-overflow",
-  "version": "0.1.0",
-  "private": true,
+  "name": "Menlo One: Block Overflow",
+  "version": "1.0.0",
   "license": "MIT",
   "engines": {
     "node": "8.11.4",
@@ -12,6 +11,7 @@
     "clean": "node_modules/.bin/rimraf bin dist lib build src/contracts",
     "start": "node server/prod-server.js",
     "dev": "node scripts/start.js",
+    "test": "jest",
     "build": "npm run clean && npm run gen && node scripts/build.js",
     "lint": "npm run lint:typescript",
     "lint:typescript": "./node_modules/.bin/tslint --force --project tsconfig.json",
@@ -21,7 +21,20 @@
     "sol:test": "node_modules/.bin/truffle test --network develop",
     "sol:deploy": "node_modules/.bin/truffle deploy --network develop --reset"
   },
+  "setupFiles": [
+    "./src/setupTests.js"
+  ],
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
+  "resolutions": {
+    "babel-core": "7.0.0-bridge.0"
+  },
   "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
     "@types/chai": "^4.1.5",
@@ -34,9 +47,16 @@
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.8",
     "ajv": "^6.5.4",
+    "ava": "^0.25.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "cross-env": "^1.0.6",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "fork-ts-checker-webpack-plugin": "^0.4.9",
     "ganache-cli": "^6.1.8",
+    "jest": "^23.6.0",
     "menlo-token": "^1.0.0",
     "rimraf": "^2.4.3",
     "solium": "^1.1.8",
@@ -53,13 +73,14 @@
     "web3-provider-engine": "^14.0.6"
   },
   "dependencies": {
-    "@babel/core": "^7.1.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "@material-ui/core": "^3.1.1",
     "@material-ui/icons": "^3.0.1",
     "@types/history": "^4.7.0",
+    "@types/jest": "^23.3.5",
+    "@types/socket.io-client": "^1.4.32",
     "async": "^2.6.1",
     "autoprefixer": "7.1.6",
     "axios": "^0.18.0",
@@ -103,17 +124,22 @@
     "react": "^16.5.2",
     "react-animate-height": "^2.0.5",
     "react-blockies": "^1.3.0",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-countdown-now": "^1.3.0",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.5.2",
+    "react-dropdown": "^1.6.2",
     "react-markdown-renderer": "^1.4.0",
     "react-moment": "^0.7.9",
     "react-responsive-embed": "^2.1.0",
     "react-router-dom": "^4.3.1",
     "react-simplemde-editor": "^3.6.16",
+    "react-toastify": "^4.4.0",
+    "react-tooltip": "^3.8.4",
     "resolve": "1.6.0",
     "sass-loader": "^7.1.0",
     "sinon": "^5.1.1",
+    "socket.io-client": "^2.1.1",
     "source-map-loader": "^0.2.1",
     "style-loader": "0.19.0",
     "sw-precache-webpack-plugin": "0.11.4",

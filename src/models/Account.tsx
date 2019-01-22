@@ -15,9 +15,8 @@
  */
 
 import * as React from 'react'
+import { toast } from 'react-toastify'
 
-import BigNumber from 'bignumber.js'
-import TruffleContract from 'truffle-contract'
 import ethUtil from 'ethereumjs-util'
 import axios from 'axios'
 
@@ -25,29 +24,49 @@ import web3 from './Web3'
 import { MenloToken } from '../contracts/MenloToken'
 import { QPromise } from '../utils/QPromise'
 
-import TokenContractJSON from 'menlo-token/build/contracts/MenloToken.json'
 import config from '../config'
+import { networks, ContractAddresses } from './networks'
+
+
+export enum ToastType {
+    Account,
+    Balance
+}
 
 
 export enum MetamaskStatus {
     Starting = 'starting',
     Uninstalled = 'uninstalled',
+    InvalidNetwork = 'network',
     LoggedOut = 'logged out',
     Ok = 'ok',
     Error = 'error'
 }
 
+export enum NetworkName {
+    Mainnet = 'Mainnet',
+    Morden = 'Morden',
+    Ropsten = 'Ropsten',
+    Rinkeby = 'Rinkeby',
+    Kovan = 'Kovan',
+    Unknown = 'unknown',
+}
+
+
 export class AccountModel {
     public ready: any
     public address: string | null
-    public balance: number
-    public fullBalance: BigNumber
+    public oneBalance: number
+    public ethBalance: number
     public status: MetamaskStatus
     public error: string | null
+    public network: number
+    public networkName: NetworkName = NetworkName.Unknown
+    public contractAddresses : ContractAddresses
 }
 
 export type AccountContext = { model: AccountModel, svc: Account }
-
+export type BasicCallback = () => void
 
 export interface AccountService {
     refreshBalance() : Promise<void>
@@ -63,27 +82,38 @@ export class Account extends AccountModel implements AccountService {
     private token : MenloToken
     private signalReady : () => void
     private stateChangeCallback : AccountChangeCallback | null
+    private balanceCallbacks: BasicCallback[] = []
 
     constructor() {
         super()
 
         this.ready = QPromise((res, rej) => this.signalReady = res)
         this.address = null
-        this.balance = 0
+        this.oneBalance = 0
+        this.network = 0
         this.status = MetamaskStatus.Starting
         this.stateChangeCallback = null
 
         this.checkMetamaskStatus = this.checkMetamaskStatus.bind(this)
-        if (!web3) {
+        if (!web3.version) {
             this.status = MetamaskStatus.Uninstalled
             this.onStateChange()
             return
         }
 
+        this.setNetwork()
         this.onStateChange()
 
-        web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
+        if (web3.currentProvider) {
+            // web3.currentProvider.publicConfigStore.on('update', this.checkMetamaskStatus)
+            setInterval(this.checkMetamaskStatus, 3000)
+        }
+
         this.checkMetamaskStatus()
+    }
+
+    public addBalanceCallback(callback: BasicCallback) {
+        this.balanceCallbacks.push(callback)
     }
 
     public setCallback(callback : AccountChangeCallback) {
@@ -92,7 +122,7 @@ export class Account extends AccountModel implements AccountService {
     }
 
     public async signIn() {
-        const baseUrl = config.contentNodeUrl
+        const baseUrl = config.apiUrl
 
         web3.personal.sign(ethUtil.bufferToHex(new Buffer(`I want to sign into ${baseUrl}`, 'utf8')), this.address, async (error, signed) => {
             if (error) {
@@ -115,12 +145,24 @@ export class Account extends AccountModel implements AccountService {
         return false
     }
 
-    async checkMetamaskStatus() {
+    async checkMetamaskStatus(error?: any) {
+        if (error) {
+            return
+        }
+
+        if (!web3.version) {
+            return
+        }
+
+        console.log('Updating Account Status...')
+
         if (window.ethereum) {
             try {
                 // Request account access if needed
-                console.log('Calling ethereum enable')
-                await window.ethereum.enable();
+                if (!await window.ethereum.enable()) {
+                    throw 'nope'
+                }
+
             } catch (error) {
                 // User denied account access...
 
@@ -130,6 +172,8 @@ export class Account extends AccountModel implements AccountService {
 
         }
 
+        this.setNetwork()
+
         web3.eth.getAccounts(async (err, accounts) => {
             if (err || !accounts || accounts.length === 0) {
                 this.status = MetamaskStatus.LoggedOut
@@ -138,7 +182,8 @@ export class Account extends AccountModel implements AccountService {
             }
 
             const account0 = accounts[0].toLowerCase()
-            if (account0 !== this.address) {
+
+            if (account0 !== this.address || !this.token) {
 
                 if (this.status !== MetamaskStatus.Starting && this.status !== MetamaskStatus.Ok) {
                     await this.refreshAccount( true, account0)
@@ -159,25 +204,36 @@ export class Account extends AccountModel implements AccountService {
 
 
     async refreshAccount(reload : boolean, address: string) {
+        toast.dismiss()
+
+        if (this.networkName !== NetworkName.Mainnet) {
+
+            if (this.status !== MetamaskStatus.InvalidNetwork) {
+                this.status = MetamaskStatus.InvalidNetwork
+                this.onStateChange()
+            }
+            return
+        }
+
         try {
             if (reload) {
                 // Easy way out for now
-                // window.location.reload()
+                // TODO: Make all modules refresh all acct based state when setWeb3Account() is called
+                window.location.reload()
             }
 
             this.address = address
 
             if (!this.token) {
-                const TokenContract = await TruffleContract(TokenContractJSON)
-
-                await TokenContract.setProvider(web3.currentProvider)
-                TokenContract.defaults({ from: this.address })
-
-                const tokenAddress = (await TokenContract.deployed()).address
-                this.token = await MenloToken.createAndValidate(web3, tokenAddress)
+                this.token = await MenloToken.createAndValidate(web3, this.contractAddresses.MenloToken)
+                if (!this.token) {
+                    console.error('Unable to get token contract')
+                    return
+                }
             }
 
-            this.refreshBalance(0)
+            await this.getBalance(true)
+
             this.status = MetamaskStatus.Ok
 
             this.onStateChange()
@@ -194,21 +250,126 @@ export class Account extends AccountModel implements AccountService {
         }
     }
 
-    async getBalance() : Promise<number> {
-        await this.ready
+    getEtherscanUrl(address?: string, type: 'tx' | 'address' = 'address', tab?: string): string {
+        let url = ''
 
-        this.fullBalance = await this.token.balanceOf(this.address as string)
-        this.balance     = this.fullBalance.div( 10 ** 18 ).toNumber()
+        switch (this.network) {
+            case 4:
+                url = 'https://rinkeby.etherscan.io'
+                break
+            case 42:
+                url = 'https://kovan.etherscan.io'
+                break
+            default:
+                url = 'https://etherscan.io'
+        }
 
-        return this.balance
+        if (address) {
+            switch (type) {
+                case 'tx':
+                    return `${url}/tx/${address}${tab ? '#${tab}' : ''}`
+                case 'address':
+                    return `${url}/address/${address}${tab ? '#${tab}' : ''}`
+            }
+        }
+
+        return url
+    }
+
+    async setNetwork() {
+        if (!web3.version) { return }
+
+        const oldNetwork = this.network
+        const n = await web3.version.network
+        this.network = parseInt(n, 10)
+
+        if (!this.network || this.network === oldNetwork) { return }
+
+        if (oldNetwork && oldNetwork !== this.network) {
+            this.refreshAccount( true, '' )
+        }
+
+        this.contractAddresses = networks[this.network]
+
+        switch (this.network) {
+            case 1:
+                this.networkName = NetworkName.Mainnet
+                break;
+            case 2:
+                this.networkName = NetworkName.Morden
+                break;
+            case 3:
+                this.networkName = NetworkName.Ropsten
+                break;
+            case 4:
+                this.networkName = NetworkName.Rinkeby
+                break;
+            case 42:
+                this.networkName = NetworkName.Kovan
+                return
+            default:
+                this.networkName = NetworkName.Unknown
+                break;
+        }
+    }
+
+    async getBalance(force: boolean = false) : Promise<number> {
+        if (!force) {
+            await this.ready
+        }
+
+        if (!this.address) {
+            throw('Address is null')
+        }
+
+        toast.dismiss(ToastType.Balance)
+
+        this.oneBalance = (await this.token.balanceOf(this.address as string)).div( 10 ** 18 ).toNumber()
+        web3.eth.getBalance(this.address, (err, balance) => {
+            if (err || balance === null) {
+                throw (err)
+            }
+
+            this.ethBalance = balance.div(10 ** 18).toNumber()
+
+            if (this.ethBalance === 0) {
+                toast(`Note you have no ETH in this wallet.`, {
+                    autoClose: false,
+                    toastId: ToastType.Balance
+                })
+            } else
+            if (this.oneBalance === 0) {
+                let instr = 'use the Menlo Faucet button to get some'
+
+                if (this.networkName === NetworkName.Mainnet) {
+                    instr = 'buy some on an exchange like IDEX'
+                }
+
+                toast(`You have no ONE tokens, ${instr}`, {
+                    autoClose: false,
+                    toastId: ToastType.Balance
+                })
+            }
+        })
+
+        return this.oneBalance
     }
 
     async refreshBalance(wait: number = 3000) : Promise<void> {
         await this.ready
 
         setTimeout(async () => {
-            await this.getBalance()
+            const bal = await this.getBalance()
+            
+            if (bal === 0) {
+            }
+            
             this.onStateChange()
+
+            let callback
+            while (callback = this.balanceCallbacks.pop()) {
+                await callback()
+            }
         }, wait )
     }
 
@@ -230,7 +391,9 @@ export class Account extends AccountModel implements AccountService {
 
 
 export const AccountCtxtComponent = React.createContext({})
-
+export interface AccountProps {
+    acct: AccountContext
+}
 
 export function withAcct(Component) {
     // ...and returns another component...
@@ -240,7 +403,13 @@ export function withAcct(Component) {
         // Notice that we pass through any additional props as well
         return (
             <AccountCtxtComponent.Consumer>
-                {(account: Account) => <Component { ...props } acct={ account }/>}
+                {(account: Account) => {
+                    return (
+                        <div>
+                            <Component {...props} acct={account} />
+                        </div>
+                    )
+                }}
             </AccountCtxtComponent.Consumer>
         )
     }

@@ -3,7 +3,6 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 @import './buttons.scss';
 
-
 html {
     position: relative;
     min-height: 100%;
@@ -521,7 +520,6 @@ span.user-img {
     display: inline-block;
     border-radius: 50%;
     overflow: hidden;
-    margin-right: 15px;
     align-self: flex-start;
 }
 
@@ -550,7 +548,12 @@ i.fa.fa-circle {
 
 .votes-indicator .circle,
 .comment-indicator {
-    background-color: #1944a5;
+    &.up {
+        background-color: #1944a5;
+    }
+    &.down {
+        background-color: #ca1515;
+    }
     font-family: 'Titillium web', 'Helvetica Neue';
     font-weight: 900;
     font-style: normal;
@@ -609,14 +612,16 @@ i.fa.fa-circle:before {
     display: none;
 }
 
-#mainNav span.name {
+#mainNav a.name {
     display: inline-block;
     max-width: 150px;
     text-overflow: ellipsis;
     overflow: hidden;
+    text-decoration: none;
+    color: white;
 }
 
-#mainNav a#messagesDropdown {
+#mainNav #messagesDropdown {
     font-family: 'Titillium web', 'Helvetica Neue';
     font-size: 15px;
     font-weight: 300;
@@ -681,7 +686,6 @@ i.fa.fa-circle:before {
 
 #mainNav .navbar-brand {
     width: 150px;
-    margin-right: 50px;
     display: block;
 }
 
@@ -696,7 +700,11 @@ i.fa.fa-circle:before {
     align-items: center;
 }
 
-a#messagesDropdown {
+nav {
+    z-index: 10000;
+}
+
+#messagesDropdown {
     display: flex;
     align-items: center;
 }
@@ -765,7 +773,6 @@ a#messagesDropdown {
 }
 
 .Question-stats {
-    padding-left: 77px !important;
     background: #F2F5FA;
     padding: .33rem;
     display: flex;
@@ -774,21 +781,41 @@ a#messagesDropdown {
 }
 
 .townhall {
-    background: #f7f9fd;
     border-top: 1px solid #ececed;
     padding: 0 !important;
 }
 
-.Question-wrapper {
-    padding-left: 77px !important;
+.left-side {
+    .Question-wrapper {
+        .Question-urgency {
+            display: flex;
+            justify-content: center;
+            & > div {
+                padding: 0 1.5rem;
+                margin: 1.5rem 0;
+                align-items: center;
+                text-align: center;
+                border-right: 1px solid #efefef;
+            }
+            & > div:last-child {
+                border: none;
+            }
+        }
+        p {
+            font-size: 15px;
+        }
+        .Question-countdownWrapper {
+            text-align: center;
+        }
+        span.small-subtitle {
+            font-size: 9px;
+            line-height: 1.7rem;
+        }
+    }
 }
 
 .townhall .small-heading {
     line-height: 0;
-}
-
-.townhall .message-wrapper {
-
 }
 
 .token-one {
@@ -1020,7 +1047,6 @@ span.location {
 
 .content-wrapper {
     clear: both;
-    background-color: #f9f9f9;
 }
 
 .content-wrapper .container {
@@ -1045,14 +1071,11 @@ span.location {
     margin: 0;
 }
 
-.left-side-wrapper {
-    padding: 2em 32px;
-}
-
 .left-side h6 {
-    color: #2E4168;
-    font-size: 1.7rem;
-    margin: 0;
+    font-size: 1.8rem;
+    font-family: "Open Sans";
+    font-weight: 500;
+    margin-bottom: 1rem;
 }
 
 .user-img {
@@ -1062,12 +1085,24 @@ span.location {
     display: inline-block;
     border-radius: 50%;
     overflow: hidden;
-    margin-right: 10px;
+    margin: 0;
     border: 1px solid #dfe6f9;
-    align-self: flex-start;
     justify-content: center;
     align-items: center;
+    align-self: flex-start;
     display: flex;
+}
+
+.question .user-img {
+    margin-right: 0.66rem;
+}
+
+nav .user-img {
+    margin-right: 0.33rem;
+}
+
+.user-img {
+    
 }
 
 .game-action-wrapper .text-center * {
@@ -1282,7 +1317,8 @@ body {
 }
 
 .block-padding {
-    padding: 30px 32px;
+    padding: 1.5rem;
+    overflow: hidden;
 }
 
 .block-header h4 {
@@ -1293,10 +1329,6 @@ body {
     font-family: "TiTillium web";
     margin: 0;
     color: #40609A;
-}
-
-.green-bg {
-    background-color: #f0f4ff;
 }
 
 .start-in {
@@ -1718,7 +1750,7 @@ span.sold {
     text-align: center;
     width: 96px;
     height: 40px;
-    border-radius: 5px;
+    border-radius: 3px;
     box-shadow: 0 2px 4px 0 rgba(224, 235, 234, 0.5);
     background-color: #ffffff;
     border: solid 1px #ededee;
@@ -1794,15 +1826,23 @@ span.sold {
 .question .time-watch div {
     line-height: 16px;
 }
+.bonus .time-watch {
+    justify-content: left;
+}
 
 .question .time-watch div span:nth-child(1) {
     font-size: 9px;
 }
 
+// .Toastify {
+//     position: fixed;
+//     top: 46px;
+//     z-index: 99999;
+// }
 
-.question a {
+.question > a {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .question .content {
@@ -1828,18 +1868,18 @@ span.sold {
     font-family: monospace;
 }
 
-.comments .tag-name-dots, .comments .tag-name-0x {
+.comments .AddressTag-name-dots, .comments .AddressTag-name-0x {
     color: #bbb;
     width: auto;
 }
 
-.question time, .message time, .QuestionHeader-textWrapper time {
-    font-size: 11px;
+.question time, .message time, .QuestionHeader time {
+    font-size: 12px;
     font-style: normal;
+    font-weight: 600;
     font-stretch: normal;
     letter-spacing: .02rem;
-    font-style: italic;
-    color: #a5a5a5;
+    color: #696d75;
     margin-bottom: 0;
     padding-bottom: 0;
     -o-text-overflow: ellipsis;
@@ -1884,7 +1924,7 @@ span.tag {
 }
 
 .reply-form {
-    margin-right: 3em;
+    margin: 0 .5rem 0 3rem;
 }
 
 .comments .tag-name .btn {
@@ -1920,6 +1960,7 @@ span.tag {
     border: 1px solid #e7ecf7;
     background: #eff2f7;
     border-top: none;
+    margin-top: 1rem;
 }
 
 .comments-review a > span i {
@@ -2134,8 +2175,8 @@ table.stats {
 }
 
 table.stats tr {
-    line-height: 2rem;
-    font-size: 14px;
+    line-height: 1.4rem;
+    font-size: .8rem;
 }
 
 .content-node a, .content-node a:hover {
@@ -2157,8 +2198,9 @@ table.stats tr td:nth-child(1) {
 table.stats tr td:nth-child(2) {
     color: #2E4168;
     font-family: Open Sans;
+    text-align: right;
+    font-weight: 600;
 }
-
 
 .comments .message-wrapper:nth-child(even) {
     background: #ecf3ff;
@@ -2168,6 +2210,12 @@ table.stats tr td:nth-child(2) {
 
 .comments li.borderis.message {
     border-bottom: 1px solid #e7ecf7;
+    .user-img {
+        margin-right: 1rem;
+    }
+    .AddressTag-name {
+        width: 15em;
+    }
     p {
         margin: 0;
     }
@@ -2196,7 +2244,8 @@ table.stats tr td:nth-child(2) {
 }
 
 .comments .message-wrapper {
-    padding: 2em 77px;
+    padding: 2rem;
+    overflow: hidden;
 }
 
 /*********** Discover Page **************/
@@ -2300,10 +2349,14 @@ table.stats tr td:nth-child(2) {
     align-items: center;
     width: 100%;
     float: left;
+    margin-bottom: 1rem;
 }
 
 .user-stats .stat {
     margin-bottom: 1rem;
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .number-circle {
@@ -2362,22 +2415,30 @@ table.stats tr td:nth-child(2) {
 }
 
 .stat-label-wrapper {
-    display: flex;
-    flex-direction: column;
     font-size: 11px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
 }
 
-.stat-label-wrapper span:nth-child(1) {
-    color: #40609A;
+.stat-label-wrapper > span:nth-child(1) {
+    color: white;
     font-weight: 600;
 }
 
-.stat-label-wrapper span:nth-child(2) {
+.stat-labels span:nth-child(1) {
+    font-weight: 600;
+}
+
+
+.stat-labels span:nth-child(2) {
     color: #154DCA;
 }
 
-.stat:nth-child(3) .stat-label-wrapper span:nth-child(2) {
-    color: #6B768E;
+.stat-labels {
+    display: flex;
+    flex-direction: column;
 }
 
 .stat:nth-child(3) .stat-label-wrapper .fa-thumbs-up {
@@ -2435,14 +2496,41 @@ table.stats tr td:nth-child(2) {
     border-bottom: 1px solid #f0f4ff;
 }
 
+.__react_component_tooltip {
+    padding: 2px 9px;
+    line-height: 1.6rem;
+}
+
 .QuestionHeader {
     display: flex;
-    align-items: center;
-    padding: .8rem;
+    align-items: baseline;
+    padding: 1.8rem 1.8rem 2rem;
+
+    .AddressTag-container {
+        margin-bottom: 0.33rem;
+    }
 
     & h6 {
         font-size: 1.3rem;
-        line-height: 2rem;
+        line-height: 1.5rem;
+    }
+}
+
+.Tooltip {
+    &-icon {
+        width: 11px;
+        height: 11px;
+        display: inline-block;
+        background: #ffe586;
+        box-shadow: 0 1px 0 #ecce5e;
+        margin: 0 4px;
+        font-size: 8px;
+        line-height: 11px;
+        text-align: center;
+        font-family: monospace;
+        color: black;
+        vertical-align: middle;
+        border-radius: 50%;
     }
 }
 
@@ -2453,12 +2541,23 @@ table.stats tr td:nth-child(2) {
     h6 {
         overflow: hidden;
         text-overflow: ellipsis;
-        max-width: 75%;
     }
+}
+
+.QuestionHeader-logoWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+    align-self: flex-start;
 }
 
     .QuestionHeader-textWrapper span {
         font-size: .8rem;
+        &.AddressTag-name {
+            width: 41px;
+        }
     }
 
 .QuestionHeader-countdown {
@@ -2494,7 +2593,6 @@ table.stats tr td:nth-child(2) {
     font-size: 12px;
     color: #6B768E;
     font-weight: 600;
-    padding-right: 1em;
 }
 
 .game-detail-wrapper .btn {
@@ -2513,9 +2611,6 @@ table.stats tr td:nth-child(2) {
 
 }
 .Question-reply {
-
-}
-.Question-permalink {
 
 }
 .Question-report {
@@ -2551,9 +2646,78 @@ table.stats tr td:nth-child(2) {
     background:red;
 }
 
+.Toastify__toast {
+    padding: 1rem;
+    line-height: 1.4rem;
+    font-size: .9rem;
+}
 
+.Toastify__toast-container--top-center {
+    top: 0;
+    left: 0;
+    margin: 0;
+}
+
+.Toastify__toast-container {
+    z-index: 9999;
+    padding: 0;
+    width: 100vw;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff;
+    position: relative;
+}
+
+.Toastify__toast {
+    padding: 1rem;
+    line-height: 1.4rem;
+    font-size: .9rem;
+    background: #E8EEFF;
+    color: #2E4168;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+}
+
+.Toastify__close-button {
+    margin-top: 5px;
+}
+
+.comments .more-btn {
+    margin: 0;
+}
+
+.Toastify__progress-bar {
+    z-index: 0;
+}
+
+.mobile-mask {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 9999999;
+    padding: 2rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+body {
+    overflow: hidden;
+}
 
 @media (min-width: 768px) {
+    .mobile-mask {
+        display: none;
+    }
+    body {
+        overflow: initial;
+    }
 }
 
 
@@ -2567,5 +2731,6 @@ table.stats tr td:nth-child(2) {
     }
     .user-stats .stat {
         width: 50%;
+        min-height: 44px;
     }
 }

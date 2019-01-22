@@ -23,6 +23,10 @@ a[disabled], a[disabled]:hover {
     color: #c0c0c0 !important;
 }
 
+.message.unconfirmed {
+    background-color: #D1D1D1 !important;
+}
+
 .message .text {
     font-size: 1.2em;
 }
@@ -33,19 +37,51 @@ a[disabled], a[disabled]:hover {
     cursor: pointer;
 }
 
-.QuestionHeader {
+.Question-payout {
+    font-size: 2.5rem;
+    font-family: monospace;
+    line-height: 1.5rem;
+    color: #60b91c;
+}
+
+.Question-urgency .time-watch div {
+    line-height: 1rem;
+}
+.btn-claim {
+    padding: .2rem .4rem !important;
+    display: inline;
+    font-size: .65rem;
+    font-weight: 600;
+    margin-left: .5rem;
+    border-radius: 4px;
+    text-transform: capitalize;
+    display: inline !important;
+}
+.col-4.sidebar {
+    display: flex;
+    flex-direction: column;
+}
+.left-side .QuestionHeader {
     .user-img {
-        width: 48px;
-        height: 48px;
+        width: 30px;
+        height: 30px;
+        margin-right: .5rem;
+    }
+    &-annotation {
+        font-size: .65rem;
+        padding: .2rem .4rem !important;
+        background: #eff0f1;
+        border-radius: 5px;
+        margin-left: .5rem;
     }
 }
 
 .fa.winning-check {
     color: green;
-    font-size: 30pt;
+    font-size: 24pt;
     position: absolute;
     top: 1.5em;
-    left: -0.1em;
+    left: 0rem;
 }
 
 pre {
@@ -78,8 +114,8 @@ p > code {
 
 .question {
     .user-img {
-        width: 48px;
-        height: 48px;
+        width: 37px;
+        height: 37px;
     }
 }
 
@@ -93,18 +129,33 @@ p > code {
     padding-bottom: 1em;
 }
 
-.comments .tag-name .time {
+.comments .AddressTag-name .time {
     color: #bdbdbd;
     padding-left: 1em;
 }
 
-.comments .tag-name span.points {
+.comments .AddressTag-name span.points {
     color: #2c3035;
     padding-left: 1em;
 }
 
 .error {
     color: red;
+}
+
+.one-icon {
+    display: inline;
+    img {
+        height: inherit;
+        font-size: inherit;
+        display: inline;
+    }
+}
+
+.Question-payout img {
+    height: 19px;
+    vertical-align: baseline;
+    margin-left: 4px;
 }
 
 .error .new-message {
@@ -115,48 +166,4 @@ p > code {
 .alias-wrapper {
     display: inline-flex;
     align-items: center;
-}
-
-.tag-name-wrapper {
-    display: inline-block;
-    background: #0345f91a;
-    padding: 0 .2rem;
-    border: 1px solid #ececed;
-    border-radius: 3px;
-    margin-right: 0.5rem;
-    line-height: 0;
-}
-
-.tag-name,
-.tag-name-0x,
-.tag-name-dots {
-    font-size: 9px;
-    font-style: normal;
-    font-stretch: normal;
-    letter-spacing: .04rem;
-    line-height: 1rem;
-    color: #bbb;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    text-overflow: clip;
-    width: 37px;
-    display: inline-flex;
-    overflow: hidden;
-    font-family: monospace;
-}
-
-.tag-name-dots  {
-    user-select: none;
-}
-
-.tag-name {
-    color: #18af41;
-}
-
-.Page-permalink .tag-name {
-    color: #1944a5;
-}
-
-.tag-name-dots, .tag-name-0x {
-    width: auto;
 }
