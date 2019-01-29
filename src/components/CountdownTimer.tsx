@@ -29,9 +29,9 @@ export default class CountdownTimer extends Component<CountdownTimerProps> {
         return (
             <span className="time-inline">
                 {parseInt(days, 10) > 0 && (
-                    <span>{days}d</span>
+                    <span>{days}d </span>
                 )}
-                <span>{hours}h</span>
+                <span>{hours}h </span>
                 <span>{minutes}m</span>
             </span>
         )
