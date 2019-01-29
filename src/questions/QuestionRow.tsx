@@ -133,13 +133,13 @@ class QuestionRow extends React.Component<TopicViewProps> {
                         this.props.topic.iWon && !this.props.topic.isClaimed ?
                             <span onClick={this.clickClaimTokens} className="claim">CLAIM WINNINGS</span>
                             :
-                            <span className="closed">YOU WON!</span>
+                            <span className="closed answered">YOU WON!</span>
                     }
                 </span>
             )
         }
 
-        return <span className="closed">ANSWERED!</span>
+        return <span className="closed answered">ANSWERED!</span>
     }
 
     render() {

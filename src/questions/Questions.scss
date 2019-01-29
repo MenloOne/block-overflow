@@ -151,12 +151,20 @@ a[disabled], a[disabled]:hover {
             background: #0033a0;
             color: white;
         }
+
+        .closed.answered {
+            background: #18AF41;
+        }
     }
 
     .stats-timer {
         min-width: 10em;
         display: block;
     }
+}
+
+.time-inline span {
+    color:#ED4545;
 }
 
 a.more-btn {
