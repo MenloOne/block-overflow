@@ -172,7 +172,7 @@ class QuestionRow extends React.Component<TopicViewProps> {
                     }
                     <div>
                         {!topic.confirmed && topic.transaction && <AddressTag link={true} copy={true} tx={topic.transaction} />}
-                        {topic.confirmed && topic.author && <AddressTag link={true} copy={true} address={topic.author} />}
+                        {topic.confirmed && topic.author && <AddressTag link={true} copy={true} address={topic.author} messageIPFS={topic.messageHash} />}
                         <span style={{ display: 'none' }}>
                             <span className="points">??? points </span>
                         </span>

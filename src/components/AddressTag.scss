@@ -48,11 +48,12 @@
 }
 
 a.AddressTag-link .AddressTag-wrapper:hover, a.AddressTag-link-IPFS .AddressTag-wrapper:hover {
-    background: rgba(240,243,255,1);
+    background: rgba(239,240,255,1);
 }
 
 a.AddressTag-link-IPFS .AddressTag-wrapper {
-    background:none;
+    // background:none;
+    margin-left: -.50rem;
 }
 
 .comments li.borderis.message a.AddressTag-link-IPFS .AddressTag-name, a.AddressTag-link-IPFS .AddressTag-name {
