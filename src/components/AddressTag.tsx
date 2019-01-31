@@ -7,9 +7,10 @@ import { AccountProps, withAcct } from '../models/Account'
 
 interface AddressTagProps extends AccountProps {
     address?: string;
-    tx?:      string
+    tx?:      string;
 
     etherscanTab?: string;
+    messageIPFS?: string;
     link?: boolean;
     copy?: boolean;
 }
@@ -18,6 +19,7 @@ interface AddressTagState {
     commandDown: boolean;
     url?: string;
     statusTip?: string;
+    ipfsURL?: string;
 }
 
 class AddressTag extends Component<AddressTagProps> {
@@ -38,7 +40,8 @@ class AddressTag extends Component<AddressTagProps> {
 
     componentWillMount() {
         const url = this.props.acct.svc.getEtherscanUrl(this.props.address, this.props.tx ? 'tx' : 'address', this.props.etherscanTab)
-        this.setState({ url })
+        const ipfsURL = this.props.messageIPFS
+        this.setState({ url, ipfsURL })
 
         document.addEventListener("keydown", this.onKeyPressedDown.bind(this));
         document.addEventListener("keyup", this.onKeyPressedUp.bind(this));
@@ -114,10 +117,11 @@ class AddressTag extends Component<AddressTagProps> {
     }
 
     render() {
-        const { address, tx } = this.props;
+        const { address, tx, messageIPFS } = this.props;
         const addr = address ? address : tx;
+        const messageIPFSid = messageIPFS ? messageIPFS : 'IPFSnotFound';
         
-        const { url, statusTip } = this.state
+        const { url, statusTip, ipfsURL } = this.state
 
         const renderContents = () => (
             <span className="AddressTag-container">
@@ -129,10 +133,25 @@ class AddressTag extends Component<AddressTagProps> {
                 </div>
             </span>)
 
+        const renderContentsIPFS = () => (
+            <span className="AddressTag-container">
+                <div className="AddressTag-wrapper">
+                    <span className="AddressTag-name">View on IPFS {messageIPFSid ? messageIPFSid : ''}</span>
+                    <ReactTooltip effect="solid" delayHide={1000} placement='top' event={'focus'} eventOff={'focus'} />
+                </div>
+            </span>)
+
         return this.props.link ? (
-            <a className="AddressTag-link" data-tip={statusTip} href={this.props.link ? url : ''} disabled={!this.props.copy && !this.props.link} target="_blank" onClick={(e) => this.onClick(e)}>
-                {renderContents()}
-            </a>
+            <span>
+                <a className="AddressTag-link" data-tip={statusTip} href={this.props.link ? url : ''} disabled={!this.props.copy && !this.props.link} target="_blank" onClick={(e) => this.onClick(e)}>
+                    {renderContents()}
+                </a>         
+
+                <a className="AddressTag-link2" href={`https://ipfs.io/ipfs/${messageIPFSid}`} disabled={!this.props.copy && !this.props.link} target="_blank">
+                    {renderContentsIPFS()}
+                </a>
+                <span>{ipfsURL}</span>
+            </span>
         ) : (
             <button className="btn-blank AddressTag-link" data-tip={statusTip} disabled={!this.props.copy && !this.props.link} onClick={(e) => this.onClick(e)}>
                 {renderContents()}

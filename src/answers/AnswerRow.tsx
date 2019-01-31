@@ -252,7 +252,7 @@ export default class AnswerRow extends React.Component<MessageViewProps> {
                     }
                 </div>
                 <div className="content">
-                    {message && message.author && <AddressTag copy={true} link={true} address={message.author} /> }
+                    {message && message.author && message.id && <AddressTag copy={true} link={true} address={message.author} messageIPFS={message.id} /> }
                     <span className="points" style={{ display: 'none' }}>??? points </span>
                     <span className="time">
                         <Moment fromNow>{message.date}</Moment>
