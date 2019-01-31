@@ -8,12 +8,12 @@
     &-name,
     &-name-0x,
     &-name-dots {
-        font-size: 12px;
+        font-size: 13px;
         font-style: normal;
         font-stretch: normal;
         letter-spacing: .04rem;
         line-height: 1rem;
-        color: #bbb;
+        color: rgba(107,118,142,.6);
         margin-bottom: 0;
         padding-bottom: 0;
         text-overflow: clip;
@@ -21,20 +21,23 @@
         display: inline-flex;
         overflow: hidden;
         font-family: 'Inconsolata', 'Courier New';
+        vertical-align: middle
     }
     &-name {
-        width: 5em;
+        width: auto;
     }
     &-wrapper {
         display: inline-block;
-        background: #f0f4ff;
-        padding: .05rem .25rem;
+        background: rgba(240,244,255,0.5);
+        // padding: .05rem .25rem;
+        padding: .2rem .5rem;
         border-radius: 3px;
         line-height: 0;
         transition: .1s all ease-out;
     }
     &-name {
-        color: #6B768E;
+        // color: #6B768E;
+        color: rgba(107,118,142,1)
     }
     &-name-dots {
         user-select: none;
@@ -44,8 +47,16 @@
     }
 }
 
-a.AddressTag-link .AddressTag-wrapper:hover {
-    background: #e0e5f3;
+a.AddressTag-link .AddressTag-wrapper:hover, a.AddressTag-link-IPFS .AddressTag-wrapper:hover {
+    background: rgba(240,243,255,1);
+}
+
+a.AddressTag-link-IPFS .AddressTag-wrapper {
+    background:none;
+}
+
+.comments li.borderis.message a.AddressTag-link-IPFS .AddressTag-name, a.AddressTag-link-IPFS .AddressTag-name {
+    width:auto;
 }
 
 .Page-permalink {

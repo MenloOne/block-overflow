@@ -19,7 +19,6 @@ interface AddressTagState {
     commandDown: boolean;
     url?: string;
     statusTip?: string;
-    ipfsURL?: string;
 }
 
 class AddressTag extends Component<AddressTagProps> {
@@ -40,8 +39,7 @@ class AddressTag extends Component<AddressTagProps> {
 
     componentWillMount() {
         const url = this.props.acct.svc.getEtherscanUrl(this.props.address, this.props.tx ? 'tx' : 'address', this.props.etherscanTab)
-        const ipfsURL = this.props.messageIPFS
-        this.setState({ url, ipfsURL })
+        this.setState({ url })
 
         document.addEventListener("keydown", this.onKeyPressedDown.bind(this));
         document.addEventListener("keyup", this.onKeyPressedUp.bind(this));
@@ -119,15 +117,15 @@ class AddressTag extends Component<AddressTagProps> {
     render() {
         const { address, tx, messageIPFS } = this.props;
         const addr = address ? address : tx;
-        const messageIPFSid = messageIPFS ? messageIPFS : 'IPFSnotFound';
+        const messageIPFSid = messageIPFS ? messageIPFS : '';
         
-        const { url, statusTip, ipfsURL } = this.state
+        const { url, statusTip } = this.state
 
         const renderContents = () => (
             <span className="AddressTag-container">
                 <div className="AddressTag-wrapper">
                     <span className="AddressTag-name-0x">0x</span>
-                    <span className="AddressTag-name">{addr ? addr.slice(2, addr.length) : ''}</span>
+                    <span className="AddressTag-name">{addr ? addr.slice(2, 8) : ''}</span>
                     <span className="AddressTag-name-dots">…</span>
                     <ReactTooltip effect="solid" delayHide={1000} placement='top' event={'focus'} eventOff={'focus'} />
                 </div>
@@ -135,10 +133,9 @@ class AddressTag extends Component<AddressTagProps> {
 
         const renderContentsIPFS = () => (
             <span className="AddressTag-container">
-                <div className="AddressTag-wrapper">
-                    <span className="AddressTag-name">View on IPFS {messageIPFSid ? messageIPFSid : ''}</span>
-                    <ReactTooltip effect="solid" delayHide={1000} placement='top' event={'focus'} eventOff={'focus'} />
-                </div>
+                <span className="AddressTag-wrapper">
+                    <span className="AddressTag-name">IPFS</span>
+                </span>
             </span>)
 
         return this.props.link ? (
@@ -147,10 +144,9 @@ class AddressTag extends Component<AddressTagProps> {
                     {renderContents()}
                 </a>         
 
-                <a className="AddressTag-link2" href={`https://ipfs.io/ipfs/${messageIPFSid}`} disabled={!this.props.copy && !this.props.link} target="_blank">
+                <a className="AddressTag-link-IPFS" href={`https://ipfs.io/ipfs/${messageIPFSid}`} hidden={!this.props.messageIPFS} target="_blank">
                     {renderContentsIPFS()}
                 </a>
-                <span>{ipfsURL}</span>
             </span>
         ) : (
             <button className="btn-blank AddressTag-link" data-tip={statusTip} disabled={!this.props.copy && !this.props.link} onClick={(e) => this.onClick(e)}>
