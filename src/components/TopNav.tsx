@@ -83,6 +83,23 @@ class TopNav extends React.Component<TopNavProps> {
     renderAccountStatus() {
         // console.log( 'STATUS: ', this.props.acct.model.status )
 
+        if (true) {
+            toast('This dApp is not connected to a Content Node. To launch your own Content Node, please visit menlo.one for more info.', {
+                className: 'toast-red-bk',
+                type: toast.TYPE.ERROR,
+                toastId: ToastType.Account,
+                autoClose: false
+            })
+
+            return (
+                <ul className="navbar-nav ml-auto">
+                    <li className="nav-item token-number">
+                        <span className="token-one">Not connected to Content Node. <a href="https://www.menlo.one/docs/" title="Launch a Content Node">Launch a Content Node</a></span>
+                    </li>
+                </ul>
+            )
+        }
+
         if (this.props.acct.model.status === MetamaskStatus.LoggedOut) {
             toast('You must first sign into Metamask to take part in discussions.', {
                 toastId: ToastType.Account,
@@ -127,6 +144,7 @@ class TopNav extends React.Component<TopNavProps> {
                 </ul>
             )
         }
+
         if (this.props.acct.model.status === MetamaskStatus.Error) {
             toast(this.props.acct.model.error, {
                 toastId: ToastType.Account,
