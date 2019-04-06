@@ -316,6 +316,7 @@ class QuestionsPage extends React.Component<QuestionsPageProps> {
                 <div>
                     <TopNav>
                         <li className="nav-item"><a onClick={this.toggleHowTo} title="Info">Info</a></li>
+                        <li className="nav-item"><a href="https://www.menlo.one/partners/" title="Enterprise Blockchain">Enterprise Blockchain</a></li>
                     </TopNav>
 
                     { this.renderInstructions() }

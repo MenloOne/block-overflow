@@ -822,6 +822,11 @@ nav {
     color: #f0f4ff;
 }
 
+.token-one a {
+    color: #f0f4ff;
+    text-decoration: underline;
+}
+
 .game-token {
     margin-bottom: 0px;
     padding-top: 27px;
@@ -2678,6 +2683,11 @@ table.stats tr td:nth-child(2) {
     top: 0;
     left: 0;
     width: 100vw;
+}
+
+.toast-red-bk, .Toastify__toast--error {
+    background: #e74c3c !important;
+    color:#fff;
 }
 
 .Toastify__close-button {
