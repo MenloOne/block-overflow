@@ -215,10 +215,8 @@ class TopNav extends React.Component<TopNavProps> {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarResponsive">
                             <ul className="navbar-nav main ml-auto">
-
                                 {this.props.children}
                             </ul>
-
                             {this.renderAccountStatus()}
                         </div>
                     </div>

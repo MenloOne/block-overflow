@@ -9,7 +9,6 @@ const A = ({ children, href = '', ...props }) => {
         history.push(href)
     }
 
-    // TODO: Make it look like it has an href= without putting href=  So underline, hover, etc
     return <a onClick={onClick} {...props}>{children}</a>
 };
 
