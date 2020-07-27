@@ -77,7 +77,6 @@ class BonusPage extends React.Component<BonusPageProps> {
             <div>
                 <TopNav>
                     <li className="nav-item"><A href='/'>Info</A></li>
-                    <li className="nav-item"><A>Bonus</A></li>
                 </TopNav>
 
                 <div className="shadow-sm bonus" >
