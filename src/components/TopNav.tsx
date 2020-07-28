@@ -101,7 +101,7 @@ class TopNav extends React.Component<TopNavProps> {
         }
 
         if (this.props.acct.model.status === MetamaskStatus.LoggedOut) {
-            toast('You must first sign into Metamask to take part in discussions.', {
+            toast('You must first sign into Metamask.', {
                 toastId: ToastType.Account,
                 autoClose: false
             })
@@ -221,7 +221,9 @@ class TopNav extends React.Component<TopNavProps> {
                         </div>
                     </div>
                 </nav>
-                <ToastContainer position={toast.POSITION.TOP_CENTER} />
+                <ToastContainer 
+                    position={toast.POSITION.TOP_CENTER} 
+                />
             </div>
         )
     }
